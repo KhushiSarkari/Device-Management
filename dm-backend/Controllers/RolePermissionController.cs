@@ -64,12 +64,17 @@ namespace dm_backend.Controllers
         }
 
         [HttpPost]
-        [Route("role/add")]
+        [Route("role/update")]
         public IActionResult Postrole([FromBody]Role body)
         {
             try{
                 body.Db = Db;
-                body.AddRole();
+                if(body.RoleId.HasValue){
+                    body.UpdateRole();
+                }
+                else{
+                    body.AddRole();
+                }
                 return Ok();
             }
             catch(Exception e){
@@ -90,22 +95,6 @@ namespace dm_backend.Controllers
                 Console.WriteLine(e.Message);
                 return BadRequest();
             }
-        }
-        [HttpPut]
-        [Route("role/{role_id}/update")]
-        public IActionResult Putrole(int role_id, [FromBody]Role body)
-        {
-            try{
-                body.Db = Db;
-                body.RoleId = role_id;
-                body.UpdateRole();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-            
         }
         [HttpPut]
         [Route("permission/{permission_id}/update")]
