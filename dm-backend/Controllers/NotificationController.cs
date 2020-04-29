@@ -15,7 +15,11 @@ using dm_backend.Data;
 
 namespace dm_backend.Controllers
 {
+<<<<<<< HEAD
    // [Authorize]
+=======
+    [Authorize]
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
     [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {

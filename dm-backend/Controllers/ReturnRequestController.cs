@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using MySql.Data.MySqlClient;
 using dm_backend.Utilities;
 using Newtonsoft.Json;
+using dm_backend.Data;
+using dm_backend.Logics;
 
 namespace dm_backend.Controllers
 {
@@ -20,10 +22,12 @@ namespace dm_backend.Controllers
     public class ReturnRequestController : ControllerBase
     {
         public AppDb Db { get; }
+        private readonly EFDbContext _context;
 
-        public ReturnRequestController(AppDb db)
+        public ReturnRequestController(AppDb db, EFDbContext context)
         {
             Db = db;
+            _context = context ;
         }
 
         [HttpPost]
@@ -48,18 +52,52 @@ namespace dm_backend.Controllers
         {
             Db.Connection.Open();
             request.Db = Db;
+            
+            
             string result = null;
             try{
                 result = request.AddFaultRequest();
+<<<<<<< HEAD
 
             }
+=======
+                var obj = ToUser(request.deviceId);
+                
+            string body = "Hey Admin ! <br> Device Related to "+obj[1]+" Serial Number has Following Complaints <br><br>"+request.comment+"<br>Thanks <br> Regards : "+request.firstName+" "+request.lastName;
+              var EmailObj = new sendMail().sendNotification(obj[0],body,"Device Complaint");
+              }
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
             catch(NullReferenceException){
                 return NoContent();
             }
+
+            
+
+
             Db.Connection.Close();
+
+
             return Ok(result);
         }
-        
+
+        private string[] ToUser(int devid)
+        {
+             var entryPoint = (from us in _context.User
+                              join ad in _context.AssignDevice on us.UserId equals ad.ReturnTo
+                              join  dv in _context.Device on ad.DeviceId equals dv.DeviceId
+                              where ad.DeviceId == devid
+                              select new
+                              {
+                               SerialNumber =dv.SerialNumber,  
+                                email = us.Email 
+                              }).ToList();
+                  var x= entryPoint[0];
+                  string[] str1; 
+                  str1 = new String[2]{x.email, x.SerialNumber };
+                  
+                  return str1;
+                
+        }
 
         [HttpGet]
         public IActionResult GetReturnRequest()

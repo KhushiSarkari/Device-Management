@@ -273,12 +273,18 @@ namespace dm_backend.Controllers
             var result = specs.getSpecificSpecification( type, brand, model);
 
             Db.Connection.Close();
+<<<<<<< HEAD
 
+=======
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
              if (result.Count < 1)
                return NoContent();
             //var json = config.Formatters.JsonFormatter;
            // json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+<<<<<<< HEAD
 
+=======
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
             return new OkObjectResult(result);
         }
 

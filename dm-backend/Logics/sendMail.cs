@@ -14,7 +14,11 @@ namespace dm_backend.Logics
     public class sendMail
     {
          //MultipleNotifications item
+<<<<<<< HEAD
         public async Task<string>  sendNotification(string  email , string  body  ,  string sbject)
+=======
+        public async Task<string>  sendNotification(string  email , string  body, string subject  )
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
         {
           
                 MailMessage mail = new MailMessage();
@@ -24,7 +28,11 @@ namespace dm_backend.Logics
                 mail.To.Add(email);
                 mail.IsBodyHtml = true;
 
+<<<<<<< HEAD
                 mail.Subject = sbject;
+=======
+                mail.Subject = subject;
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
                 mail.Body = body;
                 SmtpServer.Port = 587;
                 string ans = Dec("SmVmZmhhcmR5QDYxOQ==");
@@ -46,6 +54,7 @@ namespace dm_backend.Logics
             catch (FormatException fe)
             {
                 decrypted = "";
+                Console.WriteLine(fe);
             }
             return decrypted;
         }

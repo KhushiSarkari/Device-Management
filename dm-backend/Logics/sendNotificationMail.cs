@@ -42,7 +42,11 @@ namespace dm_backend.Logics
                body  =  "" + user.name + "<br> <br> This mail is to inform you that  some of our worker need device that you have i.e( <b>  " + user.deviceType + " " + user.deviceName +
                    "</b>) if you have done  with your work  kindly return to admin so Other may utilize it <br><br>  Thank You <br> Admin";
 
+<<<<<<< HEAD
                 await (new sendMail().sendNotification(user.email , body, "Device Notification"));
+=======
+                await (new sendMail().sendNotification(user.email , body,"Device Notification"));
+>>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
             }
             return "";
         }
