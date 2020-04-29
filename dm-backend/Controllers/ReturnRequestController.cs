@@ -51,6 +51,7 @@ namespace dm_backend.Controllers
             string result = null;
             try{
                 result = request.AddFaultRequest();
+
             }
             catch(NullReferenceException){
                 return NoContent();

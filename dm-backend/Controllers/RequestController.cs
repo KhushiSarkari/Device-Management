@@ -27,17 +27,19 @@ namespace dm_backend.Models{
 
         [HttpPost]
         [Route("device")]
-        public  IActionResult postdeviceRequest([FromBody] DeviceRequest req)
+        public async Task<IActionResult> postdeviceRequest([FromBody] DeviceRequest req)
         {
             Db.Connection.Open();
             var request = new Request(Db);
             
             try
             {
-                request.addDevice(req);
-               
+              var result =   request.addDevice(req);
+
+              await request.getAllAdmin(req , result);
+
             }
-            catch
+            catch(MySql.Data.MySqlClient.MySqlException e)
             {
                return BadRequest("request is incorrect");
             }
@@ -46,24 +48,6 @@ namespace dm_backend.Models{
 
         }
 
-
-        [HttpPost]
-        [Route("add")]
-        public IActionResult PostRequest([FromBody]RequestModel req)
-        {
-            Db.Connection.Open();
-            req.Db = Db;
-            string result = null;
-            try{
-                result = req.AddRequest();
-            }
-            catch(NullReferenceException){
-                return NoContent();
-            }
-            Db.Connection.Close();
-            return Ok(result);
-        }
-        
         [HttpGet]
         [Route("pending")]
         public IActionResult GetRequest()
@@ -102,7 +86,11 @@ namespace dm_backend.Models{
             Db.Connection.Open();
             RequestModel query = new RequestModel(Db);
             query.requestId = requestId;
+
+            //new RequestStatus().sendStatusMail(requestId , action , id);
+
             try{
+
                 query.DeviceRequestAction(id,action);
             }
             catch(Exception e){

@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using dm_backend;
 using dm_backend.Utilities;
+using dm_backend.EFModels;
 
 namespace dm_backend.Models
 {
@@ -90,6 +91,8 @@ where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.spe
             }
             return specifications;
         }
+
+      
         async public Task addspecification(Specification s)
         {
             using var cmd = Db.Connection.CreateCommand();

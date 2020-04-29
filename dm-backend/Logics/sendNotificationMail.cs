@@ -12,8 +12,8 @@ namespace dm_backend.Logics
     {
         public string name;
         public string email;
-        public string deviceType;
-        public string deviceName;
+        public string? deviceType;
+        public string? deviceName;
         internal AppDb Db;
         public string querry = @"select st.salutation ,  u.first_name , u.middle_name  , u.last_name ,  u.email , dt.type  ,db.brand , dm.model from 
                             device as d inner join device_brand as db using(device_brand_id)
@@ -42,7 +42,7 @@ namespace dm_backend.Logics
                body  =  "" + user.name + "<br> <br> This mail is to inform you that  some of our worker need device that you have i.e( <b>  " + user.deviceType + " " + user.deviceName +
                    "</b>) if you have done  with your work  kindly return to admin so Other may utilize it <br><br>  Thank You <br> Admin";
 
-                await (new sendMail().sendNotification(user.email , body));
+                await (new sendMail().sendNotification(user.email , body, "Device Notification"));
             }
             return "";
         }
@@ -74,13 +74,13 @@ namespace dm_backend.Logics
 
                     x.name = (reader.GetString("salutation") + " " + reader.GetString("first_name") + " " + (reader.IsDBNull("middle_name") ? "" : (reader.GetString("middle_name") + " ")) + reader.GetString("last_name"));
                     x.email = reader.GetString("email");
-                    x.deviceType = reader.GetString("type");
-                    x.deviceName = reader.GetString("brand") + " " + reader.GetString("model");
+                    x.deviceType = reader?.GetString("type");
+                    x.deviceName = reader?.GetString("brand") + " " + reader?.GetString("model");
 
                 }
                 return x;
             }
-            return null;
+          
         }
 
     }

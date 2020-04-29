@@ -14,8 +14,9 @@ namespace dm_backend.Logics
     public class sendMail
     {
          //MultipleNotifications item
-        public async Task<string>  sendNotification(string  email , string  body )
+        public async Task<string>  sendNotification(string  email , string  body  ,  string sbject)
         {
+          
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
@@ -23,7 +24,7 @@ namespace dm_backend.Logics
                 mail.To.Add(email);
                 mail.IsBodyHtml = true;
 
-                mail.Subject = "Device Notification";
+                mail.Subject = sbject;
                 mail.Body = body;
                 SmtpServer.Port = 587;
                 string ans = Dec("SmVmZmhhcmR5QDYxOQ==");
@@ -31,6 +32,7 @@ namespace dm_backend.Logics
                 SmtpServer.EnableSsl = true;
                 await   SmtpServer.SendMailAsync(mail);
                 return null;
+                       
         }
         private string Dec(string v)
         {

@@ -4,14 +4,14 @@
         border-radius: 5px;
         background-color: #f2f2f2;
         padding: 20px;
-        height: 0%;
+        /* height: 0%; */
         box-shadow: 2px 2px #bbbaba;
         padding:  10px;
-       /* // background-color: antiquewhite; */
+      
         top: 5em;
-        left :30%;
+        left :20%;
         height: 50%;
-        width: 50%;
+        width: 70%;
         justify-content: center;
     
         align-content: center;

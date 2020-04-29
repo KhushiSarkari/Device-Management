@@ -6,9 +6,14 @@
     h1 {
       text-align: center;
       color: rgb(27, 148, 108);
-}
+    }
 
-
+    select{
+      width: 100%;
+    }
+    input{
+      align-content  : center;
+    }
   </style>
 
 
@@ -17,11 +22,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  
+
   <link rel="stylesheet" type="text/css" href="../SJLogin/Styles.css">
   <link rel="stylesheet" type="text/css" href="../index.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
- 
+
 
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -34,22 +39,22 @@
 </head>
 
 <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header">
-          <div class="mdl-layout__header-row">
-            <!-- Title -->
-            <span class="mdl-layout-title">Request Device</span>
-            <!-- Add spacer, to align navigation to the right -->
-            <div class="mdl-layout-spacer"></div>
-            <!-- Navigation. We hide it in small screens. -->
-            <nav class="mdl-navigation mdl-layout--large-screen-only">
-             
-            </nav>
-          </div>
-        </header>
-        <div class="mdl-layout__drawer mdl-color--blue-grey-800" id="navigations">
-          <span class="mdl-layout-title">Device Request</span>
-          <!-- <nav class="mdl-navigation">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Request Device</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+
+        </nav>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer mdl-color--blue-grey-800" id="navigations">
+      <span class="mdl-layout-title">Device Request</span>
+      <!-- <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="">Link</a>
             <a class="mdl-navigation__link" href="">Link</a>
             <a class="mdl-navigation__link" href="">Link</a>
@@ -62,7 +67,7 @@
 
 
         <div class="bg-model">
-          <div class="model-content" style="  width: 30%; height: 30%;"> 
+          <div class="model-content" style="  width: 30%; height: 30%;">
             <div class="x">+</div>
             <h5 id="device-request-message" style="text-align: center;margin-top: 15%;"></h5>
 
@@ -85,54 +90,64 @@
                 Select Device
               </h1>
             </div>
-
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--12-col">
             <label> Number of Days </label>
+            <br />
             <input type="text" id="expected-days" value=""
               onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+              </div>
+              </div>
+
 
             <br />
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--4-col">
+                <label> Device Type </label>
+                <select class="device" id="types">
 
-            <label> Device Type </label>
-            <select class="device" id="types">
+                </select>
+              </div>
+              <br />
+              <div class="mdl-cell mdl-cell--4-col">
+                <label> Device Brand </label>
+                <select class="device" id="brands">
 
-            </select>
+                </select>
+              </div>
+              <br />
+              <div class="mdl-cell mdl-cell--4-col">
+              <label> Device Model </label>
+              <select class="device" id="models">
 
-            <br />
-            <label> Device Brand </label>
-            <select class="device" id="brands">
-
-            </select>
-
-            <br />
-            <label> Device Model </label>
-            <select class="device" id="models">
-
-            </select>
-
-            <br />
-            <label> Device Specification </label>
-            <select class="specs" id="specification">
-
-            </select>
-            <br />
-
-            <label> your Message </label>
-            <textarea id="comment" rows="4" cols="50"> </textarea>
-
-            <br />
-            <input type="submit" id="request" value="Submit">
-
+              </select>
+            </div>
           </div>
+          <br />
+          <label> Device Specification </label>
+          <select class="specs" id="specification">
+
+          </select>
+          <br />
+
+          <label> your Message </label>
+          <br />
+          <textarea id="comment" rows="4" cols="50"> </textarea>
+
+          <br />
+          <input type="submit" id="request" value="Submit">
 
         </div>
 
-
-
       </div>
-      <div class="load" id="loading">
-        <div class= "loader"></div>
-    </div>
-    </main>
+
+
+
+  </div>
+  <div class="load" id="loading">
+    <div class="loader"></div>
+  </div>
+  </main>
   </div>
   <script src="/assets/js/userRequestMain.js"></script>
 </body>
