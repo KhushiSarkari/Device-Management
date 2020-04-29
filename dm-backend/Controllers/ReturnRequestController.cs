@@ -56,12 +56,9 @@ namespace dm_backend.Controllers
             
             string result = null;
             try{
-                Console.WriteLine("dsa");
-                Console.WriteLine(request);
                 result = request.AddFaultRequest();
                 var obj = ToUser(request.deviceId);
-
-            string body = "Hey Admin ! <br> Device "+obj[2]+" having Serial Number "+obj[1]+" has Following Complaints <br><br>"+request.comment+"<br>Thanks <br> Regards : "+request.firstName+" "+request.lastName;
+            string body = "Hey Admin ! <br> Device "+obj[2]+" "+obj[3]+" having Serial Number "+obj[1]+" has Following Complaints <br><br>"+request.comment+"<br>Thanks";
               var EmailObj = new sendMail().sendNotification(obj[0],body,"Device Complaint");
               }
             catch(NullReferenceException){
@@ -84,17 +81,17 @@ namespace dm_backend.Controllers
                               join  dv in _context.Device on ad.DeviceId equals dv.DeviceId
                               join dt in _context.DeviceType on dv.DeviceTypeId equals dt.DeviceTypeId
                               join br in _context.DeviceBrand on dv.DeviceBrandId equals br.DeviceBrandId
-                            
+                              join md in _context.DeviceModel on dv.DeviceModelId equals md.DeviceModelId
                               where ad.DeviceId == devid
                               select new
-                              {
+                              { Model = md.Model,
                                 DeviceType = dt.Type,
                                SerialNumber =dv.SerialNumber,  
                                 email = us.Email 
                               }).ToList();
                   var x= entryPoint[0];
                   string[] str1; 
-                  str1 = new String[]{x.email, x.SerialNumber,x.DeviceType };
+                  str1 = new String[]{x.email, x.SerialNumber,x.DeviceType,x.Model };
                   
                   return str1;
                 
@@ -139,6 +136,7 @@ namespace dm_backend.Controllers
                 cmd.ExecuteNonQuery();
             }
             catch(Exception e){
+                Console.WriteLine(e);
                 return NoContent();
             }
             Db.Connection.Close();
