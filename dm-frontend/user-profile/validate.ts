@@ -7,11 +7,11 @@ export function validate() {
     salutationvalidation()*
     gendervalidation()*
     date0fbirthvalidation()*
-    addressvalidation("addresses1")*addressvalidation1("addresses1")*countryvalidation("addresses1")*statevalidation("addresses1")*cityvalidation("addresses1")* pinvalidation("addresses1")*
-    addressvalidation("addresses2")*addressvalidation1("addresses2")*countryvalidation("addresses2")*statevalidation("addresses2")*cityvalidation("addresses2")*pinvalidation("addresses2")*
-    phonevalidation("phones1")*countrycodevalidation("phones1")*areacodevalidation("phones1")*
-    phonevalidation("phones2")*countrycodevalidation("phones2")*areacodevalidation("phones2")*
-    phonevalidation("phones3")*countrycodevalidation("phones3")*areacodevalidation("phones3");
+    addressvalidation("addresses1")*
+    addressvalidation("addresses2")*
+    phonevalidation("phones1")*
+    phonevalidation("phones2")*
+    phonevalidation("phones3");
 }
 function Firstnamevalidation() {
     var firstnames = (document.getElementById('firstName') as HTMLInputElement).value;
@@ -137,6 +137,12 @@ function addressvalidation(containerId: string) {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "Consider Using addressLine 2";
         return 0;
     }
+    else if(addresses1!="")
+    {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
+        return addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
+        cityvalidation(containerId)*pinvalidation(containerId);
+    }
     else {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
         return 1;
@@ -242,13 +248,18 @@ function phonevalidation(containerId: string) {
         document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter the Number";
         return 0;
     }
-    else if (isNaN(parseInt(phone))) {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "**Only Digits Allowed";
+    else if (!phone.match(/^\d{10}$/)) {
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "**Enter the 10 valid digits";
         return 0;
-    } else if (phone.length != 10) {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter 10 Digits";
-        return 0;
-    } else {
+    } 
+    
+        else if(phone.length==10)
+        {
+             document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+            return countrycodevalidation(containerId)*areacodevalidation(containerId);
+
+        }
+     else {
         document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
         return 1;}
 }

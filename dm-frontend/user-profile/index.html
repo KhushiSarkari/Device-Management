@@ -3,47 +3,43 @@
 <head>
   <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="/device_role/role_styles.css" />
-  
+
   <style>
-    div.mdl-layout__drawer
-{
-  border: none;
-}
-nav.mdl-navigation
-    {
+    div.mdl-layout__drawer {
+      border: none;
+    }
+
+    nav.mdl-navigation {
       height: unset;
       box-shadow: none;
     }
-    nav.mdl-navigation i
-    {
+
+    nav.mdl-navigation i {
       font-size: 24px;
       line-height: 1;
       height: auto;
       display: inline-block;
     }
-    nav.mdl-navigation a:hover
-    {
+
+    nav.mdl-navigation a:hover {
       text-decoration: none;
     }
-    input{
-      text-align: center;
-    }
-    
 
-    
+    input {
+      text-align: center;
+
+    }
     select {
       display: block !important;
-      text-align-last:center;
+      text-align-last: center;
     }
-
     .show {
       display: block;
     }
-
     p {
       text-align: center;
     }
@@ -71,8 +67,8 @@ nav.mdl-navigation
                 </div>
                 <div class="collapsible-body">
 
-                  <div class="form-row" id="form-group">
-                    <div class="form-group col-md-2">
+                  <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col">
                       <label><b>Salutation:</b></label>
                       <select style="height: 46px;" id="salutation" name="Salutation">
                         <option value="Mr">Mr</option>
@@ -80,88 +76,91 @@ nav.mdl-navigation
                         <option value="Miss">Miss</option>
                         <option value="Dr">Dr</option>
                       </select>
-                      <span id="salutations" class="text-danger font-weight-bold"></span>
+                      <span id="salutations" class="txt-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                       <label> <b>FirstName:</b> </label><input type="text" id="firstName">
-                      <span id="firstnames" class="text-danger font-weight-bold"></span>
+                      <span id="firstnames" class="txt-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                       <label><b> MiddleName: </b></label><input type="text" id="middleName">
-                      <span id="middlenames" class="text-danger font-weight-bold"></span>
+                      <span id="middlenames" class="txt-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                       <label> <b>LastName:</b> </label><input type="text" id="lastName">
-                      <span id="lastnames" class="text-danger font-weight-bold"></span>
+                      <span id="lastnames" class="txt-danger"></span>
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <input type="text" name="department" hidden class="form-control" id="departmentName">
-                    <span id="departments" class="text-danger font-weight-bold"></span>
-                  </div>
-
-                  <div class="form-group">
-                    <input type="text" name="designation" hidden class="form-control" id="designationName">
-                    <span id="designations" class="text-danger font-weight-bold"></span>
-                  </div>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-4">
+                  <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col">
                       <label> <b>Gender:</b> </label>
                       <select style="height: 46px;" id="gender" name="Gender" class="form-control">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Others">Others</option>
                       </select>
-                      <span id="genders" class="text-danger font-weight-bold"></span>
+                      <span id="genders" class="txt-danger"></span>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="mdl-cell mdl-cell--3-col  mdl-cell--0_5-offset">
                       <label><b>Date Of Birth:</b></label>
                       <input type="date" id="dob" placeholder="dd-mm-YYYY" class="form-control">
-                      <span id="dobs" class="text-danger font-weight-bold"></span>
+                      <span id="dobs" class="txt-danger"></span>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--0_5-offset">
+                      <label><b>Role</b></label>
+                      <input type="text" name="role" disabled class="form-control" id="roleName">
                     </div>
 
 
-                    <div class="form-group col-md-4">
+                    <div class="mdl-cell mdl-cell--3-col  mdl-cell--0_5-offset">
                       <label><b> Email:</b> </label>
                       <input type="text" name="email" disabled class="form-control" id="email">
-                      <span id="emails" class="text-danger font-weight-bold"></span>
+                      <span id="emails" class="txt-danger"></span>
                     </div>
                   </div>
                   <div>
                     <input type="date" hidden id="doj" placeholder="dd-mm-YYYY" class="form-control">
-                    <span id="dojs" class="text-danger font-weight-bold"></span>
+                    <span id="dojs" class="txt-danger"></span>
                   </div>
-                  <div class="form-row">
+                  <div class="mdl-grid">
 
-                    <div class="form-group col-md-6">
+                    <div class="mdl-cell mdl-cell--2-col">
                       <label><b> Password: </b></label>
                       <input type="password" name="password" class="form-control" id="password">
-                      <span id="passwords" class="text-danger font-weight-bold"></span>
+                      <span id="passwords" class="txt-danger"></span>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                       <label><b>Confirm Password: </b></label>
-                      <input type="password" name="password" class="form-control" id="confirmpassword">
-                      <span id="confirmpasswords" class="text-danger font-weight-bold"></span>
+                      <input type="password" name="confirmpassword" class="form-control" id="confirmpassword">
+                      <span id="confirmpasswords" class="txt-danger"></span>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
+                      <label><b>Department</b></label>
+                      <input type="text" name="department" disabled class="form-control" id="departmentName">
+                      <span id="departments" class="txt-danger"></span>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
+                      <label><b>Designation</b></label>
+                      <input type="text" name="designation" disabled class="form-control" id="designationName">
+                      <span id="designations" class="txt-danger"></span>
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="mdl-grid">
                     <input type="hidden" name="status" disabled class="form-control" id="status">
                   </div>
 
-                  <div class="form-group">
-                    <input type="hidden" name="status" disabled class="form-control" id="userId">
+                  <div class="mdl-grid">
+                    <input type="hidden" name="userId" disabled class="form-control" id="userId">
                   </div>
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <input type="hidden" name="role" disabled class="form-control" id="roleName">
-                  </div>
+                  </div> -->
 
                   <p>
-
-
                     <input type="submit" value="Update Details"
                       class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored savemydata" />
                   </p>
@@ -174,49 +173,49 @@ nav.mdl-navigation
                   Details</div>
                 <div class="collapsible-body">
                   <div id="addresses1">
-                    <div class="form-row">
-                      <div class="form-group col-md-2">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
                         <label><b> Address</b> </label><br>
                         <select style="height: 46px;" class="addressType" name="CurrentAddress">
                           <option value="current">Current</option>
                           <option value="permanant">Permanent</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-5">
+                      <div class="mdl-cell mdl-cell--4-col  mdl-cell--1-offset">
                         <label> <b>AddressLine1</b> </label>
                         <input type="text" name="CurrentAddress" class="addressLine1" size="50" maxlength="50">
-                        <span class="text-danger font-weight-bold addressLine1span"></span>
+                        <span class="txt-danger addressLine1span"></span>
                       </div>
-                      <div class="form-group col-md-5">
+                      <div class="mdl-cell mdl-cell--4-col  mdl-cell--1-offset">
                         <label> <b>AddressLine2</b> </label>
                         <input type="text" name="CurrentAddress" class="addressLine2" size="50" maxlength="50">
-                        <span class="text-danger font-weight-bold addressLine2span"></span>
+                        <span class="txt-danger addressLine2span"></span>
                       </div>
                     </div>
-                    <div class="form-row">
-                      <div class="form-group col-md-3">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
 
                         <label><b>Country</b> </label>
                         <select style="height: 46px;" class="country" name="country"></select>
-                        <span class="text-danger font-weight-bold countryspan"></span>
+                        <span class="txt-danger countryspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b> State</b> </label>
                         <select style="height: 46px;" class="state" name="state"> </select>
-                        <span class="text-danger font-weight-bold statespan"></span>
+                        <span class="txt-danger statespan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label> <b>City</b> </label>
                         <select style="height: 46px;" class="city" name="city"></select>
-                        <span class="text-danger font-weight-bold cityspan"></span>
+                        <span class="txt-danger cityspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b>Pincode</b></label>
                         <input type="text" name="pincode1" class="pin" maxlength="12">
-                        <span class="text-danger font-weight-bold pinspan"></span>
+                        <span class="txt-danger pinspan"></span>
                       </div>
                     </div>
 
@@ -227,49 +226,49 @@ nav.mdl-navigation
 
                   </label>
                   <div id="addresses2">
-                    <div class="form-row">
-                      <div class="form-group col-md-2">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
                         <label><b> Address</b> </label><br>
-                        <select style="height: 46px;" class="addressType" name="CurrentAddress" >
+                        <select style="height: 46px;" class="addressType" name="CurrentAddress">
                           <option value="permanant">Permanent</option>
                           <option value="current">Currrent</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-5">
+                      <div class="mdl-cell mdl-cell--4-col  mdl-cell--1-offset">
                         <label> <b>AddressLine1</b> </label>
                         <input type="text" name="CurrentAddress" class="addressLine1" size="50" maxlength="50">
-                        <span class="text-danger font-weight-bold addressLine1span"></span>
+                        <span class="txt-danger addressLine1span"></span>
                       </div>
-                      <div class="form-group col-md-5">
+                      <div class="mdl-cell mdl-cell--4-col  mdl-cell--1-offset">
                         <label> <b>AddressLine2</b> </label>
                         <input type="text" name="CurrentAddress" class="addressLine2" size="50" maxlength="50">
-                        <span class="text-danger font-weight-bold addressLine2span"></span>
+                        <span class="txt-danger addressLine2span"></span>
                       </div>
                     </div>
-                    <div class="form-row">
-                      <div class="form-group col-md-3">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
 
                         <label><b>Country</b> </label>
                         <select style="height: 46px;" class="country" name="country"></select>
-                        <span class="text-danger font-weight-bold countryspan"></span>
+                        <span class="txt-danger countryspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b> State</b> </label>
                         <select style="height: 46px;" class="state" name="state"> </select>
-                        <span class="text-danger font-weight-bold statespan"></span>
+                        <span class="txt-danger statespan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label> <b>City</b> </label>
                         <select style="height: 46px;" class="city" name="city"></select>
-                        <span class="text-danger font-weight-bold cityspan"></span>
+                        <span class="txt-danger cityspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b>Pincode</b></label>
                         <input type="text" name="pincode1" class="pin" maxlength="12">
-                        <span class="text-danger font-weight-bold pinspan"></span>
+                        <span class="txt-danger pinspan"></span>
                       </div>
                     </div>
                   </div>
@@ -285,8 +284,8 @@ nav.mdl-navigation
                 <div class="collapsible-body">
                   <div id="phones1" aria-required="true">
 
-                    <div class="form-row">
-                      <div class="form-group col-md-2">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
                         <label><b>Contact 1:</b> </label>
                         <select style="height: 46px;" class="contactNumberType" name="Contact">
                           <option value="mobile">Mobile</option>
@@ -294,24 +293,24 @@ nav.mdl-navigation
                           <option value="work">Work</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
                         <input type="text" name="phone_number1" class="number" maxlength="10">
-                        <span class="text-danger font-weight-bold numberspan"></span>
+                        <span class="txt-danger numberspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
                         <select style="height: 46px;" class="countryCode" name="CountryCode">
-                         
-                         
+
+
                         </select>
-                        <span class="text-danger font-weight-bold countrycodespan"></span>
+                        <span class="txt-danger countrycodespan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col mdl-cell--1-offset">
 
                         <label><b>Area Code</b></label>
                         <input type="text" class="areaCode" name="AreaCode">
-                        <span class="text-danger font-weight-bold areacodespan"></span>
+                        <span class="txt-danger areacodespan"></span>
 
 
 
@@ -321,38 +320,38 @@ nav.mdl-navigation
                   </div>
                   <div id="phones2">
 
-                    <div class="form-row">
-                      <div class="form-group col-md-2">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
                         <label><b>Contact 2:</b> </label>
                         <select style="height: 46px;" class="contactNumberType" name="Contact">
                           <option value="work">Work</option>
                           <option value="mobile">Mobile</option>
-                          <option value="home">Home</option>                        
+                          <option value="home">Home</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
                         <input type="text" name="phone_number1" class="number" maxlength="10">
-                        <span class="text-danger font-weight-bold numberspan"></span>
+                        <span class="txt-danger numberspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
-                        <select style="height: 46px;" class="countryCode" name="CountryCode">  
+                        <select style="height: 46px;" class="countryCode" name="CountryCode">
                         </select>
-                        <span class="text-danger font-weight-bold countrycodespan"></span>
+                        <span class="txt-danger countrycodespan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b>Area Code</b></label>
                         <input type="text" class="areaCode" name="AreaCode">
-                        <span class="text-danger font-weight-bold areacodespan"></span>
+                        <span class="txt-danger areacodespan"></span>
                       </div>
                     </div>
 
                   </div>
                   <div id="phones3">
-                    <div class="form-row">
-                      <div class="form-group col-md-2">
+                    <div class="mdl-grid">
+                      <div class="mdl-cell mdl-cell--2-col">
                         <label><b>Contact 3:</b> </label>
                         <select style="height: 46px;" class="contactNumberType" name="Contact">
                           <option value="home">Home</option>
@@ -360,22 +359,22 @@ nav.mdl-navigation
                           <option value="work">Work</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
                         <input type="text" name="phone_number1" class="number" maxlength="10">
-                        <span class="text-danger font-weight-bold numberspan"></span>
+                        <span class="txt-danger numberspan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
                         <select style="height: 46px;" class="countryCode" name="CountryCode">
                         </select>
-                        <span class="text-danger font-weight-bold countrycodespan"></span>
+                        <span class="txt-danger countrycodespan"></span>
                       </div>
-                      <div class="form-group col-md-3">
+                      <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b>Area Code</b></label>
                         <input type="text" class="areaCode" name="AreaCode">
-                        <span class="text-danger font-weight-bold areacodespan"></span>
+                        <span class="txt-danger areacodespan"></span>
                       </div>
                     </div>
 
