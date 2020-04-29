@@ -4,8 +4,23 @@
   <link rel="stylesheet" type="text/css" href="Styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<style>
+  .demo-card-square{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    margin: auto;
+    padding: 10px;
+  }
+  .mdl-textfield label{
+    margin: 0;
+  }
+</style>
 </head>
 <body>
   
@@ -18,7 +33,7 @@
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation. We hide it in small screens. -->
         <nav class="mdl-navigation mdl-layout--large-screen-only">
-       <div>  <input type="text" placeholder="Enter Email" value="" id="useremail" style="width: 200px; " >
+       <!-- <div>  <input type="text" placeholder="Enter Email" value="" id="useremail" style="width: 200px; " >
          <span id="useremails" class="text-danger font-weight-bold"></span><br></div>
         <div> <input type="password" placeholder="Enter Password" value="" id="userpassword" style="width: 110px ;margin-left: 5px; " >
          <span id="userpasswords" class="text-danger font-weight-bold"></span><br></div>
@@ -27,56 +42,91 @@
         </button>
         <button type="submit"  id="fp" style="margin-left: 5px;">
           Reset
-        </button>
+        </button> -->
       </nav>  
       </div>
     </header>
-    
-      <div class="demo-card-square mdl-card mdl-shadow--2dp">
-        <h3 style="text-align: center; color: rgba(18, 18, 27, 0.623); ">Register</h3>
-        
-        <input class="mdl-textfield__input" type="text" id="fname" placeholder="  First Name">
-        <span id="abcd" class="text-danger font-weight-bold"></span><br>
-        
-        
-        <input class="mdl-textfield__input" type="text" id="lname" placeholder="  Last Name">
-        <span id="abcd" class="text-danger font-weight-bold"></span><br>
-        
-        <input class="mdl-textfield__input" type="text" id="remail" placeholder="  Email">
-        <span id="emails" class="text-danger font-weight-bold"></span><br>
-        <input class="mdl-textfield__input" type="password" id="rpassword" placeholder="  Password">
-        <span id="passwords" class="text-danger font-weight-bold"></span><br>
-        <input class="mdl-textfield__input" type="password" id="rpassword1" placeholder="  Confirm Password">
-        <span id="confirmpasss" class="text-danger font-weight-bold"></span><br>
-        
-        <br><br><br>
-          <button style="width: 100px; align-self: center;" id="rmybtn"class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    <div style="width: 100%;">
+      <div class="demo-card-square mdl-card mdl-shadow--2dp" id="abc" style=" display: none;z-index: 4;">
+          <h3 style="text-align: center; color: rgba(18, 18, 27, 0.623); ">Register</h3>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <label class="mdl-textfield__label" >First Name</label>
+              <input class="mdl-textfield__input" type="text" id="fname">
+              <span id="abcd" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <label class="mdl-textfield__label" >Last Name</label>
+              <input class="mdl-textfield__input" type="text" id="lname">
+              <span id="abcd" class="text-danger font-weight-bold"></span>
+          </div>
+         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <label class="mdl-textfield__label" >Email</label>
+              <input class="mdl-textfield__input" type="text" id="remail">
+              <span id="emails" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <label class="mdl-textfield__label" >Password</label>
+              <input class="mdl-textfield__input" type="password" id="rpassword">
+              <span id="passwords" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <label class="mdl-textfield__label" >Confirm Password</label>
+              <input class="mdl-textfield__input" type="password" id="rpassword1">
+              <span id="confirmpasss" class="text-danger font-weight-bold"></span>
+          </div>
+          <button style="width: 100px; align-self: center ; margin-bottom: 10px;" id="rmybtn"class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
             Submit
           </button>
+          <button id="hideregister" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Login - Page</button>
           
       
 
        
          
          
-          <div class="bg-model">
-            <div class="model-content"> 
-            <div class="x">+</div>
-           <h5 style="text-align: center;margin-top: 15%;">Enter Email</h5>  
-            
-           <input  type="text" id="femail" style="width: 80%; margin-left: 10%;" ><br>
-           <span id="femails" class="text-danger font-weight-bold"></span><br>
-           <button style="width: 100px;margin-left: 30%; margin-top: 7%; align-self: center;" id="rmybtn1"class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-            Submit
-          </button>
-            
-            </div>
-            </div> 
+         
      
 
-       
+           
       </div>
+      <div class="demo-card-square mdl-card mdl-shadow--2dp" id="logincard" style="z-index: 3;">
+        <h3 style="text-align: center; color: rgba(18, 18, 27, 0.623); ">Login</h3>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> 
+                <label class="mdl-textfield__label" for="sample3">Email</label>
+                <input class="mdl-textfield__input" type="text"  value="" id="useremail" >
+                <span id="useremails" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> 
+                <label class="mdl-textfield__label" for="sample3">Password</label>
+                <input class="mdl-textfield__input" type="password" value="" id="userpassword" >
+                <span id="userpasswords" class="text-danger font-weight-bold"></span>
+          </div>
+          <div style="margin-top: 20px;">
+                <button style="margin-left: 80px;" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"  id="mybtn" >
+                    Log in
+                </button>
+                <button style="margin-right: 10px;" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="fp">
+                Reset
+              </button></div><br>
+              <button id="registercard" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Register - Page</button>
+        
+
+         <div class="bg-model">
+              <div class="model-content"> 
+                    <div class="x">+</div>
+                    <h5 style="text-align: center;margin-top: 15%;">Enter Email</h5>  
+                    <input  type="text" id="femail" style="width: 80%; margin-left: 10%;" >
+                    <span id="femails" class="text-danger font-weight-bold"></span>
+                    <button style="width: 100px;margin-left: 30%; margin-top: 7%; align-self: center;" id="rmybtn1"class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                     Submit
+                    </button>
+              
+              </div>
+          </div> 
       
+        </div>
+
+      </div>
     
 
       

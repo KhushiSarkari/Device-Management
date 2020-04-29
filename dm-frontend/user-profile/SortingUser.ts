@@ -1,5 +1,5 @@
 import { GetUserApi } from "./getUserApi";
-import { BASEURL } from "../globals";
+import { BASEURL, current_page } from "../globals";
 export class Sort 
 {    
     token : string ="";
@@ -36,7 +36,7 @@ export class Sort
     {
         const uri=  BASEURL + "/api/user?search="+encodeURI(find)+"&sortby="+sortAttribute+"&direction="+sortType;
       
-        return new GetUserApi(this.token).getSort(uri);
+        return new GetUserApi(this.token,current_page).getSort(uri);
 
     }
     getSortingUrl(attributeId: HTMLTableHeaderCellElement)

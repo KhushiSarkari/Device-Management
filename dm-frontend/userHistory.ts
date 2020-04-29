@@ -7,10 +7,7 @@ let currentPage:number=current_page;
     const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
     const role = await amIUser(token) == true ? "User" : "Admin";
 
-    var mydevices = new MyDevices(token);
 
-
-    mydevices.getCurrentDecice(userId);
 
     document.getElementById("three").addEventListener('click', function () {
 
@@ -126,6 +123,10 @@ let currentPage:number=current_page;
         
     }
     navigationBarsss(role, "navigation");
+    var mydevices = new MyDevices(token);
+
+
+    mydevices.getCurrentDecice(userId);
 
 })();
 export class MyDevices {
@@ -262,6 +263,7 @@ export class MyDevices {
             cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored cancel">CANCEL </button>`
 
         }
+        
     }
     //TODO same function name      
 
@@ -271,5 +273,6 @@ export class MyDevices {
             table.deleteRow(i);
         }
     }
+    
 
 }

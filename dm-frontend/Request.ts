@@ -79,7 +79,7 @@ import { Sort } from "./user-profile/SortingUser";
                 headers: new Headers({ "Authorization": `Bearer ${token}` })
             });
         alert("Request " + requestId + " " + action);
-        getPendingRequests(globalUrl + "pending");
+        getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
 
     }
 

@@ -1,12 +1,14 @@
 import { BASEURL, PageNo, paging   } from '../globals';
 import { UserModel } from "../UserModel";
-import {currentPage} from "../webpage";
+
 export class GetUserApi 
 {
 	token : string ="";
-	current_page:number=currentPage;
-	constructor(token:string){
+	current_page:number;
+	constructor(token:string,currentPage:number){
 		this.token=token;
+		this.current_page=currentPage;
+
 	}
 	array: any = [];
 /////API TO SORT
@@ -15,7 +17,7 @@ export class GetUserApi
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})})
 			.then(response =>{
 				let metadata=JSON.parse(response.headers.get('X-Pagination'));
-				paging(metadata);
+       			paging(metadata);
 				return response.json()
 			})
 			.then(data => {
@@ -43,12 +45,10 @@ export class GetUserApi
 			.catch(err => console.log(err));
 	}
 	getUserById(userId: number) {
-		return fetch(BASEURL + "/api/user/" + userId+"&"+PageNo(this.current_page),
+		return fetch(BASEURL + "/api/user/" + userId,
 		{
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})})
 			.then(response =>{
-				let metadata=JSON.parse(response.headers.get('X-Pagination'));
-				paging(metadata);
 				return response.json()
 			})
 			.then(data => {

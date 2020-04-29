@@ -1,4 +1,4 @@
-import { BASEURL, Token, navigationBarsss } from "../globals";
+import { BASEURL, Token, navigationBarsss, PageNo, current_page, paging  } from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 import { FaultyDeviceModel } from "./FaultyDeviceModel";
 import { FalultyDevice } from "./Fault";
@@ -6,12 +6,13 @@ import { Sort } from "../user-profile/SortingUser";
 
 
 let token = Token.getInstance();
+let currentPage:number=current_page;
 
 
 
 navigationBarsss("Admin" , "navigate");
 
-new FalultyDevice().getAllData();
+new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
 (document.querySelector("#waterfall-exp") as HTMLInputElement).addEventListener("keypress", function (event) {
   if (event.key == "Enter") {
@@ -47,8 +48,8 @@ document.addEventListener('click' , event =>
           {
             var element = (document.getElementById(id) as HTMLTableHeaderCellElement);
             var direction =  "&direction=" + new Sort(token.tokenKey).checkSortType(element);;
-            var attribute = "&sort=" + id;
-            new FalultyDevice().getAllData( getSearch() + attribute + direction);
+            var attribute = "?sort=" + id;
+            new FalultyDevice().getAllData( attribute + direction + "&"+PageNo(currentPage));
   }});
 
 
@@ -58,7 +59,7 @@ document.addEventListener('click' , event =>
   (document.getElementById("serial-number") as HTMLInputElement).value ="";
   document.getElementById("waterfall-exp").setAttribute("data-find" , "");
   document.getElementById("serial-number").setAttribute("data-find" , "");
-  new FalultyDevice().getAllData();
+  new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
 });
 
@@ -71,10 +72,28 @@ document.addEventListener('click' , event =>
   }
 });
 
+(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+	       console.log((e.target as HTMLButtonElement).value);
+         new FalultyDevice().getAllData("?"+PageNo(currentPage));  
+    });
+
 function getSearch() {
   let url = "";
   var obj = new FalultyDevice();
-  url = "?search=" + obj.getSearchData("waterfall-exp") + "&serial-number=" +  obj.getSearchData("serial-number");
+  url = "?"+PageNo(currentPage)+"&search=" + obj.getSearchData("waterfall-exp") + "&serial-number=" +  obj.getSearchData("serial-number");
   return  url;
   
 }
