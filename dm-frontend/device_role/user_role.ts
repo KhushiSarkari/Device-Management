@@ -13,8 +13,8 @@ import { navigationBarsss, amIUser } from "../globals";
 	document.getElementById("three").addEventListener("click", function() {
 		roles.getpermissions();
 	});
-	document.querySelector("#btn_insert").addEventListener("click", function(e) {
-		roles.updateRole();
+	document.querySelector("#addrole").addEventListener("click", function(e) {
+		roles.addRole();
 	});
 	document.querySelector("#btn_insert1").addEventListener("click", function(e) {
 		roles.updatePermission();
@@ -33,18 +33,11 @@ import { navigationBarsss, amIUser } from "../globals";
 	});
 	document.addEventListener("click", event => {
 		if ((event.target as HTMLButtonElement).dataset.id == "update_role") {
+			roles.updateRole(event);
 			console.log("sdfghjkl");
-			roles.update_data1(parseInt((event.target as HTMLButtonElement).value));
 		}
 	});
-	document.addEventListener("click", e => {
-		if ((e.target as HTMLButtonElement).className === "role_update_1") {
-			console.log("sdfghjkl");
-			console.log((event.target as HTMLButtonElement).value);
-			roles.updateRole_1(parseInt((event.target as HTMLButtonElement).value));
-			roles.headerTag34.innerHTML == "";
-		}
-	});
+
 	document.addEventListener("click", event => {
 		if ((event.target as HTMLButtonElement).dataset.id == "update_permission") {
 			console.log("sdfghjkl");
@@ -61,7 +54,7 @@ import { navigationBarsss, amIUser } from "../globals";
 
 	const rolePermisison = new RolePermission(token);
 
-	document.getElementById("one").addEventListener("click", rolePermisison.setup);
+	document.getElementById("one").addEventListener("click", rolePermisison.setup.bind(rolePermisison));
 	document.querySelector('body').addEventListener('change', function(e: MouseEvent){
 		let target = e.target as HTMLElement;
 		if(target.nodeName == 'INPUT' && target.id.startsWith("checkbox-")){
@@ -71,20 +64,7 @@ import { navigationBarsss, amIUser } from "../globals";
 	document.querySelector('#save-button').addEventListener('click', function(){
 		rolePermisison.save();
 	});
-	document.addEventListener("click", event => {
-		if ((event.target as HTMLButtonElement).dataset.id == "update_role") {
-			console.log("sdfghjkl");
-			roles.update_data1(parseInt((event.target as HTMLButtonElement).value));
-		}
-	});
-	document.addEventListener("click", e => {
-		if ((e.target as HTMLButtonElement).className === "role_update_1") {
-			console.log("sdfghjkl");
-			console.log((event.target as HTMLButtonElement).value);
-			roles.updateRole_1(parseInt((event.target as HTMLButtonElement).value));
-			roles.headerTag34.innerHTML == "";
-		}
-	});
+
 	document.addEventListener("click", event => {
 		if ((event.target as HTMLButtonElement).dataset.id == "close_role") {
 			this.headerTag34.innerHTML == "";
@@ -98,9 +78,45 @@ import { navigationBarsss, amIUser } from "../globals";
 		}
 	});
 
+	const dialog = document.querySelector("#popup") as HTMLDialogElement;
+	const dialogPolyfill = window["dialogPolyfill"];
+	
+	dialog["modalFunction"] = modalFunction;
+	dialog["openModal"] = openModal;
 
+	if (!dialog.showModal) {
+		dialogPolyfill.registerDialog(dialog);
+	}
 
 	rolePermisison.setup();
 
 	navigationBarsss(Role,"navigation");
 })();
+
+function openModal(heading: string= "", mode :"create"|"edit"="create"){
+	if(heading){
+		this.querySelector(".mdl-dialog__title").textContent = heading;
+	}
+	this.querySelector(".mdl-button.positive").textContent = mode == "create" ? "ADD" : "EDIT";
+	this.showModal();
+}
+const modalFunction = function(callback){
+	const inputField = this.querySelector("input") as HTMLInputElement;
+
+	const positiveButtonHandler = (e: MouseEvent) => {
+		this.close();
+		callback(inputField.value);
+		inputField.value = "";
+		(e.target as HTMLButtonElement).removeEventListener("click", positiveButtonHandler);
+		
+	}
+	const negativeButtonHandler = (e: MouseEvent) => {
+		this.close();
+		callback();
+		inputField.value = "";
+		(e.target as HTMLButtonElement).removeEventListener("click", negativeButtonHandler);
+	}
+
+	this.querySelector(".positive").addEventListener("click", positiveButtonHandler);
+	this.querySelector(".negative").addEventListener("click", negativeButtonHandler);
+}

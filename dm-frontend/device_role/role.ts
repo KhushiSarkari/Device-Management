@@ -21,6 +21,7 @@ export default class role {
 	headerTag34 = document.getElementById("insert_role") as HTMLInputElement;
 	headerTag35 = document.getElementById("insert_permission") as HTMLInputElement;
 	token: string;
+	dialog = document.querySelector("dialog") as HTMLDialogElement;
 	//get roles
 	constructor(token: string){
 		this.token = token;
@@ -126,20 +127,25 @@ export default class role {
 			console.log("delete failed");
 		}
 	} //insert new role
-	bindData() {
-		this.roleName = (document.getElementById(
-			"roleName"
-		) as HTMLInputElement).value;
+	bindRoleData(roleName: string, roleId: number = 0) {
 		this.data = {
-			RoleName: this.roleName
+			RoleName: roleName
 		};
+		if(roleId){
+			this.data["RoleId"] = roleId;
+		}
 	}
-	updateRole() {
-		this.bindData();
-		this.postData();
+	addRole() {
+		this.dialog["openModal"]();
+		this.dialog["modalFunction"]((inputVal: string) => {
+			if(inputVal){
+				this.bindRoleData(inputVal);
+				this.postRoleData();
+			}
+		});
 	}
-	postData() {
-		let url = BASEURL + "/api/role/add";
+	postRoleData() {
+		let url = BASEURL + "/api/role/update";
 		fetch(url, {
 			method: "POST",
 			headers: {
@@ -155,9 +161,6 @@ export default class role {
 			alert("role inserted");
 			this.getroles();
 		});
-		(document.getElementById("roleName") as HTMLInputElement).value == "";
-		document.getElementById("popup").style.display = "none";
-		this.getroles();
 	}
 	//insert new permission
 	bindData1() {
@@ -187,16 +190,16 @@ export default class role {
 				throw new Error(response.statusText);
 			}
 			alert("permission inserted");
-			document.getElementById("popup1").style.display = "none";
+			// document.getElementById("popup1").style.display = "none";
 			this.getpermissions();
 		});
 		(document.getElementById("permissionName") as HTMLInputElement).value == "";
-		document.getElementById("popup1").style.display = "none";
+		// document.getElementById("popup1").style.display = "none";
 	this.getpermissions();
 	} 
 	//update role
 	update_data1(x: number) {
-		this.headerTag34.innerHTML == "";
+		// this.headerTag34.innerHTML == "";
 		this.headerTag34.innerHTML = `
         <dialog id="popup1" class="mdl-dialog"  >
 
@@ -220,14 +223,20 @@ export default class role {
 			RoleName: this.Role_up
 		};
 	}
-	updateRole_1(x: number) {
-		this.bindData_1();
-		this.postData_1(x);
+	updateRole(ev: MouseEvent) {
+		const roleId = parseInt((ev.target as HTMLButtonElement).closest("tr").dataset.roleId);
+		this.dialog["openModal"]("Enter new Role", "edit");
+		this.dialog["modalFunction"]((inputVal: string) => {
+			if(inputVal){
+				this.bindRoleData(inputVal, roleId);
+				this.postRoleData_1();
+			}
+		});
 	}
-	postData_1(x: number) {
-		let url = BASEURL + "/api/role/" + x + "/update";
+	postRoleData_1() {
+		let url = BASEURL + "/api/role/update";
 		fetch(url, {
-			method: "PUT",
+			method: "POST",
 			headers: {
 				"content-Type": "application/json",
 				"Authorization": `Bearer ${this.token}`
@@ -242,11 +251,9 @@ export default class role {
 			this.headerTag34.innerHTML = "";
 			this.getroles();
 		});
-		this.getroles();
-		// navigationBarsss(role,"navigation");
 	} //update permission
 	update_data2(y: number) {
-		this.headerTag35.innerHTML == "";
+		// this.headerTag35.innerHTML == "";
 		this.headerTag35.innerHTML = `
 	
 		
