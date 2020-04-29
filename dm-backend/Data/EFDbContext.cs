@@ -215,6 +215,19 @@ namespace dm_backend.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("bank_details_to_user");
             });
+            
+              modelBuilder.Entity<DeviceModel>(entity =>
+            {
+                entity.ToTable("device_model");
+
+                entity.Property(e => e.DeviceModelId).HasColumnName("device_model_id");
+
+                entity.Property(e => e.Model)
+                    .IsRequired()
+                    .HasColumnName("model")
+                    .HasMaxLength(45);
+            });
+
 
             modelBuilder.Entity<City>(entity =>
             {

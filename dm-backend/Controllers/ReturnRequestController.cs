@@ -56,10 +56,12 @@ namespace dm_backend.Controllers
             
             string result = null;
             try{
+                Console.WriteLine("dsa");
+                Console.WriteLine(request);
                 result = request.AddFaultRequest();
                 var obj = ToUser(request.deviceId);
-                
-            string body = "Hey Admin ! <br> Device Related to "+obj[1]+" Serial Number has Following Complaints <br><br>"+request.comment+"<br>Thanks <br> Regards : "+request.firstName+" "+request.lastName;
+
+            string body = "Hey Admin ! <br> Device "+obj[2]+" having Serial Number "+obj[1]+" has Following Complaints <br><br>"+request.comment+"<br>Thanks <br> Regards : "+request.firstName+" "+request.lastName;
               var EmailObj = new sendMail().sendNotification(obj[0],body,"Device Complaint");
               }
             catch(NullReferenceException){
@@ -80,15 +82,19 @@ namespace dm_backend.Controllers
              var entryPoint = (from us in _context.User
                               join ad in _context.AssignDevice on us.UserId equals ad.ReturnTo
                               join  dv in _context.Device on ad.DeviceId equals dv.DeviceId
+                              join dt in _context.DeviceType on dv.DeviceTypeId equals dt.DeviceTypeId
+                              join br in _context.DeviceBrand on dv.DeviceBrandId equals br.DeviceBrandId
+                            
                               where ad.DeviceId == devid
                               select new
                               {
+                                DeviceType = dt.Type,
                                SerialNumber =dv.SerialNumber,  
                                 email = us.Email 
                               }).ToList();
                   var x= entryPoint[0];
                   string[] str1; 
-                  str1 = new String[2]{x.email, x.SerialNumber };
+                  str1 = new String[]{x.email, x.SerialNumber,x.DeviceType };
                   
                   return str1;
                 
