@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using dm_backend;
 using System.Data.Common;
-using dm_backend.Utilities;
 
 namespace dm_backend.Models
 {
@@ -217,7 +216,7 @@ public class PartialDeviceModel
         public List<devices> SortAlldevices(String SortColumn, String SortDirection)
         {
             using var cmd = Db.Connection.CreateCommand();
-
+        
             cmd.CommandText = "select ad.assign_date as assign_date,ad.return_date as return_date, " +
                 "u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name," +
                 "u1.last_name as assign_by_last_name,u.first_name as assign_to_first_name, " +
@@ -235,7 +234,6 @@ public class PartialDeviceModel
                 " left join user as u1 " +
                 "on  u1.user_id = ad.assigned_by order by " + SortColumn + " " + SortDirection + ";";
             // BindColumn(cmd,SortColumn);
-
             return ReadAll(cmd.ExecuteReader());
         }
 

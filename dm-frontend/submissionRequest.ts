@@ -3,12 +3,13 @@ import { RequestDeviceModel } from "./Device-Request/deviceRequestModel";
 import { RequestSubmitModel } from "./SubmissionRequestModel";
 import { populateData } from "./genrateSubmissionRequest";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL, navigationBarsss } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging } from "./globals";
 
 (async function(){
     let address = BASEURL;
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
     let adminId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
+    let currentPage:number=current_page;
 
 
     (document.querySelector("#fixed-header-drawer-exp")  as HTMLInputElement).addEventListener("keypress" , event =>
@@ -44,7 +45,7 @@ import { BASEURL, navigationBarsss } from "./globals";
             let sortAttributr = (event.target as HTMLTableHeaderCellElement).dataset.id;
             let sort = new Sort(token);
         var sortType =  sort.checkSortType((event.target as HTMLTableHeaderCellElement));
-        let url = address +  "/api/ReturnRequest" + getSearchUrl() +"&sort="+sortAttributr +"&direction="+ sortType ;
+        let url = address +  "/api/ReturnRequest" + getSearchUrl() +"&sort="+sortAttributr +"&direction="+ sortType +"&"+PageNo(currentPage);
             getData(url);
         }
     });
@@ -52,7 +53,7 @@ import { BASEURL, navigationBarsss } from "./globals";
 
     function getAll()
     {
-        let url =  address  + "/api/ReturnRequest";
+        let url =  address  + "/api/ReturnRequest?"+PageNo(currentPage);
         (document.getElementById("fixed-header-drawer-exp") as HTMLInputElement).setAttribute("data-device-name" , "");
         getData(url);
     }
@@ -95,6 +96,23 @@ import { BASEURL, navigationBarsss } from "./globals";
         }
         
 }
+    });
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+	       console.log((e.target as HTMLButtonElement).value);
+		getAll();
     });
 
     document.querySelector("#getData").addEventListener("click" , event=>

@@ -24,6 +24,10 @@ table td[colspan="2"] {
 }
 
 /* Overrides */
+.mdl-cell--0_5-offset
+{
+margin-left: calc(4.1666666% + 4px);
+}
 nav.mdl-navigation
     {
       height: unset;
@@ -79,7 +83,7 @@ th.activate {
 #popup1 {
 	display: none;
 }
-button.mdl-button.txt-danger {
+button.mdl-button.txt-danger,span.txt-danger {
 	color: rgb(244, 67, 54);
 }
 .caintain {

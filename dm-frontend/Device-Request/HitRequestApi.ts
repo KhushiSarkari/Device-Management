@@ -1,3 +1,4 @@
+import {paging} from "../globals";
 export class HitApi {
   Data: any;
   token: string;
@@ -12,6 +13,10 @@ export class HitApi {
         headers: new Headers({ Authorization: `Bearer ${this.token}` }),
       });
       console.log(res.status);
+      if(res.headers.get('X-Pagination')!=null)
+      { let metadata=JSON.parse(res.headers.get('X-Pagination'));
+        paging(metadata);
+      }
     // } catch {
         // console.log("error while hittiing api");
         // return null;

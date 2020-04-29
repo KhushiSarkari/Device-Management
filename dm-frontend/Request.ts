@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page} from "./globals";
 import * as util from "./utilities";
 import { Requests, Specification, PartialUserModel } from "./RequestModel";
 import { HitApi } from './Device-Request/HitRequestApi';
@@ -8,6 +8,7 @@ import { Sort } from "./user-profile/SortingUser";
     const token: string = JSON.parse(sessionStorage.getItem("user_info"))["token"];
     let adminId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
     let globalUrl = BASEURL + "/api/request/";
+    let currentPage:number=current_page;
     let obj = {
         notify: []
     };
@@ -102,12 +103,12 @@ import { Sort } from "./user-profile/SortingUser";
         let id = e.target as HTMLTableHeaderCellElement;
 		let sorts = new Sort(token);
 		let direction = sorts.checkSortType(id);
-        getPendingRequests(globalUrl + "pending?sortby=" + sortField + "&direction=" + direction);
+        getPendingRequests(globalUrl + "pending?sortby=" + sortField + "&direction=" + direction + "&"+PageNo(currentPage));
 
     });
     document.querySelector('#fixed-header-drawer-exp').addEventListener('input', function (e) {
         var searchField = (document.getElementById("fixed-header-drawer-exp") as HTMLInputElement).value;
-        getPendingRequests(globalUrl + "pending?search=" + searchField);
+        getPendingRequests(globalUrl + "pending?search=" + searchField+ "&"+PageNo(currentPage));
     });
     document.querySelector('.close').addEventListener('click',
         function () {
@@ -149,8 +150,26 @@ import { Sort } from "./user-profile/SortingUser";
         }
 
     });
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+	       console.log((e.target as HTMLButtonElement).value);
+		let uri = PageNo(currentPage);
+		getPendingRequests(globalUrl + "pending?"+uri);   
+    });
 
-    getPendingRequests(globalUrl + "pending");
+    getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
     navigationBarsss("Admin", "navigation");
 
 })();
