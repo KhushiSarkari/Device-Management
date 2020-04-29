@@ -7,7 +7,7 @@
     <title>Devicelist</title>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
-    
+
 
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -27,17 +27,17 @@
             <form class="form-container" id="assign_popup">
                 <h5><b><u>Assign Device </b></u></h5>
                 <label for="">
-                    <strong>Device Id:</strong><div id="device_id" ></div>
+                    <strong>Device Id:</strong>
+                    <div id="device_id"></div>
                 </label><br>
                 <label>Return Date</label>
                 <input type="date" id="return_date" data-name="date"><br><br>
                 <datalist id="user">
                     <option value=""></option>
-                   </datalist>
-                <input id="inputuser" placeholder="select user"
-                autoComplete="on" list="user" required/><br><br>
+                </datalist>
+                <input id="inputuser" placeholder="select user" autoComplete="on" list="user" required /><br><br>
                 <button type="button" class="assigndevice-btn">Assign</button>
-                <button type="button" class="cancel-button" >Close</button>
+                <button type="button" class="cancel-button">Close</button>
             </form>
         </div>
     </div>
@@ -59,7 +59,7 @@
 
 
         <div class="mdl-layout__drawer " id="navigations">
-           </div>
+        </div>
         <main class="mdl-layout__content">
             <div class="page-content">
                 <br>
@@ -86,9 +86,9 @@
                                     id="fixed-header-drawer-exp">
                             </div>
                         </div id="t">
-                        
+
                     </div>
-                </div>  <br><br>
+                </div> <br><br>
                 <div>
                     <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp" id="Request_data1"
                         style="overflow: auto;">
@@ -115,10 +115,14 @@
                         </tbody>
                     </table>
                 </div>
-    </div>
+            </div><br><br>
+            <center>
+                <div class="pagination" id="pagination" pageNum="1" result-count="0">
+
+                </div>
+            </center>
         </main>
     </div>
-
 </body>
 <script src="/assets/js/getApiForAdmin.js"></script>
 

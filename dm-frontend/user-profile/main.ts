@@ -57,7 +57,14 @@ import { BASEURL, navigationBarsss, amIUser } from '../globals';
                
                 return;
             }          
-            user.updateData(createObjectFromForm(this), userId).then(function () { user.getOneUser(userId); })
+            user.updateData(createObjectFromForm(this), userId).then(function () { 
+                user.getOneUser(userId).then(function (data) {
+                   const  userObject = data;
+                    // @ts-ignore
+                    populateFormFromObject(userObject, form, token);
+            
+                });
+             })
             alert("Record Updated");
         }
     });

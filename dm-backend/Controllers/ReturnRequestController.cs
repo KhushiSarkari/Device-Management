@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using MySql.Data.MySqlClient;
+using dm_backend.Utilities;
+using Newtonsoft.Json;
 
 namespace dm_backend.Controllers
 {
@@ -67,12 +69,15 @@ namespace dm_backend.Controllers
             string sortDirection=(string)HttpContext.Request.Query["direction"] ?? "asc";
             if(!string.IsNullOrEmpty(HttpContext.Request.Query["id"]))
             userId=Convert.ToInt32((string)HttpContext.Request.Query["id"]);
+            int pageNumber=Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageSize=Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
 
             Db.Connection.Open();
             var returnObject = new ReturnRequestModel(Db);
-            var result = returnObject.GetReturnRequests(userId,sortField,sortDirection,searchField);
+            var pager=PagedList<ReturnRequestModel>.ToPagedList(returnObject.GetReturnRequests(userId,sortField,sortDirection,searchField),pageNumber,pageSize);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
             Db.Connection.Close();
-            return new OkObjectResult(result);
+            return new OkObjectResult(pager);
         }
 
         [Authorize(Roles="admin")]

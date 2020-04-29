@@ -14,20 +14,32 @@ namespace dm_backend.Data
         }
 
         public async Task<User> Register(User  user, string password)
-        {
-            byte[] passwordHash, passwordSalt;
+        {  
+            var transaction = _context.Database.BeginTransaction();
+         try
+         {
+              byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
             user.Hashpassword = passwordHash;
             user.Saltpassword = passwordSalt;
+            user.Status =1 ;
              await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
+            Console.WriteLine(user.UserId);
             var _role= new UserToRole();
             _role.UserId=user.UserId;
             _role.RoleId=1;
             await _context.UserToRole.AddAsync(_role);
             await _context.SaveChangesAsync();
-            
-            return user;
+             transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            Console.WriteLine(ex);
+        }
+    
+       return user;
    }
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

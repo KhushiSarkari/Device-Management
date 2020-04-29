@@ -35,23 +35,23 @@ namespace dm_backend.Models
             return reader[colName] != DBNull.Value ? (string)reader[colName] : "";
         }
 
-        public async Task<List<Specification>> getAllSpecifications()
+        public List<Specification> getAllSpecifications()
         {
             using var cmd = Db.Connection.CreateCommand();
             cmd.CommandText = @"select * from specification;";
 
-            return await ReadSpecifications(await cmd.ExecuteReaderAsync());
+            return ReadSpecifications(cmd.ExecuteReader());
         }
-        public async Task<List<Specification>> getspecbyid(int specification_id)
+        public List<Specification> getspecbyid(int specification_id)
         {
             using var cmd = Db.Connection.CreateCommand();
             cmd.CommandText = @"select * from specification where specification.specification_id=@specification_id;";
 
             cmd.Parameters.AddWithValue("@specification_id", specification_id);
-            return await ReadSpecifications(cmd.ExecuteReader());
+            return ReadSpecifications(cmd.ExecuteReader());
         }
 
-        public async Task<List<Specification>> getSpecificSpecification(string typeId, string brand, string model)
+        public List<Specification> getSpecificSpecification(string typeId, string brand, string model)
         {
 
             using var cmd = Db.Connection.CreateCommand();
@@ -64,16 +64,16 @@ where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.spe
             cmd.Parameters.AddWithValue("@type", typeId);
             cmd.Parameters.AddWithValue("@brand", brand);
             cmd.Parameters.AddWithValue("@model", model);
-            return await ReadSpecifications(await cmd.ExecuteReaderAsync());
+            return ReadSpecifications(cmd.ExecuteReader());
         }
 
 
-        public async Task<List<Specification>> ReadSpecifications(DbDataReader reader)
+        public List<Specification> ReadSpecifications(DbDataReader reader)
         {
             var specifications = new List<Specification>();
             using (reader)
             {
-                while (await reader.ReadAsync())
+                while (reader.Read())
                 {
                     var spec1 = new Specification()
                     {

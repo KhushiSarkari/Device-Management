@@ -12,10 +12,12 @@ using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using MySql.Data.MySqlClient;
 using dm_backend.Data;
+using dm_backend.Utilities;
+using Newtonsoft.Json;
 
 namespace dm_backend.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {
@@ -48,6 +50,8 @@ namespace dm_backend.Controllers
             string sortDirection=(string)HttpContext.Request.Query["direction"] ?? "asc";
             if(!string.IsNullOrEmpty(HttpContext.Request.Query["id"]))
             userId=Convert.ToInt32((string)HttpContext.Request.Query["id"]);
+            int pageNumber=Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageSize=Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
             sortDirection = (sortDirection.ToLower()) == "asc" ? "ASC" : "DESC";
             switch (sortField.ToLower())
             {
@@ -64,9 +68,10 @@ namespace dm_backend.Controllers
             }
             Db.Connection.Open();
             var NotificationObject = new NotificationModel(Db);
-            var result =  NotificationObject.GetNotifications(userId,sortField,sortDirection,searchField);
+            var pager=PagedList<NotificationModel>.ToPagedList(NotificationObject.GetNotifications(userId,sortField,sortDirection,searchField),pageNumber,pageSize);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
             Db.Connection.Close();
-            return Ok(result);
+            return Ok(pager);
         }
 
         

@@ -6,16 +6,18 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss } from './globals';
+import { BASEURL,amIUser,navigationBarsss, PageNo, current_page, paging  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
 import { formatPhone } from "./utilities";
+export let currentPage:number=current_page;
 
 (async function(){
 	const token:string=JSON.parse(sessionStorage.getItem("user_info"))["token"];
 	const role = (await amIUser(token)) == true ? "User" : "Admin";
 	let form_mode: "create" | "edit";
+
 
 	const table = document.getElementById("Request_data_body") as HTMLTableElement;
 	console.log(table);
@@ -261,6 +263,26 @@ import { formatPhone } from "./utilities";
 			populateTable(data);
 		});
 	});
+
+	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+		   console.log((e.target as HTMLButtonElement).value);
+		   setData();
+		
+    });
+
 	navigationBarsss(role,"navigation");
     util.addressCheck();
 	dropDownListen(form,token);

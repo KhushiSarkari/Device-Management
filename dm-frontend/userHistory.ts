@@ -1,5 +1,7 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging } from './globals';
+
 import { Sort } from './user-profile/SortingUser';
+let currentPage:number=current_page;
 (async function () {
     const userId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
     const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -69,6 +71,30 @@ import { Sort } from './user-profile/SortingUser';
     document.getElementById("search3").addEventListener('keyup', function () {
         mydevices.getRequestHistory(userId, (document.getElementById("search3") as HTMLInputElement).value);
     });
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+	       console.log((e.target as HTMLButtonElement).value);
+		
+           if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement) {
+
+            mydevices.getCurrentDecice(userId);
+        }
+        else {
+            mydevices.getRequestHistory(userId);
+        }
+    });
 
     document.addEventListener("click", function (ea) {
 
@@ -115,7 +141,7 @@ export class MyDevices {
     }
 
     async getCurrentDecice(id: number, search: string = "", sort: string = "") {
-        this.url = BASEURL + "/api/Device/current_device/" + id + "?search=" + search + sort;
+        this.url = BASEURL + "/api/Device/current_device/" + id + "?search=" + search + sort + "&"+PageNo(currentPage);
         let data = await this.getApiCall(this.url);
         this.data = await data;
         console.log(data);
@@ -125,7 +151,7 @@ export class MyDevices {
 
     }
     async getRequestHistory(id: number, searchField: string = "", sort: string = "") {
-        this.url = BASEURL + "/api/request/pending?id=" + id + "&search=" + searchField + sort;
+        this.url = BASEURL + "/api/request/pending?id=" + id + "&search=" + searchField + sort+ "&"+PageNo(currentPage);
         let data = await this.getApiCall(this.url);
         this.data = await data;
         console.log(data);
@@ -160,6 +186,10 @@ export class MyDevices {
         let response = await fetch(URL, {
             headers: new Headers({ "Authorization": `Bearer ${this.token}` })
         });
+
+        let metadata=JSON.parse(response.headers.get('X-Pagination'));
+        paging(metadata);
+
         let data = await (response.json());
         return (data);
     }
