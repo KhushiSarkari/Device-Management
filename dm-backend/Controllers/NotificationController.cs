@@ -17,11 +17,7 @@ using Newtonsoft.Json;
 
 namespace dm_backend.Controllers
 {
-<<<<<<< HEAD
-   // [Authorize]
-=======
     [Authorize]
->>>>>>> f43230423bc6705b1bcc7671a783d10a8d66e5ef
     [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {

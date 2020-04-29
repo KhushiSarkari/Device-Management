@@ -14,7 +14,7 @@ namespace dm_backend.Logics
     public class sendMail
     {
          //MultipleNotifications item
-        public async Task<string>  sendNotification(string  email , string  body )
+        public async Task<string>  sendNotification(string  email , string  body, string subject  )
         {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
@@ -23,7 +23,7 @@ namespace dm_backend.Logics
                 mail.To.Add(email);
                 mail.IsBodyHtml = true;
 
-                mail.Subject = "Device Notification";
+                mail.Subject = subject;
                 mail.Body = body;
                 SmtpServer.Port = 587;
                 string ans = Dec("SmVmZmhhcmR5QDYxOQ==");
@@ -44,6 +44,7 @@ namespace dm_backend.Logics
             catch (FormatException fe)
             {
                 decrypted = "";
+                Console.WriteLine(fe);
             }
             return decrypted;
         }
