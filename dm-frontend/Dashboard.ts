@@ -31,10 +31,9 @@ import { HitApi } from './Device-Request/HitRequestApi';
 
     }
     function NotificationCount() {
-        fetch(BASEURL+ "api/Notification/Count/" + id)
+        fetch(BASEURL+ "/api/Notification/Count/" + id)
             .then(Response => Response.json())
             .then(data => {
-                console.log(data);
                 (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
             })
             .catch(err => console.log(err));
