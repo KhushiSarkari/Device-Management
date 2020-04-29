@@ -50,10 +50,10 @@ import { HitApi } from './Device-Request/HitRequestApi';
                 createCard("Total Requests:" + data.deviceRequests, "requests");
                 // createCard("Total Faults:"+ data.faults,"faults");
             }
-            if (role == "User") {
-                createCard("Total Requests:" + data.deviceRequests, "");
-                createCard("Total Faults:" + data.faults, "");
-            }
+            // if (role == "User") {
+            //     //createCard("Total Requests:" + data.deviceRequests, "");
+            //     //createCard("Total Faults:" + data.faults, "");
+            // }
         });
 
     }
