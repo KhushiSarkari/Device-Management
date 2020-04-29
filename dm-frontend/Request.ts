@@ -96,7 +96,6 @@ import { Sort } from "./user-profile/SortingUser";
                 notify: []
             };
         }
-
     }
 
     (document.querySelector('#tablecol') as HTMLTableElement).addEventListener("click", function (e) {

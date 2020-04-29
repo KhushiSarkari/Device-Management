@@ -14,7 +14,6 @@ import { HitApi } from "../Device-Request/HitRequestApi";
 let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
 let url = BASEURL +"/sorting";
 var domElement =  new HtmlElementsData();
-
 (function(){
     var prams = window.location.href;
     var pramList = prams.split("?")
@@ -24,7 +23,9 @@ var domElement =  new HtmlElementsData();
     }
     else 
     getData();
+
 })();
+
 function getData(params = "")
 {
     let uri  = url + params;
@@ -87,7 +88,6 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
         getData(new page(token).slectedPage(x));
     });
 navigationBarsss("Admin","navigation");
-//getData();
 }());
 
 

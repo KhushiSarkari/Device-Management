@@ -9,8 +9,6 @@ namespace dm_backend.Models
     {
         public int ResultCount { get; set; }
         public List<T> Results { get; set; }
-      
-     
 
     }
 }

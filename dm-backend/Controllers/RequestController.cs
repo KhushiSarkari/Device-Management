@@ -31,6 +31,7 @@ namespace dm_backend.Models{
         {
             Db.Connection.Open();
             var request = new Request(Db);
+            
             try
             {
                 request.addDevice(req);

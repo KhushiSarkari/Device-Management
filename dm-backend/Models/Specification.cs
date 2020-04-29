@@ -59,7 +59,7 @@ namespace dm_backend.Models
 inner join device_type as dt using (device_type_id)
 inner join device_brand as db using (device_brand_id) 
 inner join device_model as dm using (device_model_id)
-where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.specification_id; ";
+where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.specification_id and d.status_id <> 13; ";
 
             cmd.Parameters.AddWithValue("@type", typeId);
             cmd.Parameters.AddWithValue("@brand", brand);

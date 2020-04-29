@@ -19,6 +19,8 @@ namespace dm_backend.Controllers
         {
             Db = db;
         }
+
+
         [AllowAnonymous]
         [HttpGet]
         [Route("country")]

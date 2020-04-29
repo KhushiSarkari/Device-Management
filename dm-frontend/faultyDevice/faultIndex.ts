@@ -33,9 +33,18 @@ document.addEventListener('click' , event =>
   let url  = BASEURL + "/api/FaultyDevice"
   let id = parseInt((event.target as HTMLButtonElement).dataset.complaint);
   if(element == "faulty-device")
-    new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } )
+  {
+    (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
+    new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } );
+    (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+  }
   if(element == "fault-resolved")
-    new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } )
+  {
+  
+    (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
+      new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } );
+      (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+  }
   new FalultyDevice().getAllData();
   }
 });

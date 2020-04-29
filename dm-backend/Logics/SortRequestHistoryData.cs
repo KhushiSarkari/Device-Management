@@ -92,7 +92,6 @@ namespace dm_backend.Logics
             int limitValue = page_limit(limit, 10);
             int offset = ((pageValue-1) * limitValue);
 
-
             cmd.CommandText = command + " limit @offset , @limit ;";
             
             cmd.CommandType = CommandType.Text;

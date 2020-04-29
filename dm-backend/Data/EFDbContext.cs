@@ -115,6 +115,7 @@ namespace dm_backend.Data
                     .HasMaxLength(45);
             });
 
+
             modelBuilder.Entity<AssignDevice>(entity =>
             {
                 entity.ToTable("assign_device");
@@ -127,16 +128,20 @@ namespace dm_backend.Data
 
                 entity.Property(e => e.AssignDeviceId).HasColumnName("assign_device_id");
 
+                entity.Property(e => e.AssignedBy).HasColumnName("assigned_by");
+
                 entity.Property(e => e.DeviceId).HasColumnName("device_id");
 
                 entity.Property(e => e.ReturnTo).HasColumnName("return_to");
+
+                entity.Property(e => e.StatusId).HasColumnName("status_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Device)
                     .WithMany(p => p.AssignDevice)
                     .HasForeignKey(d => d.DeviceId)
-                    .HasConstraintName("assign_device_ibfk_1");
+                    .HasConstraintName("device_id_assign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AssignDevice)
@@ -144,6 +149,8 @@ namespace dm_backend.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employee_id_assign");
             });
+
+
 
             modelBuilder.Entity<BankDetails>(entity =>
             {

@@ -31,10 +31,18 @@ namespace dm_backend.Controllers
         }
         
         [HttpPost]
-        public IActionResult PostMultipleNotifications([FromBody]MultipleNotifications item)
+        public async Task<IActionResult> PostMultipleNotifications([FromBody]MultipleNotifications item)
         {
             Db.Connection.Open();
             item.Db = Db;
+            try
+            {
+                await new SendNotificationMail(Db).sendMultipleMail(item);
+            }
+            catch
+            {
+                return BadRequest();
+            }
             var result = item.AddMultipleNotifications();
             Db.Connection.Close();
             return new OkObjectResult(item);
