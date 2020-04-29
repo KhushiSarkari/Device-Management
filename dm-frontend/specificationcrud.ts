@@ -1,9 +1,10 @@
 import { SpecificationList } from "./specificationlist";
-import { BASEURL, amIUser, navigationBarsss } from './globals';
+import { BASEURL, navigationBarsss, PageNo, current_page,paging, amIUser} from "./globals";
 let mode:string = "create";
 (async function(){
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
     const role = (await amIUser(token)) == true ? "User" :"Admin";
+    let currentPage:number=current_page;
     class GetSpecification {
         specification_id:number;
         RAM:string;
@@ -13,10 +14,14 @@ let mode:string = "create";
     
         getSpecificationData() {
             fetch(
-                BASEURL +"/api/Device/specification",{
+                BASEURL +"/api/Device/specification?"+PageNo(currentPage),{
                     headers: new Headers({"Authorization": `Bearer ${token}`})
                 })
-                .then(response => response.json())
+                .then(response =>{
+					let metadata=JSON.parse(response.headers.get('X-Pagination'));
+					paging(metadata);
+					return response.json()
+				})
                 .then(data => {
                     console.log(data);
                     (document.getElementById("specification_data") as HTMLTableElement).innerHTML = "";
@@ -122,7 +127,23 @@ let mode:string = "create";
         
     });
 
-
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+		if((e.target as HTMLButtonElement).value==">>")
+		{
+			currentPage+=1;
+		}
+		else if((e.target as HTMLButtonElement).value=="<<")
+		{
+			currentPage-=1;
+		}
+		else
+		{
+			currentPage=+((e.target as HTMLButtonElement).value);
+		}
+	       console.log((e.target as HTMLButtonElement).value);
+           specs.getSpecificationData();  
+    });
 
     document.addEventListener("click", function (e) {
         if ((e.target as HTMLButtonElement).className == "edit-button") {

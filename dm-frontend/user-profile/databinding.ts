@@ -59,6 +59,7 @@ export async  function populateFormFromObject(
 	form["email"].value        =data.email;
 	form["userId"].value       =data.userId;
 	form["password"].value     ="";
+	form["confirmpassword"].value     ="";
 	form["dob"].value          =data.dob;
 	form["gender"].value       =data.gender;
 	form["status"].value       =data.status;

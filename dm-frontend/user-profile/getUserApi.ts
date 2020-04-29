@@ -1,18 +1,22 @@
-import { BASEURL } from '../globals';
+import { BASEURL, PageNo, paging   } from '../globals';
 import { UserModel } from "../UserModel";
+import {currentPage} from "../webpage";
 export class GetUserApi 
 {
 	token : string ="";
+	current_page:number=currentPage;
 	constructor(token:string){
 		this.token=token;
 	}
 	array: any = [];
 /////API TO SORT
 	getSort(uri : string) {
-		return fetch(uri,{
+		return fetch(uri+"&"+PageNo(this.current_page),{
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})})
-			.then(Response => {
-				return Response.json();
+			.then(response =>{
+				let metadata=JSON.parse(response.headers.get('X-Pagination'));
+				paging(metadata);
+				return response.json()
 			})
 			.then(data => {
 				return data.map(obj => new UserModel(obj));
@@ -20,12 +24,14 @@ export class GetUserApi
 			}
 /////API GET		
 	getRequest() {
-		return fetch(BASEURL + "/api/user",{
+		return fetch(BASEURL + "/api/user?"+PageNo(this.current_page),{
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})}
 		)
-			.then(Response => {
-				return Response.json();
-			})
+		.then(response =>{
+			let metadata=JSON.parse(response.headers.get('X-Pagination'));
+			paging(metadata);
+			return response.json()
+		})
 			.then(data => {
 				console.log(data);
 				data.forEach((userObject: any) => {
@@ -37,10 +43,14 @@ export class GetUserApi
 			.catch(err => console.log(err));
 	}
 	getUserById(userId: number) {
-		return fetch(BASEURL + "/api/user/" + userId,
+		return fetch(BASEURL + "/api/user/" + userId+"&"+PageNo(this.current_page),
 		{
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})})
-			.then(res => res.json())
+			.then(response =>{
+				let metadata=JSON.parse(response.headers.get('X-Pagination'));
+				paging(metadata);
+				return response.json()
+			})
 			.then(data => {
 				return data;
 			})
@@ -65,11 +75,13 @@ export class GetUserApi
 
 	searchUser() {
 		let search = (document.getElementById("fixed-header-drawer-exp")as HTMLInputElement).value;
-		return fetch(BASEURL+ "/api/user?search=" + search, 
+		return fetch(BASEURL+ "/api/user?search=" + search + "&" +PageNo(this.current_page), 
 		{
 			headers: new Headers({"Authorization": `Bearer ${this.token}`})})
-			.then(Response => {
-				return Response.json();
+			.then(response =>{
+				let metadata=JSON.parse(response.headers.get('X-Pagination'));
+				paging(metadata);
+				return response.json()
 			})
 			.then(data => {
 				console.log(data);

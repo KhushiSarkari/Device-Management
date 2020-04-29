@@ -12,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using dm_backend.Utilities;
+using Newtonsoft.Json;
 
 namespace dm_backend.Controllers
 {
@@ -49,12 +50,16 @@ namespace dm_backend.Controllers
                 Email = userforreg.Email,
                 FirstName =userforreg.FirstName,
                 LastName=userforreg.LastName,
-                Status = 1
             };
-
+           
             var createdUser = await _repo.Register(userTocreate, userforreg.Password);
-            // return StatusCode(201);
-            return Ok(new { Result = createdUser});
+             var result1=  JsonConvert.SerializeObject(createdUser, Formatting.None,
+                        new JsonSerializerSettings()
+                        { 
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+
+            return Ok(new { Result = result1});
         }
 
         [HttpPost("Reset")]
@@ -64,7 +69,7 @@ namespace dm_backend.Controllers
             if (!await _repo.UserExists(rp.Email))
                 return BadRequest("Not Exist");
 
-            new SendEmail(_context).Send_Email(rp.Email);
+         var obj =   new SendEmail(_context).Send_Email(rp.Email);
             return StatusCode(201);
 
 

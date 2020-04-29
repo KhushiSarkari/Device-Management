@@ -63,16 +63,16 @@ and if(@serialNumber is null ,d.serial_number like '%'  OR d.serial_number is nu
            return attribute;
 
         }
-         public List<FaultyDeviceModel> getFaultyDevice ( int userId , string search  , string serialNumber  , string status ,string sortAttribute , string direction  ,int page ,int  page_size)
+         public List<FaultyDeviceModel> getFaultyDevice ( int userId , string search  , string serialNumber  , string status ,string sortAttribute , string direction)
         {
 
             using var cmd = Db.Connection.CreateCommand();
             var querry = querryAll;
 
            // if (userId != -1)
-            {
+         //   {
          //       querry += getUserID;
-            }
+          //  }
 
             var attribute = " " + FindSortingAttribute(sortAttribute);
 
@@ -80,13 +80,13 @@ and if(@serialNumber is null ,d.serial_number like '%'  OR d.serial_number is nu
 
 
             querry += attribute;
-            if (page >= 0 && page_size >= 0)
-            {
-                querry += " limit @offset , @limit ;";
-                new SortRequestHistoryData(Db).BindLimitParams(cmd, page, page_size);
-            }
-            else
-                querry += " ;";
+            // if (page >= 0 && page_size >= 0)
+            // {
+            //     querry += " limit @offset , @limit ;";
+            //     new SortRequestHistoryData(Db).BindLimitParams(cmd, page, page_size);
+            // }
+            // else
+            //     querry += " ;";
 
             bindParams(cmd, userId, serialNumber, search, status);
             cmd.CommandText = querry;

@@ -2,9 +2,10 @@
 using dm_backend.Logics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using dm_backend.Models;
+using dm_backend.Utilities;
 
 namespace dm_backend.Controllers
 {
@@ -30,20 +31,22 @@ namespace dm_backend.Controllers
             string serialnumber = null;
             string sortField = "";
             string sortDirection = "asc";
-            int page = -1;
-            int size = -1;
+            // int page = -1;
+            // int size = -1;
             string status = null;
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
 
 
 
-            if (!string.IsNullOrEmpty(HttpContext.Request.Query["page"]))
-                page = Convert.ToInt32(HttpContext.Request.Query["page"]);
+            // if (!string.IsNullOrEmpty(HttpContext.Request.Query["page"]))
+            //     page = Convert.ToInt32(HttpContext.Request.Query["page"]);
 
             if (!string.IsNullOrEmpty(HttpContext.Request.Query["serial-number"]))
                 serialnumber = (HttpContext.Request.Query["serial-number"]);
 
-            if (!string.IsNullOrEmpty(HttpContext.Request.Query["page-size"]))
-                size = Convert.ToInt32(HttpContext.Request.Query["page-size"]);
+            // if (!string.IsNullOrEmpty(HttpContext.Request.Query["page-size"]))
+            //     size = Convert.ToInt32(HttpContext.Request.Query["page-size"]);
 
             if (!string.IsNullOrEmpty(HttpContext.Request.Query["id"]))
                 userId = Convert.ToInt32(HttpContext.Request.Query["id"]);
@@ -64,19 +67,21 @@ namespace dm_backend.Controllers
 
            
             var fault = new FaultyDevice(Db);
-            object result;
-            try
-            {
-             result = fault.getFaultyDevice(userId, searchField, serialnumber, status, sortField, sortDirection, page, size);
-            }
-            catch(Exception e)
-            {
+             var pager = PagedList<FaultyDeviceModel>.ToPagedList(fault.getFaultyDevice(userId, searchField, serialnumber, status, sortField, sortDirection), pageNumber, pageSize);
+           Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+            // object result;
+            // try
+            // {
+            //  result = fault.getFaultyDevice(userId, searchField, serialnumber, status, sortField, sortDirection);
+            // }
+            // catch(Exception e)
+            // {
                
-               return NoContent();
+            //    return NoContent();
             
-             }
+            //  }
             Db.Connection.Close();
-            return new OkObjectResult(result);
+            return Ok(pager);
 
         }
 

@@ -58,7 +58,7 @@ namespace dm_backend
             // app.UseHttpsRedirection();
             
             app.UseRouting();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("X-Pagination"));
 
             app.UseAuthentication();
             app.UseAuthorization();

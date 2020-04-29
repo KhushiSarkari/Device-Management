@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using dm_backend;
 using System.Data.Common;
-using dm_backend.Utilities;
 
 namespace dm_backend.Models
 {
@@ -217,7 +216,7 @@ public class PartialDeviceModel
         public List<devices> SortAlldevices(String SortColumn, String SortDirection)
         {
             using var cmd = Db.Connection.CreateCommand();
-
+        
             cmd.CommandText = "select ad.assign_date as assign_date,ad.return_date as return_date, " +
                 "u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name," +
                 "u1.last_name as assign_by_last_name,u.first_name as assign_to_first_name, " +
@@ -235,17 +234,16 @@ public class PartialDeviceModel
                 " left join user as u1 " +
                 "on  u1.user_id = ad.assigned_by order by " + SortColumn + " " + SortDirection + ";";
             // BindColumn(cmd,SortColumn);
-
             return ReadAll(cmd.ExecuteReader());
         }
 
 
-        public List<devices> GetAllDevices(int limit1, int offset1)
+        public List<devices> GetAllDevices()
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = " call getAllDevice(@limit1,@offset1)";
-            cmd.Parameters.AddWithValue("@limit1", limit1);
-            cmd.Parameters.AddWithValue("@offset1", offset1);
+            cmd.CommandText = "call getAllDevice";
+            //cmd.Parameters.AddWithValue("@limit1", limit1);
+            //cmd.Parameters.AddWithValue("@offset1", offset1);
             return ReadAll(cmd.ExecuteReader());
 
         }
@@ -353,7 +351,7 @@ public class PartialDeviceModel
         }
 
        
-        public async Task<List<devices>> getCurrentDevice(int id, string search, string sort = "", string direction = "")
+        public List<devices> getCurrentDevice(int id, string search, string sort = "", string direction = "")
         {
             using var cmd = Db.Connection.CreateCommand();
 
@@ -385,10 +383,10 @@ and device.device_model_id=device_model.device_model_id  and assign_device.statu
             Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
             // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
 
-            return await ReadAllDevice(cmd.ExecuteReader());
+            return  ReadAllDevice(cmd.ExecuteReader());
 
         }
-        public async Task<List<devices>> getPreviousDevice(int id, string search = "", string sort = "", string direction = "")
+        public List<devices> getPreviousDevice(int id, string search = "", string sort = "", string direction = "")
         {
             using var cmd = Db.Connection.CreateCommand();
 
@@ -418,7 +416,7 @@ and request_history.device_model=device_model.device_model_id and request_histor
             Console.WriteLine("id = " + cmd.Parameters["@id"].Value);
             Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
             // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
-            return await ReadAllDevice(cmd.ExecuteReader());
+            return  ReadAllDevice(cmd.ExecuteReader());
 
 
 
@@ -426,13 +424,13 @@ and request_history.device_model=device_model.device_model_id and request_histor
         }
         
 	
-		public async Task<List<devices>> ReadAllDevice(MySqlDataReader reader)
+		public List<devices> ReadAllDevice(MySqlDataReader reader)
 		{
 			Console.WriteLine("Rows" + reader.HasRows);
 			var posts = new List<devices>();
 			using (reader)
 			{
-				while (await reader.ReadAsync())
+				while (reader.Read())
 				{
 					Console.WriteLine("Found a row");
 					var post = new devices()
