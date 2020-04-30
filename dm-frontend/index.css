@@ -59,20 +59,6 @@
   }
   
 
-  .getAll {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 15px;
-  }
   div.mdl-layout__drawer
 {
   border: none;
@@ -89,24 +75,6 @@
     background-color: #555555;
     color: white;
   }
-
-
-
-  /* add  serial number textbox   */
- 
-  .serial-number[type=text] {
-    float: right;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-  }
-
 
   .user_data_table
   {
