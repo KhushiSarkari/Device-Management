@@ -1,22 +1,19 @@
 .request-form 
     {
         position: relative;
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
+        border: 1px solid blue;
+        background-color: white;
         height: 0%;
-        box-shadow: 2px 2px #bbbaba;
-        padding:  10px;
-       /* // background-color: antiquewhite; */
-        top: 5em;
+        border-color: teal;
+        box-shadow: 2px 2px white;
+        top: 3em;
         left :30%;
         height: 50%;
         width: 50%;
-        justify-content: center;
-    
         align-content: center;
     }
-    div.mdl-layout__drawer
+
+div.mdl-layout__drawer
 {
   border: none;
 }
@@ -28,8 +25,24 @@
         text-size-adjust: 20px;
         text-transform: uppercase;
         color: rgb(26, 26, 27);
+        width: 72%;
+        margin-bottom: 0rem;
+        font-weight: 500;
       
       
+}
+h4,p {
+    color: rgb(27, 148, 108);
+    text-align: center;
+  }
+
+textarea {
+    height: 60px;
+    width: 350px;
+  }
+.mdl-grid
+{
+    padding: 0%;
 }
 .request-form .specs
 {
@@ -42,26 +55,23 @@
     box-sizing: border-box;
 
 }
-.request-form input[type= text] , .device {
-    width: 50%;
+.request-form input[type= text] , .device ,select{
+    width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
     box-sizing: border-box;
-
 }
 
 .request-form input[type=submit] {
     width: 50%;
-    background-color: #4CAF50;
+    background-color:  rgb(27, 148, 108);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    
+    cursor: pointer;   
   }
   
