@@ -1,17 +1,15 @@
 .request-form 
     {
         position: relative;
-        border: 1px solid blue;
-        background-color: white;
-        height: 0%;
-        border-color: teal;
-        box-shadow: 2px 2px white;
         top: 3em;
         left :30%;
         height: 50%;
-        width: 50%;
+        width: 42%;
         align-content: center;
+        padding: 15px;
+        
     }
+
 
 div.mdl-layout__drawer
 {
@@ -25,24 +23,30 @@ div.mdl-layout__drawer
         text-size-adjust: 20px;
         text-transform: uppercase;
         color: rgb(26, 26, 27);
-        width: 72%;
+        width:100%;
         margin-bottom: 0rem;
         font-weight: 500;
       
       
 }
 h4,p {
-    color: rgb(27, 148, 108);
+    color:black;
     text-align: center;
+    
+  }
+  p{
+ margin-bottom: 0rem;
   }
 
 textarea {
     height: 60px;
-    width: 350px;
+    width: 100%;
+   
   }
-.mdl-grid
+.request-form .mdl-grid
 {
     padding: 0%;
+    margin: 0rem;
 }
 .request-form .specs
 {
@@ -56,22 +60,12 @@ textarea {
 
 }
 .request-form input[type= text] , .device ,select{
-    width: 70%;
-    padding: 12px 20px;
+    width:100%;
+    padding: 8px 15px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
-.request-form input[type=submit] {
-    width: 50%;
-    background-color:  rgb(27, 148, 108);
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;   
-  }
   

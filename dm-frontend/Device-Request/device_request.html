@@ -46,19 +46,19 @@
         </div>
 
         <div class="container">
-          <div class="request-form">
-            <div class="head">
+          <div class="request-form mdl-card mdl-shadow--2dp">
+           
               <h4><b> Select Device</b> </h4>
-            </div>
+           
 
             <div class="mdl-grid">
-              <div class="mdl-cell mdl-cell--5-col mdl-cell--1-offset">
+              <div class="mdl-cell mdl-cell--5-col ">
                 <label> Number of Days </label><br>
                 <input type="text" id="expected-days" value=""
-                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 47))">
               </div>
 
-              <div class="mdl-cell mdl-cell--5-col mdl-cell--1-offset">
+              <div class="mdl-cell mdl-cell--5-col mdl-cell--2-offset">
                 <label> Device Type </label><br>
                 <select class="device" id="types">
                 </select>
@@ -66,28 +66,29 @@
             </div>
 
             <div class="mdl-grid">
-              <div class="mdl-cell mdl-cell--5-col mdl-cell--1-offset">
+              <div class="mdl-cell mdl-cell--5-col">
                 <label> Device Brand </label><br>
                 <select class="device" id="brands"></select>
               </div>
+              
 
-              <div class="mdl-cell mdl-cell--5-col mdl-cell--1-offset">
+              <div class="mdl-cell mdl-cell--5-col mdl-cell--2-offset">
                 <label> Device Model </label><br>
                 <select class="device" id="models"></select>
               </div>
             </div>
 
-            <div class="mdl-cell mdl-cell--8-col mdl-cell--2-offset">
+            <div>
               <p><label> Device Specification </label></p>
               <select class="specs" id="specification"></select>
             </div>
 
-            <div class="mdl-cell mdl-cell--8-col mdl-cell--2-offset">
+            <div>
               <p><label> Your Message </label></p>
               <textarea id="comment" rows="4" cols="50"> </textarea>
-            </div>
+            </div><br>
 
-            <p> <input type="submit" id="request" value="Submit"></p>
+            <p> <input  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" id="request" value="Submit"></p>
 
           </div>
         </div>
