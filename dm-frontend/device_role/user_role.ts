@@ -64,7 +64,6 @@ import { navigationBarsss, amIUser } from "../globals";
 	confirmDialog["openUp"] = openDialog;
 	confirmDialog["confirm"] = confirmModalFunction;
 
-	//
 	rolePermisison.setup();
 	navigationBarsss(Role,"navigation");
 })();
@@ -74,45 +73,51 @@ function openDialog(heading: string= "", mode :"create"|"edit"|null= null){
 	mode && (this.querySelector(".mdl-button.positive").textContent = mode == "create" ? "ADD" : "EDIT");
 	this.showModal();
 }
+function closeDialog(){
+	this.close();
+	let element = this.querySelector('input');
+	if(element)
+		element.value = "";
+	element = this.querySelector('p');
+	if(element)
+		element.textContent = element.dataset.default;
+	removeDialogListeners.call(this, this.listeners);
+}
+const removeDialogListeners = function(){
+	this.querySelector(".positive").removeEventListener("click", this.listeners[0]);
+	this.querySelector(".negative").removeEventListener("click", this.listeners[1]);
+}
+const addDialogListeners = function(){
+	this.querySelector(".positive").addEventListener("click", this.listeners[0]);
+	this.querySelector(".negative").addEventListener("click", this.listeners[1]);
+}
 const inputModalFunction = function(callback){
 	const inputField = this.querySelector("input") as HTMLInputElement;
 
-	const positiveButtonHandler = (e: MouseEvent) => {
-		this.close();
+	const positiveButtonHandler = () => {
 		callback(inputField.value);
-		inputField.value = "";
-		(e.target as HTMLButtonElement).removeEventListener("click", positiveButtonHandler);
-		
+		closeDialog.call(this);
 	}
-	const negativeButtonHandler = (e: MouseEvent) => {
-		this.close();
+	const negativeButtonHandler = () => {
 		callback();
-		inputField.value = "";
-		(e.target as HTMLButtonElement).removeEventListener("click", negativeButtonHandler);
+		closeDialog.call(this);
 	}
-
-	this.querySelector(".positive").addEventListener("click", positiveButtonHandler);
-	this.querySelector(".negative").addEventListener("click", negativeButtonHandler);
+	this["listeners"] = [positiveButtonHandler, negativeButtonHandler];
+	addDialogListeners.call(this);
 }
+
 const confirmModalFunction = function(confirmText: string, callback){
 	const dialogBody = this.querySelector(".mdl-dialog__content > p");
-	const defaultText = dialogBody.textContent;
 	dialogBody.textContent = confirmText;
 
-	const positiveButtonHandler = (e: MouseEvent) => {
-		this.close();
+	const positiveButtonHandler = () => {
 		callback(true);
-		dialogBody.textContent = defaultText;
-		(e.target as HTMLButtonElement).removeEventListener("click", positiveButtonHandler);
-		
+		closeDialog.call(this);
 	}
-	const negativeButtonHandler = (e: MouseEvent) => {
-		this.close();
+	const negativeButtonHandler = () => {
 		callback(false);
-		dialogBody.textContent = defaultText;
-		(e.target as HTMLButtonElement).removeEventListener("click", negativeButtonHandler);
+		closeDialog.call(this);
 	}
-
-	this.querySelector(".positive").addEventListener("click", positiveButtonHandler);
-	this.querySelector(".negative").addEventListener("click", negativeButtonHandler);
+	this["listeners"] = [positiveButtonHandler, negativeButtonHandler];
+	addDialogListeners.call(this);
 }
