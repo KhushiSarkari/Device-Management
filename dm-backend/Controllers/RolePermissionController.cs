@@ -83,27 +83,17 @@ namespace dm_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("permission/add")]
+        [Route("permission/update")]
         public IActionResult Postpermission([FromBody]Permission body)
         {
             try{
                 body.Db = Db;
-                body.AddPermission();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-        }
-        [HttpPut]
-        [Route("permission/{permission_id}/update")]
-        public IActionResult Putpermission(int permission_id, [FromBody]Permission body)
-        {
-            try{
-                body.Db = Db;
-                body.PermissionId = permission_id;
-                body.UpdatePermission();
+                if(body.PermissionId.HasValue){
+                    body.UpdatePermission();
+                }
+                else{
+                    body.AddPermission();
+                }
                 return Ok();
             }
             catch(Exception e){
