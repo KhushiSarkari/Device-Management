@@ -322,3 +322,17 @@ function phones1c(containerId: string) {
         return 1;
       }
 }
+export function connectivityvalidation()
+{
+    var connectivitys=(document.getElementById('Connectivity') as HTMLInputElement).value;
+    if(connectivitys=="")
+    {
+        (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "please fill this field";
+        return 0;
+
+    }
+    else{
+        (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "";
+        return 1;
+    }
+}
