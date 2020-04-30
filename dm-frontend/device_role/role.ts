@@ -1,132 +1,79 @@
 import { BASEURL } from "../globals";
+import { HitApi } from "../Device-Request/HitRequestApi";
 
-export default class role {
+const inputDialog = document.querySelector("dialog.input-dialog") as HTMLDialogElement;
+const confirmDialog = document.querySelector("dialog.confirm-dialog") as HTMLDialogElement;
+const DeleteRows = function(table: any) {
+	var rowCount = table.rows.length;
+	for (var i = rowCount - 1; i > 0; i--) {
+		table.deleteRow(i);
+	}
+}
+export class role {
 	data: any;
-	size: number;
-	url: string;
-	table1: HTMLTableElement = document.getElementById(
-		"tab1"
-	) as HTMLTableElement;
-	table2: HTMLTableElement = document.getElementById(
+	table: HTMLTableElement = document.getElementById(
 		"tab2"
 	) as HTMLTableElement;
-	table3: HTMLTableElement = document.getElementById(
-		"tab3"
-	) as HTMLTableElement;
 	roleName: string;
-	PermissionName1: string;
-	PermissionName: string;
-	Role_up: string;
-	permission_up: string;
-	headerTag34 = document.getElementById("insert_role") as HTMLInputElement;
-	headerTag35 = document.getElementById("insert_permission") as HTMLInputElement;
 	token: string;
-	dialog = document.querySelector("dialog") as HTMLDialogElement;
-	//get roles
+	API: HitApi;
 	constructor(token: string){
 		this.token = token;
+		this.API = new HitApi(token);
 	}
 	async getroles() {
-		this.url = BASEURL + "/api/rolepermission";
-		let data = await this.getApiCall(this.url);
+		const url = BASEURL + "/api/rolepermission";
+		let data = await this.API.HitGetApi(url);
 		this.data = data["Roles"].map(roleObj => {
 			return { RoleId: roleObj["RoleId"], RoleName: roleObj["RoleName"] };
 		});
-		this.size = data.length;
-		this.dynamicGenerate(this.table2);
+		this.dynamicGenerateRole(this.table);
 		return data;
 	}
-	//get permissions
-	async getpermissions() {
-		this.url = BASEURL + "/api/rolepermission";
-		let data = await this.getApiCall(this.url);
-		this.data = data["Permissions"].map(permObj => {
-			return {
-				PermissionId: permObj["PermissionId"],
-				PermissionName: permObj["PermissionName"]
-			};
-		});
-		this.size = data.length;
-		this.dynamicGenerate1(this.table3);
-		return data;
-	}
-	async getApiCall(URL: any) {
-		let response = await fetch(URL,{
-			headers: new Headers({"Authorization": `Bearer ${this.token}`})
-		});
-		let data = await response.json();
-		return data;
-	}
-	dynamicGenerate(table: any) {
+	dynamicGenerateRole(table: any) {
 		let loop = 0;
-		this.DeleteRows(table);
+		DeleteRows(table);
 		for (loop = 0; loop < this.data.length; loop++) {
 			var row = table.insertRow(loop + 1);
 			row.setAttribute("data-role-id", this.data[loop]["RoleId"]);
 			var cell = row.insertCell(0);
 			cell.innerHTML = this.data[loop]["RoleName"];
-			if (table == this.table2) {
-				var cell1 = row.insertCell(1);
-				var cell2 = row.insertCell(1);
-				cell1.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored return" data-id="update_role"  value="${this.data[loop]["RoleId"]}">
-    Edit
-    </button>`;
-				cell2.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored return txt-danger" data-id="del_role"  value="${this.data[loop]["RoleId"]}">
-    Delete
-    </button>`;
-			}
+			var cell1 = row.insertCell(1);
+			var cell2 = row.insertCell(1);
+			cell1.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored update_role">
+				Edit
+			</button>`;
+			cell2.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored txt-danger delete_role">
+				Delete
+			</button>`;
 		}
 	}
-	dynamicGenerate1(table: any) {
-		let loop = 0;
-		this.DeleteRows(table);
-		for (loop = 0; loop < this.data.length; loop++) {
-			var row = table.insertRow(loop + 1);
-			row.setAttribute("data-permission-id", this.data[loop]["PermissionId"]);
-			var cell = row.insertCell(0);
-			cell.innerHTML = this.data[loop]["PermissionName"];
-			if (table == this.table3) {
-				var cell1 = row.insertCell(1);
-				var cell2 = row.insertCell(1);
-				cell1.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored return" data-id="update_permission"  value="${this.data[loop]["PermissionId"]}">Edit</button>`;
-				cell2.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored return txt-danger" data-id="del_permission"  value="${this.data[loop]["PermissionId"]}" >
-    Delete
-    </button>`;
+	DeleteRoleById(ev: MouseEvent) {
+		const roleId = parseInt((ev.target as HTMLButtonElement).closest("tr").dataset.roleId);
+		confirmDialog["openUp"]();
+		confirmDialog["confirm"]("Are you sure you want to delete this role?", (decision) =>{
+			if (decision) {
+				let uri = BASEURL + "/api/role/" + roleId + "/delete";
+				fetch(uri, {
+					method: "DELETE",
+					headers: new Headers({"Authorization": `Bearer ${this.token}`})
+				})
+				.then(response => {
+					if(!response.ok){
+						throw new Error(response.statusText);
+					}
+					alert("Role deleted");
+					this.getroles();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
+			} else {
+				console.log("delete failed");
 			}
-		}
+		});
 	}
-	DeleteRows(table: any) {
-		var rowCount = table.rows.length;
-		for (var i = rowCount - 1; i > 0; i--) {
-			table.deleteRow(i);
-		}
-	} // delete role
-	async DeleteRoleById(id1: number) {
-		let x = id1;
-		if (confirm("Are you sure you want to delete this role?")) {
-			let uri = BASEURL + "/api/role/" + x + "/delete";
-			await fetch(uri, {
-				method: "DELETE",
-				headers: new Headers({"Authorization": `Bearer ${this.token}`})
-			});
-			this.getroles();
-		} else {
-			console.log("delete failed");
-		}
-	} // delete permission
-	async DeletePermissionById(id2: number) {
-		let y = id2;
-		if (confirm("Are you sure you want to delete this permission?")) {
-			let uri = BASEURL + "/api/permission/" + y + "/delete";
-			await fetch(uri, {
-				method: "DELETE",
-				headers: new Headers({"Authorization": `Bearer ${this.token}`})
-			});
-			this.getpermissions();
-		} else {
-			console.log("delete failed");
-		}
-	} //insert new role
+	
 	bindRoleData(roleName: string, roleId: number = 0) {
 		this.data = {
 			RoleName: roleName
@@ -136,171 +83,166 @@ export default class role {
 		}
 	}
 	addRole() {
-		this.dialog["openModal"]();
-		this.dialog["modalFunction"]((inputVal: string) => {
+		inputDialog["openUp"]("Enter role", "create");
+		inputDialog["getInput"]((inputVal: string) => {
 			if(inputVal){
 				this.bindRoleData(inputVal);
-				this.postRoleData();
+				this.postRoleData()
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+					alert("role inserted");
+					this.getroles();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
 			}
 		});
 	}
 	postRoleData() {
 		let url = BASEURL + "/api/role/update";
-		fetch(url, {
-			method: "POST",
-			headers: {
-				"content-Type": "application/json",
-				"Authorization": `Bearer ${this.token}`
-			},
-			body: JSON.stringify(this.data)
-		}).then(response => {
-			if (!response.ok) {
-				alert("duplicate role");
-				throw new Error(response.statusText);
-			}
-			alert("role inserted");
-			this.getroles();
-		});
-	}
-	//insert new permission
-	bindData1() {
-		this.PermissionName = (document.getElementById(
-			"PermissionName"
-		) as HTMLInputElement).value;
-		this.data = {
-			PermissionName: this.PermissionName
-		};
-	}
-	updatePermission() {
-		this.bindData1();
-		this.postData1();
-	}
-	postData1() {
-		let url = BASEURL + "/api/permission/add";
-		fetch(url, {
-			method: "POST",
-			headers: {
-				"content-Type": "application/json",
-				"Authorization": `Bearer ${this.token}`
-			},
-			body: JSON.stringify(this.data)
-		}).then(response => {
-			if (!response.ok) {
-				alert("duplicate permission");
-				throw new Error(response.statusText);
-			}
-			alert("permission inserted");
-			// document.getElementById("popup1").style.display = "none";
-			this.getpermissions();
-		});
-		(document.getElementById("permissionName") as HTMLInputElement).value == "";
-		// document.getElementById("popup1").style.display = "none";
-	this.getpermissions();
-	} 
-	//update role
-	update_data1(x: number) {
-		// this.headerTag34.innerHTML == "";
-		this.headerTag34.innerHTML = `
-        <dialog id="popup1" class="mdl-dialog"  >
-
-		<div class="mdl-dialog__content">
-        <label> Enter The New Role Name </label>
-        <input type="text" id="RoleName111"  name="RoleName111" value=""  >
-        <button class="role_update_1" value="${x}">SUBMIT</button>
-		</div>
-		<div class="mdl-dialog__actions">
-					  <button type="button" class="mdl-button"  id="close_role">Close</button>
-					
-					</div>
-				  </dialog>
-		`;
-	}
-	bindData_1() {
-		this.Role_up = (document.getElementById(
-			"RoleName111"
-		) as HTMLInputElement).value;
-		this.data = {
-			RoleName: this.Role_up
-		};
+		return this.API.HitPostApi(url, this.data);
 	}
 	updateRole(ev: MouseEvent) {
 		const roleId = parseInt((ev.target as HTMLButtonElement).closest("tr").dataset.roleId);
-		this.dialog["openModal"]("Enter new Role", "edit");
-		this.dialog["modalFunction"]((inputVal: string) => {
+		inputDialog["openUp"]("Enter new Role", "edit");
+		inputDialog["getInput"]((inputVal: string) => {
 			if(inputVal){
 				this.bindRoleData(inputVal, roleId);
-				this.postRoleData_1();
+				this.postRoleData()
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+					alert("role updated");
+					this.getroles();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
 			}
 		});
 	}
-	postRoleData_1() {
-		let url = BASEURL + "/api/role/update";
-		fetch(url, {
-			method: "POST",
-			headers: {
-				"content-Type": "application/json",
-				"Authorization": `Bearer ${this.token}`
-			},
-			body: JSON.stringify(this.data)
-		}).then(response => {
-			if (!response.ok) {
-				alert("role is there");
-				throw new Error(response.statusText);
-			}
-			alert("role updated");
-			this.headerTag34.innerHTML = "";
-			this.getroles();
-		});
-	} //update permission
-	update_data2(y: number) {
-		// this.headerTag35.innerHTML == "";
-		this.headerTag35.innerHTML = `
-	
-		
-		<dialog id="popup1" class="mdl-dialog"  >
+}
 
-		<div class="mdl-dialog__content">
-        <label> Enter The New Permission Name </label>
-        <input type="text" id="PermissionName111"  name="PermissionName111" value=""  >
-        <button class="permission_update_1" value="${y}">SUBMIT</button>
-		</div>
-		
-		<div class="mdl-dialog__actions">
-					  <button type="button" class="mdl-button" id="close_perm" >Close</button>
-					
-					</div>
-				  </dialog>`;
+export class permission{
+	data: any;
+	table: HTMLTableElement = document.getElementById(
+		"tab3"
+	) as HTMLTableElement;
+	PermissionName: string;
+	token: string;
+	API: HitApi;
+	constructor(token: string){
+		this.token = token;
+		this.API = new HitApi(token);
 	}
-	bindData_2() {
-		this.permission_up = (document.getElementById(
-			"PermissionName111"
-		) as HTMLInputElement).value;
-		this.data = {
-			PermissionName: this.permission_up
-		};
-	}
-	updatePermission_1(y: number) {
-		this.bindData_2();
-		this.postData_2(y);
-	}
-	postData_2(y: number) {
-		let url = BASEURL + "/api/permission/" + y + "/update";
-		fetch(url, {
-			method: "PUT",
-			headers: {
-				"content-Type": "application/json",
-				"Authorization": `Bearer ${this.token}`
-			},
-			body: JSON.stringify(this.data)
-		}).then(response => {
-			if (!response.ok) {
-				alert("permission is there");
-				throw new Error(response.statusText);
-			}
-			alert("permission updated");
-			this.headerTag35.innerHTML = "";
-			this.getpermissions();
+	
+	async getpermissions() {
+		const url = BASEURL + "/api/rolepermission";
+		let data = await this.API.HitGetApi(url);
+		this.data = data["Permissions"].map(permObj => {
+			return {
+				PermissionId: permObj["PermissionId"],
+				PermissionName: permObj["PermissionName"]
+			};
 		});
-		this.getpermissions();
+		this.dynamicGeneratePermission(this.table);
+		return data;
+	}
+	dynamicGeneratePermission(table: any) {
+		let loop = 0;
+		DeleteRows(table);
+		for (loop = 0; loop < this.data.length; loop++) {
+			var row = table.insertRow(loop + 1);
+			row.setAttribute("data-permission-id", this.data[loop]["PermissionId"]);
+			var cell = row.insertCell(0);
+			cell.innerHTML = this.data[loop]["PermissionName"];
+			var cell1 = row.insertCell(1);
+			var cell2 = row.insertCell(1);
+			cell1.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored update_permission">
+				Edit
+			</button>`;
+			cell2.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--primary mdl-button--colored txt-danger del_permission">
+				Delete
+			</button>`;
+		}
+	}
+	async DeletePermissionById(ev: MouseEvent) {
+		const permissionId = parseInt((ev.target as HTMLButtonElement).closest("tr").dataset.permissionId);
+		confirmDialog["openUp"]();
+		confirmDialog["confirm"]("Are you sure you want to delete this permission?", (decision) =>{
+			if (decision) {
+				let uri = BASEURL + "/api/permission/" + permissionId + "/delete";
+				fetch(uri, {
+					method: "DELETE",
+					headers: new Headers({"Authorization": `Bearer ${this.token}`})
+				}).then(response => {
+					if(!response.ok){
+						throw new Error(response.statusText);
+					}
+					alert("Permission deleted");
+					this.getpermissions();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
+			} else {
+				console.log("delete failed");
+			}
+		});
+	}
+	bindPermissionData(permissionName: string, permissionId: number = 0) {
+		this.data = {
+			PermissionName: permissionName
+		};
+		if(permissionId){
+			this.data["PermissionId"] = permissionId;
+		}
+	}
+	addPermission() {
+		inputDialog["openUp"]("Enter Permission", "create");
+		inputDialog["getInput"]((inputVal: string) => {
+			if(inputVal){
+				this.bindPermissionData(inputVal);
+				this.postPermissionData()
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+					alert("Permission created");
+					this.getpermissions();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
+			}
+		});
+	}
+	postPermissionData() {
+		let url = BASEURL + "/api/permission/update";
+		return this.API.HitPostApi(url, this.data);
+	}
+	updatePermission(ev: MouseEvent) {
+		const permissionId = parseInt((ev.target as HTMLButtonElement).closest("tr").dataset.permissionId);
+		inputDialog["openUp"]("Enter new permission", "edit");
+		inputDialog["getInput"]((inputVal: string) => {
+			if(inputVal){
+				this.bindPermissionData(inputVal, permissionId);
+				this.postPermissionData()
+				.then(response => {
+					if (!response.ok) { 
+						throw new Error(response.statusText);
+					}
+					alert("Permission updated");
+					this.getpermissions();
+				})
+				.catch(ex => {
+					alert("An error occured : " + ex.message);
+				});
+			}
+		});
 	}
 }

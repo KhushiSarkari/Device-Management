@@ -1,4 +1,4 @@
-import role from "./role";
+import { role, permission } from "./role";
 import { RolePermission } from "./rolePermCheckbox";
 import { navigationBarsss, amIUser } from "../globals";
 
@@ -6,56 +6,45 @@ import { navigationBarsss, amIUser } from "../globals";
 	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
 	let Role = await amIUser(token) == true ? "User" : "Admin";
 	// action listeners
-	var roles = new role(token);
+	
+	// Tab 2
+	const ROLE = new role(token);
 	document.getElementById("two").addEventListener("click", function() {
-		roles.getroles();
-	});
-	document.getElementById("three").addEventListener("click", function() {
-		roles.getpermissions();
+		ROLE.getroles();
 	});
 	document.querySelector("#addrole").addEventListener("click", function(e) {
-		roles.addRole();
-	});
-	document.querySelector("#btn_insert1").addEventListener("click", function(e) {
-		roles.updatePermission();
-	});
-	document.body.addEventListener("click", function(event) {
-		if ((event.target as HTMLButtonElement).dataset.id == "del_role") {
-			console.log("iiiiiiiii");
-			roles.DeleteRoleById(parseInt((event.target as HTMLButtonElement).value));
-		}
-	});
-	document.body.addEventListener("click", function(event) {
-		if ((event.target as HTMLButtonElement).dataset.id == "del_permission") {
-			console.log("iiiiiiiii");
-			roles.DeletePermissionById(parseInt((event.target as HTMLButtonElement).value));
-		}
+		ROLE.addRole();
 	});
 	document.addEventListener("click", event => {
-		if ((event.target as HTMLButtonElement).dataset.id == "update_role") {
-			roles.updateRole(event);
-			console.log("sdfghjkl");
+		if ((event.target as HTMLButtonElement).classList.contains("update_role")) {
+			ROLE.updateRole(event);
+		}
+		else if ((event.target as HTMLButtonElement).classList.contains("delete_role")) {
+			ROLE.DeleteRoleById(event);
 		}
 	});
 
-	document.addEventListener("click", event => {
-		if ((event.target as HTMLButtonElement).dataset.id == "update_permission") {
-			console.log("sdfghjkl");
-			roles.update_data2(parseInt((event.target as HTMLButtonElement).value));
-		}
+	// Tab 3
+	const PERM = new permission(token);
+	document.getElementById("three").addEventListener("click", function() {
+		PERM.getpermissions();
 	});
-	document.addEventListener("click", e => {
-		if ((e.target as HTMLButtonElement).className === "permission_update_1") {
-			console.log("sdfghjkl");
-			console.log((event.target as HTMLButtonElement).value);
-			roles.updatePermission_1(parseInt((event.target as HTMLButtonElement).value));
+	document.querySelector("#addpermission").addEventListener("click", function(e) {
+		PERM.addPermission();
+	})
+	document.addEventListener("click", function(event) {
+		if ((event.target as HTMLButtonElement).classList.contains("del_permission")) {
+			PERM.DeletePermissionById(event);
+		}
+		else if ((event.target as HTMLButtonElement).classList.contains("update_permission")) {
+			PERM.updatePermission(event);
 		}
 	});
 
+	// Tab 1
 	const rolePermisison = new RolePermission(token);
-
 	document.getElementById("one").addEventListener("click", rolePermisison.setup.bind(rolePermisison));
-	document.querySelector('body').addEventListener('change', function(e: MouseEvent){
+	document.addEventListener('change', function(e: MouseEvent){
 		let target = e.target as HTMLElement;
 		if(target.nodeName == 'INPUT' && target.id.startsWith("checkbox-")){
 			rolePermisison.checkboxListener(e);
@@ -65,42 +54,27 @@ import { navigationBarsss, amIUser } from "../globals";
 		rolePermisison.save();
 	});
 
-	document.addEventListener("click", event => {
-		if ((event.target as HTMLButtonElement).dataset.id == "close_role") {
-			this.headerTag34.innerHTML == "";
-		roles.getroles();
-		}
-	});
-	document.addEventListener("click", event => {
-		if ((event.target as HTMLButtonElement).dataset.id == "close_perm") {
-			this.headerTag35.innerHTML == "";
-		roles.getpermissions();
-		}
-	});
-
-	const dialog = document.querySelector("#popup") as HTMLDialogElement;
-	const dialogPolyfill = window["dialogPolyfill"];
+	// Dialog setup
+	const inputDialog = document.querySelector("dialog.input-dialog") as HTMLDialogElement;
+	const confirmDialog = document.querySelector("dialog.confirm-dialog") as HTMLDialogElement;
 	
-	dialog["modalFunction"] = modalFunction;
-	dialog["openModal"] = openModal;
+	inputDialog["getInput"] = inputModalFunction;
+	inputDialog["openUp"] = openDialog;
 
-	if (!dialog.showModal) {
-		dialogPolyfill.registerDialog(dialog);
-	}
+	confirmDialog["openUp"] = openDialog;
+	confirmDialog["confirm"] = confirmModalFunction;
 
+	//
 	rolePermisison.setup();
-
 	navigationBarsss(Role,"navigation");
 })();
 
-function openModal(heading: string= "", mode :"create"|"edit"="create"){
-	if(heading){
-		this.querySelector(".mdl-dialog__title").textContent = heading;
-	}
-	this.querySelector(".mdl-button.positive").textContent = mode == "create" ? "ADD" : "EDIT";
+function openDialog(heading: string= "", mode :"create"|"edit"|null= null){
+	heading && (this.querySelector(".mdl-dialog__title").textContent = heading);
+	mode && (this.querySelector(".mdl-button.positive").textContent = mode == "create" ? "ADD" : "EDIT");
 	this.showModal();
 }
-const modalFunction = function(callback){
+const inputModalFunction = function(callback){
 	const inputField = this.querySelector("input") as HTMLInputElement;
 
 	const positiveButtonHandler = (e: MouseEvent) => {
@@ -114,6 +88,28 @@ const modalFunction = function(callback){
 		this.close();
 		callback();
 		inputField.value = "";
+		(e.target as HTMLButtonElement).removeEventListener("click", negativeButtonHandler);
+	}
+
+	this.querySelector(".positive").addEventListener("click", positiveButtonHandler);
+	this.querySelector(".negative").addEventListener("click", negativeButtonHandler);
+}
+const confirmModalFunction = function(confirmText: string, callback){
+	const dialogBody = this.querySelector(".mdl-dialog__content > p");
+	const defaultText = dialogBody.textContent;
+	dialogBody.textContent = confirmText;
+
+	const positiveButtonHandler = (e: MouseEvent) => {
+		this.close();
+		callback(true);
+		dialogBody.textContent = defaultText;
+		(e.target as HTMLButtonElement).removeEventListener("click", positiveButtonHandler);
+		
+	}
+	const negativeButtonHandler = (e: MouseEvent) => {
+		this.close();
+		callback(false);
+		dialogBody.textContent = defaultText;
 		(e.target as HTMLButtonElement).removeEventListener("click", negativeButtonHandler);
 	}
 
