@@ -242,8 +242,6 @@ public class PartialDeviceModel
         {
             using var cmd = Db.Connection.CreateCommand();
             cmd.CommandText = "call getAllDevice";
-            //cmd.Parameters.AddWithValue("@limit1", limit1);
-            //cmd.Parameters.AddWithValue("@offset1", offset1);
             return ReadAll(cmd.ExecuteReader());
 
         }
