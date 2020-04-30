@@ -73,26 +73,16 @@ let currentPage:number=current_page;
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			currentPage+=1;
-		}
+		    currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			currentPage-=1;
-		}
 		else
-		{
 			currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
 		
-        if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement) {
-
+        if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement)
             mydevices.getCurrentDecice(userId);
-        }
-        else {
+        else 
             mydevices.getRequestHistory(userId);
-        }
     });
 
     document.addEventListener("click", function (ea) {
