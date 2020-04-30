@@ -254,7 +254,7 @@ import { formatPhone } from "./utilities";
 
 
 	
-	(document.querySelector('#fixed-header-drawer-exp')as HTMLInputElement).addEventListener('change', function (e) {
+	(document.querySelector('#fixed-header-drawer-exp')as HTMLInputElement).addEventListener('keyup', function (e) {
 		console.log("test");
 		const temp = new GetUserApi(token,currentPage);
 		temp.searchUser().then(function(data){
