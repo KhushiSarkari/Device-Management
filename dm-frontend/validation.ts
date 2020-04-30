@@ -101,7 +101,7 @@ function confirmpasswordvalidation(formMode : string) {
 
     var passwords = (document.getElementById('password') as HTMLInputElement).value;
 
-    var confirmpasss = (document.getElementById('confirmpassword') as HTMLInputElement).value;
+    var confirmpasss = (document.getElementById('confirmpass') as HTMLInputElement).value;
     if(formMode=="edit" && passwords=="" && confirmpasss=="")
     passwords=confirmpasss="w3e4r5t6y7";
     if (confirmpasss == "") {
