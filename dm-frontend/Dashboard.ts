@@ -19,22 +19,25 @@ import { HitApi } from './Device-Request/HitRequestApi';
         document.getElementById("content").innerHTML += cardCreationCode;
     }
 
-    function createTable(tableTitle: string, tableHeading: string, tableBody: string) {
-        var tableData = "<br><br><table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp mdl-color-text--blue-grey-800'>"
-            + "<thead class='mdl-color--blue-grey-400'>"
-            + "<tr>" + tableTitle + "</tr>"
-            + "<tr class='mdl-color--blue-grey-300'>" + tableHeading + "</tr>"
-            + "</thead>"
-            + "<tbody>" + tableBody + "</tbody>"
-            + "</table>";
-        document.getElementById("content").innerHTML += tableData;
+    // function createTable(tableTitle: string, tableHeading: string, tableBody: string) {
+    //     if(tableBody)
+    //     {
+    //     var tableData = "<br><br><table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp mdl-color-text--blue-grey-800'>"
+    //         + "<thead class='mdl-color--blue-grey-400'>"
+    //         + "<tr>" + tableTitle + "</tr>"
+    //         + "<tr class='mdl-color--blue-grey-300'>" + tableHeading + "</tr>"
+    //         + "</thead>"
+    //         + "<tbody>" + tableBody + "</tbody>"
+    //         + "</table>";
+        
+    //     document.getElementById("content").innerHTML += tableData;
+    //     }
 
-    }
+   // }
     function NotificationCount() {
         fetch(BASEURL+ "/api/Notification/Count/" + id)
             .then(Response => Response.json())
             .then(data => {
-                console.log(data);
                 (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
             })
             .catch(err => console.log(err));
@@ -49,12 +52,12 @@ import { HitApi } from './Device-Request/HitRequestApi';
                 createCard("Assigned Devices:" + data.assignedDevices, "allocated");
                 createCard("Requests Rejected:" + data.rejectedRequests, "history");
                 createCard("Total Requests:" + data.deviceRequests, "requests");
-                // createCard("Total Faults:"+ data.faults,"faults");
+                 createCard("Total Complaints:"+ data.faults,"faults");
             }
-            if (role == "User") {
-                createCard("Total Requests:" + data.deviceRequests, "");
-                createCard("Total Faults:" + data.faults, "");
-            }
+            // if (role == "User") {
+            //     //createCard("Total Requests:" + data.deviceRequests, "");
+            //     //createCard("Total Faults:" + data.faults, "");
+            // }
         });
 
     }
@@ -77,7 +80,7 @@ import { HitApi } from './Device-Request/HitRequestApi';
                     + "<td>" + tempObject.faultDescription + "</td>"
                     + "</tr>"
             }
-            createTable(tableTitle, tableHeading, tableBody);
+            //createTable(tableTitle, tableHeading, tableBody);
         });
 
     }
@@ -99,7 +102,7 @@ import { HitApi } from './Device-Request/HitRequestApi';
                     + "<td>" + tempObject.returnDate + "</td>"
                     + "</tr>"
             }
-            createTable(tableTitle, tableHeading, tableBody);
+          //  createTable(tableTitle, tableHeading, tableBody);
         });
 
     }
@@ -138,6 +141,10 @@ import { HitApi } from './Device-Request/HitRequestApi';
         }
         if (action == "allocated") {
             window.open("/deviceListForadmin.html?status=Allocated", "_self");
+            //Get all allocated devices
+        }
+        if (action == "faults") {
+            window.open("faultyDevice/faultdevice.html", "_self");
             //Get all allocated devices
         }
 

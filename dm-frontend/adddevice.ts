@@ -77,7 +77,7 @@ function checkDropDown(elements: string,compareElement) {
   // specificationDropdown(type.value, brand.value, model.value);
  
 });
-(document.querySelector('#popup_specification') as HTMLButtonElement).addEventListener('submit', function (e) {
+(document.querySelector('#addspecification') as HTMLButtonElement).addEventListener('click', function (e) {
   console.log("inside function")
   e.preventDefault();
   const temp = new AddDevice(token);

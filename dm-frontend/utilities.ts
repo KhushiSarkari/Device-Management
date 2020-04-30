@@ -24,10 +24,15 @@ export function formatDate1(date) {
 
     return [year, month, day].join('-');
 }
-export function formatPhone(str:string) {
-
-	return str.slice(0,3)+"-"+str.slice(3,6)+"-"+str.slice(6);    //XXXXXXXXXX=>XXX-XXXX-XXX
-
+export function formatPhone(str1:string,str2:string) {
+ 
+	if(str2===""){
+	return "";
+	}
+	let result ="+(";
+	result+=str1+") ";
+	result+= str2.slice(0,3)+"-"+str2.slice(3,7)+"-"+str2.slice(7);    //XXXXXXXXXX=>XXX-XXXX-XXX
+	return result;
 }
 export function formatPhone1(str:string) {
 
@@ -85,6 +90,12 @@ function fillInitialDropdowns(formElement: HTMLFormElement){
 function clearDropdowns(formElement: HTMLFormElement){
 	formElement.querySelectorAll('select').forEach((selectElement: HTMLSelectElement) => {
 		selectElement.value = "";
+		
+	})
+}
+export function clearSpan(formElement: HTMLFormElement){
+	formElement.querySelectorAll('span').forEach((spanElement: HTMLSelectElement) => {
+		spanElement.textContent = "";
 		
 	})
 }

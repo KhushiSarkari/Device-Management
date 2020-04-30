@@ -130,18 +130,12 @@ let mode:string = "create";
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			currentPage+=1;
-		}
+		    currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			currentPage-=1;
-		}
 		else
-		{
-			currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
+            currentPage=+((e.target as HTMLButtonElement).value);
+
            specs.getSpecificationData();  
     });
 
