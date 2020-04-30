@@ -101,7 +101,7 @@ function confirmpasswordvalidation(formMode : string) {
 
     var passwords = (document.getElementById('password') as HTMLInputElement).value;
 
-    var confirmpasss = (document.getElementById('confirmpassword') as HTMLInputElement).value;
+    var confirmpasss = (document.getElementById('confirmpass') as HTMLInputElement).value;
     if(formMode=="edit" && passwords=="" && confirmpasss=="")
     passwords=confirmpasss="w3e4r5t6y7";
     if (confirmpasss == "") {
@@ -321,4 +321,18 @@ function phones1c(containerId: string) {
        else {document.querySelector("#" + containerId + ' .typespan').innerHTML = "";
         return 1;
       }
+}
+export function connectivityvalidation()
+{
+    var connectivitys=(document.getElementById('Connectivity') as HTMLInputElement).value;
+    if(connectivitys=="")
+    {
+        (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "please fill this field";
+        return 0;
+
+    }
+    else{
+        (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "";
+        return 1;
+    }
 }

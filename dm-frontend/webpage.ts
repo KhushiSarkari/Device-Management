@@ -254,7 +254,7 @@ import { formatPhone } from "./utilities";
 
 
 	
-	(document.querySelector('#fixed-header-drawer-exp')as HTMLInputElement).addEventListener('change', function (e) {
+	(document.querySelector('#fixed-header-drawer-exp')as HTMLInputElement).addEventListener('keyup', function (e) {
 		console.log("test");
 		const temp = new GetUserApi(token,currentPage);
 		temp.searchUser().then(function(data){
@@ -265,19 +265,13 @@ import { formatPhone } from "./utilities";
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			currentPage+=1;
-		}
+		    currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			currentPage-=1;
-		}
 		else
-		{
-			currentPage=+((e.target as HTMLButtonElement).value);
-		}
-		   console.log((e.target as HTMLButtonElement).value);
-		   setData();
+            currentPage=+((e.target as HTMLButtonElement).value);
+
+		setData();
 		
     });
 

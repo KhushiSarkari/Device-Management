@@ -235,21 +235,13 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			temp.currentPage+=1;
-		}
+		    temp.currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			temp.currentPage-=1;
-		}
 		else
-		{
 			temp.currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
-		let uri = PageNo(temp.currentPage);
-		console.log(uri);
-		temp.getData(uri);   
+
+		temp.getData(PageNo(temp.currentPage));   
     });
 	(document.querySelector("#tablecol") as HTMLTableElement).addEventListener(
 		"click",
