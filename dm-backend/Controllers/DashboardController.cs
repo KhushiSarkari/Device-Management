@@ -32,7 +32,7 @@ namespace dm_backend.Controllers
             totalDevices = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText ="select count(*) from device inner join status using (status_id) where status_name='Free';";
             freeDevices = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText = "select count(*) from complaints;";
+            cmd.CommandText = "select count(*) from complaints inner join status on complaints.complaint_status_id=status.status_id where status_name='Unresolved';";
             faults = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText ="select count(*) from assign_device;";
             assignedDevices = Convert.ToInt32(cmd.ExecuteScalar());

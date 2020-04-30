@@ -75,7 +75,7 @@ export class UserModel
 					<td>${this.email} </td>
 					<td>${this.roleName}</td>
 					<td>${this.status} </td>
-					<td>${formatPhone(this.phones[0].number)} </td>
+					<td>${formatPhone(this.phones[0].countryCode,this.phones[0].number)} </td>
 					<td>
 						<label class="switch">
 							<input type="checkbox" id="${this.userId}" class="userCheckStatus"  data-toggle="modal"  data-target="#aiModal" ${status}>

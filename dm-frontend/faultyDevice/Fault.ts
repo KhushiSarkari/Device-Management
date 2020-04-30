@@ -1,5 +1,5 @@
 
-import { BASEURL, Token } from "../globals";
+import { BASEURL, Token, PageNo } from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 import { FaultyDeviceModel } from "./FaultyDeviceModel";
 

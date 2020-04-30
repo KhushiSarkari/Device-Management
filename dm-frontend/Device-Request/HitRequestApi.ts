@@ -20,8 +20,15 @@ export class HitApi {
         // console.log("error while hittiing api");
         // return null;
     // }
+    if(res.status==200)
+    {
     const data = await res.json();
     return await data;
+    }
+    else {
+      return{
+      };
+    }
   }
 
   public async HitPostApi(uri: string, data: any) {
