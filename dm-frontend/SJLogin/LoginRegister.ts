@@ -1,5 +1,6 @@
 import { validationRegister, validationLogin } from "./loginvalidation";
 import { BASEURL } from "../globals";
+import {clearSpan} from "../utilities";
 
 function LoginUser() {
 	let useremail = (document.getElementById("useremail") as HTMLInputElement)
@@ -138,4 +139,19 @@ let rpassword = document.querySelector('input[type="password"]');
 rpassword.addEventListener("focus", d => {
 	document.getElementById("passwords").innerHTML = "";
 	document.getElementById("confirmpasss").innerHTML = "";
+});
+
+let hideregisters = document.getElementById('hideregister');
+hideregisters.addEventListener("click",e=>{
+	//location.reload();
+	clearSpan(document.getElementById("abc")as HTMLFormElement);
+	document.getElementById("abc").style.display = "none";
+
+});
+
+let registercards = document.getElementById('registercard');
+
+registercards.addEventListener("click",f=>{
+	clearSpan(document.getElementById("logincard")as HTMLFormElement);
+	document.getElementById("abc").style.display = "flex";
 });

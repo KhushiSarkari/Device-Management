@@ -11,13 +11,12 @@ import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
 import { formatPhone } from "./utilities";
-export let currentPage:number=current_page;
 
 (async function(){
 	const token:string=JSON.parse(sessionStorage.getItem("user_info"))["token"];
 	const role = (await amIUser(token)) == true ? "User" : "Admin";
 	let form_mode: "create" | "edit";
-
+	let currentPage:number=current_page;
 
 	const table = document.getElementById("Request_data_body") as HTMLTableElement;
 	console.log(table);
@@ -33,14 +32,13 @@ export let currentPage:number=current_page;
 		}
 		function setData() 
 		{
-			const temp = new GetUserApi(token);
+			const temp = new GetUserApi(token,currentPage);
 			temp.getRequest().then(function(){
 				console.log(temp.array);
 				populateTable(temp.array );
 			});
 		}
 		
-		setData();
 
 		document.addEventListener('click' , e =>
 		{
@@ -187,7 +185,7 @@ export let currentPage:number=current_page;
 			modalFunctions[modal.dataset["operation"]].call(modal, function(confirm:boolean){
 				if(confirm == true){
 					let statusToSet = target.checked ? "active" : "inactive";
-					new GetUserApi(token).userInactive(userId , statusToSet).then(_ => {
+					new GetUserApi(token,currentPage).userInactive(userId , statusToSet).then(_ => {
 						setData();
 					});
 				}
@@ -207,7 +205,7 @@ export let currentPage:number=current_page;
 			
 			modalFunctions[modal.dataset["operation"]].call(modal, function(confirm:boolean){
 				if(confirm == true){
-					new GetUserApi(token).deleteData(userId).then(function () { setData(); });
+					new GetUserApi(token,currentPage).deleteData(userId).then(function () { setData(); });
 				}
 				util.closeModal(modal);
 			});
@@ -245,7 +243,7 @@ export let currentPage:number=current_page;
 				
 			const userId: number = parseInt((e.target as HTMLButtonElement).id) ;
 			var userObject: UserModel;
-			new GetUserApi(token).getUserById(userId).then(res => {
+			new GetUserApi(token,currentPage).getUserById(userId).then(res => {
 				userObject = (res as unknown) as UserModel;
 				const form = document.forms["myForm"] as HTMLFormElement;
 				populateFormFromObject(userObject, form,token);
@@ -258,7 +256,7 @@ export let currentPage:number=current_page;
 	
 	(document.querySelector('#fixed-header-drawer-exp')as HTMLInputElement).addEventListener('change', function (e) {
 		console.log("test");
-		const temp = new GetUserApi(token);
+		const temp = new GetUserApi(token,currentPage);
 		temp.searchUser().then(function(data){
 			populateTable(data);
 		});
@@ -284,6 +282,7 @@ export let currentPage:number=current_page;
     });
 
 	navigationBarsss(role,"navigation");
+	setData();
     util.addressCheck();
 	dropDownListen(form,token);
 
