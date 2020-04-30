@@ -46,6 +46,16 @@ namespace dm_backend.Logics
            
         }
 
+        private void BindRequestProcedureParams(MySqlCommand cmd, DeviceRequest req)
+        {
+            cmd.Parameters.Add(new MySqlParameter("var_user_id", req.userId));
+            cmd.Parameters.Add(new MySqlParameter("var_device_model", req.model));
+            cmd.Parameters.Add(new MySqlParameter("var_device_brand", req.brand));
+            cmd.Parameters.Add(new MySqlParameter("var_device_type", req.devicetype));
+            cmd.Parameters.Add(new MySqlParameter("var_specification_id", req.specificationId));
+            cmd.Parameters.Add(new MySqlParameter("var_no_of_days", req.days));
+            cmd.Parameters.Add(new MySqlParameter("var_comment", req.comment));
+        }
 
         public RequestDeviceHistory bindReturnData(DbDataReader reader)
         {
@@ -73,45 +83,16 @@ namespace dm_backend.Logics
             }
 
         }
-        public async Task getAllAdmin(DeviceRequest req , RequestDeviceHistory model)
+      
+
+
+       
+        public async Task sendMailToAdmin(  DeviceRequest req , RequestDeviceHistory model)
         {
-         
 
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "get_all_admin";
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            try
-            {
-                BindRequestProcedureParams(cmd, req);
-                await sendMailToAdmin(BindRequestData(cmd.ExecuteReader()), req , model);
-            }
-            catch
-            {
-
-            }
-         }
+            List<Request> admins =  new GetAllAdmin(Db).getAllAdmin();
 
 
-        public List<Request> BindRequestData(DbDataReader reader)
-        {
-            using (reader)
-            {
-                var model = new List<Request>();
-                while (reader.Read())
-                {
-                    model.Add(new Request()
-                    {
-                        name = (reader.GetString("salutation") + " " + reader.GetString("first_name") + " " + (reader.IsDBNull("middle_name") ? "" : (reader.GetString("middle_name") + " ")) + reader.GetString("last_name")),
-                        email = reader.GetString("email")
-                    });
-                }
-                return model;
-            }
-        }
-            
-        public async Task sendMailToAdmin(List<Request> admins , DeviceRequest req , RequestDeviceHistory model)
-        {
             string body = "";
             string name = model.RequestedUser.salutation + " " + model.RequestedUser.firstName + " " + model.RequestedUser.middleName + " "
                 + model.RequestedUser.Lastname;
@@ -124,24 +105,14 @@ namespace dm_backend.Logics
                 
               body = val.name +" <br /> This mail is to inform you that user <b>"+name +"</b> Requestred for device (<b>" + req.devicetype + " " + req.brand + " " + req.model + "</b>) having specification "
                     +" (<b> "+specs +"<b>) <br> Thank You";
-                await ((new sendMail().sendNotification("ssrawat@ex2india.com", body, "Device Request Raise")));
+                await ((new sendMail().sendNotification(val.email, body, "Device Request Raise")));
             }
 
-          //  return 1;
+         
         }
 
 
-        private void BindRequestProcedureParams(MySqlCommand cmd, DeviceRequest req)
-        {
-            cmd.Parameters.Add(new MySqlParameter("var_user_id", req.userId));
-            cmd.Parameters.Add(new MySqlParameter("var_device_model", req.model));
-            cmd.Parameters.Add(new MySqlParameter("var_device_brand", req.brand));
-            cmd.Parameters.Add(new MySqlParameter("var_device_type", req.devicetype));
-            cmd.Parameters.Add(new MySqlParameter("var_specification_id",req.specificationId));
-            cmd.Parameters.Add(new MySqlParameter("var_no_of_days", req.days));
-            cmd.Parameters.Add(new MySqlParameter("var_comment", req.comment));
-        }
-
+      
      
     }
 }

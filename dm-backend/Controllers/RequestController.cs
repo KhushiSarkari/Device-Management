@@ -36,7 +36,7 @@ namespace dm_backend.Models{
             {
               var result =   request.addDevice(req);
 
-              await request.getAllAdmin(req , result);
+              await request.sendMailToAdmin(req , result);
 
             }
             catch(MySql.Data.MySqlClient.MySqlException e)
@@ -80,25 +80,27 @@ namespace dm_backend.Models{
         [Authorize(Roles="admin")]
         [HttpGet]
         [Route("{requestId}")]
-        public IActionResult RequestActions(int requestId, [System.Web.Http.FromUri]int id)
+        public async Task<IActionResult> RequestActionsAsync(int requestId, [System.Web.Http.FromUri]int id)
         {
+            string name = (string)HttpContext.Request.Query["name"] ?? "";
+            string email = (string)HttpContext.Request.Query["email"] ?? "";
             string action=(string)HttpContext.Request.Query["action"];
             Db.Connection.Open();
             RequestModel query = new RequestModel(Db);
             query.requestId = requestId;
 
-            //new RequestStatus().sendStatusMail(requestId , action , id);
 
-            try{
+           try{
 
                 query.DeviceRequestAction(id,action);
-            }
+               await new RequestStatus().sendStatusMail(requestId, action, name, email);
+           }
             catch(Exception e){
                 Console.WriteLine(e.Message);
-                return BadRequest("An error occured while performing the action");
+              return BadRequest("An error occured while performing the action");
             }
             Db.Connection.Close();
-            return Ok("Action performed successfully");
+            return new OkObjectResult("Action performed successfully");
         }
 
 

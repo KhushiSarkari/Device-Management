@@ -1,4 +1,4 @@
-using System;
+using System;  
 using System.Data;
 using System.Data.Common;
 using System.Collections.Generic;
@@ -31,13 +31,14 @@ namespace dm_backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostReturnRequest([FromBody]ReturnRequestModel request)
+        public async Task<IActionResult> PostReturnRequest([FromBody]ReturnRequestModel request)
         {
             Db.Connection.Open();
             request.Db = Db;
             string result = null;
             try{
                 result = request.AddReturnRequest();
+                await new SendNotificationMail(Db).sendAcceptNotifYRequest(request.userId, request.deviceId);
             }
             catch(NullReferenceException){
                 return NoContent();
@@ -57,16 +58,13 @@ namespace dm_backend.Controllers
             string result = null;
             try{
                 result = request.AddFaultRequest();
-<<<<<<< HEAD
 
-            }
-=======
                 var obj = ToUser(request.deviceId);
                 
             string body = "Hey Admin ! <br> Device Related to "+obj[1]+" Serial Number has Following Complaints <br><br>"+request.comment+"<br>Thanks <br> Regards : "+request.firstName+" "+request.lastName;
               var EmailObj = new sendMail().sendNotification(obj[0],body,"Device Complaint");
               }
->>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
+
             catch(NullReferenceException){
                 return NoContent();
             }

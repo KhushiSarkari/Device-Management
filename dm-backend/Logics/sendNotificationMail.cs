@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace dm_backend.Logics
@@ -11,7 +13,7 @@ namespace dm_backend.Logics
     public class SendNotificationMail
     {
         public string name;
-        public string email;
+        public string? email;
         public string? deviceType;
         public string? deviceName;
         internal AppDb Db;
@@ -28,9 +30,6 @@ namespace dm_backend.Logics
         {
 
         }
-
-
-
         public async Task<string> sendMultipleMail(MultipleNotifications item)
         {
             var body = "";
@@ -42,18 +41,11 @@ namespace dm_backend.Logics
                body  =  "" + user.name + "<br> <br> This mail is to inform you that  some of our worker need device that you have i.e( <b>  " + user.deviceType + " " + user.deviceName +
                    "</b>) if you have done  with your work  kindly return to admin so Other may utilize it <br><br>  Thank You <br> Admin";
 
-<<<<<<< HEAD
-                await (new sendMail().sendNotification(user.email , body, "Device Notification"));
-=======
                 await (new sendMail().sendNotification(user.email , body,"Device Notification"));
->>>>>>> a863ec828b5afd4e934ea9351b625a90c3c36df6
+
             }
             return "";
         }
-
-       
-
-
         public async Task<SendNotificationMail> getUserDetails(int deviceId)
         {
             var tempQuerry = querry + "" + deviceId + ";";
@@ -64,9 +56,6 @@ namespace dm_backend.Logics
             cmd.CommandType = CommandType.Text;
             return await bindResult(await cmd.ExecuteReaderAsync());
         }
-
-
-
         public async Task<SendNotificationMail> bindResult(DbDataReader reader)
         {
             var x = new SendNotificationMail();
@@ -86,6 +75,61 @@ namespace dm_backend.Logics
             }
           
         }
+
+
+
+        public async Task sendAcceptNotifYRequest(int userid , int deviceid)
+        {
+            string body;
+            var allAdmins = new GetAllAdmin(Db).getAllAdmin();
+            var user = UserAcceptnotification(userid, deviceid);
+
+            foreach (Request val in allAdmins)
+            {
+
+                body = val.name + " <br /> This mail is to inform you that user <b>" + user.name + "</b> Ready to return device  i.e.. (<b>" + user.deviceType + " " + user.deviceName + "</b>) ";
+
+               // await ((new sendMail().sendNotification(val.email, body, "Device Return Request")));
+
+                await ((new sendMail().sendNotification("ssrawat@ex2india.com", body, "Device Return Request")));
+            }
+        }
+
+
+        public SendNotificationMail UserAcceptnotification(int userId , int deviceId)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+
+            cmd.CommandText = "get_assigned_device_user";
+            cmd.CommandType = CommandType.StoredProcedure;
+            new ReturnRequestModel().BindReturnProcedureParams(cmd);
+            return(getDetails(cmd.ExecuteReader()));
+
+        }
+
+
+
+        private SendNotificationMail getDetails(DbDataReader reader )
+        {
+            using (reader)
+            {
+                if(reader.Read())
+                {
+                    return new SendNotificationMail()
+                    {
+                        name = (reader.GetString("salutation") + " " + reader.GetString("first_name") + " " + (reader.IsDBNull("middle_name") ? "" : (reader.GetString("middle_name") + " ")) + reader.GetString("last_name")),
+                        deviceType = reader?.GetString("type"),
+                        deviceName = reader?.GetString("brand") + " " + reader?.GetString("model")
+                    };
+                }
+            }
+
+
+
+            return null; 
+        }
+
+
 
     }
 }

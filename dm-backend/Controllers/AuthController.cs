@@ -86,7 +86,7 @@ namespace dm_backend.Controllers
            _repo.CreatePasswordHash(rp.Password, out passwordHash, out passwordSalt);
 
 
-            var user = _context.User.First(a => a.Guid == rp.Guid);
+            var user = _context.User.FirstOrDefault(a => a.Guid == rp.Guid);
             user.Hashpassword = passwordHash;
             user.Saltpassword = passwordSalt;
             _context.SaveChanges();
