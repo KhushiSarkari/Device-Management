@@ -139,6 +139,9 @@ namespace dm_backend.Data
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e=>e.AssignedDate).HasColumnName("assign_date");
+                entity.Property(e=>e.ReturnDate).HasColumnName("return_date");
+                
 
                 entity.HasOne(d => d.Device)
                     .WithMany(p => p.AssignDevice)

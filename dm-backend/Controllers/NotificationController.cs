@@ -107,12 +107,21 @@ namespace dm_backend.Controllers
         [HttpGet]
         [Route("Count/{id}")]
         public int GetCount(int id)
-         {
+         { 
             var values = _context.Notification.Count(w => (w.UserId == id)&& (w.StatusId==9) );
             return values;
 
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ReturnDate")]
+        public string SendEmailToUsers(int id)
+         {  
+            var obj = new NotifyRepository(_context).SendDeviceReturnEmail();
+           return "sent" ;
+        }
+        
 
     }
 
