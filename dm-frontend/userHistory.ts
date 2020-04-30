@@ -8,10 +8,12 @@ let currentPage:number=current_page;
     const role = await amIUser(token) == true ? "User" : "Admin";
 
 
-
+    document.getElementById("one").addEventListener('click', function () {
+        currentPage=1;
+        mydevices.getCurrentDecice(userId);
+    });
     document.getElementById("three").addEventListener('click', function () {
-
-
+        currentPage=1;
         mydevices.getRequestHistory(userId);
     });
     document.getElementById("tab3").addEventListener('click', function (ev) {
@@ -84,7 +86,7 @@ let currentPage:number=current_page;
 		}
 	       console.log((e.target as HTMLButtonElement).value);
 		
-           if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement) {
+        if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement) {
 
             mydevices.getCurrentDecice(userId);
         }
