@@ -34,7 +34,9 @@
     width: 100%;
     height: 100%;
 }
-
+.serial-number>*{
+  font-size: 1em;
+}
 
 .requestedUserData .tooltipData {
     margin: 5px;
@@ -78,8 +80,13 @@
 
   .user_data_table
   {
-    justify-content: center;
-    float : center;
+    width: fit-content;
+    display: inline-flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .page-content{
+    text-align: center;
   }
   .load{
     display: flex;
