@@ -45,30 +45,10 @@
 				</section>
 
 				<section class="mdl-layout__tab-panel" id="fixed-tab-2">
-					<dialog id="popup" class="mdl-dialog">
-						<h3 class="mdl-dialog__title">Enter value</h3>
-						<div class="mdl-dialog__content">
-							<input
-								type="text"
-								class="form-control"
-								id="roleName"
-								name="roleName"
-								value=""
-							/>
-						</div>
-						<div class="mdl-dialog__actions">
-							<button type="button" class="mdl-button negative">
-								CLOSE
-							</button>
-							<button type="button" class="mdl-button positive" id="btn_insert">
-								ADD
-							</button>
-						</div>
-					</dialog>
 					<div id="insert_role"></div>
 					<div class="page-content">
 						<button
-							class="mdl-button mdl-button--raised mdl-js-button dialog-button"
+							class="mdl-button mdl-button--raised mdl-js-button mdl-button--colored"
 							id="addrole"
 						>
 							Add Role
@@ -88,36 +68,10 @@
 					</div>
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-3">
-					<dialog id="popup1" class="mdl-dialog">
-						<h3 class="mdl-dialog__title">Enter Permission</h3>
-						<div class="mdl-dialog__content">
-							<input
-								type="text"
-								class="form-control"
-								id="PermissionName"
-								name="PermissionName"
-								value=""
-							/>
-						</div>
-						<div class="mdl-dialog__actions">
-							<button
-								type="button"
-								class="mdl-button"
-								onclick="closePermission()"
-							>
-								Close
-							</button>
-							<button type="button" class="mdl-button" id="btn_insert1">
-								ADD
-							</button>
-						</div>
-					</dialog>
-
 					<div class="page-content">
 						<button
-							class="mdl-button mdl-button--raised mdl-js-button dialog-button1"
+							class="mdl-button mdl-button--raised mdl-js-button mdl-button--colored"
 							id="addpermission"
-							onclick="openPermission();"
 						>
 							Add Permission
 						</button>
@@ -135,6 +89,26 @@
 					</div>
 					<div id="insert_permission"></div>
 				</section>
+				<dialog id="popup" class="mdl-dialog input-dialog">
+					<h3 class="mdl-dialog__title">Enter value</h3>
+					<div class="mdl-dialog__content">
+						<input
+							type="text"
+							class="form-control"
+							id="roleName"
+							name="roleName"
+							value=""
+						/>
+					</div>
+					<div class="mdl-dialog__actions">
+						<button type="button" class="mdl-button negative txt-danger">
+							CLOSE
+						</button>
+						<button type="button" class="mdl-button positive mdl-button--colored" id="btn_insert">
+							ADD
+						</button>
+					</div>
+				</dialog>
 			</main>
 		</div>
 		<script src="/assets/js/user_role.js"></script>
