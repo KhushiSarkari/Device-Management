@@ -85,25 +85,29 @@ token :string="";
                 if(token==1){
 
 
-                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised" id="">
-                        <a href = "./AddDevice.html" style="color: black;">
-                            Add Device</a>
-                        </button>`;
+                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised" id="add-button" ><span class="material-icons">add</span>
+                   Add Device  </button>`;
                         (document.getElementById("buttons") as HTMLStyleElement).innerHTML = buttons;    
-                    const editbutton = `<td>
-                            <button class="edit-button" value=${this.device_id}>Edit </button>
-                            </td>`;
+                    const editbutton = `<td><div class="tooltip"><span class="material-icons" id="edit" value=${this.device_id}>create
+                    </span><span class="tooltiptext">Edit Device</span></div>`;
                         if(this.status=="Allocated")
-                        var val = `<td>  <button class="notify-button" data-deviceid=${this.device_id}>Notify</button></td> </tr>`;
+                        var val = `<div class="tooltip"><span class="material-icons" id="notify" data-deviceid=${this.device_id}>
+                        notifications</span><span class="tooltiptext">Notify User</span></div></td> </tr>`;
                         else if(this.status == "Free")
                         {
-                            val = `<td>  <button class="delete-button" value=${this.device_id}>Delete </button><br><br>
-                             <button class="assign-button" data-id=${this.device_id}>Assign Device</button></td> </tr> `;
+                            val = `<div class="tooltip"><span class="material-icons" id="delete" value=${this.device_id}">delete</span>
+                            <span class="tooltiptext">Delete Device</span></div>
+                            <div class="tooltip"><span class="material-icons" id="assign" data-id=${this.device_id}>assignment</span>
+                           <span class="tooltiptext">Assign Device</span>
+                           </div> </td> </tr> `;
                         }
                         else
                         {
-                            val=`<td> <button class="delete-button" value=${this.device_id}>Delete </button><br><br>
-                            <label style="color: red;">Device Faulty</label></td></tr>`;
+                            val=`<div class="tooltip"><span class="material-icons" id="delete" value=${this.device_id}">delete</span>
+                            <span class="tooltiptext">Delete Device</span></div>
+                            <div class="tooltip">
+                            <span class="material-icons" style="color: red;">report_problem</span>
+                             <span class="tooltiptext">Faulty Device</span></div></td></tr>`;
                         }
                             (document.getElementById("Request_data") as HTMLStyleElement).innerHTML += value +editbutton+ val;
                     }
