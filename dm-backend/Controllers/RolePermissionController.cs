@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using dm_backend.Data;
 using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace dm_backend.Controllers
     [Route("api/")]
     public class RolepermissionController : BaseController
     {
-        public RolepermissionController(AppDb db)
+        public RolepermissionController(AppDb db, EFDbContext ef): base(ef)
         {
             Db = db;
         }
@@ -63,12 +64,17 @@ namespace dm_backend.Controllers
         }
 
         [HttpPost]
-        [Route("role/add")]
+        [Route("role/update")]
         public IActionResult Postrole([FromBody]Role body)
         {
             try{
                 body.Db = Db;
-                body.AddRole();
+                if(body.RoleId.HasValue){
+                    body.UpdateRole();
+                }
+                else{
+                    body.AddRole();
+                }
                 return Ok();
             }
             catch(Exception e){
@@ -77,43 +83,17 @@ namespace dm_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("permission/add")]
+        [Route("permission/update")]
         public IActionResult Postpermission([FromBody]Permission body)
         {
             try{
                 body.Db = Db;
-                body.AddPermission();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-        }
-        [HttpPut]
-        [Route("role/{role_id}/update")]
-        public IActionResult Putrole(int role_id, [FromBody]Role body)
-        {
-            try{
-                body.Db = Db;
-                body.RoleId = role_id;
-                body.UpdateRole();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-            
-        }
-        [HttpPut]
-        [Route("permission/{permission_id}/update")]
-        public IActionResult Putpermission(int permission_id, [FromBody]Permission body)
-        {
-            try{
-                body.Db = Db;
-                body.PermissionId = permission_id;
-                body.UpdatePermission();
+                if(body.PermissionId.HasValue){
+                    body.UpdatePermission();
+                }
+                else{
+                    body.AddPermission();
+                }
                 return Ok();
             }
             catch(Exception e){
@@ -127,8 +107,14 @@ namespace dm_backend.Controllers
         {
             Role query = new Role(Db);
             query.RoleId = role_id;
-            query.Deleterole();
-            return Ok();
+            if(query.Deleterole()==1)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+            
         }
         [HttpDelete]
         [Route("permission/{permission_id}/delete")]
@@ -136,8 +122,14 @@ namespace dm_backend.Controllers
         {
             Permission query = new Permission(Db);
             query.PermissionId = permission_id;
-            query.DeletePermission();
-            return Ok();
+            if(query.DeletePermission()==1)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+            
         }
 
         [AllowAnonymous]
@@ -152,6 +144,12 @@ namespace dm_backend.Controllers
         [Route("is_admin")]
         public IActionResult AmIAdmin(){
             return Ok(new{ result= GetUserRoles().Contains("admin") });
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("canI/{permission_name}")]
+        public IActionResult DoIHavePermission(string permission_name){
+            return Ok(new{ result = GetUserPermissions().Contains(permission_name) });
         }
     }
 }

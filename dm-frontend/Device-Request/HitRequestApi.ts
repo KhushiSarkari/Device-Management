@@ -12,7 +12,6 @@ export class HitApi {
       res = await fetch(uri, {
         headers: new Headers({ Authorization: `Bearer ${this.token}` }),
       });
-      console.log(res.status);
       if(res.headers.get('X-Pagination')!=null)
       { let metadata=JSON.parse(res.headers.get('X-Pagination'));
         paging(metadata);
