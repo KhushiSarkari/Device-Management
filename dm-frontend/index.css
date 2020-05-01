@@ -124,6 +124,7 @@
     justify-content: center;
     background-color: #41434436;
     align-items: center;
+    z-index: 1;
 }
 .loader {
 border: 8px solid #f3f3f3; /* Light grey */

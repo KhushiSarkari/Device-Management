@@ -302,8 +302,8 @@ namespace dm_backend.Controllers
             var querry = @"select distinct( db.brand )from device_brand as  db inner join device   using (device_brand_id) inner join device_type as dt
 using (device_type_id) where  dt.type = '" + type + "' ;";
             var result = GetListFromQuery(querry);
-           // if (result.Count < 1)
-           //     return NoContent();
+            if (result.Count < 1)
+                return NoContent();
             return Ok(result);
         }
 
@@ -325,8 +325,8 @@ using (device_type_id) where  dt.type = '" + type + "' ;";
             var querry = @"select distinct( dm.model )from device_model as  dm inner join device   using (device_model_id) inner join device_brand as db
 using (device_brand_id) where  db.brand = '" + brand + "' ;";
             var result = GetListFromQuery(querry);
-        //    if (result.Count < 1)
-        //        return NoContent();
+            if (result.Count < 1)
+                return NoContent();
             return Ok(result);
         }
 

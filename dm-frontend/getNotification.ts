@@ -130,7 +130,6 @@ document.addEventListener("click", function (e) {
 
 let notify = new Notify(token);
 notify.notification(user_id);
-
 navigationBarsss(role,"navigation");
 return null ;
 })();

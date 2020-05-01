@@ -67,6 +67,7 @@ export function navigationBarsss(role:string , element:string) {
 }
 
 }
+
 export function paging(metadata)
 {   let total_pages=metadata.TotalPages;
     current_page=metadata.CurrentPage;

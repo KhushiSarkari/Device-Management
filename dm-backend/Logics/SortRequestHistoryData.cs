@@ -81,30 +81,30 @@ namespace dm_backend.Logics
    
 
 
-        async public Task<Result<RequestDeviceHistory>> GetSortData(string find, string serialNumber, string status , string sortElement, string sortType, string page, string limit)
+        async public Task<List<RequestDeviceHistory>> GetSortData(string find, string serialNumber, string status , string sortElement, string sortType )
         {
            
             using var cmd = Db.Connection.CreateCommand();
       
             FindSortingAttribute(sortElement);
             this.command += " " + sortType;
-            int pageValue = page_limit(page, 1);
-            int limitValue = page_limit(limit, 10);
-            int offset = ((pageValue-1) * limitValue);
+           //int pageValue = page_limit(page, 1);
+            //int limitValue = page_limit(limit, 10);
+            //int offset = ((pageValue-1) * limitValue);
 
-            cmd.CommandText = command + " limit @offset , @limit ;";
+            cmd.CommandText = command;//+ " limit @offset , @limit ;";
             
             cmd.CommandType = CommandType.Text;
 
-            BindLimitParams(cmd, offset, limitValue );
+           // BindLimitParams(cmd, offset, limitValue );
             BindSearchParms(cmd, find , serialNumber , status );
 
             try
             {
 
-                var data = await new BindRequestData(Db).BindHistoryData(await cmd.ExecuteReaderAsync());
+               return await new BindRequestData(Db).BindHistoryData(await cmd.ExecuteReaderAsync());
 
-                return await new TotalResultCount(Db).FindCount(data, command, find, offset, limitValue, serialNumber , status);
+               // return await new TotalResultCount(Db).FindCount(data, command, find, offset, limitValue, serialNumber , status);
 
             }
             catch (Exception e)
