@@ -7,14 +7,14 @@
     height: 80px;
     width: left;
 }
-.search
+/* .search
 {
-    float: left;
+    float: right;
 }
 .search_bar
 {
     float: right;
-}
+} */
  .page{
      background-color: transparent;
      border: 0;
@@ -34,7 +34,9 @@
     width: 100%;
     height: 100%;
 }
-
+.serial-number>*{
+  font-size: 1em;
+}
 
 .requestedUserData .tooltipData {
     margin: 5px;
@@ -59,20 +61,6 @@
   }
   
 
-  .getAll {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 15px;
-  }
   div.mdl-layout__drawer
 {
   border: none;
@@ -90,28 +78,15 @@
     color: white;
   }
 
-
-
-  /* add  serial number textbox   */
- 
-  .serial-number[type=text] {
-    float: right;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-  }
-
-
   .user_data_table
   {
-    justify-content: center;
-    float : center;
+    width: fit-content;
+    display: inline-flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .page-content{
+    text-align: center;
   }
   .load{
     display: flex;
