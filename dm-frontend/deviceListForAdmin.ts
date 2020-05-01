@@ -1,3 +1,7 @@
+
+import { SpecificationList } from "./specificationlist";
+
+
 export class DeviceListForAdmin {
 token :string="";
     device_id: number;
@@ -11,12 +15,7 @@ token :string="";
         purchase_date: string;
         status: string;
         comments :  string;
-
-        ram: string;
-        storage: string;
-        screen_size: string;
-        connectivity: string;
-
+        specs :SpecificationList;
         assign_date: string;
         return_date: string;
         assign_to_first_name: string;
@@ -39,10 +38,7 @@ token :string="";
             this.purchase_date = data.purchase_date;
             this.status = data.status;
             this.comments = data.comments;
-            this.ram = data.specifications.ram;
-            this.storage = data.specifications.storage;
-            this.screen_size = data.specifications.screenSize;
-            this.connectivity = data.specifications.connectivity;
+            this.specs=new SpecificationList(data.specifications,token);
             this.assign_date = data.assign_date;
             this.return_date = data.return_date;
             this.assign_to_first_name = data.assign_to.first_name;
@@ -72,9 +68,9 @@ token :string="";
                     </div> 
                 </td>
                 <td>${this.serial_number} </td>
-                <td>RAM:${this.ram} Storage:${this.storage}
+                <td>RAM:${this.specs.RAM} Storage:${this.specs.storage}
                     <br>
-                    Screen Size:${this.screen_size} Connectivity: ${this.connectivity}
+                    Screen Size:${this.specs.screenSize} Connectivity: ${this.specs.connectivity}
                 </td>
                 <td>${this.assign_date.substring(0,10)} </td>
                 <td>${this.return_date.substring(0,10)} </td>
@@ -84,7 +80,7 @@ token :string="";
 
                 if(token==1){
 
-
+                
                 const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised" id="add-button" ><span class="material-icons">add</span>
                    Add Device  </button>`;
                         (document.getElementById("buttons") as HTMLStyleElement).innerHTML = buttons;    
