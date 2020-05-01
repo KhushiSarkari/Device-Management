@@ -45,8 +45,8 @@ export class Notifications {
               <td>${this.message}</td>`;
               if(this.status=="Pending"){         
                     var buttons= ` <td>
-               <button class="accept-button" data-userid = ${this.user_id} data-value=${this.device_id}  data-device=${this.type +" " +this.brand +" " + this.model}>Accept </button>
-                <button class="reject-button" data-notificationid = ${this.notification_id}  data-device=${this.type +" " +this.brand +" " + this.model}>Reject </button>
+                    <button class="accept-button" data-userid = ${this.user_id} data-value=${this.device_id}  data-device=${this.type +" " +this.brand +" " + this.model}>Accept </button>
+                    <button class="reject-button" data-notificationid = ${this.notification_id}  data-device=${this.type +" " +this.brand +" " + this.model}>Reject </button>
             </td>
         </tr>`;
               }
