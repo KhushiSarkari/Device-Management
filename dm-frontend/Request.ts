@@ -1,12 +1,11 @@
-import { BASEURL, navigationBarsss, PageNo, current_page} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,Token,changePage} from "./globals";
 import * as util from "./utilities";
 import { Requests, Specification, PartialUserModel } from "./RequestModel";
 import { HitApi } from './Device-Request/HitRequestApi';
 import { Sort } from "./user-profile/SortingUser";
 
-(async function () {
-    const token: string = JSON.parse(sessionStorage.getItem("user_info"))["token"];
-    let adminId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
+    const token: string = Token.getInstance().tokenKey;
+    let adminId = Token.getInstance().userID;
     let globalUrl = BASEURL + "/api/request/";
     let currentPage:number=current_page;
     let obj = {
@@ -151,18 +150,10 @@ import { Sort } from "./user-profile/SortingUser";
 
     });
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
+	{   currentPage=changePage((e.target as HTMLButtonElement).value);
 		getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));   
     });
 
     getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
     navigationBarsss("Admin", "navigation");
 
-})();

@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page, paging } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage } from "./globals";
 import { DeviceListForAdmin } from "./deviceListForAdmin";
 import { Sort } from "./user-profile/SortingUser";
 import { amIUser } from "./globals";
@@ -148,7 +148,10 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 	}
 
 	document.addEventListener("click", function(e) {
-		if ((e.target as HTMLButtonElement).className == "edit-button") {
+		if((e.target as HTMLButtonElement).id=="add-button"){
+			window.location.href="./AddDevice.html";
+		}
+		if ((e.target as HTMLButtonElement).id == "edit") {
 			const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 				"value"
 			);
@@ -157,8 +160,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 			window.location.href = "AddDevice.html?device_id=" + device_id;
 		}
-		if ((e.target as HTMLButtonElement).className == "delete-button") {
-			
+		if ((e.target as HTMLSpanElement).id == "delete") {
 			if (confirm("Are you sure you want to delete this device?")) {
 				const temp = new GetApiForAdmin(token);
 				const device_id: any = (e.target as HTMLButtonElement).getAttribute(
@@ -177,13 +179,13 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			const device_id: any = (e.target as HTMLButtonElement).dataset.deviceid;
 			window.location.href = "./devicedetail.html?device_id=" + device_id;
         }
-		if ((e.target as HTMLButtonElement).className == "notify-button") {
+		if ((e.target as HTMLButtonElement).id == "notify") {
 			console.log("notify");
 			let deviceId: number = parseInt((e.target as HTMLButtonElement).dataset.deviceid, 10);
 			console.log(deviceId);
 			temp.postNotification(JSON.stringify({ "notify": [{ deviceId }] }));
 		}
-		if ((e.target as HTMLButtonElement).className == "assign-button") {
+		if ((e.target as HTMLButtonElement).id == "assign") {
 			temp.openForm1("popupForm2");
 			(document.getElementById(
 				"device_id"
@@ -233,14 +235,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 	
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    temp.currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			temp.currentPage-=1;
-		else
-			temp.currentPage=+((e.target as HTMLButtonElement).value);
-
+	{ 	temp.currentPage=changePage((e.target as HTMLButtonElement).value);
 		temp.getData(PageNo(temp.currentPage));   
     });
 	(document.querySelector("#tablecol") as HTMLTableElement).addEventListener(

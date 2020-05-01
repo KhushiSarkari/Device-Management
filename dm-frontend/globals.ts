@@ -72,6 +72,7 @@ export function paging(metadata)
     current_page=metadata.CurrentPage;
     let has_next=metadata.HasNext;
     let has_previous=metadata.HasPrevious;
+    
     (document.getElementById("pagination") as HTMLDivElement).innerHTML="";
     if(has_previous)
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value="<<" >`;
@@ -81,10 +82,21 @@ export function paging(metadata)
     if(has_next)
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value=">>" >`;
 }
+
 export function PageNo(page_no,pageSize=page_size)
 {
     let uri= "page="+page_no + "&page-size="+pageSize;
     return uri;
+}
+
+export function changePage(value){
+    if(value==">>")
+		current_page+=1;
+	else if(value=="<<")
+		current_page-=1;
+	else
+        current_page=+value;
+    return current_page;
 }
 
 export class Token    /// call static method that return an object 

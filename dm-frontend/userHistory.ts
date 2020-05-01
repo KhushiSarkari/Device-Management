@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging,changePage } from './globals';
 
 import { Sort } from './user-profile/SortingUser';
 let currentPage:number=current_page;
@@ -72,13 +72,7 @@ let currentPage:number=current_page;
     });
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-			currentPage=+((e.target as HTMLButtonElement).value);
-		
+		currentPage=changePage((e.target as HTMLButtonElement).value);
         if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement)
             mydevices.getCurrentDecice(userId);
         else 
