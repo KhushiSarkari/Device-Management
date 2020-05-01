@@ -47,11 +47,23 @@ namespace dm_backend.Models
         {
             Db.Connection.Open();
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"delete from role where role_id=@role_id;";
-            BindRoleId(cmd);
-            cmd.ExecuteNonQuery();
-            Db.Connection.Close();
-            return 1;
+            cmd.CommandText = @"DELETE FROM role WHERE  NOT EXISTS
+           (SELECT * from user_to_role  WHERE  user_to_role.role_id = role.role_id) and role_id=@role_id;";
+           BindRoleId(cmd);
+           int numberOfRecords=  cmd.ExecuteNonQuery();
+           Db.Connection.Close();
+           Console.WriteLine(numberOfRecords);
+           if(numberOfRecords>0)
+           {
+               Console.WriteLine("role deleted");
+               return 1;
+           }
+           else {
+               Console.WriteLine("role not deleted");
+               return 0;
+               }
+            
+            
         }
         public void AddRole()
         {

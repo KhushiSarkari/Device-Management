@@ -107,8 +107,14 @@ namespace dm_backend.Controllers
         {
             Role query = new Role(Db);
             query.RoleId = role_id;
-            query.Deleterole();
-            return Ok();
+            if(query.Deleterole()==1)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+            
         }
         [HttpDelete]
         [Route("permission/{permission_id}/delete")]
@@ -116,8 +122,14 @@ namespace dm_backend.Controllers
         {
             Permission query = new Permission(Db);
             query.PermissionId = permission_id;
-            query.DeletePermission();
-            return Ok();
+            if(query.DeletePermission()==1)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+            
         }
 
         [AllowAnonymous]

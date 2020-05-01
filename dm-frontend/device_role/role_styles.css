@@ -1,25 +1,30 @@
 /* Containers */
+
 .mdl-layout--fixed-tabs .mdl-layout__tab {
 	flex-basis: 0;
 }
+
 div.page-content {
 	padding: 20px;
 	text-align: center;
 }
+
 div.main {
 	padding: 10px;
 }
 
 /* Tables */
+
 table.mdl-data-table {
 	display: inline-block;
 	overflow-x: scroll;
 }
+
 table.mdl-data-table tr:last-child td {
 	border-bottom: none;
 }
-table th[colspan="2"],
-table td[colspan="2"] {
+
+table th[colspan="2"], table td[colspan="2"] {
 	text-align: center;
 }
 
@@ -40,6 +45,11 @@ nav.mdl-navigation i {
 .mdl-layout__drawer-button i.material-icons {
 	line-height: 2;
 }
+
+.mdl-layout__drawer-button i.material-icons {
+	line-height: 2;
+}
+
 .mdl-spinner {
 	position: absolute;
 	top: 0;
@@ -48,15 +58,19 @@ nav.mdl-navigation i {
 	bottom: 0;
 	margin: auto;
 }
+
 #fixed-tab-1 .mdl-data-table tbody tr:hover {
 	background-color: #fff;
 }
+
 #fixed-tab-1 .mdl-data-table tbody td:hover {
 	background-color: #eee;
 }
+
 #fixed-tab-1 .mdl-data-table .mdl-data-table__cell {
 	text-align: center;
 }
+
 .mdl-checkbox {
 	width: unset;
 }
@@ -131,6 +145,7 @@ p{
 th.activate {
 	background-color: #eee;
 }
+
 #insert_data {
 	display: none;
 	margin-top: 60px;
