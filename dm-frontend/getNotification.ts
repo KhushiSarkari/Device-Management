@@ -119,19 +119,13 @@ document.addEventListener("click", function (e) {
 (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			notify.currentPage+=1;
-		}
+		    notify.currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			notify.currentPage-=1;
-		}
 		else
-		{
-			notify.currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
-           notify.notification(user_id); 
+            notify.currentPage=+((e.target as HTMLButtonElement).value);
+      
+        notify.notification(user_id); 
     });
 
 let notify = new Notify(token);

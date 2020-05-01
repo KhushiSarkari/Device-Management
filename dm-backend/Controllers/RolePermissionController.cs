@@ -64,12 +64,17 @@ namespace dm_backend.Controllers
         }
 
         [HttpPost]
-        [Route("role/add")]
+        [Route("role/update")]
         public IActionResult Postrole([FromBody]Role body)
         {
             try{
                 body.Db = Db;
-                body.AddRole();
+                if(body.RoleId.HasValue){
+                    body.UpdateRole();
+                }
+                else{
+                    body.AddRole();
+                }
                 return Ok();
             }
             catch(Exception e){
@@ -78,43 +83,17 @@ namespace dm_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("permission/add")]
+        [Route("permission/update")]
         public IActionResult Postpermission([FromBody]Permission body)
         {
             try{
                 body.Db = Db;
-                body.AddPermission();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-        }
-        [HttpPut]
-        [Route("role/{role_id}/update")]
-        public IActionResult Putrole(int role_id, [FromBody]Role body)
-        {
-            try{
-                body.Db = Db;
-                body.RoleId = role_id;
-                body.UpdateRole();
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-            
-        }
-        [HttpPut]
-        [Route("permission/{permission_id}/update")]
-        public IActionResult Putpermission(int permission_id, [FromBody]Permission body)
-        {
-            try{
-                body.Db = Db;
-                body.PermissionId = permission_id;
-                body.UpdatePermission();
+                if(body.PermissionId.HasValue){
+                    body.UpdatePermission();
+                }
+                else{
+                    body.AddPermission();
+                }
                 return Ok();
             }
             catch(Exception e){

@@ -79,7 +79,7 @@ import { Sort } from "./user-profile/SortingUser";
                 headers: new Headers({ "Authorization": `Bearer ${token}` })
             });
         alert("Request " + requestId + " " + action);
-        getPendingRequests(globalUrl + "pending");
+        getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
 
     }
 
@@ -154,20 +154,13 @@ import { Sort } from "./user-profile/SortingUser";
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			currentPage+=1;
-		}
+		    currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			currentPage-=1;
-		}
 		else
-		{
-			currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
-		let uri = PageNo(currentPage);
-		getPendingRequests(globalUrl + "pending?"+uri);   
+            currentPage=+((e.target as HTMLButtonElement).value);
+
+		getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));   
     });
 
     getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));

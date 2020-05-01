@@ -7,14 +7,13 @@ let currentPage:number=current_page;
     const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
     const role = await amIUser(token) == true ? "User" : "Admin";
 
-    var mydevices = new MyDevices(token);
 
-
-    mydevices.getCurrentDecice(userId);
-
+    document.getElementById("one").addEventListener('click', function () {
+        currentPage=1;
+        mydevices.getCurrentDecice(userId);
+    });
     document.getElementById("three").addEventListener('click', function () {
-
-
+        currentPage=1;
         mydevices.getRequestHistory(userId);
     });
     document.getElementById("tab3").addEventListener('click', function (ev) {
@@ -74,26 +73,16 @@ let currentPage:number=current_page;
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
 		if((e.target as HTMLButtonElement).value==">>")
-		{
-			currentPage+=1;
-		}
+		    currentPage+=1;
 		else if((e.target as HTMLButtonElement).value=="<<")
-		{
 			currentPage-=1;
-		}
 		else
-		{
 			currentPage=+((e.target as HTMLButtonElement).value);
-		}
-	       console.log((e.target as HTMLButtonElement).value);
 		
-           if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement) {
-
+        if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement)
             mydevices.getCurrentDecice(userId);
-        }
-        else {
+        else 
             mydevices.getRequestHistory(userId);
-        }
     });
 
     document.addEventListener("click", function (ea) {
@@ -126,6 +115,10 @@ let currentPage:number=current_page;
         
     }
     navigationBarsss(role, "navigation");
+    var mydevices = new MyDevices(token);
+
+
+    mydevices.getCurrentDecice(userId);
 
 })();
 export class MyDevices {
@@ -262,6 +255,7 @@ export class MyDevices {
             cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored cancel">CANCEL </button>`
 
         }
+        
     }
     //TODO same function name      
 
@@ -271,5 +265,6 @@ export class MyDevices {
             table.deleteRow(i);
         }
     }
+    
 
 }
