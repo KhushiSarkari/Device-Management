@@ -24,25 +24,21 @@ table td[colspan="2"] {
 }
 
 /* Overrides */
-.mdl-cell--0_5-offset
-{
-margin-left: calc(4.1666666% + 4px);
+.mdl-cell--0_5-offset {
+	margin-left: calc(4.1666666% + 4px);
 }
-nav.mdl-navigation
-    {
-      height: unset;
-      box-shadow: none;
-    }
-    nav.mdl-navigation i
-    {
-      font-size: 24px;
-      line-height: 1;
-      height: auto;
-      display: inline-block;
-    }
-.mdl-layout__drawer-button i.material-icons
-{
-  line-height: 2;
+nav.mdl-navigation {
+	height: unset;
+	box-shadow: none;
+}
+nav.mdl-navigation i {
+	font-size: 24px;
+	line-height: 1;
+	height: auto;
+	display: inline-block;
+}
+.mdl-layout__drawer-button i.material-icons {
+	line-height: 2;
 }
 .mdl-spinner {
 	position: absolute;
@@ -64,8 +60,19 @@ nav.mdl-navigation
 .mdl-checkbox {
 	width: unset;
 }
-.mdl-layout__drawer{
+.mdl-layout__drawer {
 	border-right: none;
+}
+.mdl-dialog__title {
+	text-align: center;
+	font-size: 2rem;
+}
+.mdl-dialog__content {
+	text-align: center;
+}
+.mdl-dialog__content input{
+	font-size: 1.1em;
+	padding: 5px 10px;
 }
 
 /* User defined */
@@ -128,28 +135,11 @@ th.activate {
 	display: none;
 	margin-top: 60px;
 }
-#popup {
-	display: none;
-	margin-top: 60px;
+#colors {
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: black;
 }
-#popup1 {
-	display: none;
-}
-button.mdl-button.txt-danger,span.txt-danger {
+button.mdl-button.txt-danger, span.txt-danger {
 	color: rgb(244, 67, 54);
-}
-.caintain {
-	background-color: whitesmoke;
-	border: 5px solid black;
-	border-radius: 20px;
-	width: 300px;
-	padding: 10px;
-}
-.get_role {
-	border-radius: 10px;
-	border: 5px solid black;
-	background-color: linen;
-	padding: 10px;
-	margin: auto;
-	width: 500px;
 }

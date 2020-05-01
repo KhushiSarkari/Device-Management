@@ -6,7 +6,7 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss, PageNo, current_page, paging  } from './globals';
+import { BASEURL,amIUser,navigationBarsss, current_page,changePage  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
@@ -264,13 +264,7 @@ import { formatPhone } from "./utilities";
 
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
+		currentPage=changePage((e.target as HTMLButtonElement).value);
 		setData();
 		
     });

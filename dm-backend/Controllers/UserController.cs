@@ -3,6 +3,8 @@ using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using dm_backend.Models;
+using dm_backend.Data;
+
 using Newtonsoft.Json;
 namespace dm_backend.Controllers
 {
@@ -11,7 +13,7 @@ namespace dm_backend.Controllers
     public class UserController : BaseController
     {
 
-        public UserController(AppDb db)
+        public UserController(AppDb db, EFDbContext ef): base(ef)
         {
             Db = db;
         }
