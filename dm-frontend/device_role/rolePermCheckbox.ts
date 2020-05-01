@@ -9,10 +9,10 @@ export class RolePermission{
         this.token = token;
     }
 
-    getRolesAndPermissions(token){
+    getRolesAndPermissions(){
         return fetch(BASEURL + "/api/rolepermission", {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${this.token}`
             }
         })
         .then(response => response.json())
@@ -80,7 +80,7 @@ export class RolePermission{
         }
     }
     setup(){
-        this.getRolesAndPermissions(this.token).then(mappingArray => {
+        this.getRolesAndPermissions().then(mappingArray => {
             this.mapping = Array.from(mappingArray["Roles"]);
             this.roles = Object.keys(this.mapping);
             this.permissions = mappingArray.Permissions;
