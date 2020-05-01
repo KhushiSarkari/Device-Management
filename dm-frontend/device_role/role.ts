@@ -26,6 +26,7 @@ export default class role {
 		this.token = token;
 	}
 	async getroles() {
+		
 		this.url = BASEURL + "/api/rolepermission";
 		let data = await this.getApiCall(this.url);
 		this.data = data["Roles"].map(roleObj => {
@@ -99,7 +100,8 @@ export default class role {
 		for (var i = rowCount - 1; i > 0; i--) {
 			table.deleteRow(i);
 		}
-	} // delete role
+	} 
+	// delete role
 	async DeleteRoleById(id1: number) {
 		let x = id1;
 		if (confirm("Are you sure you want to delete this role?")) {
@@ -107,11 +109,22 @@ export default class role {
 			await fetch(uri, {
 				method: "DELETE",
 				headers: new Headers({"Authorization": `Bearer ${this.token}`})
-			});
-			this.getroles();
-		} else {
-			console.log("delete failed");
+			}).then(function (response){
+				if (response.status==200)
+				{
+				alert("role deleted");
+				}
+				
+				else {alert("role not deleted");
+			}
+			})
+			
+		} 
+		else {
+           console.log("delete failed");
 		}
+		this.getroles();
+		
 	} // delete permission
 	async DeletePermissionById(id2: number) {
 		let y = id2;
@@ -120,12 +133,21 @@ export default class role {
 			await fetch(uri, {
 				method: "DELETE",
 				headers: new Headers({"Authorization": `Bearer ${this.token}`})
-			});
-			this.getpermissions();
+			}).then(function (response){
+			if (response.status==200)
+				{
+			
+				alert("permission deleted");
+				}
+				else {alert("permission not deleted");}
+			})
+			
 		} else {
 			console.log("delete failed");
 		}
+		this.getpermissions();
 	} //insert new role
+
 	bindData() {
 		this.roleName = (document.getElementById(
 			"roleName"
