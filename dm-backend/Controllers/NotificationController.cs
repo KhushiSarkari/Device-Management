@@ -116,10 +116,11 @@ namespace dm_backend.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("ReturnDate")]
-        public string SendEmailToUsers(int id)
+        public IActionResult SendEmailToUsers()
          {  
-            var obj = new NotifyRepository(_context).SendDeviceReturnEmail();
-           return "sent" ;
+            var obj = new NotifyRepository(_context).SendDeviceReturnEmail(-1);
+            
+          return Ok(new {MailSentTo = obj} );
         }
         
 

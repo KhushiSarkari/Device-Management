@@ -36,34 +36,36 @@ namespace dm_backend.Logics
 
                              return entryPoint ;
          }
-         public string SendDeviceReturnEmail()
+         public List<string> SendDeviceReturnEmail(int num)
          {
+             var ListName = new List<string>(); 
              var listofusers = GetData();
-             listofusers.ForEach(e=>{Console.WriteLine(e.Days);});
-             listofusers.Sort(delegate( DeviceReturn x, DeviceReturn y){return x.Email.CompareTo(y.Email);});
+              listofusers.Sort(delegate( DeviceReturn x, DeviceReturn y){return x.Email.CompareTo(y.Email);});
              int i=0;
 
                while(i<listofusers.Count)
                { 
-                   if(listofusers[i].Days==0)
+                   if(listofusers[i].Days==num)
                {
                  string devices = listofusers[i].DeviceCompany+" "+listofusers[i].DeviceType+" "+listofusers[i].DeviceModel+" Serial Number :  "+listofusers[i].SerialNumber+"<br>"; 
 
-                 while(i+1<listofusers.Count && listofusers[i].Email==listofusers[i+1].Email)
+                 while(i+1<listofusers.Count && listofusers[i].Email==listofusers[i+1].Email && listofusers[i+1].Days==num)
                  {
                     devices +=listofusers[i+1].DeviceCompany+" "+listofusers[i+1].DeviceType+" "+listofusers[i+1].DeviceModel+" Serial Number :  "+listofusers[i+1].SerialNumber+"<br>"; 
                     i++;
                  }
                  i++;
+                 ListName.Add(listofusers[i-1].Email);
                 string body = "Hi "+listofusers[i-1].FirstName+" "+listofusers[i-1].LastName+"<br> Return Following Devices Today <br>"+devices+"<br> Thanks ";
-                var sendEmailObject = new sendMail().sendNotification(listofusers[i-1].Email,body,"Return Devices");
+               Console.WriteLine(body);
+              //  var sendEmailObject = new sendMail().sendNotification(listofusers[i-1].Email,body,"Return Devices");
                }
                else
                {
                i++;
                }
-                }
-              return "sent";
+             }
+              return ListName;
          }
 
     
