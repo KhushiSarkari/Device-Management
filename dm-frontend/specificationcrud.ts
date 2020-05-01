@@ -1,5 +1,5 @@
 import { SpecificationList } from "./specificationlist";
-import { BASEURL, navigationBarsss, PageNo, current_page,paging, amIUser} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser} from "./globals";
 let mode:string = "create";
 (async function(){
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -128,15 +128,8 @@ let mode:string = "create";
     });
 
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
-           specs.getSpecificationData();  
+	{   currentPage=changePage((e.target as HTMLButtonElement).value);
+        specs.getSpecificationData();  
     });
 
     document.addEventListener("click", function (e) {
