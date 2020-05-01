@@ -1,4 +1,5 @@
 ﻿using dm_backend.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -96,18 +97,25 @@ namespace dm_backend.Logics
         }
 
 
+      
         public SendNotificationMail UserAcceptnotification(int userId , int deviceId)
         {
             using var cmd = Db.Connection.CreateCommand();
 
             cmd.CommandText = "get_assigned_device_user";
             cmd.CommandType = CommandType.StoredProcedure;
-            new ReturnRequestModel().BindReturnProcedureParams(cmd);
+            BindReturnProcedureParams(cmd , userId , deviceId);
             return(getDetails(cmd.ExecuteReader()));
 
         }
 
+        private void BindReturnProcedureParams(MySqlCommand cmd, int userId , int deviceId )
+        {
 
+            cmd.Parameters.Add(new MySqlParameter("var_user_id", userId));
+            cmd.Parameters.Add(new MySqlParameter("var_device_id", deviceId));
+
+        }
 
         private SendNotificationMail getDetails(DbDataReader reader )
         {
