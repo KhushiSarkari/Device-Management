@@ -90,9 +90,8 @@ namespace dm_backend.Logics
 
                 body = val.name + " <br /> This mail is to inform you that user <b>" + user.name + "</b> Ready to return device  i.e.. (<b>" + user.deviceType + " " + user.deviceName + "</b>) ";
 
-               // await ((new sendMail().sendNotification(val.email, body, "Device Return Request")));
+                await ((new sendMail().sendNotification(val.email, body, "Device Return Request")));
 
-                await ((new sendMail().sendNotification("ssrawat@ex2india.com", body, "Device Return Request")));
             }
         }
 
