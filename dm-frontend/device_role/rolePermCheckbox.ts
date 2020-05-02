@@ -26,23 +26,23 @@ export class RolePermission{
                 <tr>
                     <td></td>
                     ${
-                        this.permissions.reduce((acc, permissionsObject) => 
-                            acc + `<th scope="col">${permissionsObject["PermissionName"]}</th>`
+                        this.roles.reduce((acc, roleObject) => 
+                            acc + `<th scope="col">${roleObject["RoleName"]}</th>`
                         , '')
                     }
                 </tr>
                 ${
-                    this.mapping.reduce((acc, roleObject, rowIdx) => 
+                    this.permissions.reduce((acc, permissionObject, rowIdx) => 
                         {
                             return acc + `
                             <tr>
-                                <th scope="row">
-                                    ${roleObject["RoleName"]}
+                                <th scope="row" class="td-underlines">
+                                    ${permissionObject["PermissionName"]}
                                 </th>
                                 ${
-                                    this.permissions.reduce((acc, permissionObject, colIdx) => 
+                                    this.mapping.reduce((acc, roleObject, colIdx) => 
                                         acc + `
-                                            <td class="mdl-data-table__cell" onmouseenter="mouseOverTD(this);" onmouseleave="mouseOutTD(this);">
+                                            <td class="mdl-data-table__cell">
                                                 <label class="mdl-checkbox mdl-js-checkbox" for="checkbox-${rowIdx}-${colIdx}">
                                                     <input type="checkbox" id="checkbox-${rowIdx}-${colIdx}" class="mdl-checkbox__input" ${roleObject["Permissions"] && roleObject["Permissions"].find(perm => perm["PermissionName"] == permissionObject["PermissionName"]) ? 'checked': ''}>
                                                     <span class="mdl-checkbox__label"></span>
@@ -82,8 +82,9 @@ export class RolePermission{
     setup(){
         this.getRolesAndPermissions().then(mappingArray => {
             this.mapping = Array.from(mappingArray["Roles"]);
-            this.roles = Object.keys(this.mapping);
+            this.roles = this.mapping.map(({RoleId, RoleName}) => {return {RoleId, RoleName}});
             this.permissions = mappingArray.Permissions;
+            console.dir(this);
             this.renderTable();
         });
     }
@@ -104,23 +105,8 @@ export class RolePermission{
     }
 }
 
-function mouseOverTD(tdElement){
-    const rowTH = tdElement.parentElement.firstElementChild as HTMLTableHeaderCellElement;
-    const columnTH = tdElement.parentElement.parentElement.firstElementChild.children[tdElement.cellIndex] as HTMLTableHeaderCellElement;
-    rowTH.classList.add("activate");
-    columnTH.classList.add("activate");
-}
-function mouseOutTD(tdElement){
-    const rowTH = tdElement.parentElement.firstElementChild as HTMLTableHeaderCellElement;
-    const columnTH = tdElement.parentElement.parentElement.firstElementChild.children[tdElement.cellIndex] as HTMLTableHeaderCellElement;
-    rowTH.classList.remove("activate");
-    columnTH.classList.remove("activate");
-}
 function emptyElement(element: HTMLElement){
     while(element.firstChild){
         element.removeChild(element.firstChild);
     }
 }
-window["mouseOverTD"] = mouseOverTD;
-window["mouseOutTD"] = mouseOutTD;
-
