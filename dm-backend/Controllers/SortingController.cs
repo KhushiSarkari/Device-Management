@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using dm_backend.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace dm_backend.Models
 {
@@ -27,8 +25,13 @@ namespace dm_backend.Models
             string find = HttpContext.Request.Query["user-name"];
             string deviceserialNumber = HttpContext.Request.Query["serial-number"];
             string sortType = HttpContext.Request.Query["sort-type"];
-            string page = (HttpContext.Request.Query["page"]);
-            string limit = (HttpContext.Request.Query["page-size"]);
+            int page = 1;
+            int limit = 5;
+
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["page-size"]))
+                limit = int.Parse(HttpContext.Request.Query["page-size"]);
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["page"]))
+                page = int.Parse(HttpContext.Request.Query["page"]);
             if (status == "" || status == null)
                 status = null;
             if (deviceserialNumber == "" || deviceserialNumber == null)
@@ -39,15 +42,15 @@ namespace dm_backend.Models
                 sort = "";
             if (find == null)
                 find = "";
-            if (page == null)
-                page = "";
-            if (limit == null)
-                limit = "";
+          
           
             var result = new SortRequestHistoryData(Db);
             try
             {
-                return new OkObjectResult(await result.GetSortData(find, deviceserialNumber, status, sort, sortType, page, (limit)));
+                var pager = PagedList<RequestDeviceHistory>.ToPagedList(await result.GetSortData(find, deviceserialNumber, status, sort, sortType), page, limit);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+                //  return new OkObjectResult(await result.GetSortData(find, deviceserialNumber, status, sort, sortType, page, (limit)));
+                return new OkObjectResult( pager);
             }
             catch
             {

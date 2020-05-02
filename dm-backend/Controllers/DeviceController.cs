@@ -22,7 +22,7 @@ namespace dm_backend.Controllers
         public IActionResult GetAllDevices()
         {
 
-            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
             Db.Connection.Open();
             var query = new devices(Db);

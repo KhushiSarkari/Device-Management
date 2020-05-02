@@ -6,6 +6,8 @@ using dm_backend.Models;
 using dm_backend.Data;
 
 using Newtonsoft.Json;
+using dm_backend.Logics;
+
 namespace dm_backend.Controllers
 {
     [Authorize]
@@ -76,6 +78,8 @@ namespace dm_backend.Controllers
             item.Db = Db;
             var result = item.AddOneUser();
             Db.Connection.Close();
+        string body ="Congratulations !<br>"+item.FirstName+" "+item.LastName+"<br>  Your account has been created on Device Management portal  <br> Thanks  ";
+        var sendobj = new sendMail().sendNotification(item.Email,body,"Registration Successfull") ;
             return new OkObjectResult(item);
         }
 

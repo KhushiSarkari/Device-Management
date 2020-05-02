@@ -54,7 +54,7 @@ namespace dm_backend.Utilities
                 string body = "Hi, <br><br> We got request for reset account password . Please Click on the link given below. <br><br> <a href=" + link + "> Reset Password link </a> ";
 
             var smtp = new SmtpClient
-            {
+            {   
                 Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,

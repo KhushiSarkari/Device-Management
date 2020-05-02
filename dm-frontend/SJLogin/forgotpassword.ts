@@ -1,6 +1,6 @@
 const url = new URL(window.location.href);
 let id = url.searchParams.get("id");
-function SetPassword()
+document.querySelector("#snp").addEventListener("click",  (e) => 
 {
     let password = (window.document.getElementById("newpassword") as HTMLInputElement ).value;
   console.log(password);
@@ -30,6 +30,6 @@ function SetPassword()
 
         }).catch(err=>{console.log(err)});
    
-}
+});
  
 

@@ -66,9 +66,9 @@ namespace dm_backend.Controllers
             Db.Connection.Open();
 
            
-            var fault = new FaultyDevice(Db);
+             var fault = new FaultyDevice(Db);
              var pager = PagedList<FaultyDeviceModel>.ToPagedList(fault.getFaultyDevice(userId, searchField, serialnumber, status, sortField, sortDirection), pageNumber, pageSize);
-           Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
             // object result;
             // try
             // {

@@ -16,6 +16,11 @@ namespace dm_backend.Models{
             Db = db;
         }
                
+        public BindRequestData()
+
+        {
+
+        }
         async public Task<List<RequestDeviceHistory>> BindHistoryData(DbDataReader reader)
         {
             var posts = new List<RequestDeviceHistory>();   // create an array of blogpost

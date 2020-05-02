@@ -19,6 +19,8 @@ namespace dm_backend.Controllers
         {
             Db = db;
         }
+
+
         [AllowAnonymous]
         [HttpGet]
         [Route("country")]
@@ -271,10 +273,12 @@ namespace dm_backend.Controllers
             var result = specs.getSpecificSpecification( type, brand, model);
 
             Db.Connection.Close();
-             if (result.Count < 1)
-               return NoContent();
+
+           //  if (result.Count < 1)
+           //    return NoContent();
             //var json = config.Formatters.JsonFormatter;
            // json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+
             return new OkObjectResult(result);
         }
 

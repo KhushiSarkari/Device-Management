@@ -21,6 +21,7 @@ import { Sort } from "./user-profile/SortingUser";
             for (var i = 0; i < data.length; i++) {
                 specs = data[i]['specs'];
                 requestedBy = data[i]['requestedBy'];
+                console.log(data[i]["requestedBy"]['email']);
                 tableData += "<tr>"
                     + "<td>" + data[i]['userId'] + "</td>"
                     + "<td>" + data[i]['deviceType'] + "</td>" + "<td>" + data[i]['deviceBrand'] + "</td>" + "<td>" + data[i]['deviceModel'] + "</td>"
@@ -29,14 +30,14 @@ import { Sort } from "./user-profile/SortingUser";
                     + "<td>" + data[i]['requestDate'] + "</td>"
                     + "<td>" + data[i]['availability'] + "</td>";
                 if (data[i]['availability'] == true)
-                    tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" >Accept</button>" + "</td>";
+                    tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" data-requestname=\""+ util.concatName(requestedBy) +"\" data-requestmail = \"" + data[i]["requestedBy"]['email']+"\"  >Accept</button>" + "</td>";
                 else
                     tableData += "<td>" + "<button class=\"show-users\" data-devicemodel=\""
                         + data[i]['deviceModel'] + "\"data-devicetype=\"" + data[i]['deviceType'] + "\" data-devicebrand=\""
                         + data[i]['deviceBrand'] + "\"data-ram=\"" + specs.ram + "\"data-connectivity=\"" + specs.connectivity
                         + "\"data-screensize=\"" + specs.screenSize + "\"data-storage=\"" + specs.storage + "\" >Notify</button>" + "</td>";
 
-                tableData += "<td>" + "<button class=\"reject-button\" data-requestid=" + data[i]['requestId'] + " >Reject</button>" + "</td></tr>";
+                tableData += "<td>" + "<button class=\"reject-button\" data-requestid=" + data[i]['requestId'] + "\"  data-requestname=\""+ util.concatName(requestedBy) +"\" data-requestmail = \"" + data[i]["requestedBy"]['email']+"\" >Reject</button>" + "</td></tr>";
 
             }
             document.getElementById("content").innerHTML = tableData;
@@ -72,8 +73,8 @@ import { Sort } from "./user-profile/SortingUser";
         });
     }
 
-    function requestAction(requestUrl, requestId, action) {
-        fetch(globalUrl + requestId + requestUrl,
+    function requestAction(requestUrl, requestId, action , name , mail) {
+        fetch(globalUrl + requestId + requestUrl +"&name="+name+"&email="+mail,
             {
                 headers: new Headers({ "Authorization": `Bearer ${token}` })
             });
@@ -95,7 +96,6 @@ import { Sort } from "./user-profile/SortingUser";
                 notify: []
             };
         }
-
     }
 
     (document.querySelector('#tablecol') as HTMLTableElement).addEventListener("click", function (e) {
@@ -121,12 +121,18 @@ import { Sort } from "./user-profile/SortingUser";
     document.addEventListener("click", function (e) {
         let requestId = parseInt((e.target as HTMLButtonElement).dataset.requestid, 10);
         if ((e.target as HTMLButtonElement).className == "reject-button") {
+           var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
             if (confirm("Are you sure you want to reject the request?"))
-                requestAction('?action=reject&id=' + adminId, requestId, 'rejected');
+            {
+                requestAction('?action=reject&id=' + adminId, requestId, 'rejected' , name , mail);
+            }
         }
         if ((e.target as HTMLButtonElement).className == "accept-button") {
+            var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
             if (confirm("Are you sure you want to accept the request?"))
-                requestAction('?action=accept&id=' + adminId, requestId, 'accepted');
+                requestAction('?action=accept&id=' + adminId, requestId, 'accepted' , name , mail);
 
         }
         if ((e.target as HTMLButtonElement).className == "show-users") {

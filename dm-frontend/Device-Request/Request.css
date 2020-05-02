@@ -9,7 +9,11 @@
         padding: 15px;
         
     }
+  
 
+    select{
+      text-align-last: center;
+    }
 
 div.mdl-layout__drawer
 {
