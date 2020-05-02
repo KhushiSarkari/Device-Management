@@ -2,10 +2,16 @@
 	<head>
 		<!-- Material Design Lite -->
 		<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<script src="/static/polyfill.js"></script>
 		<link
 			rel="stylesheet"
 			href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css"
 		/>
+		<link
+			rel="stylesheet"
+			href="/static/polyfill.css"
+		/>
+		
 		<!-- Material Design icon font -->
 		<link
 			rel="stylesheet"
@@ -89,41 +95,41 @@
 					</div>
 					<div id="insert_permission"></div>
 				</section>
-				<dialog id="popup" class="mdl-dialog input-dialog">
-					<h3 class="mdl-dialog__title">Enter value</h3>
-					<div class="mdl-dialog__content">
-						<input
-							type="text"
-							class="form-control"
-							id="roleName"
-							name="roleName"
-							value=""
-						/>
-					</div>
-					<div class="mdl-dialog__actions">
-						<button type="button" class="mdl-button negative txt-danger">
-							CLOSE
-						</button>
-						<button type="button" class="mdl-button positive mdl-button--colored" id="btn_insert">
-							ADD
-						</button>
-					</div>
-				</dialog>
-				<dialog class="mdl-dialog confirm-dialog">
-					<div class="mdl-dialog__content">
-						<p data-default="Are you sure you want to continue ?"></p>
-					</div>
-					<div class="mdl-dialog__actions">
-						<button type="button" class="mdl-button negative txt-danger">
-							CLOSE
-						</button>
-						<button type="button" class="mdl-button positive mdl-button--colored">
-							AGREE
-						</button>
-					</div>
-				</dialog>
 			</main>
 		</div>
+		<dialog id="popup" class="mdl-dialog input-dialog">
+			<h3 class="mdl-dialog__title">Enter value</h3>
+			<div class="mdl-dialog__content">
+				<input
+					type="text"
+					class="form-control"
+					id="roleName"
+					name="roleName"
+					value=""
+				/>
+			</div>
+			<div class="mdl-dialog__actions">
+				<button type="button" class="mdl-button negative txt-danger">
+					CLOSE
+				</button>
+				<button type="button" class="mdl-button positive mdl-button--colored" id="btn_insert">
+					ADD
+				</button>
+			</div>
+		</dialog>
+		<dialog class="mdl-dialog confirm-dialog">
+			<div class="mdl-dialog__content">
+				<p data-default="Are you sure you want to continue ?"></p>
+			</div>
+			<div class="mdl-dialog__actions">
+				<button type="button" class="mdl-button negative txt-danger">
+					CLOSE
+				</button>
+				<button type="button" class="mdl-button positive mdl-button--colored">
+					AGREE
+				</button>
+			</div>
+		</dialog>
 		<script src="/assets/js/user_role.js"></script>
 	</body>
 	<script>
