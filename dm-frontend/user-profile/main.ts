@@ -1,6 +1,6 @@
 import { UserModel } from './UserModel';
 import { createObjectFromForm, populateFormFromObject } from './databinding';
-import { validate } from "./validate";
+import { validate } from "../validation";
 import { dropDownListen } from "./dropDownListener";
  import * as util from "../utilities";
 import { BASEURL, navigationBarsss, amIUser } from '../globals';
