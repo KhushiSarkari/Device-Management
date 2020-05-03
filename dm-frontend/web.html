@@ -24,9 +24,11 @@
             /* top: 20%; */
             display: block;
         }
-        .mdl-layout__drawer-button i.material-icons
+       
+            .mdl-layout__drawer-button i.material-icons 
 {
   line-height: 2;
+  visibility: hidden;
 }
     </style>
 </head>
@@ -502,14 +504,20 @@
 
 
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title">Welcome To Admin User Page</span>
+                <span class="mdl-layout-title "style="margin-left: 20px; ">Welcome To Admin User Page</span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <div class="mdl-layout-spacer"></div>
+              
+	  
+					<div id="row1">
+					  
+					  
+					</div> 
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
                     Launch demo modal
                   </button> -->

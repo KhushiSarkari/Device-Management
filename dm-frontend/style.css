@@ -216,4 +216,6 @@ opacity: 1;
 	display: none;
    
   }
+  .mdl-badge[data-badge]:after{
+  background-color: rgb(105, 240, 174);}
  

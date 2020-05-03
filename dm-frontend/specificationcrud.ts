@@ -1,5 +1,5 @@
 import { SpecificationList } from "./specificationlist";
-import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser,headersRows} from "./globals";
 let mode:string = "create";
 (async function(){
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -150,4 +150,5 @@ let mode:string = "create";
     const specs = new GetSpecification();
     specs.getSpecificationData();
     navigationBarsss(role,"navigation");
+    headersRows(role,"row1");
 })();

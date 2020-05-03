@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page,Token,changePage} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,Token,changePage,headersRows} from "./globals";
 import * as util from "./utilities";
 import { Requests, Specification, PartialUserModel } from "./RequestModel";
 import { HitApi } from './Device-Request/HitRequestApi';
@@ -163,4 +163,5 @@ import { Sort } from "./user-profile/SortingUser";
 
     getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
     navigationBarsss("Admin", "navigation");
+    headersRows("Admin","row1");
 

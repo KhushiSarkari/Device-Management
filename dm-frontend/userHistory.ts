@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging,changePage } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging,changePage,headersRows } from './globals';
 
 import { Sort } from './user-profile/SortingUser';
 let currentPage:number=current_page;
@@ -109,6 +109,7 @@ let currentPage:number=current_page;
         
     }
     navigationBarsss(role, "navigation");
+    headersRows(role,"row1");
     var mydevices = new MyDevices(token);
 
 

@@ -12,9 +12,146 @@ export function amIUser(token: string){
     return new HitApi(token).HitGetApi(BASEURL + "/api/is_user")
     .then(res => res.result as boolean);
 
+
+}
+export class Token    /// call static method that return an object 
+{
+    userID:number 
+    tokenKey :string
+    private constructor(){ 
+        this.tokenKey = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+        this.userID = parseInt(JSON.parse(sessionStorage.getItem("user_info"))["id"]);
+     }
+     static  getInstance():Token
+    {
+        return new Token();
+    }
+}
+
+
+
+
+
+export function headersRows(role:string , element:string){
+    var row1=`
+           <div class="mdl-js" >
+                    <nav class="mdl-navigation"  >
+                     <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
+                      
+       
+                     <button id="profile" class="mdl-button mdl-js-button mdl-button--icon">
+                     <i class="material-icons">person_pin</i>
+                 </button>
+                 <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="profile">
+                     <a href='/user-profile/index.html'>
+                         <li class="mdl-menu__item" id="#userProfile" >Profile</li></a>
+                     
+                     <li class="mdl-menu__item" id="logout">Logout</li>
+                 </ul>`;
+
+          
+     
+       
+
+    
+    if (role == "Admin" ) {
+        
+        let r2= ` 
+        <span class="material-icons mdl-badge mdl-badge--overlap" id="submissionNotification"></span>
+        
+    `;
+
+    this.row1+=` </nav>
+    </div>
+   
+`;
+
+
+document.getElementById(element).innerHTML = row1+r2;
+(document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "check_circle";
+}
+
+
+else if(role == "User")
+{
+ document.getElementById(element).innerHTML = row1;
+}
+
+
+document.getElementById("logout").addEventListener('click', function (e) {
+    sessionStorage.clear();
+    
+    window.location.href = "/SJLogin/LoginRegiter.html";
+    
+    
+});
+
+// document.querySelector("#submissionNotification").addEventListener('click', e => {
+//     if (role == "Admin" ) {
+//         window.location.href = "/submissionRequestPage.html";
+//     }
+
+// });
+// document.querySelector("#notifications").addEventListener('click', function (e) {
+   
+//     window.location.href = "/notifiication.html";}
+  
+// );
+document.addEventListener("click", function(e){
+    if((e.target as HTMLButtonElement).id=="notifications"){
+    
+         window.location.href="/notifiication.html";
+  
+ 
+  
+}
+  else if((e.target as HTMLButtonElement).id=="submissionNotification"){
+
+if(role=="Admin"){
+
+         window.location.href="/submissionRequestPage.html";
+  }
+}
+ 
+
+});
+
+
+
+
+function NotificationCount() {
+    fetch(BASEURL+ "/api/Notification/Count/" +Token.getInstance().userID)
+        .then(Response => Response.json())
+        .then(data => {
+            (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
+        })
+        .catch(err => console.log(err));
+}
+NotificationCount();
+
+
+
+
+
+
+
+
+
+
+
+window["componentHandler"].upgradeDom();
 }
 export function navigationBarsss(role:string , element:string) {
-    var navigation = `<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800" >
+    var navigation = `   <header class="demo-drawer-header">
+    <div class="demo-avatar-dropdown"><br>
+        
+        <div class="mdl-layout-spacer"></div>
+        <br>
+    </div>
+</header>
+
+   
+    <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800" >
     <a class="mdl-navigation__link" href="/dashboard.html">
    <i class="mdl-color-text--blue-grey-400 material-icons"
        role="presentation">dashboard</i>Dashboard
@@ -100,16 +237,16 @@ export function changePage(value){
     return current_page;
 }
 
-export class Token    /// call static method that return an object 
-{
-    userID:number 
-    tokenKey :string
-    private constructor(){ 
-        this.tokenKey = JSON.parse(sessionStorage.getItem("user_info"))["token"];
-        this.userID = parseInt(JSON.parse(sessionStorage.getItem("user_info"))["id"]);
-     }
-     static  getInstance():Token
-    {
-        return new Token();
-    }
-}
+// export class Token    /// call static method that return an object 
+// {
+//     userID:number 
+//     tokenKey :string
+//     private constructor(){ 
+//         this.tokenKey = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+//         this.userID = parseInt(JSON.parse(sessionStorage.getItem("user_info"))["id"]);
+//      }
+//      static  getInstance():Token
+//     {
+//         return new Token();
+//     }
+// }

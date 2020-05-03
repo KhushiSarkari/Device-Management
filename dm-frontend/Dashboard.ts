@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss ,headersRows} from './globals';
 import { HitApi } from './Device-Request/HitRequestApi';
 
 (async function () {
@@ -34,15 +34,15 @@ import { HitApi } from './Device-Request/HitRequestApi';
     //     }
 
    // }
-    function NotificationCount() {
-        fetch(BASEURL+ "/api/Notification/Count/" + id)
-            .then(Response => Response.json())
-            .then(data => {
-                (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
-            })
-            .catch(err => console.log(err));
-    }
-    NotificationCount();
+    // function NotificationCount() {
+    //     fetch(BASEURL+ "/api/Notification/Count/" + id)
+    //         .then(Response => Response.json())
+    //         .then(data => {
+    //             (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
+    //         })
+    //         .catch(err => console.log(err));
+    // }
+    // NotificationCount();
 
     function getStatistics(url: string) {
         new HitApi(token).HitGetApi(url).then(data => {
@@ -108,20 +108,21 @@ import { HitApi } from './Device-Request/HitRequestApi';
     }
 
     navigationBarsss(role, "navigation");
+    headersRows(role,"row1");
     document.getElementById('role').innerHTML = role;
 
-    document.querySelector("#submissionNotification").addEventListener('click', e => {
-        if (role == "Admin") {
-            window.location.href = "./submissionRequestPage.html";
-        }
-    });
-    document.getElementById("notifications").addEventListener('click', function (e) {
-        window.location.href = "./notifiication.html";
-    });
-    document.getElementById("logout").addEventListener('click', function (e) {
-        sessionStorage.clear();
-        window.location.href = "/SJLogin/LoginRegiter.html";
-    });
+    // document.querySelector("#submissionNotification").addEventListener('click', e => {
+    //     if (role == "Admin") {
+    //         window.location.href = "./submissionRequestPage.html";
+    //     }
+    // });
+    // document.getElementById("notifications").addEventListener('click', function (e) {
+    //     window.location.href = "./notifiication.html";
+    // });
+    // document.getElementById("logout").addEventListener('click', function (e) {
+    //     sessionStorage.clear();
+    //     window.location.href = "/SJLogin/LoginRegiter.html";
+    // });
     document.addEventListener("click", function (e) {
         let action = (e.target as HTMLButtonElement).dataset.card;
         if (action == "total")
