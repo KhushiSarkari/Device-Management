@@ -1,4 +1,4 @@
-import { UserModel } from './UserModel';
+import { UserModel } from '../UserModel';
 import { createObjectFromForm, populateFormFromObject } from './databinding';
 import { validate } from "../validation";
 import { dropDownListen } from "./dropDownListener";
