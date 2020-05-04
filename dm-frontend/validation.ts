@@ -25,26 +25,10 @@ export function validate() {
     phonevalidation("edit","phones3");
 }
 export function remove() {
-    (document.getElementById('salutations') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('firstNames') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('lastNames') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('emails') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('passwords') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('confirmpasss') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('roleNames') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('departments') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('designations') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('phone_number1s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('CountryCodes1') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('Contact1') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('ac1s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c1s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c2s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c3s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c4s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c5s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('c6s') as HTMLInputElement).innerHTML = "";
-    (document.getElementById('addressType1') as HTMLInputElement).innerHTML = "";
+    document.querySelectorAll('form span').forEach((spanElement: HTMLSelectElement) => {
+		spanElement.textContent = "";
+		
+	})
     
 }
 function salutationvalidation(){
@@ -239,14 +223,17 @@ function currAddType(containerId: string){
     }
 }
 function addressvalidation(formmode:string ,containerId: string) {
+    var container=document.querySelector("#" +containerId)
     var addresses1 = (document.querySelector("#" + containerId + ' .addressLine1') as HTMLInputElement).value;
     if(formmode=="create"&&addresses1=="")
     {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
         return 1;
     }
-
-    if (addresses1 == "") {
+    if (container.getAttribute("aria-required")!="true" &&(addresses1=="")) {
+        return 1;
+    }
+   else if (addresses1 == "") {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "Fill  addresss line1";
         return 0;
     } else if (addresses1.length > 30) {
@@ -256,7 +243,7 @@ function addressvalidation(formmode:string ,containerId: string) {
     else if(addresses1!="")
     {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
-        return addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
+        return currAddType(containerId)*addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
         cityvalidation(containerId)*pinvalidation(containerId);
     }
     else {
@@ -367,14 +354,14 @@ function phonevalidation(formmode:string,containerId: string) {
         return 0;
     }
     else if (!phone.match(/^\d{10}$/)) {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "**Enter the 10 valid digits";
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter the 10 valid digits";
         return 0;
     } 
     
         else if(phone.length==10)
         {
              document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
-            return countrycodevalidation(containerId)*areacodevalidation(containerId);
+            return phones1c(containerId)*countrycodevalidation(containerId)*areacodevalidation(containerId);
 
         }
      else {
