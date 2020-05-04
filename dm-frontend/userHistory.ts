@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token,headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
 import {descriptionboxvalidation} from "./validation";
