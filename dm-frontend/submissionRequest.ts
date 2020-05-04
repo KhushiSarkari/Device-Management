@@ -79,7 +79,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
             var returnId = (event.target as HTMLButtonElement).dataset.returnId
             if(confirm("Are you sure you want to approve the return?"))
             {   let url = address + "/api/ReturnRequest/"+ returnId +"?action=accept&id="+adminId;
-            window["tata"].text('Device Return  ','Approved!',{duration:30000});
+            window["tata"].text('Device Return  ','Approved!',{duration:3000});
                 new Api(token).hitGetApi(url);
                 getAll();
             }
@@ -90,7 +90,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
         var returnId = (event.target as HTMLButtonElement).dataset.returnId
         if(confirm("Are you sure you want to reject the return?"))
         {   let url = address + "/api/ReturnRequest/"+ returnId +"?action=reject&id="+adminId;
-        window["tata"].text('Device Return ','Rejected!',{duration:30000});
+        window["tata"].text('Device Return ','Rejected!',{duration:3000});
             new Api(token).hitGetApi(url);
             getAll();
         }
