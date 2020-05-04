@@ -12,7 +12,6 @@ export class HitApi {
       res = await fetch(uri, {
         headers: new Headers({ Authorization: `Bearer ${this.token}` }),
       });
-      console.log(res.status);
       if(res.headers.get('X-Pagination')!=null)
       { let metadata=JSON.parse(res.headers.get('X-Pagination'));
         paging(metadata);
@@ -21,8 +20,15 @@ export class HitApi {
         // console.log("error while hittiing api");
         // return null;
     // }
+    if(res.status==200)
+    {
     const data = await res.json();
     return await data;
+    }
+    else {
+      return{
+      };
+    }
   }
 
   public async HitPostApi(uri: string, data: any) {
@@ -46,4 +52,11 @@ export class HitApi {
       body: JSON.stringify(data),
     });
   }
+  public async HitDeleteApi(uri:string)
+  {
+    return fetch(uri,{
+      method: "DELETE", headers: new Headers({ "Authorization": `Bearer ${this.token}` })
+    })    
+  }
 }
+

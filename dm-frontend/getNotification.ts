@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging } from "./globals";
+import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging,changePage } from "./globals";
 import { Sort } from "./user-profile/SortingUser";
 import {Notifications} from "./notification";
 (async function() {
@@ -118,19 +118,12 @@ document.addEventListener("click", function (e) {
 });
 (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    notify.currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			notify.currentPage-=1;
-		else
-            notify.currentPage=+((e.target as HTMLButtonElement).value);
-      
+		notify.currentPage=changePage((e.target as HTMLButtonElement).value);
         notify.notification(user_id); 
     });
 
 let notify = new Notify(token);
 notify.notification(user_id);
-
 navigationBarsss(role,"navigation");
 return null ;
 })();

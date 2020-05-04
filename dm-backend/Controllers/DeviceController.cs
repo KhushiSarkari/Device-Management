@@ -22,7 +22,7 @@ namespace dm_backend.Controllers
         public IActionResult GetAllDevices()
         {
 
-            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
             Db.Connection.Open();
             var query = new devices(Db);
@@ -60,12 +60,12 @@ namespace dm_backend.Controllers
         {
             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            string device_name = (HttpContext.Request.Query["device_name"]);
+            string device_name = (string)(HttpContext.Request.Query["device_name"])??"";
             string serial_number = (HttpContext.Request.Query["serial_number"]);
             string status_name = (HttpContext.Request.Query["status_name"]);
-            if (device_name == null)
+            if(status_name=="all")
             {
-                device_name = "";
+                status_name=null;
             }
             Db.Connection.Open();
             var query = new devices(Db);

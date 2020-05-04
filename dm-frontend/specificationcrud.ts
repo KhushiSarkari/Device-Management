@@ -1,17 +1,11 @@
 import { SpecificationList } from "./specificationlist";
-import { BASEURL, navigationBarsss, PageNo, current_page,paging, amIUser} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser} from "./globals";
 let mode:string = "create";
 (async function(){
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
     const role = (await amIUser(token)) == true ? "User" :"Admin";
     let currentPage:number=current_page;
     class GetSpecification {
-        specification_id:number;
-        RAM:string;
-        storage:string;
-        screenSize:string;
-        connectivity:string;
-    
         getSpecificationData() {
             fetch(
                 BASEURL +"/api/Device/specification?"+PageNo(currentPage),{
@@ -37,19 +31,19 @@ let mode:string = "create";
         {
             
             console.log("type");
-            const data = new GetSpecification();
+            const data = new SpecificationList("",token);
             data.RAM = (document.getElementById("RAM")as HTMLInputElement).value;
             data.storage = (document.getElementById("Storage")as HTMLInputElement).value;
             data.screenSize = (document.getElementById("Screen_size")as HTMLInputElement).value;
             data.connectivity = (document.getElementById("Connectivity")as HTMLInputElement).value;
             return JSON.stringify(data);
         }
-        addNewSpecification()
+        async addNewSpecification()
         {
         
             let data1=this.addDataToSpecification();
             console.log(data1);
-            fetch(BASEURL +"/api/Device/addspecification", {
+            let res = await fetch(BASEURL +"/api/Device/addspecification", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,26 +51,27 @@ let mode:string = "create";
                 },
                 body: data1,
             })
-            .catch(Error => console.log(Error));
+            return res.status;
 
         }
-        updateSpecification(specification_id:number)
+        async updateSpecification(specification_id:number)
         {
             
             let data1 = this.addDataToSpecification();
-            fetch(BASEURL +"/api/Device/updatespecification/"+ specification_id, {
+           let res= await fetch(BASEURL +"/api/Device/updatespecification/"+ specification_id, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: data1,
-            })
-            .catch(Error => console.log(Error));
+            });
+           return res.status;
 
         }
         fillSpecification(specification_id:number)
         {
+            console.log(specification_id);
             fetch(
                 BASEURL +"/api/Device/spec/"+specification_id,{
                     headers: new Headers({"Authorization": `Bearer ${token}`})
@@ -86,19 +81,19 @@ let mode:string = "create";
                 .then(data => {
                     console.log(data);
 
-                    this.getDataToForm(data);
+                    this.getDataToForm(data[0]);
                     
                 })
-                .catch(err => console.log(err));
+                ;
 
         }
         getDataToForm(data:any)
         {
 
-            (document.getElementById("RAM")as HTMLInputElement).value  =  data.result[0].ram;
-            (document.getElementById("Connectivity")as HTMLInputElement).value = data.result[0].connectivity;
-            (document.getElementById("Storage")as HTMLInputElement).value  = data.result[0].storage;
-            (document.getElementById("Screen_size")as HTMLInputElement).value  = data.result[0].screenSize;
+            (document.getElementById("RAM")as HTMLInputElement).value  =  data.ram;
+            (document.getElementById("Connectivity")as HTMLInputElement).value = data.connectivity;
+            (document.getElementById("Storage")as HTMLInputElement).value  = data.storage;
+            (document.getElementById("Screen_size")as HTMLInputElement).value  = data.screenSize;
             
         }
         openForm() {
@@ -109,40 +104,34 @@ let mode:string = "create";
         }
     
     }
-    (document.querySelector('#popup_specification')as HTMLFormElement).addEventListener('submit', function (e) {
+    (document.querySelector('#popup_specification')as HTMLFormElement).addEventListener('submit',async  function (e) {
         console.log("inside function")
         e.preventDefault();
-    
+        let response;
         if(mode === "edit")
         {
             
-            specs.updateSpecification(specs.specification_id);
+           response = await specs.updateSpecification(specification.specification_id);
             mode = "create";
         }
         else{
-        specs.addNewSpecification();
+             response =await specs.addNewSpecification();
         }
         specs.closeForm();
+        if(response ==200){
         specs.getSpecificationData();
-        
+        }
     });
 
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
-           specs.getSpecificationData();  
+	{   currentPage=changePage((e.target as HTMLButtonElement).value);
+        specs.getSpecificationData();  
     });
 
     document.addEventListener("click", function (e) {
         if ((e.target as HTMLButtonElement).className == "edit-button") {
             const specification_id: any = (e.target as HTMLButtonElement).getAttribute('value');
-            specs.specification_id = specification_id;
+            specification.specification_id = specification_id;
             specs.openForm();
             mode = "edit";
         specs.fillSpecification(specification_id);
@@ -157,7 +146,7 @@ let mode:string = "create";
             specs.openForm();
         }
     });
-
+    const specification = new SpecificationList("",token);
     const specs = new GetSpecification();
     specs.getSpecificationData();
     navigationBarsss(role,"navigation");

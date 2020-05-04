@@ -26,6 +26,8 @@
                 <!-- Title -->
                 <span class="mdl-layout-title" id="getdata" style="cursor:pointer">Request History</span>
                 <div class="mdl-layout-spacer"></div>
+                <div class="mdl-layout-spacer"></div>
+                
 
             </div>
             <!-- Bottom row, not visible on scroll -->
@@ -42,34 +44,36 @@
                 <a class="mdl-navigation__link" href="">Create New User</a>
                 <a class="mdl-navigation__link" href="">All Devices</a>
             </nav> -->
+        
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div class="requestdata">
-                    <!-- <button class="getAll Requestbutton" id="getdata">Get Data</button> -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                mdl-textfield--floating-label mdl-textfield--align-right">
-                        <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                            <i class="material-icons">search</i>
-                        </label>
-                        <div class="mdl-textfield__expandable-holder">
-                            <input class="mdl-textfield__input" type="text" name="sample" user="" id="waterfall-exp" value="">
-                        </div>
-                        <div class="mdl-layout-spacer"></div>     
-                    <span>                  
-                          <input type="text" class="serial-number" id="device_serial_number"  name="search"  serialNumber="" placeholder="enter device serial number...">
-                    </span>
+              <br>
+              <div class="user_data_table">
+                <div class="serial-number">
+                    <select id="request-status">
+                        <option class="status" id="All">All</option>
+                        <option class="status"  id ="ret">Returned</option>
+                        <option class="status" id="rej">Rejected</option>
+                </select>
+                        <input class="search" type="text" name="search" id="device_serial_number"
+                        placeholder=" Search Serial number">
 
-                    </div>
-                    
-                    <div>
-                          <select id="request-status">
-                            <option class="status" id="All">All</option>
-                            <option class="status"  id ="ret">Returned</option>
-                            <option class="status" id="rej">Rejected</option>
-                          </select>
-                    </div>
-                    <div class="user_data_table"style="display: flex; justify-content: center;" >
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                            mdl-textfield--floating-label">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="waterfall-exp">
+                                <i class="material-icons">search</i>
+                            </label>
+                            <div class="mdl-textfield__expandable-holder">
+                                <input class="mdl-textfield__input" type="text" name="sample" value="" id="waterfall-exp">
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- <b>Device Status</b>  -->
+                </div>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" > 
                         <thead id="tableHead" sort="" sortby="">
                             <tr>
@@ -88,10 +92,10 @@
 
                                 <th >Assign Date</th>
 
-                                <th>Device Return Date</th>
+                                <th> Return Date</th>
 
                                 <th class="mdl-data-table__header--sorted-ascending" id="admin">
-                                    Admin Handler Name</th>
+                                    Admin Name</th>
 
                             </tr>
                         </thead>
@@ -111,6 +115,11 @@
 
                 </div>
             </div>
+            <center>
+                <div class="pagination" id="pagination" pageNum="1" result-count="0" data-currentpage="1">
+
+                </div>
+            </center>
         </main>
     </div>
     <div class="load" id="loading">

@@ -12,7 +12,7 @@ export class UserModel
 	userId : number = 0;
 	dob: string = "";
 	gender: string = "";
-	roleName:string="";
+	roleName:string=""; 
 	status:string="";
 	doj: string = "";
 

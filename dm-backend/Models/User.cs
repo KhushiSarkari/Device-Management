@@ -81,6 +81,7 @@ namespace dm_backend.Models
 
                 Console.WriteLine("An exception of type " + e.Message + " was encountered while inserting the data.");
                 Console.WriteLine("Neither record was written to database.");
+                throw e;
             }
             finally
             {

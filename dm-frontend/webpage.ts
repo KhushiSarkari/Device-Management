@@ -6,7 +6,7 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss, PageNo, current_page, paging  } from './globals';
+import { BASEURL,amIUser,navigationBarsss, current_page,changePage  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
@@ -63,7 +63,12 @@ import { formatPhone } from "./utilities";
 		{
 			var userData=createObjectFromForm(this);
 			if(validateForm(form_mode)==true){
-				new CreateUserApi(token).createUserData(userData).then(function(){setData();});
+				new CreateUserApi(token).createUserData(userData).then(function(response:Response ){
+					if(response.status!=200)
+					{
+						throw new Error(response.statusText);
+					}
+				}).then(function(){setData();}).catch(Error => {console.log(Error),alert(Error.message);});
 			}
 			else 
 			{
@@ -265,13 +270,7 @@ import { formatPhone } from "./utilities";
 
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
+		currentPage=changePage((e.target as HTMLButtonElement).value);
 		setData();
 		
     });

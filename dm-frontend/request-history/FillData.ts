@@ -12,15 +12,6 @@ export class PopulateData {
             obj.populateData(value);
             new PopulateData().genearteFields(obj);
         });
-        // this.domElement = new HtmlElementsData()
-        // console.log(data["resultCount"]);
-        // debugger
-        // for (let value of  data["results"])
-        //     {
-        //         let  obj = new RequestModel();
-        //         obj.populateData(value);
-        //         this.genearteFields(obj);  
-        //     }
         }
    
 

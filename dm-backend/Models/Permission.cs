@@ -22,11 +22,22 @@ namespace dm_backend.Models
         {
             Db.Connection.Open();
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"delete from permission where permission_id=@permission_id;";
+            cmd.CommandText = @"DELETE FROM permission WHERE  NOT EXISTS
+(SELECT * from role_to_permission  WHERE  role_to_permission.permission_id = permission.permission_id)
+ and permission_id=@permission_id;";
             BindPermissionId(cmd);
-            cmd.ExecuteNonQuery();
+            int numberOfRecords=  cmd.ExecuteNonQuery();
             Db.Connection.Close();
-            return 1;
+           Console.WriteLine(numberOfRecords);
+           if(numberOfRecords>0)
+           {
+               Console.WriteLine("permission deleted");
+               return 1;
+           }
+           else {
+               Console.WriteLine("permission not deleted");
+               return 0;
+               }
         }
         public void AddPermission()
         {

@@ -32,23 +32,7 @@ namespace dm_backend.Models
             Db = db;
         }
 
-        public string AddRequest()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "insert_request";
-            cmd.CommandType = CommandType.StoredProcedure;
-            try
-            {
-                BindRequestProcedureParams(cmd);
-                cmd.ExecuteNonQuery();
-                return "Request sent";
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
+ 
         public List<RequestModel> GetAllPendingRequests(int userId,string sortField,string sortDirection,string searchField)
         {
             using var cmd = Db.Connection.CreateCommand();
@@ -79,16 +63,6 @@ namespace dm_backend.Models
             {
                 throw e;
             }
-        }
-
-        private void BindRequestProcedureParams(MySqlCommand cmd){
-            cmd.Parameters.Add(new MySqlParameter("var_user_id", userId));
-            cmd.Parameters.Add(new MySqlParameter("var_device_model", deviceModel));
-            cmd.Parameters.Add(new MySqlParameter("var_device_brand", deviceBrand));
-            cmd.Parameters.Add(new MySqlParameter("var_device_type", deviceType));
-            cmd.Parameters.Add(new MySqlParameter("var_specification_id", specs.GetSpecificationID(Db)));
-            cmd.Parameters.Add(new MySqlParameter("var_no_of_days", noOfDays));
-            cmd.Parameters.Add(new MySqlParameter("var_comment", comment));
         }
         private void BindId(MySqlCommand cmd){
             cmd.Parameters.Add(new MySqlParameter("var_request_id", requestId));

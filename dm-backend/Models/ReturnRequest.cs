@@ -146,7 +146,7 @@ namespace dm_backend.Models
 
 
         }
-        private void BindReturnProcedureParams(MySqlCommand cmd)
+        private  void BindReturnProcedureParams(MySqlCommand cmd)
         {
 
             cmd.Parameters.Add(new MySqlParameter("var_user_id", userId));
