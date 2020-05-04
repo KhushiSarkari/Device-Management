@@ -3,6 +3,7 @@ import { formatDate1 } from "./utilities";
 import { HitApi } from "./Device-Request/HitRequestApi";
 import { populateDropdown } from "./dropdown";
 import { specificationDropdown } from "./Device-Request/UserRequestMain";
+import { connectivityvalidation } from "./validation";
 
 export class AddDevice {
     field: string
@@ -183,30 +184,38 @@ export class AddDevice {
 
     addDataToSpecification() {
         const data = new AddDevice(this.token);
-        data.ram = (document.getElementById("RAM") as HTMLInputElement).value;
-        data.storage = (document.getElementById("Storage") as HTMLInputElement).value;
-        data.screen_size = (document.getElementById("Screen_size") as HTMLInputElement).value;
-        data.connectivity = (document.getElementById("Connectivity") as HTMLInputElement).value;
+        data.ram = getValueOrNull("#RAM");
+        data.storage = getValueOrNull("#Storage");
+        data.screen_size = getValueOrNull("#Screen_size");
+        data.connectivity = getValueOrNull("#Connectivity");
         return JSON.stringify(data);
     }
     async addNewSpecification() {
-
-        let data1 = this.addDataToSpecification();
-        console.log(data1);
-        let data = await fetch(BASEURL + "/api/Device/addspecification", {
-            method: "POST",
-            headers: new Headers([["Content-Type", "application/json"], ["Authorization", `Bearer ${this.token}`]]),
-            body: data1,
-        });
-        if (data.status == 200) {
-            this.getSpecificationDropdown();
+        if(connectivityvalidation() == 1){
+            let data1 = this.addDataToSpecification();
+            console.log(data1);
+            let data = await fetch(BASEURL + "/api/Device/addspecification", {
+                method: "POST",
+                headers: new Headers([["Content-Type", "application/json"], ["Authorization", `Bearer ${this.token}`]]),
+                body: data1,
+            });
+            if (data.status == 200) {
+                this.getSpecificationDropdown();
+            }
+            else {
+                alert("Incorrect Specifications");
+            }
+            return true;
         }
-        else {
-            alert("Incorrect Specifications");
-        }
-        return null;
+        return false;
+        
     }
 
 
 
+}
+// Need it to avoid sending "" in  request payload
+export function getValueOrNull(selector: string) : string | null{
+    const value = (document.querySelector(selector) as HTMLInputElement).value;
+    return value || null;
 }

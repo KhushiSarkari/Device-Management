@@ -24,31 +24,22 @@ namespace dm_backend.Controllers
         [Route("statistics")]
         public IActionResult getStatistics()
         {   
-            int totalDevices,freeDevices,faults,assignedDevices,deviceRequests,rejectedRequests;
-           Db.Connection.Open();
+            Statistics statisticsObject = new Statistics();
+            Db.Connection.Open();
             using var cmd = Db.Connection.CreateCommand();
             
             cmd.CommandText = "select count(*) from device;";
-            totalDevices = Convert.ToInt32(cmd.ExecuteScalar());
+            statisticsObject.totalDevices = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText ="select count(*) from device inner join status using (status_id) where status_name='Free';";
-            freeDevices = Convert.ToInt32(cmd.ExecuteScalar());
+            statisticsObject.freeDevices = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText = "select count(*) from complaints inner join status on complaints.complaint_status_id=status.status_id where status_name='Unresolved';";
-            faults = Convert.ToInt32(cmd.ExecuteScalar());
+            statisticsObject.faults = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText ="select count(*) from assign_device;";
-            assignedDevices = Convert.ToInt32(cmd.ExecuteScalar());
+            statisticsObject.assignedDevices = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText = "select count(*) from request_device;";
-            deviceRequests = Convert.ToInt32(cmd.ExecuteScalar());
+            statisticsObject.deviceRequests = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.CommandText ="select count(*) from request_history inner join status using (status_id) where status_name='Rejected';";
-            rejectedRequests= Convert.ToInt32(cmd.ExecuteScalar());
-            Statistics statisticsObject = new Statistics();
-           
-           
-            statisticsObject.totalDevices=totalDevices;
-            statisticsObject.freeDevices=freeDevices;
-            statisticsObject.faults=faults;
-            statisticsObject.assignedDevices=assignedDevices;
-            statisticsObject.deviceRequests=deviceRequests;
-            statisticsObject.rejectedRequests=rejectedRequests;
+            statisticsObject.rejectedRequests = Convert.ToInt32(cmd.ExecuteScalar());
 
             Db.Connection.Close();
             return Ok(statisticsObject);
@@ -67,17 +58,14 @@ namespace dm_backend.Controllers
             where user_id="+id+";";
             var reader = cmd.ExecuteReader();
 
-            using (reader)
+            while (reader.Read())
             {
-                while (reader.Read())
+                returnDateOverview.Add(new Overview()
                 {
-                    returnDateOverview.Add(new Overview(){
                     deviceType = reader.GetString(0),
                     deviceModel = reader.GetString(1),
                     returnDate = Convert.ToDateTime(reader.GetDateTime(2)).ToString("dd/mm/yyyy")
-                 
                 });
-                }
             }
             Db.Connection.Close();
             if (returnDateOverview.Count > 0)
@@ -99,18 +87,15 @@ namespace dm_backend.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
             var reader = cmd.ExecuteReader();
 
-            using (reader)
+            while (reader.Read())
             {
-                while (reader.Read())
+                faultOverview.Add(new Overview()
                 {
-                    faultOverview.Add(new Overview()
-                    {
-                        deviceType=reader.GetString(0),
-                        deviceModel=reader.GetString(1),
-                        faultDescription=reader.GetString(2)
+                    deviceType=reader.GetString(0),
+                    deviceModel=reader.GetString(1),
+                    faultDescription=reader.GetString(2)
 
-                    });
-                }
+                });
             }
             Db.Connection.Close();
             if (faultOverview.Count > 0)
