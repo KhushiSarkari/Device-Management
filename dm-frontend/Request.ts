@@ -124,10 +124,12 @@ import { Sort } from "./user-profile/SortingUser";
         if ((e.target as HTMLButtonElement).className == "reject-button") {
             if (confirm("Are you sure you want to reject the request?"))
                 requestAction('?action=reject&id=' + adminId, requestId, 'rejected');
+                window["tata"].text('Request ','Rejected!',{duration:30000});
         }
         if ((e.target as HTMLButtonElement).className == "accept-button") {
             if (confirm("Are you sure you want to accept the request?"))
                 requestAction('?action=accept&id=' + adminId, requestId, 'accepted');
+                window["tata"].text('Request ','Accepted!',{duration:30000});
 
         }
         if ((e.target as HTMLButtonElement).className == "show-users") {

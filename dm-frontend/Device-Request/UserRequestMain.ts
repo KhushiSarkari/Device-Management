@@ -102,13 +102,13 @@ document.querySelector("#request")?.addEventListener("click", (e) => {
         hide(".container")
         display(".bg-model")
         document.getElementById("device-request-message").innerHTML = "Your request submitted"
-        
+       //window["tata"].text('Your Request Submitted!',{duration:30000});
     }
       else{ 
         display(".bg-model");
         hide(".container");
         document.getElementById("device-request-message").innerHTML = "Sorry for inconvenience. Please try after some time..."
-  }
+  }//window["tata"].console.error('Your Request Submitted!',{duration:30000});
     });
     clearData();
   }

@@ -33,10 +33,12 @@ document.addEventListener('click' , event =>
   {
   let url  = BASEURL + "/api/FaultyDevice"
   let id = parseInt((event.target as HTMLButtonElement).dataset.complaint);
-  if(element == "faulty-device")
+  if(element == "faulty-device"){
     new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } )
-  if(element == "fault-resolved")
+    window["tata"].text('Device Status ','Faulty!',{duration:30000});}
+  if(element == "fault-resolved"){
     new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } )
+    window["tata"].text('Fault ','Resolved!',{duration:30000});}
   new FalultyDevice().getAllData();
   }
 });

@@ -118,9 +118,11 @@ let mode:string = "create";
             
             specs.updateSpecification(specs.specification_id);
             mode = "create";
+            window["tata"].text('Specification ','Updated!',{duration:30000});
         }
         else{
         specs.addNewSpecification();
+        window["tata"].success('New Specification ','Added!',{duration:30000});
         }
         specs.closeForm();
         specs.getSpecificationData();

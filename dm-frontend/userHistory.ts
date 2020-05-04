@@ -21,7 +21,7 @@ let currentPage:number=current_page;
         if ((ev.target as HTMLButtonElement).classList.contains("cancel")) {
             const requestId = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.requestId;
             mydevices.deleteRequestHistory(parseInt(requestId)).then(function () { mydevices.getRequestHistory(userId); });
-
+            window["tata"].text('Request ','cancelled!',{duration:30000});
         }
 
     });
@@ -31,13 +31,14 @@ let currentPage:number=current_page;
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             console.log(deviceid);
             mydevices.returnDevice(parseInt(userId), parseInt(deviceid)).then(function () { mydevices.getCurrentDecice(userId); });
-
+            window["tata"].text('Device ','Returned!',{duration:30000});
         }
 
         else if ((ev.target as HTMLButtonElement).classList.contains("fault")) {
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
+            window["tata"].text('Device Fault ','Reported!',{duration:30000});
         }
 
 
