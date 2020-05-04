@@ -152,7 +152,6 @@ import { formatPhone } from "./utilities";
 				else{
 					(document.getElementById("ucs")as HTMLInputElement).disabled = false;
 					(document.getElementById("insideModel") as HTMLInputElement).innerHTML="";
-					
 				}
             });
 			function ucs(e){
@@ -194,6 +193,7 @@ import { formatPhone } from "./utilities";
 					target.checked = !target.checked;
 				}
 				util.closeModal(modal);
+				setData();
 			});
 		}
 		else if (((ea.target) as HTMLInputElement).className.includes("userDeleteData"))
@@ -208,6 +208,7 @@ import { formatPhone } from "./utilities";
 					new GetUserApi(token,currentPage).deleteData(userId).then(function () { setData(); });
 				}
 				util.closeModal(modal);
+				setData();
 			});
 		}
 		else if(((ea.target) as HTMLInputElement).id == "closeFormButton")
