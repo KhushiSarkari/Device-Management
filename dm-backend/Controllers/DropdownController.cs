@@ -201,7 +201,7 @@ namespace dm_backend.Controllers
         [Route("salutation")]
         public IActionResult Salutations()
         {
-            var result = GetListFromQuery("select * from salutation;");
+            var result = GetListFromQueryWithId("select * from salutation;");
             if (result.Count < 1)
                 return NoContent();
             return Ok(result);
