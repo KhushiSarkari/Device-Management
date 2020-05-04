@@ -14,7 +14,11 @@ table {
 th[colspan] {
 	text-align: center;
 }
-:any-link {
+nav.mdl-navigation a:hover {
+	text-decoration: none;
+  }
+
+:any-link{
 	color: #000;
 	text-decoration: none;
 }
