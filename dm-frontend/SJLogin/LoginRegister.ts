@@ -88,11 +88,11 @@ document.querySelector("#rmybtn").addEventListener("click", function(e) {
 
 document.querySelector("#fp").addEventListener("click", function(e) {
 	e.preventDefault();
-	(document.querySelector(".bg-model") as HTMLDivElement).style.display =
+	(document.querySelector(".modal-content") as HTMLDivElement).style.display =
 		"flex";
 });
 document.querySelector(".x").addEventListener("click", function() {
-	(document.querySelector(".bg-model") as HTMLDivElement).style.display =
+	(document.querySelector(".modal-content") as HTMLDivElement).style.display =
 		"none";
 });
 document.querySelector("#rmybtn1").addEventListener('click', function (e) {
@@ -143,17 +143,20 @@ rpassword.addEventListener("focus", d => {
 	document.getElementById("confirmpasss").innerHTML = "";
 });
 
-let hideregisters = document.getElementById('hideregister');
-hideregisters.addEventListener("click",e=>{
-	//location.reload();
-	clearSpan(document.getElementById("abc")as HTMLFormElement);
-	document.getElementById("abc").style.display = "none";
+const [regCard, loginCard] = Array.from(document.querySelectorAll('.mdl-card'));
+let navigateToLogin = document.getElementById('to-login');
+
+navigateToLogin.addEventListener("click",e=>{
+	clearSpan(regCard);
+	regCard.style.display = 'none';
+	loginCard.style.display = 'flex';
 
 });
 
-let registercards = document.getElementById('registercard');
+let navigateToRegister = document.getElementById('to-register');
 
-registercards.addEventListener("click",f=>{
-	clearSpan(document.getElementById("logincard")as HTMLFormElement);
-	document.getElementById("abc").style.display = "flex";
+navigateToRegister.addEventListener("click",e=>{
+	clearSpan(loginCard as HTMLFormElement);
+	loginCard.style.display = 'none';
+	regCard.style.display = 'flex';
 });
