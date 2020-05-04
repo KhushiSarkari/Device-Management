@@ -63,7 +63,12 @@ import { formatPhone } from "./utilities";
 		{
 			var userData=createObjectFromForm(this);
 			if(validateForm(form_mode)==true){
-				new CreateUserApi(token).createUserData(userData).then(function(){setData();});
+				new CreateUserApi(token).createUserData(userData).then(function(response:Response ){
+					if(response.status!=200)
+					{
+						throw new Error(response.statusText);
+					}
+				}).then(function(){setData();}).catch(Error => {console.log(Error),alert(Error.message);});
 			}
 			else 
 			{
