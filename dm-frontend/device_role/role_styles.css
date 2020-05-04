@@ -3,12 +3,10 @@
 .mdl-layout--fixed-tabs .mdl-layout__tab {
 	flex-basis: 0;
 }
-
 div.page-content {
 	padding: 20px;
 	text-align: center;
 }
-
 div.main {
 	padding: 10px;
 }
@@ -19,12 +17,11 @@ table.mdl-data-table {
 	display: inline-block;
 	overflow-x: scroll;
 }
-
 table.mdl-data-table tr:last-child td {
 	border-bottom: none;
 }
-
-table th[colspan="2"], table td[colspan="2"] {
+table th[colspan="2"],
+table td[colspan="2"] {
 	text-align: center;
 }
 
@@ -45,11 +42,9 @@ nav.mdl-navigation i {
 .mdl-layout__drawer-button i.material-icons {
 	line-height: 2;
 }
-
 .mdl-layout__drawer-button i.material-icons {
 	line-height: 2;
 }
-
 .mdl-spinner {
 	position: absolute;
 	top: 0;
@@ -58,15 +53,6 @@ nav.mdl-navigation i {
 	bottom: 0;
 	margin: auto;
 }
-
-#fixed-tab-1 .mdl-data-table tbody tr:hover {
-	background-color: #fff;
-}
-
-#fixed-tab-1 .mdl-data-table tbody td:hover {
-	background-color: #eee;
-}
-
 #fixed-tab-1 .mdl-data-table .mdl-data-table__cell {
 	text-align: center;
 }
@@ -84,22 +70,22 @@ nav.mdl-navigation i {
 .mdl-dialog__content {
 	text-align: center;
 }
-.mdl-dialog__content input{
+.mdl-dialog__content input {
 	font-size: 1.1em;
 	padding: 5px 10px;
 }
 
 /* User defined */
 
-.faultform{
+.faultform {
 	position: absolute;
 	height: 100%;
 	width: 100%;
 	z-index: 100;
 	background-color: rgba(255, 255, 255, 0.7);
 	display: none;
-  }
-  .fault-form-popup {
+}
+.fault-form-popup {
 	padding: 10px;
 	width: 350px;
 	height: fit-content;
@@ -115,37 +101,32 @@ nav.mdl-navigation i {
 	z-index: 101;
 	text-align: center;
 	margin: auto;
-	
-  }
-  .faultform.active,.faultform.active .fault-form-popup
-  {
-	display: block;
-  }
-.page-content .content
-{
-	width: fit-content;
-    display: inline-flex;
-    flex-direction: column;
-    text-align: left;
 }
-  
-p{
+.faultform.active,
+.faultform.active .fault-form-popup {
+	display: block;
+}
+.page-content .content {
+	width: fit-content;
+	display: inline-flex;
+	flex-direction: column;
+	text-align: left;
+}
+p {
 	text-align: center;
 	margin-top: 8px;
-	
-  }
-  textarea{
+}
+textarea {
 	height: 60px;
 	width: 300px;
-  }
-  label{
+}
+label {
 	text-align: center;
 	height: 60px;
-  }
+}
 th.activate {
 	background-color: #eee;
 }
-
 #insert_data {
 	display: none;
 	margin-top: 60px;
@@ -155,6 +136,11 @@ th.activate {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	color: black;
 }
-button.mdl-button.txt-danger, span.txt-danger {
+button.mdl-button.txt-danger,
+span.txt-danger {
 	color: rgb(244, 67, 54);
+}
+th.td-underlines{
+	border-top: 1px solid rgba(0,0,0,.12);
+	border-bottom: 1px solid rgba(0,0,0,.12);
 }

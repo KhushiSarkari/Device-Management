@@ -1,57 +1,57 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging,changePage,headersRows } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging,changePage,headersRows, Token } from './globals';
 
 import { Sort } from './user-profile/SortingUser';
-let currentPage:number=current_page;
+import { HitApi } from './Device-Request/HitRequestApi';
+import {descriptionboxvalidation} from "./validation";
+let currentPage: number = current_page;
 (async function () {
-    const userId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
-    const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    if(document.title!="My Devices")
+    {
+        return;
+    }
+    const _=Token.getInstance();
+    const userId =_.userID;
+    const token = _.tokenKey;
     const role = await amIUser(token) == true ? "User" : "Admin";
 
-
     document.getElementById("one").addEventListener('click', function () {
-        currentPage=1;
-        mydevices.getCurrentDecice(userId);
+        currentPage = 1;
+        mydevices.getCurrentDevice(userId);
     });
+
     document.getElementById("three").addEventListener('click', function () {
-        currentPage=1;
+        currentPage = 1;
         mydevices.getRequestHistory(userId);
     });
-    document.getElementById("tab3").addEventListener('click', function (ev) {
 
+    document.getElementById("tab3").addEventListener('click', function (ev) {
         if ((ev.target as HTMLButtonElement).classList.contains("cancel")) {
             const requestId = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.requestId;
             mydevices.deleteRequestHistory(parseInt(requestId)).then(function () { mydevices.getRequestHistory(userId); });
-
         }
-
     });
-    document.getElementById("tab1").addEventListener('click', function (ev) {
 
+    document.getElementById("tab1").addEventListener('click', function (ev) {
         if ((ev.target as HTMLButtonElement).classList.contains("return")) {
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             console.log(deviceid);
-            mydevices.returnDevice(parseInt(userId), parseInt(deviceid)).then(function () { mydevices.getCurrentDecice(userId); });
-
+            mydevices.returnDevice(userId, parseInt(deviceid)).then(function () { mydevices.getCurrentDevice(userId); });
         }
-
         else if ((ev.target as HTMLButtonElement).classList.contains("fault")) {
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
         }
-
-
     });
 
     document.querySelector('#faultpopup .submit').addEventListener('click', function (ev) {
         ev.preventDefault();
         var comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
         var deviceid = parseInt(document.getElementById("faultpopup").dataset.deviceId);
-        if (mydevices.descriptionboxvalidation() == false) {
+        if (descriptionboxvalidation() == false) {
             return;
-
         }
-        mydevices.reportFaultyDevice(parseInt(userId), deviceid, comment);
+        mydevices.reportFaultyDevice(userId, deviceid, comment);
         closeForm();
     });
 
@@ -64,18 +64,18 @@ let currentPage:number=current_page;
 
 
     document.getElementById("search1").addEventListener('keyup', function () {
-        mydevices.getCurrentDecice(userId, (document.getElementById("search1") as HTMLInputElement).value);
+        mydevices.getCurrentDevice(userId, (document.getElementById("search1") as HTMLInputElement).value);
     });
 
     document.getElementById("search3").addEventListener('keyup', function () {
         mydevices.getRequestHistory(userId, (document.getElementById("search3") as HTMLInputElement).value);
     });
-    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		currentPage=changePage((e.target as HTMLButtonElement).value);
+
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click", e => {
+        currentPage = changePage((e.target as HTMLButtonElement).value);
         if (document.querySelector(".mdl-layout__tab-panel.is-active") == document.getElementById("fixed-tab-1") as HTMLLIElement)
-            mydevices.getCurrentDecice(userId);
-        else 
+            mydevices.getCurrentDevice(userId);
+        else
             mydevices.getRequestHistory(userId);
     });
 
@@ -87,7 +87,7 @@ let currentPage:number=current_page;
             const searchbox = tab1.querySelector(".mdl-textfield__input")
             if (document.querySelector(".mdl-layout__tab-panel.is-active") == tab1) {
 
-                mydevices.getCurrentDecice(userId, (searchbox as HTMLInputElement).value, new Sort(token).getSortingUrl(ea.target as HTMLTableHeaderCellElement));
+                mydevices.getCurrentDevice(userId, (searchbox as HTMLInputElement).value, new Sort(token).getSortingUrl(ea.target as HTMLTableHeaderCellElement));
             }
             else {
                 mydevices.getRequestHistory(userId, (searchbox as HTMLInputElement).value, new Sort(token).getSortingUrl(ea.target as HTMLTableHeaderCellElement));
@@ -98,107 +98,74 @@ let currentPage:number=current_page;
     });
     function openForm() {
         document.querySelector('#faultpopup').classList.add("active");
-      
         (document.getElementById('description') as HTMLInputElement).innerHTML = "";
-       
-        
     }
+
     function closeForm() {
         document.querySelector('#faultpopup').classList.remove("active");
         (document.getElementById('description') as HTMLInputElement).innerHTML = "";
-        
     }
+
     navigationBarsss(role, "navigation");
     headersRows(role,"row1");
     var mydevices = new MyDevices(token);
-
-
-    mydevices.getCurrentDecice(userId);
-
+    mydevices.getCurrentDevice(userId);
 })();
+
 export class MyDevices {
 
     data: any;
-    size: number;
     url: string;
+    api: HitApi;
     token: string;
     table1: HTMLTableElement = document.getElementById("tab1") as HTMLTableElement;
     table3: HTMLTableElement = document.getElementById("tab3") as HTMLTableElement;
     constructor(token: string) {
         this.token = token;
+        this.api = new HitApi(token);
     }
 
-    async getCurrentDecice(id: number, search: string = "", sort: string = "") {
-        this.url = BASEURL + "/api/Device/current_device/" + id + "?search=" + search + sort + "&"+PageNo(currentPage);
-        let data = await this.getApiCall(this.url);
-        this.data = await data;
-        console.log(data);
-        this.size = data.length;
-        this.dynamicGenerate(this.table1);
-        return data;
-
+    async getCurrentDevice(id: number, search: string = "", sort: string = "") {
+        this.url = BASEURL + "/api/Device/current_device/" + id + "?search=" + search + sort + "&" + PageNo(currentPage);
+        this.data = await this.api.HitGetApi(this.url);
+        this.dynamicGenerateCurrentDevice(this.table1);
     }
+
     async getRequestHistory(id: number, searchField: string = "", sort: string = "") {
-        this.url = BASEURL + "/api/request/pending?id=" + id + "&search=" + searchField + sort+ "&"+PageNo(currentPage);
-        let data = await this.getApiCall(this.url);
-        this.data = await data;
-        console.log(data);
-        this.size = data.length;
-        this.dynamicGenerate1(this.table3);
-        return data;
-
+        this.url = BASEURL + "/api/request/pending?id=" + id + "&search=" + searchField + sort + "&" + PageNo(currentPage);
+        this.data = await this.api.HitGetApi(this.url);
+        this.dynamicGenerateRequestDevice(this.table3);
     }
+
     returnDevice(userId: number, deviceId: number) {
-        return fetch(BASEURL + "/api/ReturnRequest", {
-            method: "POST",
-            body: JSON.stringify({ userId, deviceId }),
-            headers: new Headers([["Content-Type", "application/json"], ["Authorization", `Bearer ${this.token}`]])
-        });
-    }
-    reportFaultyDevice(userId: number, deviceId: number, comment: string) {
-        return fetch(BASEURL + "/api/ReturnRequest/fault", {
-            method: "POST",
-            body: JSON.stringify({ userId, deviceId, comment }),
-            headers: new Headers([["Content-Type", "application/json"], ["Authorization", `Bearer ${this.token}`]])
-        });
-    }
-    deleteRequestHistory(requestID: number) {
-        return fetch(BASEURL + "/api/request/" + requestID + "/cancel", {
-            method: "DELETE", headers: new Headers({ "Authorization": `Bearer ${this.token}` })
-        });
+        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest", { userId, deviceId });
     }
 
-    //TODO 3 function with same signature into one
+    reportFaultyDevice(userId: number, deviceId: number, comment: string) {
+        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", { userId, deviceId, comment });
+    }
+
+    deleteRequestHistory(requestID: number) {
+        return this.api.HitDeleteApi(BASEURL + "/api/request/" + requestID + "/cancel");
+    }
+
 
     async getApiCall(URL: any) {
         let response = await fetch(URL, {
             headers: new Headers({ "Authorization": `Bearer ${this.token}` })
         });
-
-        let metadata=JSON.parse(response.headers.get('X-Pagination'));
+        let metadata = JSON.parse(response.headers.get('X-Pagination'));
         paging(metadata);
-
         let data = await (response.json());
         return (data);
     }
-    descriptionboxvalidation() {
-        var description = (document.getElementById('comment') as HTMLInputElement).value;
-        if (description == "") {
-            (document.getElementById('description') as HTMLInputElement).innerHTML = "Fill Details";
-            return false;
-        }
 
-        else {
-            (document.getElementById('description') as HTMLInputElement).innerHTML = "";
-            return true;
-        }
-    }
+   
 
 
-    dynamicGenerate(table: any) {
+    dynamicGenerateCurrentDevice(table: any) {
         let loop = 0;
         this.DeleteRows(table);
-
         for (loop = 0; loop < this.data.length; loop++) {
             var row = table.insertRow(loop + 1);
             row.setAttribute("data-device-id", this.data[loop]["device_id"])
@@ -228,10 +195,9 @@ export class MyDevices {
 
 
     }
-    dynamicGenerate1(table: any) {
+    dynamicGenerateRequestDevice(table: any) {
         let loop = 0;
         this.DeleteRows(table);
-
         for (loop = 0; loop < this.data.length; loop++) {
             var row = table.insertRow(loop + 1);
             var cell = row.insertCell(0);
@@ -241,7 +207,6 @@ export class MyDevices {
             var cell4 = row.insertCell(4);
             var cell5 = row.insertCell(5);
             row.setAttribute("data-request-id", this.data[loop]["requestId"])
-
             cell.innerHTML = this.data[loop]["deviceType"]
             cell1.innerHTML = this.data[loop]["deviceBrand"]
             cell2.innerHTML = this.data[loop]["deviceModel"]
@@ -250,9 +215,8 @@ export class MyDevices {
             cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored cancel">CANCEL </button>`
 
         }
-        
+
     }
-    //TODO same function name      
 
     DeleteRows(table: any) {
         var rowCount = table.rows.length;
@@ -260,6 +224,4 @@ export class MyDevices {
             table.deleteRow(i);
         }
     }
-    
-
 }

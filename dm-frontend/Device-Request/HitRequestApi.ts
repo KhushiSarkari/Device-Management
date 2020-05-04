@@ -52,4 +52,11 @@ export class HitApi {
       body: JSON.stringify(data),
     });
   }
+  public async HitDeleteApi(uri:string)
+  {
+    return fetch(uri,{
+      method: "DELETE", headers: new Headers({ "Authorization": `Bearer ${this.token}` })
+    })    
+  }
 }
+

@@ -84,12 +84,12 @@ function checkDropDown(elements: string,compareElement) {
   }
  
 });
-(document.querySelector('#addspecification') as HTMLButtonElement).addEventListener('click', function (e) {
+(document.querySelector('#addspecification') as HTMLButtonElement).addEventListener('click', async function (e) {
   console.log("inside function")
   e.preventDefault();
   const temp = new AddDevice(token);
-  temp.addNewSpecification();
- (document.getElementById("popupForm") as HTMLFormElement).style.display = "none";
+  if(await temp.addNewSpecification() == true)
+    window["closeForm"]('popupForm');
  
 });
 

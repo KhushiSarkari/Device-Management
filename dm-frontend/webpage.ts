@@ -29,6 +29,7 @@ import { formatPhone } from "./utilities";
 			};
 
 			table.innerHTML = htmlString;
+			window["componentHandler"].upgradeDom();
 		}
 		function setData() 
 		{
@@ -63,7 +64,12 @@ import { formatPhone } from "./utilities";
 		{
 			var userData=createObjectFromForm(this);
 			if(validateForm(form_mode)==true){
-				new CreateUserApi(token).createUserData(userData).then(function(){setData();});
+				new CreateUserApi(token).createUserData(userData).then(function(response:Response ){
+					if(response.status!=200)
+					{
+						throw new Error(response.statusText);
+					}
+				}).then(function(){setData();}).catch(Error => {console.log(Error),alert(Error.message);});
 			}
 			else 
 			{
@@ -167,7 +173,6 @@ import { formatPhone } from "./utilities";
 	};
 
 	document.addEventListener("click", function (ea) {
-	
 		if((ea.target as HTMLTableHeaderCellElement).tagName == 'TH')
 		{
 			const returned = new Sort(token).sortBy(ea.target as HTMLTableHeaderCellElement);
@@ -176,22 +181,25 @@ import { formatPhone } from "./utilities";
 				populateTable(data)
 			});
 		}
-		else if (((ea.target) as HTMLInputElement).className == "userCheckStatus")
-		{   const target = ea.target as HTMLInputElement;
+		else if (((ea.target) as HTMLInputElement).classList.contains("userCheckStatus"))
+		{   const toggle = (ea.target as HTMLDivElement).parentElement;
+			const checkbox = toggle["MaterialSwitch"]["inputElement_"] as HTMLInputElement;
 			const modal = document.querySelector((ea.target as HTMLElement).dataset.target) as HTMLDivElement;
-			const userId:number = parseInt(target.id);
-			modal.setAttribute('data-id', (ea.target as HTMLElement).id);
+			const userId:number = parseInt(checkbox.id.slice(6));
+			
+			modal.setAttribute('data-id', userId.toString());
 			util.openModal(modal);
 			modalFunctions[modal.dataset["operation"]].call(modal, function(confirm:boolean){
 				if(confirm == true){
-					let statusToSet = target.checked ? "active" : "inactive";
+					let statusToSet = checkbox.checked ? "active" : "inactive";
 					new GetUserApi(token,currentPage).userInactive(userId , statusToSet).then(_ => {
 						setData();
 					});
 				}
 				else{
 					// If cancel button is clicked, Reset the checkbox to original state
-					target.checked = !target.checked;
+					checkbox.checked = !checkbox.checked;
+					toggle["MaterialSwitch"]["checkToggleState"]();
 				}
 				util.closeModal(modal);
 			});
