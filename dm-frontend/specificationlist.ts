@@ -27,8 +27,10 @@ export class SpecificationList
         <td>${this.storage} </td>
         <td>${this.screenSize}</td>
         <td>${this.connectivity}</td>
-        <td> <button class="edit-button" value=${this.specification_id}>Edit </button>
-         
+        <td> <div class="tooltip"><span class="material-icons" id="edit-button" value=${this.specification_id}>create
+        </span></div>
+        <div class="tooltip"><span class="material-icons" id="delete-button" value=${this.specification_id}>delete
+        </span></div>
         </tr>`;
         // <button class="delete-button" value=${this.specification_id}>Delete </button>
 

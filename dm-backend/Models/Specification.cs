@@ -121,6 +121,32 @@ where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.spe
         {
             cmd.Parameters.Add(new MySqlParameter("specification_id", s1.specification_id));
         }
+        public int Deletespec()
+        {
+            Db.Connection.Open();
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"delete from specification where not  
+            exists(SELECT specification_id  from device WHERE  device.specification_id = @specification_id)
+             and specification.specification_id=@specification_id;";
+           BindspecId(cmd);
+           int numberOfRecords=  cmd.ExecuteNonQuery();
+           Db.Connection.Close();
+           Console.WriteLine(numberOfRecords);
+           if(numberOfRecords>0)
+           {
+               Console.WriteLine("SPEC deleted");
+               return 1;
+           }
+           else {
+               Console.WriteLine("SPEC not deleted");
+               return 0;
+               }
+        }
+         private void BindspecId(MySqlCommand cmd)
+        {
+            cmd.Parameters.Add(new MySqlParameter("specification_id", specification_id));
+        }
+
         // Returns Specification ID from given specifications
         // Otherwise throws a NullReferenceException
         public int GetSpecificationID(AppDb db)

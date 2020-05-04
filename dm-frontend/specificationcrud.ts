@@ -102,7 +102,27 @@ let mode:string = "create";
         closeForm() {
             (document.getElementById("popupForm") as HTMLFormElement).style.display = "none";
         }
-    
+        deleteSpecification(specification_id:number)
+        {
+            fetch(BASEURL + "/api/Device/specification/" + specification_id +"/delete", {
+                method: "DELETE",
+                headers: new Headers({"Authorization": `Bearer ${token}`})
+			})
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(response.statusText);
+                }
+                alert("deleted successfull");
+                window["tata"].text('Specification ','Deleted!',{duration:3000});
+                this.getSpecificationData();
+            })
+            .catch(ex => {
+                alert("delete failed");
+                window["tata"].error('An error occured '+ex.message,{duration:3000});
+            });
+
+
+        }
     }
     (document.querySelector('#popup_specification')as HTMLFormElement).addEventListener('submit',async  function (e) {
         console.log("inside function")
@@ -129,7 +149,7 @@ let mode:string = "create";
     });
 
     document.addEventListener("click", function (e) {
-        if ((e.target as HTMLButtonElement).className == "edit-button") {
+        if ((e.target as HTMLButtonElement).id == "edit-button") {
             const specification_id: any = (e.target as HTMLButtonElement).getAttribute('value');
             specification.specification_id = specification_id;
             specs.openForm();
@@ -144,6 +164,14 @@ let mode:string = "create";
             (document.getElementById("Storage")as HTMLInputElement).value  = "";
             (document.getElementById("Screen_size")as HTMLInputElement).value  = "";
             specs.openForm();
+        }
+        if((e.target as HTMLButtonElement).id=="delete-button")
+        {
+            const specification_id: any = (e.target as HTMLButtonElement).getAttribute(
+                "value"
+            );
+            
+             specs.deleteSpecification(specification_id);
         }
     });
     const specification = new SpecificationList("",token);
