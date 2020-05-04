@@ -57,6 +57,11 @@ import { navigationBarsss, amIUser } from "../globals";
 	// Dialog setup
 	const inputDialog = document.querySelector("dialog.input-dialog") as HTMLDialogElement;
 	const confirmDialog = document.querySelector("dialog.confirm-dialog") as HTMLDialogElement;
+
+	if(!inputDialog.showModal){
+		window["dialogPolyfill"].registerDialog(inputDialog);
+		window["dialogPolyfill"].registerDialog(confirmDialog);
+	}
 	
 	inputDialog["getInput"] = inputModalFunction;
 	inputDialog["openUp"] = openDialog;
