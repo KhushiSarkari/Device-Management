@@ -78,12 +78,12 @@ export class UserModel
 					<td>${formatPhone(this.phones[0].countryCode,this.phones[0].number)} </td>
 					<td>
 						<label class="switch">
-							<input type="checkbox" id="${this.userId}" class="userCheckStatus"  data-toggle="modal"  data-target="#aiModal" ${status}>
+							<input type="checkbox" id="${this.userId}" class="userCheckStatus"  data-toggle="modal"  data-target="#aiModal"  data-backdrop="static" data-keyboard="false"${status}>
 							<span class="slider round"></span>
 						</label>
 					</td>
 					<td><input  type="button" id="${this.userId}" class="userEditData mdl-button mdl-js-button mdl-button--primary mdl-button--colored" value="Edit" /></td>
-					<td><input  type="button" id="${this.userId}" class="userDeleteData mdl-button mdl-js-button mdl-button--primary text-danger " data-toggle="modal" value="Delete" data-target="#deleteModal" /></td>
+					<td><input  type="button" id="${this.userId}" class="userDeleteData mdl-button mdl-js-button mdl-button--primary text-danger " data-toggle="modal" value="Delete" data-backdrop="static" data-keyboard="false" data-target="#deleteModal" /></td>
 		        </tr>`;//class="userDeleteData" value="Delete"
 
 	 }
