@@ -1,13 +1,28 @@
 export function validateForm(formMode:string) {
     
-    var result= salutation()*firstNamevalidation()*lastNamevalidation()*emailvalidation()*
+    var result= salutationvalidation()*firstNamevalidation()*lastNamevalidation()*emailvalidation()*
     passwordvalidation(formMode)*
     confirmpasswordvalidation(formMode)*roleName()*
     departmentvalidation()*
     designationvalidation()*
-    phone1validation("phones1")*phone1validation("phones2")*phone1validation("phones3")*
-    currAdd1("addresses1")*currAdd1("addresses2");
+    phonevalidation(formMode,"phones1")*phonevalidation(formMode,"phones2")*phonevalidation(formMode,"phones3")*
+    addressvalidation(formMode,"addresses1")*addressvalidation(formMode,"addresses2");
 return result == 1 ? true : false;
+}
+export function validate() {
+    return firstNamevalidation() 
+    * Middlenamevalidation() 
+    *lastNamevalidation()*
+    passwordvalidation("edit")*
+    confirmpasswordvalidation("edit")*
+    salutationvalidation()*
+    gendervalidation()*
+    date0fbirthvalidation()*
+    addressvalidation("edit","addresses1")*
+    addressvalidation("edit","addresses2")*
+    phonevalidation("edit","phones1")*
+    phonevalidation("edit","phones2")*
+    phonevalidation("edit","phones3");
 }
 export function remove() {
     (document.getElementById('salutations') as HTMLInputElement).innerHTML = "";
@@ -32,13 +47,24 @@ export function remove() {
     (document.getElementById('addressType1') as HTMLInputElement).innerHTML = "";
     
 }
-function salutation(){
+function salutationvalidation(){
     var salutations = (document.getElementById('salutation') as HTMLSelectElement).value;
     if (salutations == "") {
         (document.getElementById('salutations') as HTMLInputElement).innerHTML = "Select Salutation";
         return 0;
     } else {
         (document.getElementById('salutations') as HTMLInputElement).innerHTML = "";
+        return 1;
+    }
+}
+function gendervalidation() {
+    var genders = (document.getElementById('gender') as HTMLInputElement).value;
+    if (genders == "") {
+        document.getElementById('genders').innerHTML = "Please Select The Gender";
+        return 0;
+    }
+    else {
+        document.getElementById('genders').innerHTML = "";
         return 1;
     }
 }
@@ -58,6 +84,21 @@ function firstNamevalidation() {
     }
      else {
         (document.getElementById('firstNames') as HTMLInputElement).innerHTML = "";
+        return 1;
+    }
+}
+function Middlenamevalidation() {
+    var middlenames = (document.getElementById('middleName') as HTMLInputElement).value;
+    if (middlenames=="")
+    {
+        return 1;
+    }
+     else if (middlenames.length > 20) {
+        document.getElementById('middlenames').innerHTML = "MiddleName Should Not Be More Than 20 Characters";
+        return 0;
+    }
+    else {
+        document.getElementById('middlenames').innerHTML = "";
         return 1;
     }
 }
@@ -169,25 +210,25 @@ function emailvalidation() {
         }
     }
 
-function ac1(containerId: string){
-    var ac1s = (document.querySelector("#" + containerId + ' .areaCode') as HTMLInputElement).value;
-
-
-    if (ac1s == "") {
-        document.querySelector("#" + containerId + ' .areaCodeSpan').innerHTML = "Fill Area Code";
-        return 0;
-    }else if (isNaN(parseInt(ac1s))) {
-        document.querySelector("#" + containerId + ' .areaCodeSpan').innerHTML = "Only Digits Allowed";
-        return 0;
-    } 
-     else {
-        document.querySelector("#" + containerId + ' .areaCodeSpan').innerHTML = "";
-        return 1;
-    }
-}
-
-function currAddType(containerId: string){
+    function areacodevalidation(containerId: string) {
+        var areacode1 = (document.querySelector("#" + containerId + ' .areaCode') as HTMLInputElement).value;
+        if(areacode1=="")
+        {
+            document.querySelector("#" + containerId + ' .areacodespan').innerHTML = "";
+            return 1;
     
+        }
+        else if (isNaN(parseInt(areacode1))) {
+            document.querySelector("#" + containerId + ' .areacodespan').innerHTML = "areacode must be in digits";
+            return 0;
+        }
+        else {
+            document.querySelector("#" + containerId + ' .areacodespan').innerHTML = "";
+            return 1;
+        }
+    }
+
+function currAddType(containerId: string){   
     var addressType1 = (document.querySelector("#" + containerId + ' .addressType') as HTMLInputElement).value;
     if (addressType1 == "") {
         document.querySelector("#" + containerId + ' .addressTypeSpan').innerHTML = "Select Type";
@@ -197,120 +238,165 @@ function currAddType(containerId: string){
         return 1;
     }
 }
-function currAdd1(containerId: string){
-    var c1s = (document.querySelector("#" + containerId + ' .addressLine1') as HTMLInputElement).value;
-    if (c1s == "") {
-        document.querySelector("#" + containerId + ' .addressLine1Span').innerHTML = "";
-        return 1;
-    } else if(c1s.length < 5) {
-        document.querySelector("#" + containerId + ' .addressLine1Span').innerHTML = "Fill Full Details";
-        return 0;
-    }
-    else if(c1s.length > 4) {
-        document.querySelector("#" + containerId + ' .addressLine1Span').innerHTML = "";
-        return  currAdd2(containerId)*currCon(containerId)*currState(containerId)*currCity(containerId);//*pincode(containerId)*currAddType(containerId);
-         
-    }
-    else {
-        document.querySelector("#" + containerId + ' .addressLine1Span').innerHTML = "";
+function addressvalidation(formmode:string ,containerId: string) {
+    var addresses1 = (document.querySelector("#" + containerId + ' .addressLine1') as HTMLInputElement).value;
+    if(formmode=="create"&&addresses1=="")
+    {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
         return 1;
     }
-}
-function currAdd2(containerId: string){
-    var c2s = (document.querySelector("#" + containerId + ' .addressLine2') as HTMLInputElement).value;
-    if (c2s == "") {
-        document.querySelector("#" + containerId + ' .addressLine2Span').innerHTML= "Fill Address Line 2";
-        return 1;
-    } else if(c2s.length < 5) {
-        document.querySelector("#" + containerId + ' .addressLine2Span').innerHTML= "Fill Full Details";
-        return 0;
-    }
-     else {
-        document.querySelector("#" + containerId + ' .addressLine2Span').innerHTML= "";
-        return 1;
-    }
-}
-function currCon(containerId: string){
-    var c6s = (document.querySelector("#" + containerId + ' .country') as HTMLInputElement).value;
-    if (c6s == "") {
-        document.querySelector("#" + containerId + ' .countrySpan').innerHTML= "Select Country";
-        return 0;
-    } else {
-        document.querySelector("#" + containerId + ' .countrySpan').innerHTML= "";
-        return 1;
-    }
-}
-function currState(containerId: string){
-    var c5s = (document.querySelector("#" + containerId + ' .state') as HTMLInputElement).value;
-    if (c5s == "") {
-        document.querySelector("#" + containerId + ' .stateSpan').innerHTML= "Select Country And Then Select State";
-        return 0;
-    } else {
-        document.querySelector("#" + containerId + ' .stateSpan').innerHTML= "";
-        return 1;
-    }
-}
-function currCity(containerId: string){
-    var c4s = (document.querySelector("#" + containerId + ' .city') as HTMLInputElement).value;
-    if (c4s == "") {
-        document.querySelector("#" + containerId + ' .citySpan').innerHTML= "Select State And Then Select City";
-        return 0;
-    } else {
-        document.querySelector("#" + containerId + ' .citySpan').innerHTML= "";
-        return 1;
-    }
-}
-function pincode(containerId: string){
-    var c3s = (document.querySelector("#" + containerId + ' .pin') as HTMLInputElement).value;
-    if (c3s == "") {
-        document.querySelector("#" + containerId + ' .pinSpan').innerHTML= "Enter Pincode";
-        return 0;
-    }else if (isNaN(parseInt(c3s))) {
-        document.querySelector("#" + containerId + ' .pinSpan').innerHTML= "Only Digits Allowed";
-        return 0;
-    } 
-    else {
-        document.querySelector("#" + containerId + ' .pinSpan').innerHTML= "";
-        return 1;
-    }
-}
 
-function phone1validation(containerId: string) {
-    var phone_number1s = (document.querySelector("#" + containerId + ' .number') as HTMLInputElement).value;
-   
-    if (phone_number1s == "") {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+    if (addresses1 == "") {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "Fill  addresss line1";
+        return 0;
+    } else if (addresses1.length > 30) {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "Consider Using addressLine 2";
+        return 0;
+    }
+    else if(addresses1!="")
+    {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
+        return addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
+        cityvalidation(containerId)*pinvalidation(containerId);
+    }
+    else {
+        document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
         return 1;
+    }
+}
+function addressvalidation1(containerId: string) {
+    var addresses2 = (document.querySelector("#" + containerId + ' .addressLine2') as HTMLInputElement).value;
+    if (addresses2 == "") {
+        return 1;
+    }
+     else if (addresses2.length > 30) {
+        document.querySelector("#" + containerId + ' .addressLine2span').innerHTML = "addressline2 Should Not Be More Than 30 Characters";
+        return 0;
+    }
+    else {
+        document.querySelector("#" + containerId + ' .addressLine2span').innerHTML = "";
+        return 1;
+    }
+}
+function countryvalidation(containerId: string) {
+    var country1 = (document.querySelector("#" + containerId + ' .country') as HTMLInputElement).value;
+    if (country1 == "") {
+        document.querySelector("#" + containerId + ' .countryspan').innerHTML = "Please Select The Country";
+        return 0;
     } 
-    else if (isNaN(parseInt(phone_number1s))) {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Only Digits Allowed";
-        return 0;
+    else {
+        document.querySelector("#" + containerId + ' .countryspan').innerHTML = "";
+        return 1;
     }
-    else if (phone_number1s.length != 10) {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter 10 Digits";
+}
+function statevalidation(containerId: string) {
+    var state1 = (document.querySelector("#" + containerId + ' .state') as HTMLInputElement).value;
+    if (state1 == "") {
+        document.querySelector("#" + containerId + ' .statespan').innerHTML = "Please Select The State";
         return 0;
+    } 
+    else {
+        document.querySelector("#" + containerId + ' .statespan').innerHTML = "";
+        return 1;
     }
-    else if(phone_number1s.length == 10){
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+}
+function cityvalidation(containerId: string) {
+    var city1 = (document.querySelector("#" + containerId + ' .city') as HTMLInputElement).value;
+    if (city1 == "") {
+        document.querySelector("#" + containerId + ' .cityspan').innerHTML = "Please Select The City";
+        return 0;
+    } 
+    else {
+        document.querySelector("#" + containerId + ' .cityspan').innerHTML = "";
+        return 1;
+    }
+}
+function date0fbirthvalidation() {
+    var dobs= (document.getElementById('dob') as HTMLInputElement).value;
+    if (dobs == "0001-01-01") {
         
-        return phones1c(containerId)*phones1cc(containerId);//*ac1(containerId); 
-       
-    }
+        document.getElementById('dobs').innerHTML = "Fill Correct date of birth";
+        return 0;
+    } 
      else {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+        document.getElementById('dobs').innerHTML = "";
+        return 1;
+    }
+}
+function pinvalidation(containerId: string) {
+    var pin = (document.querySelector("#" + containerId + ' .pin') as HTMLInputElement).value;
+    if(pin=="")
+    {
+        document.querySelector("#" + containerId + ' .pinspan').innerHTML = "";
+        return 1;
+
+    }
+    else if(pin.length<6||pin.length>12)
+    {
+        document.querySelector("#" + containerId + ' .pinspan').innerHTML = "pincode not valid";
+        return 0;
+
+    }
+    
+     else if (isNaN(parseInt(pin))) {
+        document.querySelector("#" + containerId + ' .pinspan').innerHTML = "pincode must be in digit";
+        return 0;
+    }
+    else {
+        document.querySelector("#" + containerId + ' .pinspan').innerHTML = "";
         return 1;
     }
 }
 
-function phones1cc(containerId: string) {
-    var CountryCodes1 = (document.querySelector("#" + containerId + ' .countryCode') as HTMLInputElement).value;
-    if (CountryCodes1 == "") {
-        document.querySelector("#" + containerId + ' .CountryCodeSpan').innerHTML = "Select Country";
-
-        return 0; }
-       else {document.querySelector("#" + containerId + ' .CountryCodeSpan').innerHTML  = "";
+function phonevalidation(formmode:string,containerId: string) {
+    var container=document.querySelector("#" +containerId)
+    
+    var phone = (document.querySelector("#" + containerId + ' .number') as HTMLInputElement).value;
+    if(formmode=="create"&&phone=="")
+  
+    {
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
         return 1;
-      }
+    }
+    if (container.getAttribute("aria-required")!="true" &&(phone=="")) {
+        return 1;
+    }
+    else if(phone=="")
+    {
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter the Number";
+        return 0;
+    }
+    else if (!phone.match(/^\d{10}$/)) {
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "**Enter the 10 valid digits";
+        return 0;
+    } 
+    
+        else if(phone.length==10)
+        {
+             document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+            return countrycodevalidation(containerId)*areacodevalidation(containerId);
+
+        }
+     else {
+        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
+        return 1;}
+}
+
+function countrycodevalidation(containerId: string) {
+    
+    var countrycodes = (document.querySelector("#" + containerId + ' .countryCode') as HTMLInputElement).value;
+    var phone = (document.querySelector("#" + containerId + ' .number') as HTMLInputElement).value;
+    if (phone=="") {
+        return 1;
+    }
+    else if(countrycodes=="")
+    {
+        document.querySelector("#" + containerId + ' .countrycodespan').innerHTML = "please select the country code";
+        return 0;
+    }
+    else {
+        document.querySelector("#" + containerId + ' .countrycodespan').innerHTML = "";
+        return 1;}
 }
 
 function phones1c(containerId: string) {
@@ -328,11 +414,23 @@ export function connectivityvalidation()
     if(connectivitys=="")
     {
         (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "please fill this field";
+        
         return 0;
 
     }
     else{
         (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "";
         return 1;
+    }
+}
+export function descriptionboxvalidation() {
+    var description = (document.getElementById('comment') as HTMLInputElement).value;
+    if (description == "") {
+        (document.getElementById('description') as HTMLInputElement).innerHTML = "Fill Details";
+        return false;
+    }
+    else {
+        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+        return true;
     }
 }

@@ -12,7 +12,7 @@ export class UserModel
 	userId : number = 0;
 	dob: string = "";
 	gender: string = "";
-	roleName:string="";
+	roleName:string=""; 
 	status:string="";
 	doj: string = "";
 
@@ -77,9 +77,9 @@ export class UserModel
 					<td>${this.status} </td>
 					<td>${formatPhone(this.phones[0].countryCode,this.phones[0].number)} </td>
 					<td>
-						<label class="switch">
-							<input type="checkbox" id="${this.userId}" class="userCheckStatus"  data-toggle="modal"  data-target="#aiModal" ${status}>
-							<span class="slider round"></span>
+						<label class="mdl-switch mdl-js-switch" for="check-${this.userId}">
+							<input type="checkbox" id="check-${this.userId}" class="mdl-switch__input userCheckStatus"  data-toggle="modal"  data-target="#aiModal" ${status}>
+							<span class="mdl-switch__label"></span>
 						</label>
 					</td>
 					<td><input  type="button" id="${this.userId}" class="userEditData mdl-button mdl-js-button mdl-button--primary mdl-button--colored" value="Edit" /></td>

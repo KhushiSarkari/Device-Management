@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page, paging } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage } from "./globals";
 import { DeviceListForAdmin } from "./deviceListForAdmin";
 import { Sort } from "./user-profile/SortingUser";
 import { amIUser } from "./globals";
@@ -238,14 +238,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 	
 	(document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    temp.currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			temp.currentPage-=1;
-		else
-			temp.currentPage=+((e.target as HTMLButtonElement).value);
-
+	{ 	temp.currentPage=changePage((e.target as HTMLButtonElement).value);
 		temp.getData(PageNo(temp.currentPage));   
     });
 	(document.querySelector("#tablecol") as HTMLTableElement).addEventListener(

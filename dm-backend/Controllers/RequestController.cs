@@ -27,16 +27,19 @@ namespace dm_backend.Models{
 
         [HttpPost]
         [Route("device")]
-        public  IActionResult postdeviceRequest([FromBody] DeviceRequest req)
+        public async Task<IActionResult> postdeviceRequest([FromBody] DeviceRequest req)
         {
             Db.Connection.Open();
             var request = new Request(Db);
+            
             try
             {
-                request.addDevice(req);
-               
+              var result =   request.addDevice(req);
+
+              await request.sendMailToAdmin(req , result);
+
             }
-            catch
+            catch(MySql.Data.MySqlClient.MySqlException e)
             {
                return BadRequest("request is incorrect");
             }
@@ -45,24 +48,6 @@ namespace dm_backend.Models{
 
         }
 
-
-        [HttpPost]
-        [Route("add")]
-        public IActionResult PostRequest([FromBody]RequestModel req)
-        {
-            Db.Connection.Open();
-            req.Db = Db;
-            string result = null;
-            try{
-                result = req.AddRequest();
-            }
-            catch(NullReferenceException){
-                return NoContent();
-            }
-            Db.Connection.Close();
-            return Ok(result);
-        }
-        
         [HttpGet]
         [Route("pending")]
         public IActionResult GetRequest()
@@ -95,21 +80,27 @@ namespace dm_backend.Models{
         [Authorize(Roles="admin")]
         [HttpGet]
         [Route("{requestId}")]
-        public IActionResult RequestActions(int requestId, [System.Web.Http.FromUri]int id)
+        public async Task<IActionResult> RequestActionsAsync(int requestId, [System.Web.Http.FromUri]int id)
         {
+            string name = (string)HttpContext.Request.Query["name"] ?? "";
+            string email = (string)HttpContext.Request.Query["email"] ?? "";
             string action=(string)HttpContext.Request.Query["action"];
             Db.Connection.Open();
             RequestModel query = new RequestModel(Db);
             query.requestId = requestId;
-            try{
+
+
+           try{
+
                 query.DeviceRequestAction(id,action);
-            }
+               await new RequestStatus().sendStatusMail(requestId, action, name, email);
+           }
             catch(Exception e){
                 Console.WriteLine(e.Message);
-                return BadRequest("An error occured while performing the action");
+              return BadRequest("An error occured while performing the action");
             }
             Db.Connection.Close();
-            return Ok("Action performed successfully");
+            return new OkObjectResult("Action performed successfully");
         }
 
 

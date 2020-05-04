@@ -2,9 +2,9 @@ import { PopulateData } from "./FillData";
 import { findResult } from "./search"
 import { Sorting } from "./Sorting";
 import { HtmlElementsData } from "./HtmlElementsId";
-import { page } from "./paging";
+// import { page } from "./paging";
 import { UserRequestStatus } from "./RequestStatus";
-import {navigationBarsss, BASEURL} from "../globals";
+import {navigationBarsss, BASEURL, paging} from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 
 
@@ -14,7 +14,6 @@ import { HitApi } from "../Device-Request/HitRequestApi";
 let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
 let url = BASEURL +"/sorting";
 var domElement =  new HtmlElementsData();
-
 (function(){
     var prams = window.location.href;
     var pramList = prams.split("?")
@@ -24,15 +23,28 @@ var domElement =  new HtmlElementsData();
     }
     else 
     getData();
+
 })();
+
+
 function getData(params = "")
 {
     let uri  = url + params;
     (document.getElementById("loading") as HTMLDivElement).style.display = "flex"; 
-    new HitApi(token).HitGetApi(uri).then(data =>
+    new HitApi(token).HitGetApi(uri)
+    fetch(uri,{
+        headers: new Headers({"Authorization": `Bearer ${token}`})
+        
+    })
+        .then(response =>{
+            let metadata=JSON.parse(response.headers.get('X-Pagination'));
+            paging(metadata);
+            return response.json()
+        })
+        .then(data =>
         {console.log(data);
-        new page(token).setPages(data["resultCount"]);
-       new PopulateData().fillData(data["results"]);
+       // new page(token).setPages(data["resultCount"]);
+       new PopulateData().fillData(data);
        (document.getElementById("loading") as HTMLDivElement).style.display = "none";  
 });
 }
@@ -79,15 +91,48 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
         getData(new UserRequestStatus(token).generateRequestData(requestStatus));
     });
 
-    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-    {   
-        console.log((e.target as HTMLButtonElement).value);
-        var x  = (e.target as HTMLButtonElement).value;
+    // (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+    // {   
+    //     console.log((e.target as HTMLButtonElement).value);
+    //     var x  = (e.target as HTMLButtonElement).value;
       
-        getData(new page(token).slectedPage(x));
+    //     // getData(new page(token).slectedPage(x));
+    // });
+    (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
+	{ 
+        let currentPage = parseInt(document.getElementById("pagination").getAttribute("data-currentpage"));
+        if((e.target as HTMLButtonElement).value==">>"){
+            currentPage+=1
+            document.getElementById("pagination").setAttribute("data-currentpage" ,currentPage.toString());
+
+        }
+		else if((e.target as HTMLButtonElement).value=="<<")
+			{ currentPage-=1
+                document.getElementById("pagination").setAttribute("data-currentpage" ,currentPage.toString());}
+		else
+			{
+                currentPage = parseInt((e.target as HTMLButtonElement).value);
+                document.getElementById("pagination").setAttribute("data-currentpage" ,currentPage.toString());
+            }
+            getData(slectedPage(currentPage));
+		// temp.getData(PageNo(temp.currentPage));   
     });
+
+    function slectedPage(value: number)
+        {
+            let totalRowsInTable =5;
+             let offset = (value);
+           let domElements = new HtmlElementsData();
+            let userName = (document.getElementById(new HtmlElementsData().search)  as HTMLInputElement).getAttribute(domElements.userName);
+            var sortAttribute = (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortAttributr);       
+            var sortType  =  (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortType);
+            let requestStatus = new Sorting(token).getStatus();
+            let uri = "?user-name="+encodeURI(userName)+"&sort="+sortAttribute+"&sort-type="+sortType+"&page="+offset+"&page-size="+totalRowsInTable +"&status="+requestStatus;
+            return uri;
+             
+        }
 navigationBarsss("Admin","navigation");
-//getData();
+
 }());
 
 

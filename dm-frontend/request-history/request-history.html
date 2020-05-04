@@ -26,6 +26,8 @@
                 <!-- Title -->
                 <span class="mdl-layout-title" id="getdata" style="cursor:pointer">Request History</span>
                 <div class="mdl-layout-spacer"></div>
+                <div class="mdl-layout-spacer"></div>
+                
 
             </div>
             <!-- Bottom row, not visible on scroll -->
@@ -45,8 +47,21 @@
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div class="requestdata">
-                    <!-- <button class="getAll Requestbutton" id="getdata">Get Data</button> -->
+              <br>
+              <span style="width: 100%;">                  
+                <input type="text" class="serial-number" id="device_serial_number"  name="search"  serialNumber="" placeholder="enter device serial number..." style="float: right;"  >
+          </span>
+            
+          <div style="margin-left: 10px;"> 
+            <b>Device Status</b> 
+            <br />
+            <select id="request-status">
+              <option class="status" id="All">All</option>
+              <option class="status"  id ="ret">Returned</option>
+              <option class="status" id="rej">Rejected</option>
+            </select>
+          </div>        
+
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
                 mdl-textfield--floating-label mdl-textfield--align-right">
                         <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
@@ -55,20 +70,13 @@
                         <div class="mdl-textfield__expandable-holder">
                             <input class="mdl-textfield__input" type="text" name="sample" user="" id="waterfall-exp" value="">
                         </div>
-                        <div class="mdl-layout-spacer"></div>     
-                    <span>                  
-                          <input type="text" class="serial-number" id="device_serial_number"  name="search"  serialNumber="" placeholder="enter device serial number...">
-                    </span>
+                        <!-- <div class="mdl-layout-spacer"></div>      -->
+                 
+                    </div>
+                  
 
-                    </div>
                     
-                    <div>
-                          <select id="request-status">
-                            <option class="status" id="All">All</option>
-                            <option class="status"  id ="ret">Returned</option>
-                            <option class="status" id="rej">Rejected</option>
-                          </select>
-                    </div>
+                    <div class="requestdata">
                     <div class="user_data_table"style="display: flex; justify-content: center;" >
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" > 
                         <thead id="tableHead" sort="" sortby="">
@@ -111,6 +119,11 @@
 
                 </div>
             </div>
+            <center>
+                <div class="pagination" id="pagination" pageNum="1" result-count="0" data-currentpage="1">
+
+                </div>
+            </center>
         </main>
     </div>
     <div class="load" id="loading">

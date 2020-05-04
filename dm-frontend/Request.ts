@@ -1,12 +1,11 @@
-import { BASEURL, navigationBarsss, PageNo, current_page} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,Token,changePage} from "./globals";
 import * as util from "./utilities";
 import { Requests, Specification, PartialUserModel } from "./RequestModel";
 import { HitApi } from './Device-Request/HitRequestApi';
 import { Sort } from "./user-profile/SortingUser";
 
-(async function () {
-    const token: string = JSON.parse(sessionStorage.getItem("user_info"))["token"];
-    let adminId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
+    const token: string = Token.getInstance().tokenKey;
+    let adminId = Token.getInstance().userID;
     let globalUrl = BASEURL + "/api/request/";
     let currentPage:number=current_page;
     let obj = {
@@ -22,6 +21,7 @@ import { Sort } from "./user-profile/SortingUser";
             for (var i = 0; i < data.length; i++) {
                 specs = data[i]['specs'];
                 requestedBy = data[i]['requestedBy'];
+                console.log(data[i]["requestedBy"]['email']);
                 tableData += "<tr>"
                     + "<td>" + data[i]['userId'] + "</td>"
                     + "<td>" + data[i]['deviceType'] + "</td>" + "<td>" + data[i]['deviceBrand'] + "</td>" + "<td>" + data[i]['deviceModel'] + "</td>"
@@ -30,14 +30,14 @@ import { Sort } from "./user-profile/SortingUser";
                     + "<td>" + data[i]['requestDate'] + "</td>"
                     + "<td>" + data[i]['availability'] + "</td>";
                 if (data[i]['availability'] == true)
-                    tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" >Accept</button>" + "</td>";
+                    tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" data-requestname=\""+ util.concatName(requestedBy) +"\" data-requestmail = \"" + data[i]["requestedBy"]['email']+"\"  >Accept</button>" + "</td>";
                 else
                     tableData += "<td>" + "<button class=\"show-users\" data-devicemodel=\""
                         + data[i]['deviceModel'] + "\"data-devicetype=\"" + data[i]['deviceType'] + "\" data-devicebrand=\""
                         + data[i]['deviceBrand'] + "\"data-ram=\"" + specs.ram + "\"data-connectivity=\"" + specs.connectivity
                         + "\"data-screensize=\"" + specs.screenSize + "\"data-storage=\"" + specs.storage + "\" >Notify</button>" + "</td>";
 
-                tableData += "<td>" + "<button class=\"reject-button\" data-requestid=" + data[i]['requestId'] + " >Reject</button>" + "</td></tr>";
+                tableData += "<td>" + "<button class=\"reject-button\" data-requestid=" + data[i]['requestId'] + "\"  data-requestname=\""+ util.concatName(requestedBy) +"\" data-requestmail = \"" + data[i]["requestedBy"]['email']+"\" >Reject</button>" + "</td></tr>";
 
             }
             document.getElementById("content").innerHTML = tableData;
@@ -73,8 +73,8 @@ import { Sort } from "./user-profile/SortingUser";
         });
     }
 
-    function requestAction(requestUrl, requestId, action) {
-        fetch(globalUrl + requestId + requestUrl,
+    function requestAction(requestUrl, requestId, action , name , mail) {
+        fetch(globalUrl + requestId + requestUrl +"&name="+name+"&email="+mail,
             {
                 headers: new Headers({ "Authorization": `Bearer ${token}` })
             });
@@ -96,7 +96,6 @@ import { Sort } from "./user-profile/SortingUser";
                 notify: []
             };
         }
-
     }
 
     (document.querySelector('#tablecol') as HTMLTableElement).addEventListener("click", function (e) {
@@ -122,14 +121,20 @@ import { Sort } from "./user-profile/SortingUser";
     document.addEventListener("click", function (e) {
         let requestId = parseInt((e.target as HTMLButtonElement).dataset.requestid, 10);
         if ((e.target as HTMLButtonElement).className == "reject-button") {
+           var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
             if (confirm("Are you sure you want to reject the request?"))
-                requestAction('?action=reject&id=' + adminId, requestId, 'rejected');
+            {
+                requestAction('?action=reject&id=' + adminId, requestId, 'rejected' , name , mail);
                 window["tata"].text('Request ','Rejected!',{duration:30000});
+            }
         }
         if ((e.target as HTMLButtonElement).className == "accept-button") {
-            if (confirm("Are you sure you want to accept the request?"))
-                requestAction('?action=accept&id=' + adminId, requestId, 'accepted');
-                window["tata"].text('Request ','Accepted!',{duration:30000});
+            var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
+            if (confirm("Are you sure you want to accept the request?")){
+                requestAction('?action=accept&id=' + adminId, requestId, 'accepted' , name , mail);
+                window["tata"].text('Request ','Accepted!',{duration:30000});}
 
         }
         if ((e.target as HTMLButtonElement).className == "show-users") {
@@ -154,18 +159,10 @@ import { Sort } from "./user-profile/SortingUser";
 
     });
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
+	{   currentPage=changePage((e.target as HTMLButtonElement).value);
 		getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));   
     });
 
     getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
     navigationBarsss("Admin", "navigation");
 
-})();

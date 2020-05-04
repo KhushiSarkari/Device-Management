@@ -85,6 +85,8 @@ async function GetData(uri: string, column: string) {
   let obj = Token.getInstance();
 
   let data = await new HitApi(obj.tokenKey).HitGetApi(uri);
+  console.log(data);
+  if(data.length>0)
   new populateDropDown().populateDevice(data, column);
   (document.getElementById("loading") as HTMLDivElement).style.display = "none";    
   return data;

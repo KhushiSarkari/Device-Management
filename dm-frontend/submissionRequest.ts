@@ -3,7 +3,7 @@ import { RequestDeviceModel } from "./Device-Request/deviceRequestModel";
 import { RequestSubmitModel } from "./SubmissionRequestModel";
 import { populateData } from "./genrateSubmissionRequest";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL, navigationBarsss, PageNo, current_page, paging } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./globals";
 
 (async function(){
     let address = BASEURL;
@@ -98,14 +98,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, paging } from "./globa
 }
     });
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-            currentPage=+((e.target as HTMLButtonElement).value);
-
+	{   currentPage=changePage((e.target as HTMLButtonElement).value);
 		getAll();
     });
 

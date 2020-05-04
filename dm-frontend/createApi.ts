@@ -12,6 +12,6 @@ export class CreateUserApi {
 			method: "POST",
 			headers: new Headers([["Content-Type","application/json"],["Authorization", `Bearer ${this.token}`]]),
 			body: JSON.stringify(data)
-		}).catch(Error => console.log(Error));
+		})
 	}
 }

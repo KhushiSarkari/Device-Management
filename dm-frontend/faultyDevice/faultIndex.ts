@@ -1,4 +1,4 @@
-import { BASEURL, Token, navigationBarsss, PageNo, current_page, paging  } from "../globals";
+import { BASEURL, Token, navigationBarsss, PageNo, current_page, changePage  } from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 import { FaultyDeviceModel } from "./FaultyDeviceModel";
 import { FalultyDevice } from "./Fault";
@@ -33,15 +33,23 @@ document.addEventListener('click' , event =>
   {
   let url  = BASEURL + "/api/FaultyDevice"
   let id = parseInt((event.target as HTMLButtonElement).dataset.complaint);
-  if(element == "faulty-device"){
-    new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } )
-    window["tata"].text('Device Status ','Faulty!',{duration:30000});}
-  if(element == "fault-resolved"){
-    new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } )
-    window["tata"].text('Fault ','Resolved!',{duration:30000});}
-  new FalultyDevice().getAllData();
+  if(element == "faulty-device")
+  {
+    (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
+    new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } );
+   (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+   window["tata"].text('Device Status ','Faulty!',{duration:30000});}
   }
-});
+  if(element == "fault-resolved")
+  {
+  
+    (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
+      new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } );
+      (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+      window["tata"].text('Fault ','Resolved!',{duration:30000});
+  }
+  new FalultyDevice().getAllData();
+  });
 
 
 (document.querySelector("#tableHead") as HTMLTableHeaderCellElement).addEventListener("click", function (e) {
@@ -75,14 +83,7 @@ document.addEventListener('click' , event =>
 });
 
 (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{ 
-		if((e.target as HTMLButtonElement).value==">>")
-		    currentPage+=1;
-		else if((e.target as HTMLButtonElement).value=="<<")
-			currentPage-=1;
-		else
-      currentPage=+((e.target as HTMLButtonElement).value);
-      
+	{ currentPage=changePage((e.target as HTMLButtonElement).value);
     new FalultyDevice().getAllData("?"+PageNo(currentPage));  
     });
 

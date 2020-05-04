@@ -1,5 +1,4 @@
-import { PopulateData } from "./FillData";
-import { BASEURL } from "../globals";
+
 import { HtmlElementsData } from "./HtmlElementsId";
 export class findResult {
     data: any;

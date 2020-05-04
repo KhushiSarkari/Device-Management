@@ -34,6 +34,7 @@
                     <strong>Connectivity</strong>
                 </label>
                 <input type="text" id="Connectivity" placeholder="Enter Connectivity" name="Connectivity">
+                <span id="connectivitys" class="txt-danger"></span>
                 <button type="submit" class="btn" id="addspecification">ADD</button>
                 <button type="button" class="btn cancel" onclick="closeForm('popupForm')">Close</button>
             </form>
@@ -64,19 +65,19 @@
                         position: relative;">
                         <form>
                             <div class="mdl-grid">
-                                <div class="mdl-cell">
+                                <div class="mdl-cell mdl-cell--4-col">
                                     <label for="type"> Device Type:</label>
                                     <datalist id="type">
                                     </datalist>
                                     <input id="inputtype" autoComplete="on" list="type" required/>
                                 </div>
-                               <div class="mdl-cell">
+                               <div class="mdl-cell mdl-cell--4-col">
                                     <label for="brand"> Device Brand:</label>
                                     <datalist id="brand">
                                        </datalist>
                                     <input  id="inputbrand" autoComplete="on" list="brand" required/>
                                 </div>
-                                <div class="mdl-cell">
+                                <div class="mdl-cell mdl-cell--4-col">
                                     <label for="model">Model:</label>
                                     <datalist id="model">
                                     </datalist>
@@ -85,29 +86,29 @@
 
                             </div>
                             <div class="mdl-grid">
-                                 <div class="mdl-cell">
+                                 <div class="mdl-cell mdl-cell--4-col">
                                     <label for="color"> Color:</label>
                                     <input type="text" id="color" name="color" required>
                                 </div>  
-                                    <div class="mdl-cell">
+                                    <div class="mdl-cell mdl-cell--4-col">
                                         <label for="price"> Price:</label>
                                         <input type="text" id="price" name="price" required>
                                     </div>
-                                    <div class="mdl-cell">    
+                                    <div class="mdl-cell mdl-cell--4-col">    
                                         <label for="serial number"> Serial Number:</label>
                                         <input type="text" id="serial_number" name="serial number" required>
                                     </div>
                                 </div>
                                 <div class="mdl-grid">
-                                    <div class="mdl-cell">    
+                                    <div class="mdl-cell mdl-cell--4-col">    
                                          <label for="warranty year"> Warranty Year :</label>
                                          <input type="number" id="warranty_year" name="warranty year" required>
                                     </div>
-                                    <div class="mdl-cell">
+                                    <div class="mdl-cell mdl-cell--4-col">
                                          <label for="purchase date"> Purchase Date :</label>
                                           <input type="date" id="purchase_date" name="purchase date" required>
                                     </div>
-                                    <div class="mdl-cell">
+                                    <div class="mdl-cell mdl-cell--4-col">
                                         <label for="entry date"> Entry Date :</label>
                                         <input type="date" id="entry_date"
                                              name="entry date" required>
@@ -118,17 +119,17 @@
                                            <label for="specification"> Device Specification:</label>
                                                  <select id="specification" required>
                                                  </select>    
-                                    <div class="mdl-cell mdl-cell--2-offset">
+                                    <div class="mdl-cell mdl-cell--3-col mdl-cell--2-offset">
                                       <input type="button" value="Add Specifications" onclick="openForm('popupForm')" />
                                     </div>
-                                    <div class="mdl-cell">
+                                    <div class="mdl-cell mdl-cell--3-col">
                                         <label for="Status"> Status:</label>
                                         <select id="status" required>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mdl-grid">
-                                    <div class="mdl-cell mdl-cell--4-offset">
+                                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset">
                                         <input type="submit" value="ADD" name="submit" id="submit">
                                         <input type="button" value="BACK" id="back">
                                     </div>
@@ -142,6 +143,9 @@
             document.getElementById(popup).style.display = "block";
         }
         function closeForm(popup) {
+            document.getElementById(popup).querySelectorAll('input,select').forEach((element) => {
+                element.value = '';
+            });
             document.getElementById(popup).style.display = "none";
         }
        

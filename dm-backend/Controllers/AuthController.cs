@@ -13,6 +13,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using dm_backend.Utilities;
 using Newtonsoft.Json;
+using dm_backend.Logics;
 
 namespace dm_backend.Controllers
 {
@@ -58,6 +59,9 @@ namespace dm_backend.Controllers
                         { 
                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                         });
+            //send email on registration 
+            string body ="Congratulations !<br>"+createdUser.FirstName+" "+createdUser.LastName+"<br>  Your account has been created on Device Management portal  <br> Thanks  ";
+            var emailObj = new sendMail().sendNotification(createdUser.Email,body, "Registration Successfull");
 
             return Ok(new { Result = result1});
         }
@@ -79,19 +83,14 @@ namespace dm_backend.Controllers
         public async Task<IActionResult> SetPassword(ResetPassword rp)
         {
             byte[] passwordHash, passwordSalt;
-            Console.WriteLine("setpass");
-            _repo.CreatePasswordHash(rp.Password, out passwordHash, out passwordSalt);
+           _repo.CreatePasswordHash(rp.Password, out passwordHash, out passwordSalt);
 
 
-            Console.WriteLine(passwordSalt);
-            var user = _context.User.First(a => a.Guid == rp.Guid);
+            var user = _context.User.FirstOrDefault(a => a.Guid == rp.Guid);
             user.Hashpassword = passwordHash;
             user.Saltpassword = passwordSalt;
-            Console.WriteLine("done !");
             _context.SaveChanges();
             return Ok(new { Result = "Done" });
-
-
 
         }
 

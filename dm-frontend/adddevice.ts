@@ -91,15 +91,15 @@ function checkDropDown(elements: string,compareElement) {
   }
  
 });
-(document.querySelector('#addspecification') as HTMLButtonElement).addEventListener('click', function (e) {
+(document.querySelector('#addspecification') as HTMLButtonElement).addEventListener('click', async function (e) {
   console.log("inside function")
   e.preventDefault();
   const temp = new AddDevice(token);
-  temp.addNewSpecification();
-  window["tata"].text('New Specification ','Added!',{duration:30000});
- (document.getElementById("popupForm") as HTMLFormElement).style.display = "none";
- 
-});
+  if(await temp.addNewSpecification() == true){
+    window["tata"].text('New Specification ','Added!',{duration:30000});
+    window["closeForm"]('popupForm');
+  }
+    });
 
 (document.querySelector('#back') as HTMLButtonElement).addEventListener('click', function (e) {
   window.location.href = "./deviceListForadmin.html";

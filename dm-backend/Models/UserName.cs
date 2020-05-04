@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace dm_backend.Models{
     public class UserName
     {
-        public int userId { get; set; }
+        public int? userId { get; set; }
         public string salutation { get; set; }
         public string firstName { get; set; }
         public string middleName { get; set; }
