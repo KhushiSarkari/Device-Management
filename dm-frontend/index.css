@@ -15,6 +15,9 @@
 {
     float: right;
 } */
+.serial-number>*{
+  font-size: 1em;
+}
  .page{
      background-color: transparent;
      border: 0;
