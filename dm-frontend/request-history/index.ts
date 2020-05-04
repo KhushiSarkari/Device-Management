@@ -122,7 +122,7 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
             var sortAttribute = (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortAttributr);       
             var sortType  =  (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortType);
             let requestStatus = new Sorting(token).getSortingAndSearchingUri();
-            let uri = "?user-name="+encodeURI(userName)+"&sort="+sortAttribute+"&sort-type="+sortType+"&page="+offset+"&page-size="+totalRowsInTable +"&status="+requestStatus;
+            let uri = requestStatus + "&page="+offset+"&page-size="+totalRowsInTable;
             return uri;
              
         }
