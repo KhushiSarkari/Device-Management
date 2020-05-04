@@ -17,6 +17,7 @@
       height: unset;
       box-shadow: none;
     }
+    
 
     nav.mdl-navigation i {
       font-size: 24px;
@@ -43,6 +44,14 @@
     p {
       text-align: center;
     }
+    .block-label
+    {
+      display: block;
+      padding: 8px;
+      font-size: 16px;
+      color: black;
+    }
+    
   </style>
 </head>
 
@@ -70,7 +79,7 @@
                   <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--2-col">
                       <label><b>Salutation:</b></label>
-                      <select style="height: 46px;" id="salutation" name="Salutation">
+                      <select   id="salutation" name="Salutation">
                         <option value="Mr">Mr</option>
                         <option value="Mrs">Mrs</option>
                         <option value="Miss">Miss</option>
@@ -95,7 +104,7 @@
                   <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--2-col">
                       <label> <b>Gender:</b> </label>
-                      <select style="height: 46px;" id="gender" name="Gender" class="form-control">
+                      <select   id="gender" name="Gender" class="form-control">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Others">Others</option>
@@ -176,7 +185,7 @@
                     <div class="mdl-grid">
                       <div class="mdl-cell mdl-cell--2-col">
                         <label><b> Address</b> </label><br>
-                        <select style="height: 46px;" class="addressType" name="CurrentAddress">
+                        <select   class="addressType" name="CurrentAddress">
                           <option value="current">Current</option>
                           <option value="permanant">Permanent</option>
                         </select>
@@ -196,19 +205,19 @@
                       <div class="mdl-cell mdl-cell--2-col">
 
                         <label><b>Country</b> </label>
-                        <select style="height: 46px;" class="country" name="country"></select>
+                        <select   class="country" name="country"></select>
                         <span class="txt-danger countryspan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b> State</b> </label>
-                        <select style="height: 46px;" class="state" name="state"> </select>
+                        <select   class="state" name="state"> </select>
                         <span class="txt-danger statespan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label> <b>City</b> </label>
-                        <select style="height: 46px;" class="city" name="city"></select>
+                        <select   class="city" name="city"></select>
                         <span class="txt-danger cityspan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
@@ -229,7 +238,7 @@
                     <div class="mdl-grid">
                       <div class="mdl-cell mdl-cell--2-col">
                         <label><b> Address</b> </label><br>
-                        <select style="height: 46px;" class="addressType" name="CurrentAddress">
+                        <select class="addressType" name="CurrentAddress">
                           <option value="permanant">Permanent</option>
                           <option value="current">Currrent</option>
                         </select>
@@ -249,19 +258,19 @@
                       <div class="mdl-cell mdl-cell--2-col">
 
                         <label><b>Country</b> </label>
-                        <select style="height: 46px;" class="country" name="country"></select>
+                        <select   class="country" name="country"></select>
                         <span class="txt-danger countryspan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label><b> State</b> </label>
-                        <select style="height: 46px;" class="state" name="state"> </select>
+                        <select   class="state" name="state"> </select>
                         <span class="txt-danger statespan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
 
                         <label> <b>City</b> </label>
-                        <select style="height: 46px;" class="city" name="city"></select>
+                        <select   class="city" name="city"></select>
                         <span class="txt-danger cityspan"></span>
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
@@ -286,12 +295,13 @@
 
                     <div class="mdl-grid">
                       <div class="mdl-cell mdl-cell--2-col">
-                        <label><b>Contact 1:</b> </label>
-                        <select style="height: 46px;" class="contactNumberType" name="Contact">
+                        <label><b>Contact 1:</b> </label><br>
+                        <label value="mobile" class="contactNumberType block-label" name="Contact">Mobile</b> </label>
+                        <!-- <select   class="contactNumberType" name="Contact">
                           <option value="mobile">Mobile</option>
                           <option value="home">Home</option>
                           <option value="work">Work</option>
-                        </select>
+                        </select> -->
                       </div>
                       <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
@@ -300,7 +310,7 @@
                       </div>
                       <div class="mdl-cell mdl-cell--2-col mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
-                        <select style="height: 46px;" class="countryCode" name="CountryCode">
+                        <select   class="countryCode" name="CountryCode">
 
 
                         </select>
@@ -322,12 +332,13 @@
 
                     <div class="mdl-grid">
                       <div class="mdl-cell mdl-cell--2-col">
-                        <label><b>Contact 2:</b> </label>
-                        <select style="height: 46px;" class="contactNumberType" name="Contact">
+                        <label><b>Contact 2:</b> </label><br>
+                        <label value="work" class="contactNumberType block-label" name="Contact">Work </label>
+                        <!-- <select   class="contactNumberType" name="Contact">
                           <option value="work">Work</option>
                           <option value="mobile">Mobile</option>
                           <option value="home">Home</option>
-                        </select>
+                        </select> -->
                       </div>
                       <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
@@ -336,7 +347,7 @@
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
-                        <select style="height: 46px;" class="countryCode" name="CountryCode">
+                        <select   class="countryCode" name="CountryCode">
                         </select>
                         <span class="txt-danger countrycodespan"></span>
                       </div>
@@ -352,12 +363,13 @@
                   <div id="phones3">
                     <div class="mdl-grid">
                       <div class="mdl-cell mdl-cell--2-col">
-                        <label><b>Contact 3:</b> </label>
-                        <select style="height: 46px;" class="contactNumberType" name="Contact">
+                        <label><b>Contact 3:</b> </label><br>
+                        <label value="home" class="contactNumberType block-label" name="Contact">Home</label>
+                        <!-- <select   class="contactNumberType" name="Contact">
                           <option value="home">Home</option>
                           <option value="mobile">Mobile</option>
                           <option value="work">Work</option>
-                        </select>
+                        </select> -->
                       </div>
                       <div class="mdl-cell mdl-cell--3-col  mdl-cell--1-offset">
                         <label><b>Enter Number:</b></label>
@@ -366,7 +378,7 @@
                       </div>
                       <div class="mdl-cell mdl-cell--2-col  mdl-cell--1-offset">
                         <label><b>Country Code</b></label>
-                        <select style="height: 46px;" class="countryCode" name="CountryCode">
+                        <select   class="countryCode" name="CountryCode">
                         </select>
                         <span class="txt-danger countrycodespan"></span>
                       </div>
