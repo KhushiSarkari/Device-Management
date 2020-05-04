@@ -1,14 +1,16 @@
 import { UserData } from "./dropdown";
 
 export function openForm(formMode: string) {
-	(document.querySelector("#myForm") as HTMLFormElement).style.display="block";
+	document.querySelector('#accordion1').classList.add("active");
+	// (document.querySelector("#myForm") as HTMLFormElement).style.display="block";
 	if(formMode == "create"){
 		fillInitialDropdowns((document.querySelector("#myForm") as HTMLFormElement));
 	}
 }
 ​
 export function closeForm() {
-    (document.querySelector("#myForm") as HTMLFormElement).style.display="none";
+	// (document.querySelector("#myForm") as HTMLFormElement).style.display="none";
+	document.querySelector('#accordion1').classList.remove("active");
 	(document.querySelector("#myForm") as HTMLFormElement).reset();
 	clearDropdowns(document.querySelector("#myForm") as HTMLFormElement);
 
