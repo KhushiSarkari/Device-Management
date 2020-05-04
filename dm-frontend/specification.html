@@ -27,8 +27,8 @@
 
     <!-- specification popup -->
     <div class="login-popup">
-        <div class="form-popup" id="popupForm">
-            <form class="form-container" id="popup_specification">
+        <!-- <div class="form-popup" id="popupForm"> -->
+            <form class="form-container form-popup" id="popup_specification">
                 <h5><b><u>Add New Specifications</b></u></h5>
                 <label for="RAM">
                     <strong>RAM</strong>
@@ -47,9 +47,9 @@
                 </label>
                 <input type="text" id="Connectivity" placeholder="Enter Connectivity" name="Connectivity">
                 <button type="submit" class="btn">ADD</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                <button type="button" class="btn cancel" onclick="closeForm('.login-popup')">Close</button>
             </form>
-        </div>
+        <!-- </div> -->
     </div>
     <!-- Always shows a header, even in smaller screens. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -74,7 +74,7 @@
                      <!-- <div style="float:right "> <br> -->
                         <div style="float: right;">                     
                                <button class="mdl-button mdl-js-button mdl-button--raised" 
-                        value="Add Specifications" id="add-specification">Add Specification</button>
+                        value="Add Specifications" id="add-specification" onclick="openForm('.login-popup')">Add Specification</button>
                                  
                                 </div>
                                 <br><br>
@@ -120,9 +120,15 @@
         </main>
     </div>
     <script>
-      function closeForm() {
-            document.getElementById("popupForm").style.display = "none";
+        function openForm(popup) {
+            document.querySelector(popup).classList.add("active");
         }
+      function closeForm(popup) {
+            document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+                element.value = '';
+        });
+        document.querySelector(popup).classList.remove("active");
+    }
         
     </script>
 

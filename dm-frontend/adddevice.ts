@@ -89,7 +89,7 @@ function checkDropDown(elements: string,compareElement) {
   e.preventDefault();
   const temp = new AddDevice(token);
   if(await temp.addNewSpecification() == true)
-    window["closeForm"]('popupForm');
+    window["closeForm"]('.login-popup');
  
 });
 
