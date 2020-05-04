@@ -27,8 +27,7 @@ import { Sort } from "./user-profile/SortingUser";
                     + "<td>" + data[i]['deviceType'] + "</td>" + "<td>" + data[i]['deviceBrand'] + "</td>" + "<td>" + data[i]['deviceModel'] + "</td>"
                     + "<td>" + util.concatSpecs(specs) + "</td>"
                     + "<td>" + util.concatName(requestedBy) + "</td>"
-                    + "<td>" + data[i]['requestDate'] + "</td>"
-                    + "<td>" + data[i]['availability'] + "</td>";
+                    + "<td>" + data[i]['requestDate'] + "</td>";
                 if (data[i]['availability'] == true)
                     tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" data-requestname=\""+ util.concatName(requestedBy) +"\" data-requestmail = \"" + data[i]["requestedBy"]['email']+"\"  >Accept</button>" + "</td>";
                 else
@@ -95,6 +94,7 @@ import { Sort } from "./user-profile/SortingUser";
             obj = {
                 notify: []
             };
+            getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
         }
     }
 
@@ -116,6 +116,7 @@ import { Sort } from "./user-profile/SortingUser";
             obj = {
                 notify: []
             };
+            getPendingRequests(globalUrl + "pending?"+PageNo(currentPage));
         });
 
     document.addEventListener("click", function (e) {

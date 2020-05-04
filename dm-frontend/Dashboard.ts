@@ -34,15 +34,7 @@ import { HitApi } from './Device-Request/HitRequestApi';
     //     }
 
    // }
-    // function NotificationCount() {
-    //     fetch(BASEURL+ "/api/Notification/Count/" + id)
-    //         .then(Response => Response.json())
-    //         .then(data => {
-    //             (document.getElementById("notifications") as HTMLElement).dataset.badge = data;
-    //         })
-    //         .catch(err => console.log(err));
-    // }
-    // NotificationCount();
+
 
     function getStatistics(url: string) {
         new HitApi(token).HitGetApi(url).then(data => {
@@ -111,42 +103,26 @@ import { HitApi } from './Device-Request/HitRequestApi';
     headersRows(role,"row1");
     document.getElementById('role').innerHTML = role;
 
-    // document.querySelector("#submissionNotification").addEventListener('click', e => {
-    //     if (role == "Admin") {
-    //         window.location.href = "./submissionRequestPage.html";
-    //     }
-    // });
-    // document.getElementById("notifications").addEventListener('click', function (e) {
-    //     window.location.href = "./notifiication.html";
-    // });
-    // document.getElementById("logout").addEventListener('click', function (e) {
-    //     sessionStorage.clear();
-    //     window.location.href = "/SJLogin/LoginRegiter.html";
-    // });
     document.addEventListener("click", function (e) {
         let action = (e.target as HTMLButtonElement).dataset.card;
         if (action == "total")
             window.open("/deviceListForadmin.html", "_self");
-        // if(action=="faults")
-        //     window.open("/faultyDevice/faultdevice.html","_self");
+
         if (action == "requests")
             window.open("/adminRequestPage.html", "_self");
 
         if (action == "history") {
             window.open("request-history/request-history.html?status=Rejected","_self");
-            //Get all rejected requests
+
         }
         if (action == "free") {
             window.open("/deviceListForadmin.html?status=Free", "_self");
-            //Get all free devices
         }
         if (action == "allocated") {
             window.open("/deviceListForadmin.html?status=Allocated", "_self");
-            //Get all allocated devices
         }
         if (action == "faults") {
             window.open("faultyDevice/faultdevice.html", "_self");
-            //Get all allocated devices
         }
 
     });
@@ -156,7 +132,6 @@ import { HitApi } from './Device-Request/HitRequestApi';
         getDeviceReturnDates(BASEURL + "/api/dashboard/" + id + "/returndates");
     }
     else if (role == 'Admin') {
-        (document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "check_circle";
         getStatistics(BASEURL + "/api/dashboard/statistics");
         getFaults(BASEURL + "/api/dashboard/faults");
 
