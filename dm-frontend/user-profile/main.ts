@@ -65,7 +65,7 @@ import { BASEURL, navigationBarsss, amIUser } from '../globals';
             
                 });
              })
-            alert("Record Updated");
+             window["tata"].text('Record ','Updated!',{duration:3000});
         }
     });
     navigationBarsss(role, "navigation");
