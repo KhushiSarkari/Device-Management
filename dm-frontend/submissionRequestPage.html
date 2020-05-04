@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./styling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/device_role/role_styles.css" />
     </head>
 <body>
     <!-- Always shows a header, even in smaller screens. -->
@@ -34,8 +35,9 @@
     
         <main class="mdl-layout__content">
             <div class="page-content" data-table>
+               <div class="content">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                mdl-textfield--floating-label mdl-textfield--align-right">
+                mdl-textfield--floating-label">
                              <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
                                  <i class="material-icons">search</i>
                              </label>
@@ -60,7 +62,7 @@
                                 <th class="" name="return_date"
                                 data-id="return_date">
                                 Return Date </th>
-                                <th class="" name="status"
+                                <th class="" name="status" colspan="2"
                                 data-id="status">
                                 Action </th>
                         </tr>
@@ -70,6 +72,7 @@
                         
                     </tbody>
                 </table>
+                </div>
                 
             </div>
             <br><br>
