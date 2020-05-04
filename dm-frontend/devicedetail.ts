@@ -1,5 +1,5 @@
 import { DeviceListForAdmin } from './deviceListForAdmin';
-import { BASEURL, navigationBarsss, Token, amIUser } from "./globals";
+import { BASEURL, navigationBarsss, Token, amIUser ,headersRows} from "./globals";
 
 (async function() {
 	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -38,4 +38,5 @@ const urlParams = new URLSearchParams(window.location.search);
 const myParam = urlParams.get("device_id");
 getDeviceDetailById(myParam);
 navigationBarsss(role,"navigation");
+headersRows(role,"row1");
 })();

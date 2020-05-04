@@ -6,7 +6,7 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss, current_page,changePage  } from './globals';
+import { BASEURL,amIUser,navigationBarsss, current_page,changePage,headersRows  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
@@ -278,6 +278,7 @@ import { formatPhone } from "./utilities";
     });
 
 	navigationBarsss(role,"navigation");
+	headersRows(role,"row1");
 	setData();
     util.addressCheck();
 	dropDownListen(form,token);

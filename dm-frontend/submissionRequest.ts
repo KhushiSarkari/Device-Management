@@ -3,7 +3,7 @@ import { RequestDeviceModel } from "./Device-Request/deviceRequestModel";
 import { RequestSubmitModel } from "./SubmissionRequestModel";
 import { populateData } from "./genrateSubmissionRequest";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, changePage,headersRows } from "./globals";
 
 (async function(){
     let address = BASEURL;
@@ -108,5 +108,6 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
         });
     getAll();
     navigationBarsss("Admin","navigation");
+    headersRows("Admin","row1");
     return null;
 })();
