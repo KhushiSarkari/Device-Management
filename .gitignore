@@ -4,3 +4,5 @@ obj
 .vs
 .vscode
 *.js
+.DS_Store
+!dm-frontend/static/*

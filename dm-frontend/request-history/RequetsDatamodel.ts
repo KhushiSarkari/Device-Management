@@ -41,8 +41,8 @@ export class RequestModel
     private bindSpecs(value: any) {
         this.specifications = (value["specs"]["ram"] == ""?"": "RAM = "+ value["specs"]["ram"] +",") + 
         (value["specs"]["storage"]== "" ? "" : "Storage =  " + value["specs"]["storage"] +"," ) +
-        (value["specs"]["screen_size"] =="" ? "" : " Screen-Size = " + value["specs"]["screen_size"] +",") +
-         ( value["specs"]["connecti vity"] == "" ? "" : " connectivity =  " + value["specs"]["connectivity"] );
+        (value["specs"]["screenSize"] =="" ? "" : " Screen-Size = " + value["specs"]["screenSize"] +",") +
+         ( value["specs"]["connectivity"] == "" ? "" : " connectivity =  " + value["specs"]["connectivity"] );
     }
 
     private getUserName(value: any, type: string): string {
