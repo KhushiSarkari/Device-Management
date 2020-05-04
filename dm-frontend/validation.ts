@@ -414,6 +414,7 @@ export function connectivityvalidation()
     if(connectivitys=="")
     {
         (document.getElementById('connectivitys') as HTMLInputElement).innerHTML = "please fill this field";
+        
         return 0;
 
     }
