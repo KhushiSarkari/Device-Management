@@ -126,20 +126,23 @@ document.querySelector('.close').addEventListener('click',
         getPendingRequests(globalUrl + "pending?" + PageNo(currentPage));
     });
 
-document.addEventListener("click", function (e) {
-    let requestId = parseInt((e.target as HTMLButtonElement).dataset.requestid, 10);
-    if ((e.target as HTMLButtonElement).className == "reject-button") {
-        var name = ((e.target as HTMLButtonElement).dataset.requestname);
-        var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
-        if (confirm("Are you sure you want to reject the request?")) {
-            requestAction('?action=reject&id=' + adminId, requestId, 'rejected', name, mail);
+    document.addEventListener("click", function (e) {
+        let requestId = parseInt((e.target as HTMLButtonElement).dataset.requestid, 10);
+        if ((e.target as HTMLButtonElement).className == "reject-button") {
+           var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
+            if (confirm("Are you sure you want to reject the request?"))
+            {
+                requestAction('?action=reject&id=' + adminId, requestId, 'rejected' , name , mail);
+                window["tata"].text('Request ','Rejected!',{duration:3000});
+            }
         }
-    }
-    if ((e.target as HTMLButtonElement).className == "accept-button") {
-        var name = ((e.target as HTMLButtonElement).dataset.requestname);
-        var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
-        if (confirm("Are you sure you want to accept the request?"))
-            requestAction('?action=accept&id=' + adminId, requestId, 'accepted', name, mail);
+        if ((e.target as HTMLButtonElement).className == "accept-button") {
+            var name =  ((e.target as HTMLButtonElement).dataset.requestname);
+            var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
+            if (confirm("Are you sure you want to accept the request?")){
+                requestAction('?action=accept&id=' + adminId, requestId, 'accepted' , name , mail);
+                window["tata"].text('Request ','Accepted!',{duration:3000});}
 
     }
     if ((e.target as HTMLButtonElement).className == "show-users") {

@@ -101,6 +101,7 @@ document.addEventListener("click", function (e) {
                     notify.acceptNotification(notify);
                     notify.notification(user_id);
                  console.log("notification accepted");
+                 window["tata"].text('Notification ','Accepted!',{duration:3000});
                }
             }
         if ((e.target as HTMLButtonElement).className == "reject-button") {
@@ -109,6 +110,7 @@ document.addEventListener("click", function (e) {
                 
                 let notificationId = parseInt((e.target as HTMLButtonElement).dataset.notificationid,10);
                 notify.rejectNotification(notificationId);
+                window["tata"].text('Notification ','Rejected!',{duration:3000});
                 notify.notification(user_id);
                 
                }

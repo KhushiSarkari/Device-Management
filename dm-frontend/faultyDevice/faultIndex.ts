@@ -38,7 +38,8 @@ document.addEventListener('click' , event =>
   {
     (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
     new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } );
-    (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+   (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+   window["tata"].text('Device Status ','Faulty!',{duration:3000});}
   }
   if(element == "fault-resolved")
   {
@@ -46,10 +47,10 @@ document.addEventListener('click' , event =>
     (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
       new HitApi(token.tokenKey).HitPutApi( url + "/resolve" ,  {complaintId  : id } );
       (document.getElementById("loading") as HTMLDivElement).style.display = "none";
+      window["tata"].text('Fault ','Resolved!',{duration:3000});
   }
   new FalultyDevice().getAllData();
-  }
-});
+  });
 
 
 (document.querySelector("#tableHead") as HTMLTableHeaderCellElement).addEventListener("click", function (e) {

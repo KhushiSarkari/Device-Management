@@ -113,9 +113,11 @@ let mode:string = "create";
             
            response = await specs.updateSpecification(specification.specification_id);
             mode = "create";
+            window["tata"].text('Specification ','Updated!',{duration:3000});
         }
         else{
              response =await specs.addNewSpecification();
+             window["tata"].success('New Specification ','Added!',{duration:3000});
         }
         specs.closeForm();
         if(response ==200){
