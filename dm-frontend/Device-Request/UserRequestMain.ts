@@ -1,13 +1,14 @@
 import { HitApi } from "./HitRequestApi";
 import { populateDropDown } from "./populateDropDown";
 import { RequestDeviceModel } from "./deviceRequestModel";
-import { BASEURL, Token, amIUser, navigationBarsss } from "../globals";
+import { BASEURL, Token, amIUser, navigationBarsss,headersRows } from "../globals";
 import { CreateUserApi } from "../createApi";
 
 (async function () {
   let obj = Token.getInstance();
   let role = (await amIUser(obj.tokenKey)) == true ? "User" : "Admin";
   navigationBarsss(role, "navigations");
+  headersRows(role,"row1");
   return null;
 })();
 
@@ -104,7 +105,7 @@ document.querySelector("#request")?.addEventListener("click", (e) => {
         hide(".container")
         display(".bg-model")
         document.getElementById("device-request-message").innerHTML = "Your request submitted"
-        
+       
     }
       else{ 
         display(".bg-model");

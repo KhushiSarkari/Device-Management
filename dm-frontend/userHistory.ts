@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token,headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
 import {descriptionboxvalidation} from "./validation";
@@ -27,6 +27,7 @@ let currentPage: number = current_page;
         if ((ev.target as HTMLButtonElement).classList.contains("cancel")) {
             const requestId = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.requestId;
             mydevices.deleteRequestHistory(parseInt(requestId)).then(function () { mydevices.getRequestHistory(userId); });
+            window["tata"].text('Request ','cancelled!',{duration:3000});
         }
     });
 
@@ -35,11 +36,13 @@ let currentPage: number = current_page;
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             console.log(deviceid);
             mydevices.returnDevice(userId, parseInt(deviceid)).then(function () { mydevices.getCurrentDevice(userId); });
+            window["tata"].text('Device ','Returned!',{duration:3000});
         }
         else if ((ev.target as HTMLButtonElement).classList.contains("fault")) {
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
+            window["tata"].text('Device Fault ','Reported!',{duration:3000});
         }
     });
 
@@ -106,6 +109,7 @@ let currentPage: number = current_page;
     }
 
     navigationBarsss(role, "navigation");
+    headersRows(role,"row1");
     var mydevices = new MyDevices(token);
     mydevices.getCurrentDevice(userId);
 })();

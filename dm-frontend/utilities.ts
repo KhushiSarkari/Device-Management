@@ -38,7 +38,7 @@ export function formatPhone(str1:string,str2:string) {
 }
 export function formatPhone1(str:string) {
 
-	let a =  str.split("-");   //XXX-XXXX-XXX =>XXXXXXXXXX
+	let a =  str.split("-");   
 console.log(a);
 return a[0]+a[1]+a[2];
 }	

@@ -97,9 +97,9 @@ export class RolePermission{
             },
             body: JSON.stringify({"Roles": this.mapping})
         }).then(response => {
-            if(!response.ok)
-                throw "";
-            alert("Changes saved successfully");
+            if(!response.ok){
+                throw "";}
+                window["tata"].text('Changes Saved ','Successfully!',{duration:3000});
             this.setup();
         }).catch(err => console.error(err));
     }

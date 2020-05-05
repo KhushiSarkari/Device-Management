@@ -3,7 +3,7 @@ import { createObjectFromForm, populateFormFromObject } from './databinding';
 import { validate } from "../validation";
 import { dropDownListen } from "./dropDownListener";
  import * as util from "../utilities";
-import { BASEURL, navigationBarsss, amIUser } from '../globals';
+import { BASEURL, navigationBarsss, amIUser ,headersRows} from '../globals';
 (async function () {
     let token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
     let role = await amIUser(token) == true ? "User" : "Admin";
@@ -65,8 +65,9 @@ import { BASEURL, navigationBarsss, amIUser } from '../globals';
             
                 });
              })
-            alert("Record Updated");
+             window["tata"].text('Record ','Updated!',{duration:3000});
         }
     });
     navigationBarsss(role, "navigation");
+    headersRows(role,"row1");
 })();

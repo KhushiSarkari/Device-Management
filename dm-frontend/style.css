@@ -14,7 +14,11 @@ table {
 th[colspan] {
 	text-align: center;
 }
-:any-link {
+nav.mdl-navigation a:hover {
+	text-decoration: none;
+  }
+
+:any-link{
 	color: #000;
 	text-decoration: none;
 }
@@ -97,35 +101,7 @@ div.mdl-layout__drawer {
 	text-align: left;
 	width: 100%;
 }*/
-/* Hide the Popup form
-.form-popup {
-	display: none;
-	position: relative;
-	left: 50%;
-	top: 1%;
-	transform: translate(-45%, 5%);
-	border: 2px solid rgb(0, 77, 192);
-	z-index: 9;
-	max-width: 850;
-	padding: 20px;
-	background-color: #fff;
-}
-/* Style submit/login button */
-/* .form-popup .btn {
-	background-color: #8ebf42;
-	color: #fff;
-	padding: 12px 20px;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-	margin-bottom: 10px;
-	opacity: 0.8;
-} */
-/* Style cancel button */
-/* .form-popup .cancel {
-	background-color: #cc0000;
-} */
-/* Hover effects for buttons */
+
 .form-popup .btn:hover,
 .open-button:hover {
 	opacity: 1;

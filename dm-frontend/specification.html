@@ -27,8 +27,8 @@
 
     <!-- specification popup -->
     <div class="login-popup">
-        <div class="form-popup" id="popupForm">
-            <form class="form-container" id="popup_specification">
+        <!-- <div class="form-popup" id="popupForm"> -->
+            <form class="form-container form-popup" id="popup_specification">
                 <h5><b><u>Add New Specifications</b></u></h5>
                 <label for="RAM">
                     <strong>RAM</strong>
@@ -47,12 +47,12 @@
                 </label>
                 <input type="text" id="Connectivity" placeholder="Enter Connectivity" name="Connectivity">
                 <button type="submit" class="btn">ADD</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                <button type="button" class="btn cancel" onclick="closeForm('.login-popup')">Close</button>
             </form>
-        </div>
+        <!-- </div> -->
     </div>
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
@@ -61,6 +61,12 @@
                 <div class="mdl-layout-spacer"></div>
 
                 <div class="mdl-layout-spacer"></div>
+              
+	  
+					<div id="row1">
+					  
+					  
+					</div> 
                
             </div>
         </header>
@@ -74,7 +80,7 @@
                      <!-- <div style="float:right "> <br> -->
                         <div style="float: right;">                     
                                <button class="mdl-button mdl-js-button mdl-button--raised" 
-                        value="Add Specifications" id="add-specification">Add Specification</button>
+                        value="Add Specifications" id="add-specification" onclick="openForm('.login-popup')">Add Specification</button>
                                  
                                 </div>
                                 <br><br>
@@ -95,7 +101,7 @@
                                 Screen_size </th>
                             <th name="connnectivity" id="connnectivity">
                                 Connnectivity </th>
-                           
+                           <th> Action</th>
                         </tr>
 
                     </thead>
@@ -120,13 +126,21 @@
         </main>
     </div>
     <script>
-      function closeForm() {
-            document.getElementById("popupForm").style.display = "none";
+        function openForm(popup) {
+            document.querySelector(popup).classList.add("active");
         }
+      function closeForm(popup) {
+            document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+                element.value = '';
+        });
+        document.querySelector(popup).classList.remove("active");
+    }
         
     </script>
 
 </body>
+<script src = "tata.js"></script>
 <script src="/assets/js/specificationcrud.js"></script>
+<script src="/static/tata.js"></script>
 
 </html>

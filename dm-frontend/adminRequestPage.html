@@ -5,30 +5,40 @@
     <title>PENDING REQUESTS</title>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
-
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-
     <link rel="stylesheet" href="style.css">
+    <style>
+  @media only screen and (min-width: 1023px) {
+    .mdl-layout__drawer-button i.material-icons 
+{
+  line-height: 2;
+  visibility: hidden;
+}
+ 
+}
+</style>
 </head>
 
 <body>
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <div class="devices">
-                    <span class="mdl-layout-title">All Requests</span>
+                    <span class="mdl-layout-title" style="margin-left: 20px;">All Requests</span>
                 </div>
+                    <div class="mdl-layout-spacer"></div>
 
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
+					<div class="mdl-layout-spacer"></div>
+	  
+					<div id="row1">
+					  
+					  
+					</div> 
 
-                <div class="mdl-layout-spacer"></div>
             </div>
         </header>
 
@@ -39,7 +49,7 @@
         <div class="page-content">
             <div style="float:right "> <br><br><br>
                 <div
-                    class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                    class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right" style="padding-right: 900px;">
                     <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
                         <i class="material-icons">search</i>
                     </label>
@@ -48,22 +58,20 @@
                     </div>
                 </div>
             </div><br><br><br>
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp " id="Request_data1"
-                style="overflow: auto;margin-left: 5px;">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp " id="Request_data1" style="margin-left: 240px;">
                 <thead id="tablecol">
                     <tr>
-                        <th class="mdl-data-table__header--sorted-descending" name="user_id" id="user_id">USER ID
+                        <th class="mdl-data-table__header--sorted-descending" name="user_id" id="user_id">User Id
                         </th>
-                        <th class="mdl-data-table__header--sorted-descending" name="type" id="type">TYPE </th>
-                        <th class="mdl-data-table__header--sorted-descending" name="brand" id="brand">BRAND</th>
-                        <th class="mdl-data-table__header--sorted-descending" name="model" id="model">MODEL</th>
+                        <th class="mdl-data-table__header--sorted-descending" name="type" id="type">Type </th>
+                        <th class="mdl-data-table__header--sorted-descending" name="brand" id="brand">Brand</th>
+                        <th class="mdl-data-table__header--sorted-descending" name="model" id="model">Model</th>
                         <th class="mdl-data-table__header--sorted-descending" name="specification" id="specification">
-                            SPECIFICATIONS</th>
-                        <th class="mdl-data-table__header--sorted-descending" name="name" id="name">NAME</th>
+                            Specification</th>
+                        <th class="mdl-data-table__header--sorted-descending" name="name" id="name">Name</th>
                         <th class="mdl-data-table__header--sorted-descending" name="request_date" id="request_date">
-                            REQUEST DATE </th>
-                        <th>AVAILABILITY </th>
-                        <th colspan='2'>ACTION</th>
+                            Request Date </th>
+                        <th colspan='2'>Action</th>
                     </tr>
                 </thead>
                 <tbody id='content'>
@@ -98,11 +106,9 @@
             </div>
         </center>
     </main>
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
     <script src="/assets/js/request.js"></script>
-
+    <script src="/static/tata.js"></script>
 
 </body>
-
 </html>
