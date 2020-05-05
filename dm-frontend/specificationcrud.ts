@@ -1,5 +1,6 @@
 import { SpecificationList } from "./specificationlist";
 import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser,headersRows} from "./globals";
+
 let mode:string = "create";
 (async function(){
     let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -96,13 +97,36 @@ let mode:string = "create";
             (document.getElementById("Screen_size")as HTMLInputElement).value  = data.screenSize;
             
         }
-        openForm() {
-            (document.getElementById("popupForm") as HTMLFormElement).style.display = "block";
+         openForm(popup) {
+            document.querySelector(popup).classList.add("active");
         }
-        closeForm() {
-            (document.getElementById("popupForm") as HTMLFormElement).style.display = "none";
+        closeForm(popup) {
+            document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+                element.value = '';
+            });
+            document.querySelector(popup).classList.remove("active");
         }
+               deleteSpecification(specification_id:number)
+        {
+            fetch(BASEURL + "/api/Device/specification/" + specification_id +"/delete", {
+                method: "DELETE",
+                headers: new Headers({"Authorization": `Bearer ${token}`})
+			})
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(response.statusText);
+                }
+        
+                window["tata"].text('Specification ','Deleted!',{duration:3000});
+                this.getSpecificationData();
+            })
+            .catch(ex => {
     
+                window["tata"].error('An error occured '+ex.message,{duration:3000});
+            });
+
+
+        }
     }
     (document.querySelector('#popup_specification')as HTMLFormElement).addEventListener('submit',async  function (e) {
         console.log("inside function")
@@ -113,11 +137,14 @@ let mode:string = "create";
             
            response = await specs.updateSpecification(specification.specification_id);
             mode = "create";
+            window["tata"].text('Specification ','Updated!',{duration:3000});
         }
         else{
+         
              response =await specs.addNewSpecification();
+             window["tata"].success('New Specification ','Added!',{duration:3000});
         }
-        specs.closeForm();
+        specs.closeForm('.login-popup');
         if(response ==200){
         specs.getSpecificationData();
         }
@@ -129,10 +156,10 @@ let mode:string = "create";
     });
 
     document.addEventListener("click", function (e) {
-        if ((e.target as HTMLButtonElement).className == "edit-button") {
+        if ((e.target as HTMLButtonElement).id == "edit-button") {
             const specification_id: any = (e.target as HTMLButtonElement).getAttribute('value');
             specification.specification_id = specification_id;
-            specs.openForm();
+            specs.openForm('.login-popup');
             mode = "edit";
         specs.fillSpecification(specification_id);
     
@@ -143,7 +170,16 @@ let mode:string = "create";
             (document.getElementById("Connectivity")as HTMLInputElement).value = "";
             (document.getElementById("Storage")as HTMLInputElement).value  = "";
             (document.getElementById("Screen_size")as HTMLInputElement).value  = "";
-            specs.openForm();
+            specs.openForm('.login-popup');
+        }
+        if((e.target as HTMLButtonElement).id=="delete-button")
+        {
+            if(confirm("Are you sure you want to delete this specification?")){
+            const specification_id: any = (e.target as HTMLButtonElement).getAttribute(
+                "value"
+            );
+             specs.deleteSpecification(specification_id);
+            }
         }
     });
     const specification = new SpecificationList("",token);

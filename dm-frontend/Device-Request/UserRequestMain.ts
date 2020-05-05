@@ -105,7 +105,7 @@ document.querySelector("#request")?.addEventListener("click", (e) => {
         hide(".container")
         display(".bg-model")
         document.getElementById("device-request-message").innerHTML = "Your request submitted"
-        
+       
     }
       else{ 
         display(".bg-model");

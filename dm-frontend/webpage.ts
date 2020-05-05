@@ -69,7 +69,9 @@ import { formatPhone } from "./utilities";
 					{
 						throw new Error(response.statusText);
 					}
-				}).then(function(){setData();}).catch(Error => {console.log(Error),alert(Error.message);});
+				}).then(function(){
+					setData();
+					window["tata"].text('New User ','Added!',{duration:3000});}).catch(Error => {console.log(Error),alert(Error.message);});
 			}
 			else 
 			{
@@ -82,7 +84,9 @@ import { formatPhone } from "./utilities";
 			if(validateForm(form_mode)==true){
 				new UpdateUserApi(token).updateUserData(userData1).then(function(){
 					setData();
+					window["tata"].text('User Details ','Updated!',{duration:3000});
 				});
+				
 			}
 			else
 			{
@@ -214,6 +218,7 @@ import { formatPhone } from "./utilities";
 			modalFunctions[modal.dataset["operation"]].call(modal, function(confirm:boolean){
 				if(confirm == true){
 					new GetUserApi(token,currentPage).deleteData(userId).then(function () { setData(); });
+					window["tata"].text('User ','Deleted!',{duration:3000});
 				}
 				util.closeModal(modal);
 				setData();
@@ -258,6 +263,7 @@ import { formatPhone } from "./utilities";
 				populateFormFromObject(userObject, form,token);
 				form_mode = "edit";
 			});
+			//window["tata"].text('User Details Updated!',{duration:30000});
 		}
 	});
 
