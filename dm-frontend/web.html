@@ -2,595 +2,496 @@
 
 <head>
     <title>All Users</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <!-- Popper JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- Material Design Lite -->
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
-    <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-        .modal.show{
-            position: absolute;
-            display: block;
-        }
-        .mdl-layout__drawer-button i.material-icons
-        {
-            line-height: 2;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/device_role/role_styles.css">
 </head>
 
 <body>
-    <div class="userForm accordion" id="accordion1">
-        <!--form division-->
+    <div class="collapsible-container" id="accordion1">
         <form class="form-popup" id="myForm">
             <h2 id="headingText" class="text-success text-center">User Registration</h2>
-            <div class="col-lg-12 m-auto d-block">
-                <!-- <form action="#"> -->
-                <div class="form-group">
-                </div>
+            <ul class="collapsible">
+                <li class="active">
+                    <div class="collapsible-header">Personal Details</div>
+                    <div class="collapsible-body">
+                        <div class="mdl-grid" id="form-group">
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <label for="salutation">Salutation</label>
+                                <select id="salutation" class="form-control">
 
-
-              
-                <div class="content" style="padding-top: 15px;">
-                    <div class="form-row" id="form-group">
-                        <div class="form-group col-md-2">
-                            <label for="salutation">Salutation</label>
-                            <select id="salutation" class="form-control">
-
-                                <option value="Mr">Mr</option>
-                                <option value="Mrs">Mrs</option>
-                                <option value="Ms">Ms</option>
-                                <option value="Dr">Dr</option>
-                            </select>
-                            <span id="salutations" class="text-danger font-weight-bold"></span>
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Ms">Ms</option>
+                                    <option value="Dr">Dr</option>
+                                </select>
+                                <span id="salutations" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" id="firstName">
+                                <span id="firstNames" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="middleName">Middle Name</label>
+                                <input type="text" class="form-control" id="middleName">
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" id="lastName">
+                                <span id="lastNames" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName">
-                            <span id="firstNames" class="text-danger font-weight-bold"></span>
+                        <div class="mdl-grid ">
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Email: </label>
+                                <input type="text" name="email" class="form-control" id="email">
+                                <span id="emails" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Password: </label>
+                                <input type="password" name="password" class="form-control" id="password">
+                                <span id="passwords" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Confirm Password: </label>
+                                <input type="password" name="confirmpassword" class="form-control" id="confirmpass">
+                                <span id="confirmpasss" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="middleName">Middle Name</label>
-                            <input type="text" class="form-control" id="middleName">
+
+                        <div class="form-group">
+
+                            <input type="text" hidden name="User" class="form-control" id="userId">
+
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName">
-                            <span id="lastNames" class="text-danger font-weight-bold"></span>
+                        <div class="form-group">
+
+                            <input type="text" hidden name="Status" class="form-control" id="status">
+
+                        </div>
+                        <div class="mdl-grid ">
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label for="Role">Enter Role</label>
+                                <select id="roleName" class="form-control">
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="superadmin">Super Admin</option>
+                                </select>
+                                <span id="roleNames" class="validationSpan text-danger font-weight-bold"></span>
+
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Department: </label>
+                                <select type="text" name="department" class="form-control" id="department">
+
+                                </select>
+                                <span id="departments" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Designation: </label>
+                                <select type="text" name="designation" class="form-control" id="designationName">
+
+                                </select>
+                                <span id="designations" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                        </div><br>
+
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--4-col"><label for="DOB">Date Of Birth:</label>
+                                <input type="date" id="dob" placeholder="dd-mm-YYYY" value="0001-01-01" name="DOB"
+                                    class="form-control">
+                                <span id="dobs" class="text-danger font-weight-bold"></span>
+                            </div><br>
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <label> Gender: </label>
+                                <select id="gender" name="Gender" class="form-control">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select><br>
+
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--4-col"><label for="DOJ">Date Of Joining:</label>
+                                <input type="date" id="doj" placeholder="dd-mm-YYYY" value="0001-01-01" name="DOJ"
+                                    class="form-control">
+                                <span id="dojs" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
+                        </div><br>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">Phone Details</div>
+                    <div class="collapsible-body">
+                        <div class="mdl-grid" id="phones1">
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="type">Type</label>
+                                <input id="contactNumberType" disabled name="Contact" class="contactNumberType form-control block-label"
+                                    value="mobile">
+                                <span id="Contact1" class="validationSpan text-danger font-weight-bold typespan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="number">Number</label>
+                                <input type="text" id="phone_number1" name="phone_number1" maxlength="10"
+                                    class="number form-control">
+                                <span id="phone_number1s" class="validationSpan text-danger font-weight-bold numberspan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="country">Country Code</label>
+                                <select class="countryCode form-control" name="CountryCode">
+                                    <option value="91">India</option>
+
+                                </select>
+                                <span id="CountryCodes1" class="validationSpan text-danger font-weight-bold CountryCodeSpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="areacode">Area Code</label>
+                                <input type="text" class="areaCode form-control" id="ac1" name="AreaCode" maxlength="4">
+                                <span id="ac1s" class="validationSpan text-danger font-weight-bold areaCodeSpan"></span>
+                            </div>
+                        </div>
+                        <div class="mdl-grid" id="phones2">
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="type">Type</label>
+                                <input id="contactNumberType" disabled name="Contact" class="contactNumberType form-control block-label"
+                                    value="home">
+                                <span id="Contact2" class="validationSpan text-danger font-weight-bold typespan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="number">Number</label>
+                                <input type="text" id="phone_number2" name="phone_number2" maxlength="10"
+                                    class="number form-control">
+                                <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
+                                <span id="phone_number2s" class="text-danger font-weight-bold numberspan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="country">Country Code</label>
+                                <select class="countryCode form-control" name="CountryCode">
+                                    <option value="91">India</option>
+
+                                </select>
+                                <span id="CountryCodes2" class="text-danger font-weight-bold CountryCodeSpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="areacode">Area Code</label>
+                                <input type="text" id="ac2" class="areaCode form-control" name="AreaCode" maxlength="4">
+                                <span id="ac2s" class="text-danger font-weight-bold areaCodeSpan"></span>
+                            </div>
+                        </div>
+                        <div class="mdl-grid" id="phones3">
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="type">Type</label>
+                                <input id="contactNumberType" disabled name="Contact" class="contactNumberType form-control block-label"
+                                    value="work">
+                                <span id="Contact3" class="validationSpan text-danger font-weight-bold typespan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="number">Number</label>
+                                <input type="text" id="phone_number3" name="phone_number3" maxlength="10"
+                                    class="number form-control">
+                                <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
+                                <span id="phone_number3s" class="validationSpan text-danger font-weight-bold numberspan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="country">Country Code</label>
+                                <select class="countryCode form-control" name="CountryCode">
+                                    <option value="91">India</option>
+
+                                </select>
+                                <span id="CountryCodes3" class="validationSpan text-danger font-weight-bold CountryCodeSpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label for="areacode">Area Code</label>
+                                <input type="text" id="ac3" class="areaCode form-control" name="AreaCode" maxlength="4">
+                                <span id="ac3s" class="validationSpan text-danger font-weight-bold areaCodeSpan"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row ">
-                    <div class="form-group col-md-4">
-                        <label> Email: </label>
-                        <input type="text" name="email" class="form-control" id="email">
-                        <span id="emails" class="text-danger font-weight-bold"></span>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label> Password: </label>
-                        <input type="password" name="password" class="form-control" id="password">
-                        <span id="passwords" class="text-danger font-weight-bold"></span>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label> Confirm Password: </label>
-                        <input type="password" name="confirmpassword" class="form-control" id="confirmpass">
-                        <span id="confirmpasss" class="text-danger font-weight-bold"></span>
-                    </div>
-                </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">Address Details</div>
+                    <div class="collapsible-body">
 
-                   <div class="form-group">
+                        <div class="mdl-grid" id="addresses1">
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <label for="type">Type:</label>
+                                <input class="addressType form-control block-label" disabled id="addressType" value="current">
+                                <span id="addressType1" class="validationSpan text-danger font-weight-bold addressTypeSpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--5-col">
+                                <label>Adddress Line 1:</label>
+                                <input type="text" name="CurrentAddress1" class="addressLine1 form-control" id="c1"
+                                    size="50" maxlength="50">
+                                <span id="c1s" class="validationSpan text-danger font-weight-bold addressLine1Span"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--5-col">
+                                <label>Adddress Line 2:</label>
+                                <input type="text" name="CurrentAddress2" class="addressLine2 form-control" id="c2"
+                                    size="50" maxlength="50">
+                                <span id="c2s" class="validationSpan text-danger font-weight-bold addressLine2Span"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label>Country:</label>
+                                <select class="country form-control" id="c6" name="Country1">
 
-                        <input type="text" hidden name="User" class="form-control" id="userId">
+                                </select>
+                                <span id="c6s" class="validationSpan text-danger font-weight-bold countrySpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label>State:</label>
+                                <select class="state form-control" id="c5" name="State1">
 
-                    </div>
-                    <div class="form-group">
+                                </select>
+                                <span id="c5s" class="validationSpan text-danger font-weight-bold stateSpan"></span>
+                            </div>
 
-                        <input type="text" hidden name="Status" class="form-control" id="status">
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label>City:</label>
+                                <select class="city form-control" id="c4" name="city1">
 
-                    </div>
-                <div class="form-row ">
-                    <div  class="form-group col-md-4">
-                        <label for="Role">Enter Role</label>
-                        <select id="roleName" class="form-control">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Super Admin</option>
-                         </select>
-                         <span id="roleNames" class="text-danger font-weight-bold"></span>
+                                </select>
+                                <span id="c4s" class="validationSpan text-danger font-weight-bold citySpan"></span>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                                <label>Pincode</label>
+                                <input type="text" name="pincode1" id="c3" class="pin form-control" maxlength="6">
+                                <span id="c3s" class="text-danger font-weight-bold pinSpan"></span>
+                            </div>
+                        </div>
+                        <label for="sameaddress" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                            <input type="checkbox" id="sameaddress"  name="sameaddress" class="sameaddress mdl-checkbox__input">
+                            <label class="mdl-checkbox__label">Current Address Same as Permanent Address?</label>
+                         
+                        </label>
 
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label> Department: </label>
-                        <select type="text" name="department" class="form-control" id="department">
                            
-                        </select>
-                        <span id="departments" class="text-danger font-weight-bold"></span>
+                        <div class="mdl-grid" id="addresses2">
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <label for="type">Type:</label>
+                                <input class="addressType form-control block-label" disabled id="addressType"
+                                    value="permanant">
+                              
+                                <span id="addressType2" class="validationSpan text-danger font-weight-bold addressTypeSpan"></span>
+                            </div>
+
+                        
+
+                        
+             
+
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <label>Adddress Line 1:</label>
+                            <input type="text" name="PermanentAddress1" class="addressLine1 form-control" id="p1"
+                                size="50" maxlength="50">
+                            <span id="p1s" class="validationSpan text-danger font-weight-bold addressLine1Span"></span>
+                        </div>
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <label>Adddress Line 2:</label>
+                            <input type="text" name="PermanentAddress2" class="addressLine2 form-control" id="p2"
+                                size="50" maxlength="50">
+                            <span id="p2s" class="validationSpan text-danger font-weight-bold addressLine2Span"></span>
+                        </div>
+                        <div class="mdl-cell mdl-cell--3-col">
+                            <label>Country:</label>
+                            <select id="p6" class="country form-control" name="Country2">
+
+                            </select>
+                            <span id="" class="validationSpan text-danger font-weight-bold countrySpan"></span>
+                        </div>
+                        <div class="mdl-cell mdl-cell--3-col">
+                            <label>State:</label>
+                            <select id="p5" class="state form-control" name="State2">
+
+                            </select>
+                            <span id="" class="validationSpan text-danger font-weight-bold stateSpan"></span>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--3-col">
+                            <label>City:</label>
+                            <select id="p4" class="city form-control" name="city2">
+                            </select>
+                            <span id="" class="text-danger font-weight-bold citySpan"></span>
+                        </div>
+                        <div class="mdl-cell mdl-cell--3-col">
+                            <label>Pincode</label>
+                            <input type="text" id="p3" name="pincode2" class="pin form-control" maxlength="6">
+                            <span id="" class="validationSpan text-danger font-weight-bold pinSpan"></span>
+                        </div>
                     </div>
                     
-                    <div class="form-group col-md-4">
-                        <label> Designation: </label>
-                        <select type="text" name="designation" class="form-control" id="designationName">
-                        
-                        </select>
-                        <span id="designations" class="text-danger font-weight-bold"></span>
-                    </div>
-                </div><br>
-
-                 <div class="form-row">
-                    <div class="form-group col-md-4"><label for="DOB">Date Of Birth:</label>
-                        <input type="date" id="dob" placeholder="dd-mm-YYYY" value="0001-01-01" name="DOB" class="form-control">
-                        <span id="dobs" class="text-danger font-weight-bold"></span>
-                    </div><br>
-                    <div class="form-group col-md-4">
-                        <label> Gender: </label>
-                        <select id="gender" name="Gender" class="form-control">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Others">Others</option>
-                     </select><br>
-
-                    </div>
-
-                    <div class="form-group col-md-4"><label for="DOJ">Date Of Joining:</label>
-                        <input type="date" id="doj" placeholder="dd-mm-YYYY" value="0001-01-01" name="DOJ" class="form-control">
-                        <span id="dojs" class="text-danger font-weight-bold"></span>
-                    </div>
-                    </div><br>
-                </div><br>
-
-
-
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="true" aria-controls="collapseOne">
-                                Enter Contact Details
-                            </button>
-                        </h2>
-                    </div>
-
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                        data-parent="#accordion1">
-                        <div class="card-body">
-                            <label> Contact 1 Details </label><br>
-                            <div class="content">
-                                <div class="form-row" id="phones1">
-                                    <div class="form-group col-md-3">
-                                        <label for="type">Type</label>
-                                        <label id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control" value="mobile">Mobile</label>
-                                            <!-- <option value="mobile">Mobile</option> -->
-                                            <!-- <option value="home">Home</option> -->
-                                            <!-- <option value="work">Work</option> -->
-                                        <!-- </select> -->
-                                        <span id="Contact1" class="text-danger font-weight-bold typespan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="number">Number</label>
-                                        <input type="text" id="phone_number1" name="phone_number1" maxlength="10"
-                                            class="number form-control">
-                                        <!-- <input type="tel" id="phone_number1" name="phone_number1" maxlength="12" class="number form-control" placeholder="XXX-XXXX-XXX" pattern="[0-9]{3}-[0-9]{4}-[0-9]{3}">-->
-                                        <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
-
-                                            <!-- <label for="phone">Enter a phone number:</label><br><br>
-                                            <input type="tel" id="phone" name="phone" placeholder="XXX-XXXX-XXX" pattern="[0-9]{3}-[0-9]{4}-[0-9]{3}" required><br><br>
-                                            <small>Format: 123-45-678</small><br><br> -->
-
-
-                                        <span id="phone_number1s" class="text-danger font-weight-bold numberspan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="country">Country Code</label>
-                                        <select class="countryCode form-control" name="CountryCode">
-                                            <option value="91">India</option>
-
-                                        </select>
-                                        <span id="CountryCodes1" class="text-danger font-weight-bold CountryCodeSpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="areacode">Area Code</label>
-                                        <input type="text" class="areaCode form-control" id="ac1" name="AreaCode"  maxlength="4">
-                                        <span id="ac1s" class="text-danger font-weight-bold areaCodeSpan"></span>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <br>
-                            <label> Contact 2 Details </label><br>
-
-                            <div class="content">
-                                <div class="form-row" id="phones2">
-                                    <div class="form-group col-md-3">
-                                        <label for="type">Type</label>
-                                        <label id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control" value="home">Home</label>
-                                            <!-- <option value="home">Home</option> -->
-                                            <!-- <option value="mobile">Mobile</option> -->
-                                            <!-- <option value="work">Work</option> -->
-                                        <!-- </select> -->
-                                        <span id="Contact2" class="text-danger font-weight-bold typespan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="number">Number</label>
-                                        <input type="text" id="phone_number2" name="phone_number2" maxlength="10"
-                                            class="number form-control">
-                                            <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
-                                            <span id="phone_number2s" class="text-danger font-weight-bold numberspan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="country">Country Code</label>
-                                        <select class="countryCode form-control" name="CountryCode">
-                                            <option value="91">India</option>
-
-                                        </select>
-                                        <span id="CountryCodes2" class="text-danger font-weight-bold CountryCodeSpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="areacode">Area Code</label>
-                                        <input type="text" id="ac2" class="areaCode form-control" name="AreaCode" maxlength="4">
-                                        <span id="ac2s" class="text-danger font-weight-bold areaCodeSpan"></span>
-                                    </div>
-                                </div>
-
-
-                            </div><br>
-                            <label> Contact 3 Details </label><br>
-                            <div class="content">
-
-                                <div class="form-row" id="phones3">
-                                    <div class="form-group col-md-3">
-                                        <label for="type">Type</label>
-                                        <label id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control" value="work">Work</label>
-                                            <!-- <option value="work">Work</option> -->
-                                            <!-- <option value="home">Home</option> -->
-                                            <!-- <option value="mobile">Mobile</option> -->
-                                           
-                                        <!-- </select> -->
-                                        <span id="Contact3" class="text-danger font-weight-bold typespan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="number">Number</label>
-                                        <input type="text" id="phone_number3" name="phone_number3" maxlength="10"
-                                            class="number form-control">
-                                            <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
-                                            <span id="phone_number3s" class="text-danger font-weight-bold numberspan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="country">Country Code</label>
-                                        <select class="countryCode form-control" name="CountryCode">
-                                            <option value="91">India</option>
-
-                                        </select>
-                                        <span id="CountryCodes3" class="text-danger font-weight-bold CountryCodeSpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="areacode">Area Code</label>
-                                        <input type="text" id="ac3" class="areaCode form-control" name="AreaCode" maxlength="4">
-                                        <span id="ac3s" class="text-danger font-weight-bold areaCodeSpan"></span>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <br><br>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Enter Address Details
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion1">
-                        <div class="card-body">
-                            <label> Current Address Information </label>
-
-                            <div class="content">
-
-                                <br>
-
-                                <div class="form-row" id="addresses1">
-                                    <div class="form-group col-md-2">
-                                        <label for="type">Type:</label>
-                                        <label class="addressType form-control" id="addressType" value="current">Current</label>
-                                            <!-- <option value="current">Current</option> -->
-                                            <!-- <option value="permanant">Permanent</option> -->
-                                        <!-- </select> -->
-                                        <span id="addressType1" class="text-danger font-weight-bold addressTypeSpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <label>Adddress Line 1:</label>
-                                        <input type="text" name="CurrentAddress1" class="addressLine1 form-control" id="c1" size="50" maxlength="50">
-                                        <span id="c1s" class="text-danger font-weight-bold addressLine1Span"></span>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <label>Adddress Line 2:</label>
-                                        <input type="text" name="CurrentAddress2" class="addressLine2 form-control"
-                                            id="c2" size="50" maxlength="50">
-                                            <span id="c2s" class="text-danger font-weight-bold addressLine2Span"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Country:</label>
-                                        <select class="country form-control" id="c6" name="Country1">
-
-                                        </select>
-                                        <span id="c6s" class="text-danger font-weight-bold countrySpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>State:</label>
-                                        <select class="state form-control" id="c5" name="State1">
-                                          
-                                        </select>
-                                        <span id="c5s" class="text-danger font-weight-bold stateSpan"></span>
-                                    </div>
-                                   
-                                    <div class="form-group col-md-3">
-                                        <label>City:</label>
-                                        <select class="city form-control" id="c4" name="city1">
-                                         
-                                        </select>
-                                        <span id="c4s" class="text-danger font-weight-bold citySpan"></span> 
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Pincode</label>
-                                        <input type="text" name="pincode1" id="c3" class="pin form-control"
-                                            maxlength="6">
-                                            <span id="c3s" class="text-danger font-weight-bold pinSpan"></span>
-                                    </div>
-                                </div><br>
-
-
-
-                                <input type="checkbox" name="sameaddress" id="sameaddress" class="sameaddress"> Current
-                                Address
-                                Same as Permanent Address?
-
-                            </div><br><br>
-                            <label> Permanent Address Information </label>
-
-                            <div class="content">
-
-
-                                <div class="form-row" id="addresses2">
-                                    <div class="form-group col-md-2">
-                                        <label for="type">Type:</label>
-                                        <label class="addressType form-control" id="addressType" value="permanant">Permanent</label>
-                                            <!-- <option value="permanant">Permanent</option> -->
-                                            <!-- <option value="current">Current</option> -->
-                                           
-                                        <!-- </select> -->
-                                        <span id="addressType2" class="text-danger font-weight-bold addressTypeSpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <label>Adddress Line 1:</label>
-                                        <input type="text" name="PermanentAddress1" class="addressLine1 form-control"
-                                            id="p1" size="50" maxlength="50">
-                                            <span id="p1s" class="text-danger font-weight-bold addressLine1Span"></span>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <label>Adddress Line 2:</label>
-                                        <input type="text" name="PermanentAddress2" class="addressLine2 form-control"
-                                            id="p2" size="50" maxlength="50">
-                                            <span id="p2s" class="text-danger font-weight-bold addressLine2Span"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Country:</label>
-                                        <select id="p6" class="country form-control" name="Country2">
-
-                                        </select>
-                                        <span id="" class="text-danger font-weight-bold countrySpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>State:</label>
-                                        <select id="p5" class="state form-control" name="State2">
-
-                                        </select>
-                                        <span id="" class="text-danger font-weight-bold stateSpan"></span>
-                                    </div>
-                                    
-                                    <div class="form-group col-md-3">
-                                        <label>City:</label>
-                                        <select id="p4" class="city form-control" name="city2">
-                                        </select>
-                                        <span id="" class="text-danger font-weight-bold citySpan"></span>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Pincode</label>
-                                        <input type="text" id="p3" name="pincode2" class="pin form-control"
-                                            maxlength="6">
-                                            <span id="" class="text-danger font-weight-bold pinSpan"></span>
-                                    </div>
-                                </div><br>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <input type="submit" name="submit" value="submit" class="btn btn-success">
-                <button id="closeFormButton" class="btn btn-danger ">Close</button>
-
-            </div>
+    </div>
+                </li>
+                <button id="submitFormButton" class="btn btn-success">Submit</button>
+                    <button id="closeFormButton" class="btn btn-danger ">Close</button>
+    </ul>
         </form>
-
-    </div>
-    <!--form closing div-->
-
-
-
-
-
-
-
+        
+</div>
    
-      
-      <!-- Modal For Delete-->
-      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-operation="onDeleteModal">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-            <div id="errorMsg"></div>
-            <div id="insideDeleteModel">
+
+
+
+
+
        
-            </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="" data-dismiss="modal">Close</button>
-              <button type="button" id="dis" data-dismiss="modal" value="Delete">Delete</button>
-            </div>      </div>
-        </div>
-      </div>
-<!--------Modal For Delete Ends Here-->
 
 
 
- <!-- Modal For Active Inactive-->
- <div class="modal fade" id="aiModal" tabindex="-1" role="dialog" aria-labelledby="aiModalLabel" aria-hidden="true" data-operation="onStatusModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="aiModalLabel">Status</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        Do You Want To Change Status For This User?<br>
-       <div id="insideModel">
-       
-       </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="aireset" data-dismiss="modal">Close</button>
-          <button type="button" data-dismiss="modal" id="ucs">Change</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--------Modal For Active Inactive Ends Here-->
+          
 
 
-
-
-
-
-
-    <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <!-- Title -->
-                <span class="mdl-layout-title">Welcome To Admin User Page</span>
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
-                <div class="mdl-layout-spacer"></div>
-                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
-                    Launch demo modal
-                  </button> -->
-                <!-- <div > <button id="popup">Add New User</button></div> -->
-                <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                  mdl-textfield--floating-label mdl-textfield--align-right">
-                    <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                        <i class="material-icons">search</i>
-                    </label>
-                    <div class="mdl-textfield__expandable-holder">
-                        <input class="mdl-textfield__input" type="text" name="sample" value=""
-                            id="fixed-header-drawer-exp">
+        <!-- Modal For Delete-->
+        <div class="modalDisable">
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+            aria-hidden="true" data-operation="onDeleteModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div> -->
-            </div>
-        </header>
-       <div style="display: flex;flex-direction: row;width: 1010px;position: relative;justify-content: space-between;">
-       
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label" style="width: 30%;">
-                <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                <i class="material-icons">search</i>
-                </label>
-            <div class="mdl-textfield__expandable-holder">
-               <input class="mdl-textfield__input" type="text" name="sample" value=""
-                id="fixed-header-drawer-exp">
-            </div>
-         </div>
-         <div style="margin-top: 20px;"> 
-            <button id="popup" >Add New User</button>
-        </div>
+                    <div class="modal-body">
+                        <div id="errorMsg"></div>
+                        <div id="insideDeleteModel">
 
-
-        </div>
-        <div class="mdl-layout__drawer mdl-color--blue-grey-800 " id="navigation">
-            <!-- <span class="mdl-layout-title">Go To</span>
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="">Role & Permission</a>
-                <a class="mdl-navigation__link" href="">Home Page</a>
-                <a class="mdl-navigation__link" href="">Device Dashboard</a>
-                <a class="mdl-navigation__link" href="">About</a>
-            </nav> -->
-        </div>
-        <main class="mdl-layout__content">
-            <div class="page-content">
-                <!-- Your content goes here -->
-                <!-- <button id="popup">Add New User</button> -->
-                 <!-- onclick="openForm()"-->
-
-
-                <div style=" position : relative;">
-                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="Request_data" position :
-                        relative>
-
-                        <thead>
-                            <tr>
-                                <th class="mdl-data-table__header--sorted-descending" data-id="first_name">Name</th>
-                                <th class="mdl-data-table__header--sorted-descending" data-id="email">Email</th>
-                                <th class="" id="role1">Role</th>
-                                <th class="">Status</th>
-                                <th class="">Contact Number</th>
-                                <th class="">Make Active/Inactive</th>
-                                <th class="bullet">Update User</th>
-                                <th class="">Delete User</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="Request_data_body">
-
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--primary" data-dismiss="modal">Close</button>
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--primary text-danger" id="dis" data-dismiss="modal" value="Delete">Delete</button>
+                    </div>
                 </div>
-            </div><br><br>
-            <center>
-                <div class="pagination" id="pagination" pageNum="1" result-count="0" style="margin-left: 500px;">
-
-                </div>
-            </center>
-        </main>
+            </div>
+        </div>
     </div>
+        <!--------Modal For Delete Ends Here-->
 
 
 
-    <script src="/assets/js/webpage.js">
+        <!-- Modal For Active Inactive-->
+        <div class="modalDisable">
+        <div class="modal fade" id="aiModal" tabindex="-1" role="dialog" aria-labelledby="aiModalLabel"
+            aria-hidden="true" data-operation="onStatusModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="aiModalLabel">Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Do You Want To Change Status For This User?<br>
+                        <div id="insideModel">
 
-    </script>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="aireset mdl-button mdl-js-button mdl-button--primary" data-dismiss="modal">Close</button>
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--primary" data-dismiss="modal" id="ucs">Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--------Modal For Active Inactive Ends Here-->
+
+
+
+
+
+
+
+        <!-- Always shows a header, even in smaller screens. -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title">Welcome To Admin User Page</span>
+                    <!-- Add spacer, to align navigation to the right -->
+                    <div class="mdl-layout-spacer"></div>
+                    <div class="mdl-layout-spacer"></div>
+                </div>
+            </header>
+           
+            <div class="mdl-layout__drawer mdl-color--blue-grey-800 " id="navigation">
+           
+            </div>
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                  
+
+
+                    <div class="content" style=" ">
+                        <div
+                        style="display: flex;flex-direction: row;width: 100%;position: relative;justify-content: space-between;">
+        
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label"
+                            style="width: 30%;">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                                <i class="material-icons">search</i>
+                            </label>
+                            <div class="mdl-textfield__expandable-holder">
+                                <input class="mdl-textfield__input" type="text" name="sample" value=""
+                                    id="fixed-header-drawer-exp">
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button id="popup">Add New User</button>
+                        </div>
+        
+        
+                    </div>
+                        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="Request_data" position :
+                            relative>
+
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__header--sorted-descending" data-id="first_name">Name</th>
+                                    <th class="mdl-data-table__header--sorted-descending" data-id="email">Email</th>
+                                    <th class="" id="role1">Role</th>
+                                    <th class="">Status</th>
+                                    <th class="">Contact Number</th>
+                                    <th class="">Make Active/Inactive</th>
+                                    <th class="bullet">Update User</th>
+                                    <th class="">Delete User</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="Request_data_body">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div><br><br>
+                <center>
+                    <div class="pagination" id="pagination" pageNum="1" result-count="0" style="margin-left: 500px;">
+
+                    </div>
+                </center>
+            </main>
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, {});
+          });
+        </script>
+        <script src="/assets/js/webpage.js">
+
+        </script>
 </body>
 
 </html>

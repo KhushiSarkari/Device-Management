@@ -25,7 +25,7 @@ export function validate() {
     phonevalidation("edit","phones3");
 }
 export function remove() {
-    document.querySelectorAll('form span').forEach((spanElement: HTMLSelectElement) => {
+    document.querySelectorAll('form span.validationSpan').forEach((spanElement: HTMLSelectElement) => {
 		spanElement.textContent = "";
 		
 	})
@@ -243,7 +243,7 @@ function addressvalidation(formmode:string ,containerId: string) {
     else if(addresses1!="")
     {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
-        return currAddType(containerId)*addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
+        return addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
         cityvalidation(containerId)*pinvalidation(containerId);
     }
     else {
@@ -361,7 +361,7 @@ function phonevalidation(formmode:string,containerId: string) {
         else if(phone.length==10)
         {
              document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
-            return phones1c(containerId)*countrycodevalidation(containerId)*areacodevalidation(containerId);
+            return countrycodevalidation(containerId)*areacodevalidation(containerId);
 
         }
      else {

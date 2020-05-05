@@ -57,13 +57,15 @@ import { formatPhone } from "./utilities";
 			});
 
 	const form = document.querySelector('.form-popup') as HTMLFormElement;
-	form.addEventListener('submit', function (e) {
+	document.getElementById("submitFormButton").addEventListener('click', function (e) {
 		console.log("inside function")
-		e.preventDefault();
+		
 		if (form_mode=="create")
 		{
-			var userData=createObjectFromForm(this);
+		e.preventDefault();
+			var userData=createObjectFromForm(form);
 			if(validateForm(form_mode)==true){
+				
 				new CreateUserApi(token).createUserData(userData).then(function(response:Response ){
 					if(response.status!=200)
 					{
@@ -78,7 +80,8 @@ import { formatPhone } from "./utilities";
 		}
 		else if(form_mode=="edit")
 		{
-			var userData1=createObjectFromForm(this);
+			e.preventDefault();
+			var userData1=createObjectFromForm(form);
 			if(validateForm(form_mode)==true){
 				new UpdateUserApi(token).updateUserData(userData1).then(function(){
 					setData();
@@ -237,9 +240,10 @@ import { formatPhone } from "./utilities";
 		}
 		if((ea.target as HTMLButtonElement).id == "closeFormButton")
 		{	
-			ea.preventDefault();
+			
 			util.closeForm();	
 		}
+		
 	});
 
 	document.addEventListener("click", function(e) {
