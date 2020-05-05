@@ -3,7 +3,7 @@ import { RequestDeviceModel } from "./Device-Request/deviceRequestModel";
 import { RequestSubmitModel } from "./SubmissionRequestModel";
 import { populateData } from "./genrateSubmissionRequest";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, changePage, paging } from "./globals";
 
 (async function(){
     let address = BASEURL;
@@ -20,7 +20,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
             let id = (event.target as HTMLInputElement).id;
             let search = (document.getElementById(id) as HTMLInputElement).value;
             (document.getElementById(id) as HTMLInputElement).setAttribute("data-device-name" , search);
-            let url = address + "/api/ReturnRequest" + getSearchUrl();
+            let url = address + "/api/ReturnRequest" + getSearchUrl() +"&"+ PageNo(1);
             console.log(url);
             getData(url);
         }
@@ -28,12 +28,10 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
 
     function getSearchUrl()
     {
-        let url;
+        let uri;
         let search = (document.getElementById("fixed-header-drawer-exp") as HTMLInputElement).getAttribute("data-device-name")
-        if (search != "")
-        return "?search="+search;
-        else 
-        return "?";
+        uri =  "?search="+search;
+        return uri;
     }
 
 
@@ -42,13 +40,21 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
         let id = (event.target as HTMLInputElement).dataset.id;
         if(id == "name" || id == "type" || id == "device" )
         {   
-            let sortAttributr = (event.target as HTMLTableHeaderCellElement).dataset.id;
+            let sortAttribute = (event.target as HTMLTableHeaderCellElement).dataset.id;
+            document.getElementById("tableHead").setAttribute("data-sort" , sortAttribute);
             let sort = new Sort(token);
         var sortType =  sort.checkSortType((event.target as HTMLTableHeaderCellElement));
-        let url = address +  "/api/ReturnRequest" + getSearchUrl() +"&sort="+sortAttributr +"&direction="+ sortType +"&"+PageNo(currentPage);
+        document.getElementById("tableHead").setAttribute("data-sortby" , sortAttribute);
+        let url = address +  "/api/ReturnRequest" + getSearchUrl() +"&sort="+sortAttribute +"&direction="+ sortType +"&"+PageNo(currentPage);
             getData(url);
         }
     });
+    function getSort()
+    {
+        var sort = document.getElementById("tableHead").getAttribute("data-sort");
+        var sortby = document.getElementById("tableHead").getAttribute("data-sortby" );
+        return ("&sort="+sort +"&direction="+sortby);
+    }
 
 
     function getAll()
@@ -63,13 +69,20 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
         var elementId = "submission_request";
         var generateData = new populateData(elementId);
         
-        var data = await new Api(token).hitGetApi(url);
+        // var data = await new Api(token).hitGetApi(url);
+        fetch(url,{
+            headers: new Headers({"Authorization": `Bearer ${token}`})
+        })
+            .then(response =>{
+                let metadata=JSON.parse(response.headers.get('X-Pagination'));
+                paging(metadata);
+                return response.json()
+            }).then ( data  =>
         data.map(value=>
             {
-                console.log("sdfghjk")
             var data = new RequestSubmitModel().bindData(value);
             generateData.generateField(data , elementId);
-            })
+            }));
         return null;
     }
 
@@ -97,9 +110,12 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage } from "./g
         
 }
     });
+
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-	{   currentPage=changePage((e.target as HTMLButtonElement).value);
-		getAll();
+    {   currentPage=changePage((e.target as HTMLButtonElement).value);
+        const uri =  address  + "/api/ReturnRequest"+  getSearchUrl() + getSort() +"&"+ PageNo(currentPage);
+        
+		getData(uri);
     });
 
     document.querySelector("#getData").addEventListener("click" , event=>
