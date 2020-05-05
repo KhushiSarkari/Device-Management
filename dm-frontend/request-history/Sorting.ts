@@ -16,6 +16,8 @@ export class Sorting
     {
         const element = (document.getElementById(attributeId) as HTMLTableHeaderCellElement);
         let  sortType = new Sort(this.token).checkSortType(element);
+        document.getElementById("tableHead").setAttribute("data-sort" , sortType );
+        document.getElementById("tableHead").setAttribute("data-sortby" , attributeId);
         return this.setSortingApiCall(attributeId , sortType);
     }
    
@@ -25,6 +27,14 @@ export class Sorting
         
         const uri= new findResult(this.token).searchUser() +"&status="+status+"&sort="+sortAttribute+"&sort-type="+sortType;
         return uri;
+    }
+
+
+    getSortingAndSearchingUri()
+    {
+        const sort =  document.getElementById("tableHead").getAttribute("data-sort" );
+        const sortby =  document.getElementById("tableHead").getAttribute("data-sortby");
+        return this.setSortingApiCall(sortby , sort);
     }
      getStatus() : string
 {
