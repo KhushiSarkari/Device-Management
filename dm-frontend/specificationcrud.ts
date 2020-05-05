@@ -116,13 +116,13 @@ let mode:string = "create";
                 if(!response.ok){
                     throw new Error(response.statusText);
                 }
-                alert("deleted successfull");
-                //window["tata"].text('Specification ','Deleted!',{duration:3000});
+                //alert("deleted successfull");
+                window["tata"].text('Specification ','Deleted!',{duration:3000});
                 this.getSpecificationData();
             })
             .catch(ex => {
-                alert("delete failed");
-                //window["tata"].error('An error occured '+ex.message,{duration:3000});
+                //alert("delete failed");
+                window["tata"].error('An error occured '+ex.message,{duration:3000});
             });
 
 
