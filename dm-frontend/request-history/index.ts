@@ -4,7 +4,7 @@ import { Sorting } from "./Sorting";
 import { HtmlElementsData } from "./HtmlElementsId";
 // import { page } from "./paging";
 import { UserRequestStatus } from "./RequestStatus";
-import {navigationBarsss, BASEURL, paging} from "../globals";
+import {navigationBarsss, BASEURL, paging,headersRows} from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 
 
@@ -132,6 +132,7 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
              
         }
 navigationBarsss("Admin","navigation");
+headersRows("Admin","row1");
 
 }());
 

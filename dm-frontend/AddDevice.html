@@ -15,8 +15,9 @@
 <body>
     <!-- specification popup -->
     <div class="login-popup">
-        <div class="form-popup" id="popupForm">
-            <form class="form-container" id="popup_specification">
+        <!-- <div class="form-popup" id="popupForm"></div> -->
+            <form class="form-container form-popup"  id="popup_specification">
+                
                 <h5><b><u>Add New Specifications</b></u></h5>
                 <label for="RAM">
                     <strong>RAM</strong>
@@ -36,16 +37,24 @@
                 <input type="text" id="Connectivity" placeholder="Enter Connectivity" name="Connectivity">
                 <span id="connectivitys" class="txt-danger"></span>
                 <button type="submit" class="btn" id="addspecification">ADD</button>
-                <button type="button" class="btn cancel" onclick="closeForm('popupForm')">Close</button>
+                <button type="button" class="btn cancel" onclick="closeForm('.login-popup')">Close</button>
             </form>
-        </div>
+        <!-- </div> -->
     </div>
     <!-- add device main form -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row" id="name">
                 <!-- Title -->
                 <span class="mdl-layout-title"> Device</span>
+                <div class="mdl-layout-spacer"></div>
+
+					<div class="mdl-layout-spacer"></div>
+	  
+					<div id="row1">
+					  
+					  
+					</div> 
                
             </div>
         </header>
@@ -120,7 +129,7 @@
                                                  <select id="specification" required>
                                                  </select>    
                                     <div class="mdl-cell mdl-cell--3-col mdl-cell--2-offset">
-                                      <input type="button" value="Add Specifications" onclick="openForm('popupForm')" />
+                                      <input type="button" value="Add Specifications" onclick="openForm('.login-popup')" />
                                     </div>
                                     <div class="mdl-cell mdl-cell--3-col">
                                         <label for="Status"> Status:</label>
@@ -140,13 +149,13 @@
     </div>
     <script>
         function openForm(popup) {
-            document.getElementById(popup).style.display = "block";
+            document.querySelector(popup).classList.add("active");
         }
         function closeForm(popup) {
-            document.getElementById(popup).querySelectorAll('input,select').forEach((element) => {
+            document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
                 element.value = '';
             });
-            document.getElementById(popup).style.display = "none";
+            document.querySelector(popup).classList.remove("active");
         }
        
     </script>

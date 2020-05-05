@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage,headersRows } from "./globals";
 import { DeviceListForAdmin } from "./deviceListForAdmin";
 import { Sort } from "./user-profile/SortingUser";
 import { amIUser } from "./globals";
@@ -298,6 +298,7 @@ console.log(status);
 	}
 	else 
 	roles = "Admin";
+	headersRows(roles,"row1");
 	navigationBarsss(roles,"navigations");
 	
 	

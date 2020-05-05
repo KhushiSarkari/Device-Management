@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging,changePage } from "./globals";
+import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging,changePage,headersRows } from "./globals";
 import { Sort } from "./user-profile/SortingUser";
 import {Notifications} from "./notification";
 (async function() {
@@ -127,5 +127,6 @@ document.addEventListener("click", function (e) {
 let notify = new Notify(token);
 notify.notification(user_id);
 navigationBarsss(role,"navigation");
+headersRows(role,"row1");
 return null ;
 })();

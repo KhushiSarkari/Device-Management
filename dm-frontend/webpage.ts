@@ -6,7 +6,7 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss, current_page,changePage  } from './globals';
+import { BASEURL,amIUser,navigationBarsss, current_page,changePage,headersRows  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
@@ -162,7 +162,6 @@ import { formatPhone } from "./utilities";
 				else{
 					(document.getElementById("ucs")as HTMLInputElement).disabled = false;
 					(document.getElementById("insideModel") as HTMLInputElement).innerHTML="";
-					
 				}
             });
 			function ucs(e){
@@ -206,6 +205,7 @@ import { formatPhone } from "./utilities";
 					toggle["MaterialSwitch"]["checkToggleState"]();
 				}
 				util.closeModal(modal);
+				setData();
 			});
 		}
 		else if (((ea.target) as HTMLInputElement).className.includes("userDeleteData"))
@@ -221,6 +221,7 @@ import { formatPhone } from "./utilities";
 					window["tata"].text('User ','Deleted!',{duration:3000});
 				}
 				util.closeModal(modal);
+				setData();
 			});
 		}
 		else if(((ea.target) as HTMLInputElement).id == "closeFormButton")
@@ -284,6 +285,7 @@ import { formatPhone } from "./utilities";
     });
 
 	navigationBarsss(role,"navigation");
+	headersRows(role,"row1");
 	setData();
     util.addressCheck();
 	dropDownListen(form,token);

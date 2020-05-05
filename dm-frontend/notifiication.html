@@ -11,23 +11,28 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./styling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/device_role/role_styles.css" />
 
     </head>
 
 <body>
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <div class="devices">
                     <span class="mdl-layout-title">Notification</span>
+                   
                 </div>
 
-                <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
-
                 <div class="mdl-layout-spacer"></div>
+  
+                <div id="row1">
+                  
+                  
+                </div> 
             </div>
         </header>
 
@@ -41,10 +46,12 @@
                 <a class="mdl-navigation__link" href="">Link</a>
             </nav> -->
         </div>
+        
         <main class="mdl-layout__content">
             <div class="page-content" data-table>
+              <div class="content">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                mdl-textfield--floating-label mdl-textfield--align-right">
+                mdl-textfield--floating-label">
                              <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
                                  <i class="material-icons">search</i>
                              </label>
@@ -82,6 +89,7 @@
 
                     </tbody>
                 </table>
+                </div>
 
 
                 <!-- Your content goes here -->

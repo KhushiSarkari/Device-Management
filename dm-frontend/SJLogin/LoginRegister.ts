@@ -56,6 +56,8 @@ function RegisterUser() {
             if(data.result !== "AlreadyExists")
 			{
 				alert("Registration Successfull !");
+				var resetForm = <HTMLFormElement>document.getElementById("registerForm");
+				resetForm.reset();
 			}
 			else{
 				alert("This Email Already Exists !");

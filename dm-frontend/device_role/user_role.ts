@@ -1,6 +1,6 @@
 import { role, permission } from "./role";
 import { RolePermission } from "./rolePermCheckbox";
-import { navigationBarsss, amIUser } from "../globals";
+import { navigationBarsss, amIUser,headersRows } from "../globals";
 
 (async function(){
 	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
@@ -71,6 +71,7 @@ import { navigationBarsss, amIUser } from "../globals";
 
 	rolePermisison.setup();
 	navigationBarsss(Role,"navigation");
+	headersRows(Role,"row1");
 })();
 
 function openDialog(heading: string= "", mode :"create"|"edit"|null= null){

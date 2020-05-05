@@ -1,4 +1,4 @@
-import { BASEURL, Token, navigationBarsss, PageNo, current_page, changePage  } from "../globals";
+import { BASEURL, Token, navigationBarsss, PageNo, current_page, changePage,headersRows  } from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 import { FaultyDeviceModel } from "./FaultyDeviceModel";
 import { FalultyDevice } from "./Fault";
@@ -11,6 +11,7 @@ let currentPage:number=current_page;
 
 
 navigationBarsss("Admin" , "navigate");
+headersRows("Admin","row1");
 
 new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
