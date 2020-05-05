@@ -42,7 +42,7 @@ let currentPage: number = current_page;
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
-            window["tata"].text('Device Fault ','Reported!',{duration:3000});
+          
         }
     });
 
@@ -55,6 +55,7 @@ let currentPage: number = current_page;
         }
         mydevices.reportFaultyDevice(userId, deviceid, comment);
         closeForm();
+        window["tata"].text('Device Fault ','Reported!',{duration:3000});
     });
 
     document.querySelector('.closed').addEventListener('click', function (e) {

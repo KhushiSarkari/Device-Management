@@ -87,15 +87,18 @@ export class AddDevice {
         let res = await fetch(BASEURL + "/api/Device/add", {
             method: "POST",
             headers: new Headers([["Content-Type", "application/json"], ["Authorization", `Bearer ${this.token}`]]),
-            body: data,
-        });
-
+            body: data,});
+        
         if (res.status == 200) {
             console.log("added Successfully");
-            alert("Device Added");
+            window["tata"].text('Device ','Added!',{duration:3000});
             window.location.href = "./deviceListForadmin.html";
         }
-        return null;
+        
+        else{
+            window["tata"].error('Device Not','Added!',{duration:3000});
+        }
+        
     }
     async getDataToForm() {
         let data: any

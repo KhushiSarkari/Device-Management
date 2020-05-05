@@ -31,7 +31,7 @@ export function amIUser(token: string) {
 export function headersRows(role: string, element: string) {
     var row1 = `
            <div class="mdl-js" >
-                    <nav class="mdl-navigation"  >
+                    <nav class="mdl-navigation">
                      <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
                      <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification">markunread</span>
        
@@ -44,6 +44,7 @@ export function headersRows(role: string, element: string) {
                      
                      <li class="mdl-menu__item" id="logout">Logout</li>
                  </ul>
+                 </nav>
                  </div>`;
     document.getElementById(element).innerHTML = row1;
 
@@ -136,12 +137,11 @@ export function navigationBarsss(role: string, element: string) {
             >assignment_ind</i>Roles
     </a></nav>
     `;
-        document.getElementById(element).innerHTML = navigation + nav;
+        document.getElementById(element).innerHTML = navigation + nav; 
     }
     else if (role == "User") {
         document.getElementById(element).innerHTML = navigation;
-    }
-
+    }  
 }
 
 export function paging(metadata) {
