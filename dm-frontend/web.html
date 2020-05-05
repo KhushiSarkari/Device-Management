@@ -14,7 +14,7 @@
 <body>
     <div class="collapsible-container" id="accordion1">
         <form class="form-popup" id="myForm">
-            <h2 id="headingText" class="text-success text-center">User Registration</h2>
+            <h4 id="headingText" class="text-success text-center">User Registration</h4>
             <ul class="collapsible">
                 <li class="active">
                     <div class="collapsible-header">Personal Details</div>
@@ -107,15 +107,15 @@
                             <div class="mdl-cell mdl-cell--4-col"><label for="DOB">Date Of Birth:</label>
                                 <input type="date" id="dob" placeholder="dd-mm-YYYY" value="0001-01-01" name="DOB"
                                     class="form-control">
-                                <span id="dobs" class="text-danger font-weight-bold"></span>
-                            </div><br>
+                                <span id="dobs" class="validationSpan text-danger font-weight-bold"></span>
+                            </div>
                             <div class="mdl-cell mdl-cell--4-col">
                                 <label> Gender: </label>
                                 <select id="gender" name="Gender" class="form-control">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Others">Others</option>
-                                </select><br>
+                                </select>
 
                             </div>
 
@@ -124,7 +124,7 @@
                                     class="form-control">
                                 <span id="dojs" class="validationSpan text-danger font-weight-bold"></span>
                             </div>
-                        </div><br>
+                        </div>
                     </div>
                 </li>
                 <li>
@@ -169,7 +169,7 @@
                                 <input type="text" id="phone_number2" name="phone_number2" maxlength="10"
                                     class="number form-control">
                                 <!-- <small>Format: XXX-XXX-XXXX</small><br><br> -->
-                                <span id="phone_number2s" class="text-danger font-weight-bold numberspan"></span>
+                                <span id="phone_number2s" class="validationSpan text-danger font-weight-bold numberspan"></span>
                             </div>
                             <div class="mdl-cell mdl-cell--3-col">
                                 <label for="country">Country Code</label>
@@ -177,12 +177,12 @@
                                     <option value="91">India</option>
 
                                 </select>
-                                <span id="CountryCodes2" class="text-danger font-weight-bold CountryCodeSpan"></span>
+                                <span id="CountryCodes2" class="validationSpan text-danger font-weight-bold CountryCodeSpan"></span>
                             </div>
                             <div class="mdl-cell mdl-cell--3-col">
                                 <label for="areacode">Area Code</label>
                                 <input type="text" id="ac2" class="areaCode form-control" name="AreaCode" maxlength="4">
-                                <span id="ac2s" class="text-danger font-weight-bold areaCodeSpan"></span>
+                                <span id="ac2s" class="validationSpan text-danger font-weight-bold areaCodeSpan"></span>
                             </div>
                         </div>
                         <div class="mdl-grid" id="phones3">
@@ -262,7 +262,7 @@
                             <div class="mdl-cell mdl-cell--3-col">
                                 <label>Pincode</label>
                                 <input type="text" name="pincode1" id="c3" class="pin form-control" maxlength="6">
-                                <span id="c3s" class="text-danger font-weight-bold pinSpan"></span>
+                                <span id="c3s" class="validationSpan text-danger font-weight-bold pinSpan"></span>
                             </div>
                         </div>
                         <label for="sameaddress" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
@@ -317,7 +317,7 @@
                             <label>City:</label>
                             <select id="p4" class="city form-control" name="city2">
                             </select>
-                            <span id="" class="text-danger font-weight-bold citySpan"></span>
+                            <span id="" class="validationSpan text-danger font-weight-bold citySpan"></span>
                         </div>
                         <div class="mdl-cell mdl-cell--3-col">
                             <label>Pincode</label>
