@@ -1,5 +1,5 @@
-#card,
-table {
+#card
+ {
 	margin-top: 20px;
 	margin-left: 40px;
 }
@@ -24,9 +24,6 @@ nav.mdl-navigation a:hover {
 }
 html,
 body {
-	position: relative;
-}
-body * {
 	position: relative;
 }
 .ss {
