@@ -9,47 +9,37 @@
         href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
-    <style>
-  @media only screen and (min-width: 1023px) {
-    .mdl-layout__drawer-button i.material-icons 
-{
-  line-height: 2;
-  visibility: hidden;
-}
- 
-}
-</style>
+    <link rel="stylesheet" href="/device_role/role_styles.css" />
 </head>
 
 <body>
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <div class="devices">
-                    <span class="mdl-layout-title" style="margin-left: 20px;">All Requests</span>
-                </div>
-                    <div class="mdl-layout-spacer"></div>
 
-					<div class="mdl-layout-spacer"></div>
-	  
-					<div id="row1">
-					  
-					  
-					</div> 
+                <span class="mdl-layout-title" >All Requests</span>
+
+                <div class="mdl-layout-spacer"></div>
+
+                <div class="mdl-layout-spacer"></div>
+
+                <div id="row1">
+
+
+                </div>
 
             </div>
         </header>
 
         <div class="mdl-layout__drawer mdl-color--blue-grey-800" id="navigation">
         </div>
-    </div>
+   
     <main class="mdl-layout__content">
         <div class="page-content">
-            <div style="float:right "> <br><br><br>
-                <div
-                    class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right" style="padding-right: 900px;">
+            <div class="content">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label">
                     <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
                         <i class="material-icons">search</i>
                     </label>
@@ -57,8 +47,9 @@
                         <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
                     </div>
                 </div>
-            </div><br><br><br>
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp " id="Request_data1" style="margin-left: 240px;">
+           
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp " id="Request_data1"
+                >
                 <thead id="tablecol">
                     <tr>
                         <th class="mdl-data-table__header--sorted-descending" name="user_id" id="user_id">User Id
@@ -71,14 +62,16 @@
                         <th class="mdl-data-table__header--sorted-descending" name="name" id="name">Name</th>
                         <th class="mdl-data-table__header--sorted-descending" name="request_date" id="request_date">
                             Request Date </th>
-                        <th colspan='2'>Action</th>
+                        <th colspan="2">Action</th>
                     </tr>
                 </thead>
                 <tbody id='content'>
 
                 </tbody>
             </table>
-        </div>
+            </div>
+            </div>
+       
 
         <div class='popup' style="background-color: white;">
             <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp " id="Request_data1"
@@ -106,9 +99,11 @@
             </div>
         </center>
     </main>
+    </div>
 
     <script src="/assets/js/request.js"></script>
     <script src="/static/tata.js"></script>
 
 </body>
+
 </html>

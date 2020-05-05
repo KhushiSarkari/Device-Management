@@ -32,7 +32,12 @@ table td[colspan="2"] {
 nav.mdl-navigation {
 	height: unset;
 	box-shadow: none;
+	background-color: none;
+	background: none;
 }
+nav.mdl-navigation a:hover {
+	text-decoration: none;
+  }
 nav.mdl-navigation i {
 	font-size: 24px;
 	line-height: 1;

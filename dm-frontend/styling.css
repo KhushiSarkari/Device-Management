@@ -77,6 +77,9 @@ body {
 	background-color: rgba(255, 255, 255, 0.7);
 	display: none;
 }
+a,a:link,a:visited{
+	text-decoration: none;
+}
 
 /* Hide the Popup form */
 .form-popup {
