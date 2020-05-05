@@ -118,6 +118,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			});
 			if(res.status==200)
 			{
+				//window["tata"].text('Device assigned',{duration:20000});
 				alert("Device assigned");
 				console.log("assign");
 				temp.closeForm1('.login-popup');
@@ -155,6 +156,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			window.location.href="./AddDevice.html";
 		}
 		if ((e.target as HTMLButtonElement).id == "edit") {
+			window["tata"].text('Edit This Device',{duration:3000});
 			const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 				"value"
 			);
@@ -165,6 +167,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 		}
 		if ((e.target as HTMLSpanElement).id == "delete") {
 			if (confirm("Are you sure you want to delete this device?")) {
+				window["tata"].text('Device Deleted!',{duration:3000});
 				const temp = new GetApiForAdmin(token);
 				const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 					"value"

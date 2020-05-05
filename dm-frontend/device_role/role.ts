@@ -62,15 +62,17 @@ export class role {
 					if(!response.ok){
 						throw new Error(response.statusText);
 					}
-					alert("Role deleted");
+					window["tata"].text('Role ','Deleted!',{duration:3000});
 					this.getroles();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			} else {
 				console.log("delete failed");
 			}
+
 		});
 	}
 	
@@ -92,11 +94,12 @@ export class role {
 					if (!response.ok) {
 						throw new Error(response.statusText);
 					}
-					alert("role inserted");
+					window["tata"].text('Role ','Inserted!',{duration:3000});
 					this.getroles();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			}
 		});
@@ -116,11 +119,16 @@ export class role {
 					if (!response.ok) {
 						throw new Error(response.statusText);
 					}
-					alert("role updated");
+					window["tata"].text('Role ','Updated!',{duration:3000}, {
+						
+							  position: 'br'
+						
+							});
 					this.getroles();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			}
 		});
@@ -183,11 +191,12 @@ export class permission{
 					if(!response.ok){
 						throw new Error(response.statusText);
 					}
-					alert("Permission deleted");
+					window["tata"].text('Permission ','Deleted!',{duration:3000});
 					this.getpermissions();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			} else {
 				console.log("delete failed");
@@ -212,11 +221,12 @@ export class permission{
 					if (!response.ok) {
 						throw new Error(response.statusText);
 					}
-					alert("Permission created");
+					window["tata"].text('Permission ','Inserted!',{duration:3000});
 					this.getpermissions();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			}
 		});
@@ -236,11 +246,12 @@ export class permission{
 					if (!response.ok) { 
 						throw new Error(response.statusText);
 					}
-					alert("Permission updated");
+					window["tata"].text('Permission ','Updated!',{duration:3000});
 					this.getpermissions();
 				})
 				.catch(ex => {
-					alert("An error occured : " + ex.message);
+					//alert("An error occured : " + ex.message);
+					window["tata"].error('An error occured '+ex.message,{duration:3000});
 				});
 			}
 		});
