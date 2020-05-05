@@ -44,10 +44,10 @@ nav.mdl-navigation i {
 	height: auto;
 	display: inline-block;
 }
-
 .mdl-layout__drawer-button i.material-icons {
 	line-height: 2;
 }
+
 .mdl-spinner {
 	position: absolute;
 	top: 0;
@@ -84,7 +84,9 @@ nav.mdl-navigation i {
 	padding-top: 0px;
     padding-bottom: 0px;
 }
-
+nav.mdl-navigation{
+	background-color: unset;
+}
 .faultform {
 	position: absolute;
 	height: 100%;

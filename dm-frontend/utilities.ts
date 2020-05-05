@@ -1,8 +1,8 @@
 import { UserData } from "./dropdown";
 
 export function openForm(formMode: string) {
-	document.querySelector('#accordion1').classList.add("active");
 	// (document.querySelector("#myForm") as HTMLFormElement).style.display="block";
+	document.querySelector('#accordion1').classList.add("active");
 	if(formMode == "create"){
 		fillInitialDropdowns((document.querySelector("#myForm") as HTMLFormElement));
 	}
@@ -38,7 +38,7 @@ export function formatPhone(str1:string,str2:string) {
 }
 export function formatPhone1(str:string) {
 
-	let a =  str.split("-");   //XXX-XXXX-XXX =>XXXXXXXXXX
+	let a =  str.split("-");   
 console.log(a);
 return a[0]+a[1]+a[2];
 }	
@@ -66,11 +66,11 @@ export function concatSpecs(data : any)
 
 }
 export function openModal(modalElement: HTMLElement){
-    document.body.classList.add("modal-open");
+    modalElement.parentElement.classList.add("active");
 	modalElement.classList.add("show");
 }
 export function closeModal(modalElement: HTMLElement){
-    document.body.classList.remove("modal-open");
+    modalElement.parentElement.classList.remove("active");
 	modalElement.classList.remove("show");
 }
 function fillInitialDropdowns(formElement: HTMLFormElement){

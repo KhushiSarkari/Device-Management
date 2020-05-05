@@ -25,7 +25,7 @@ export function validate() {
     phonevalidation("edit","phones3");
 }
 export function remove() {
-    document.querySelectorAll('form span').forEach((spanElement: HTMLSelectElement) => {
+    document.querySelectorAll('form span.validationSpan').forEach((spanElement: HTMLSelectElement) => {
 		spanElement.textContent = "";
 		
 	})

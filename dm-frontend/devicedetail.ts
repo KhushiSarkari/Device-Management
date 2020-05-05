@@ -27,11 +27,10 @@ function devicedetails(data : any){
     document.getElementById("purchase_date").innerHTML = data.purchase_date ;
     document.getElementById("status").innerHTML = data.status ;
     document.getElementById("comments").innerHTML = data.comments ;
-    document.getElementById("ram").innerHTML = data.ram ;
-    document.getElementById("storage").innerHTML = data.storage ;
-    document.getElementById("screen_size").innerHTML = data.screen_size + " inches";
-    document.getElementById("connectivity").innerHTML = data.connectivity ;
-    //console.log(data);
+    document.getElementById("ram").innerHTML = data.specs.RAM ;
+    document.getElementById("storage").innerHTML = data.specs.storage;
+    document.getElementById("screen_size").innerHTML = data.specs.screenSize + " inches";
+    document.getElementById("connectivity").innerHTML = data.specs.connectivity;
 }
 
 const urlParams = new URLSearchParams(window.location.search);
