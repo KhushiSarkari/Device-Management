@@ -8,7 +8,7 @@
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Material Design Lite -->
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
@@ -166,12 +166,12 @@
                                 <div class="form-row" id="phones1">
                                     <div class="form-group col-md-3">
                                         <label for="type">Type</label>
-                                        <select id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control">
-                                            <option value="mobile">Mobile</option>
-                                            <option value="home">Home</option>
-                                            <option value="work">Work</option>
-                                        </select>
+                                        <label id="contactNumberType" name="Contact"
+                                            class="contactNumberType form-control" value="mobile">Mobile</label>
+                                            <!-- <option value="mobile">Mobile</option> -->
+                                            <!-- <option value="home">Home</option> -->
+                                            <!-- <option value="work">Work</option> -->
+                                        <!-- </select> -->
                                         <span id="Contact1" class="text-danger font-weight-bold typespan"></span>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -211,12 +211,12 @@
                                 <div class="form-row" id="phones2">
                                     <div class="form-group col-md-3">
                                         <label for="type">Type</label>
-                                        <select id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control">
-                                            <option value="home">Home</option>
-                                            <option value="mobile">Mobile</option>
-                                            <option value="work">Work</option>
-                                        </select>
+                                        <label id="contactNumberType" name="Contact"
+                                            class="contactNumberType form-control" value="home">Home</label>
+                                            <!-- <option value="home">Home</option> -->
+                                            <!-- <option value="mobile">Mobile</option> -->
+                                            <!-- <option value="work">Work</option> -->
+                                        <!-- </select> -->
                                         <span id="Contact2" class="text-danger font-weight-bold typespan"></span>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -249,13 +249,13 @@
                                 <div class="form-row" id="phones3">
                                     <div class="form-group col-md-3">
                                         <label for="type">Type</label>
-                                        <select id="contactNumberType" name="Contact"
-                                            class="contactNumberType form-control">
-                                            <option value="work">Work</option>
-                                            <option value="home">Home</option>
-                                            <option value="mobile">Mobile</option>
+                                        <label id="contactNumberType" name="Contact"
+                                            class="contactNumberType form-control" value="work">Work</label>
+                                            <!-- <option value="work">Work</option> -->
+                                            <!-- <option value="home">Home</option> -->
+                                            <!-- <option value="mobile">Mobile</option> -->
                                            
-                                        </select>
+                                        <!-- </select> -->
                                         <span id="Contact3" class="text-danger font-weight-bold typespan"></span>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -308,10 +308,10 @@
                                 <div class="form-row" id="addresses1">
                                     <div class="form-group col-md-2">
                                         <label for="type">Type:</label>
-                                        <select class="addressType form-control" id="addressType">
-                                            <option value="current">Current</option>
-                                            <option value="permanant">Permanent</option>
-                                        </select>
+                                        <label class="addressType form-control" id="addressType" value="current">Current</label>
+                                            <!-- <option value="current">Current</option> -->
+                                            <!-- <option value="permanant">Permanent</option> -->
+                                        <!-- </select> -->
                                         <span id="addressType1" class="text-danger font-weight-bold addressTypeSpan"></span>
                                     </div>
                                     <div class="form-group col-md-5">
@@ -370,11 +370,11 @@
                                 <div class="form-row" id="addresses2">
                                     <div class="form-group col-md-2">
                                         <label for="type">Type:</label>
-                                        <select class="addressType form-control" id="addressType">
-                                            <option value="permanant">Permanent</option>
-                                            <option value="current">Current</option>
+                                        <label class="addressType form-control" id="addressType" value="permanant">Permanent</label>
+                                            <!-- <option value="permanant">Permanent</option> -->
+                                            <!-- <option value="current">Current</option> -->
                                            
-                                        </select>
+                                        <!-- </select> -->
                                         <span id="addressType2" class="text-danger font-weight-bold addressTypeSpan"></span>
                                     </div>
                                     <div class="form-group col-md-5">
@@ -498,14 +498,20 @@
 
 
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title">Welcome To Admin User Page</span>
+                <span class="mdl-layout-title "style="margin-left: 20px; ">Welcome To Admin User Page</span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <div class="mdl-layout-spacer"></div>
+              
+	  
+					<div id="row1">
+					  
+					  
+					</div> 
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
                     Launch demo modal
                   </button> -->
@@ -522,7 +528,34 @@
                 </div> -->
             </div>
         </header>
-       <div style="display: flex;flex-direction: row;width: 1010px;position: relative;justify-content: space-between;">
+       <!-- <div style="display: flex;flex-direction: row;width: 1010px;position: relative;justify-content: space-between;">
+       
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label" style="width: 30%;">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                <i class="material-icons">search</i>
+                </label>
+            <div class="mdl-textfield__expandable-holder">
+               <input class="mdl-textfield__input" type="text" name="sample" value=""
+                id="fixed-header-drawer-exp">
+            </div>
+         </div>
+         <div style="margin-top: 20px;"> 
+            <button id="popup" >Add New User</button>
+        </div>
+
+
+        </div> -->
+        <div class="mdl-layout__drawer mdl-color--blue-grey-800 " id="navigation">
+            <!-- <span class="mdl-layout-title">Go To</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="">Role & Permission</a>
+                <a class="mdl-navigation__link" href="">Home Page</a>
+                <a class="mdl-navigation__link" href="">Device Dashboard</a>
+                <a class="mdl-navigation__link" href="">About</a>
+            </nav> -->
+        </div>
+        <main class="mdl-layout__content">
+            <div style="display: flex;flex-direction: row;width: 1010px;position: relative;justify-content: space-between;">
        
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label" style="width: 30%;">
                 <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
@@ -539,16 +572,7 @@
 
 
         </div>
-        <div class="mdl-layout__drawer mdl-color--blue-grey-800 " id="navigation">
-            <!-- <span class="mdl-layout-title">Go To</span>
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="">Role & Permission</a>
-                <a class="mdl-navigation__link" href="">Home Page</a>
-                <a class="mdl-navigation__link" href="">Device Dashboard</a>
-                <a class="mdl-navigation__link" href="">About</a>
-            </nav> -->
-        </div>
-        <main class="mdl-layout__content">
+
             <div class="page-content">
                 <!-- Your content goes here -->
                 <!-- <button id="popup">Add New User</button> -->
@@ -579,7 +603,7 @@
                 </div>
             </div><br><br>
             <center>
-                <div class="pagination" id="pagination" pageNum="1" result-count="0">
+                <div class="pagination" id="pagination" pageNum="1" result-count="0" style="margin-left: 500px;">
 
                 </div>
             </center>

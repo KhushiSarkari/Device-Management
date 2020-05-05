@@ -1,6 +1,6 @@
 
 import { AddDevice } from './device_crud';
-import { navigationBarsss } from './globals';
+import { navigationBarsss,headersRows } from './globals';
 import { specificationDropdown } from './Device-Request/UserRequestMain';
 let token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
 let brand = (document.getElementById("inputbrand") as HTMLInputElement);
@@ -89,7 +89,7 @@ function checkDropDown(elements: string,compareElement) {
   e.preventDefault();
   const temp = new AddDevice(token);
   if(await temp.addNewSpecification() == true)
-    window["closeForm"]('popupForm');
+    window["closeForm"]('.login-popup');
  
 });
 
@@ -121,6 +121,7 @@ window.addEventListener('submit', function (e) {
 
 });
 navigationBarsss("Admin", "navigation");
+headersRows("Admin","row1");
 const temp = new AddDevice(token);
 temp.brandDropdown();
 temp.typeDropdown();

@@ -76,6 +76,11 @@ nav.mdl-navigation i {
 }
 
 /* User defined */
+.collapsible-body .mdl-grid
+{
+	padding-top: 0px;
+    padding-bottom: 0px;
+}
 
 .faultform {
 	position: absolute;

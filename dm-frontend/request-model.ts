@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { BASEURL, navigationBarsss, amIUser } from "./globals";
+import { BASEURL, navigationBarsss, amIUser,headersRows } from "./globals";
 (async function(){
     const Select = mdc.select.MDCSelect;
     const TextField = mdc.textField.MDCTextField;
@@ -123,6 +123,7 @@ import { BASEURL, navigationBarsss, amIUser } from "./globals";
 
 initialiseDropdowns();
 navigationBarsss(role,"navigation");
+headersRows(role,"row1");
 document.querySelector('button').addEventListener('click', function(){submitForm()});
 
 })();
