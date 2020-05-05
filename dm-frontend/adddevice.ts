@@ -122,8 +122,9 @@ window.addEventListener('submit', function (e) {
   }
   else {
     
+    
     temp.Create_device();
-    window["tata"].text('New Device ','Added!',{duration:3000});
+   // window["tata"].text('New Device ','Added!',{duration:3000});
    
     
   }
