@@ -121,7 +121,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				//window["tata"].text('Device assigned',{duration:20000});
 				alert("Device assigned");
 				console.log("assign");
-				temp.closeForm1("popupForm2");
+				temp.closeForm1('.login-popup');
 				window.location.reload();
 			}
 		}
@@ -140,11 +140,14 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 	
 		}
 		openForm1(popup) {
-			document.getElementById(popup).style.display = "block";
-		}
-		closeForm1(popup) {
-			document.getElementById(popup).style.display = "none";
-		}
+            document.querySelector(popup).classList.add("active");
+        }
+        closeForm1(popup) {
+            document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+                element.value = '';
+            });
+            document.querySelector(popup).classList.remove("active");
+        }
 	
 	}
 
@@ -189,7 +192,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			temp.postNotification(JSON.stringify({ "notify": [{ deviceId }] }));
 		}
 		if ((e.target as HTMLButtonElement).id == "assign") {
-			temp.openForm1("popupForm2");
+			temp.openForm1('.login-popup');
 			(document.getElementById(
 				"device_id"
 			) as HTMLInputElement).value = (e.target as HTMLButtonElement).dataset.id;
@@ -198,7 +201,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			).innerHTML = (e.target as HTMLButtonElement).dataset.id;
 		}
 		if ((e.target as HTMLButtonElement).className == "cancel-button") {
-			temp.closeForm1("popupForm2");
+			temp.closeForm1('.login-popup');
 		}
 		if ((e.target as HTMLButtonElement).className == "assigndevice-btn") {
 			e.preventDefault();
