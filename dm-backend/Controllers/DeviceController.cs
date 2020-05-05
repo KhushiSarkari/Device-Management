@@ -210,7 +210,21 @@ namespace dm_backend.Controllers
             Db.Connection.Close();
             return Ok();
         }
-
+        [Authorize(Roles = "admin")]
+        [HttpDelete]
+        [Route("specification/{specification_id}/delete")]
+        public IActionResult Deletespecification(int specification_id)
+        {
+            Specification query = new Specification(Db);
+            query.specification_id = specification_id;
+            if(query.Deletespec()==1)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+        }
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("type")]

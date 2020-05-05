@@ -9,7 +9,9 @@
         padding: 15px;
         
     }
-  
+    nav.mdl-navigation a:hover {
+      text-decoration: none;
+    }
 
     select{
       text-align-last: center;
