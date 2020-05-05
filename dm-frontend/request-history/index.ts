@@ -54,6 +54,8 @@ function clearFields()
 {
     (document.getElementById(domElement.search) as HTMLInputElement).value = "";
     (document.getElementById(domElement.devicesearch) as HTMLInputElement).value = "";
+    document.getElementById("tableHead").setAttribute("data-sort" , "" );
+    document.getElementById("tableHead").setAttribute("data-sortby" , "");
 }
 
 document.addEventListener('keypress' , event =>
@@ -91,13 +93,6 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
         getData(new UserRequestStatus(token).generateRequestData(requestStatus));
     });
 
-    // (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
-    // {   
-    //     console.log((e.target as HTMLButtonElement).value);
-    //     var x  = (e.target as HTMLButtonElement).value;
-      
-    //     // getData(new page(token).slectedPage(x));
-    // });
     (document.querySelector("#pagination") as HTMLButtonElement).addEventListener("click" ,e =>
 	{ 
         let currentPage = parseInt(document.getElementById("pagination").getAttribute("data-currentpage"));
@@ -126,8 +121,8 @@ document.querySelector("#tableHead").addEventListener('click', function (e) {
             let userName = (document.getElementById(new HtmlElementsData().search)  as HTMLInputElement).getAttribute(domElements.userName);
             var sortAttribute = (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortAttributr);       
             var sortType  =  (document.getElementById(domElements.thead) as HTMLTableRowElement).getAttribute(domElements.sortType);
-            let requestStatus = new Sorting(token).getStatus();
-            let uri = "?user-name="+encodeURI(userName)+"&sort="+sortAttribute+"&sort-type="+sortType+"&page="+offset+"&page-size="+totalRowsInTable +"&status="+requestStatus;
+            let requestStatus = new Sorting(token).getSortingAndSearchingUri();
+            let uri = requestStatus + "&page="+offset+"&page-size="+totalRowsInTable;
             return uri;
              
         }
