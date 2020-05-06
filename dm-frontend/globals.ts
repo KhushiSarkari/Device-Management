@@ -31,9 +31,9 @@ export function amIUser(token: string) {
 export function headersRows(role: string, element: string) {
     var row1 = `
            <div class="mdl-js" >
-                    <nav class="mdl-navigation"  >
+                    <nav class="mdl-navigation">
                      <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
-                     <span class="material-icons mdl-badge mdl-badge--overlap" id="submissionNotification"></span>
+                     <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification">markunread</span>
        
                      <button id="profile" class="mdl-button mdl-js-button mdl-button--icon">
                      <i class="material-icons">person_pin</i>
@@ -43,11 +43,13 @@ export function headersRows(role: string, element: string) {
                          <li class="mdl-menu__item" id="#userProfile" >Profile</li></a>
                      
                      <li class="mdl-menu__item" id="logout">Logout</li>
-                 </ul>`;
+                 </ul>
+                 </nav>
+                 </div>`;
     document.getElementById(element).innerHTML = row1;
 
     if (role == "Admin") {
-        (document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "check_circle";
+        (document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "markunread";
     }
 
     document.addEventListener("click", function (e) {
@@ -101,13 +103,17 @@ export function navigationBarsss(role: string, element: string) {
             role="presentation">import_export</i>Request Device
     </a>
     <a class="mdl-navigation__link" href="/userRequestHistory.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">storage</i>My
+        <i class="mdl-color-text--blue-grey-400 material-icons material-icons" >laptop_chromebook
+        </i>My
         Devices
     </a>`;
     if (role == "Admin") {
         let nav = ` 
         <a class="mdl-navigation__link" href="/specification.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">devices</i>All Specifications
+        <i class="mdl-color-text--blue-grey-400 material-icons material-icons ">
+        build
+        </i>
+        All Specifications
     </a>
     
    
@@ -115,8 +121,8 @@ export function navigationBarsss(role: string, element: string) {
         <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>Users
     </a>
     <a class="mdl-navigation__link" href="/adminRequestPage.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">import_export</i>All Requests
+        <i class="mdl-color-text--blue-grey-400 material-icons material-icons"
+            >menu_book</i>All Requests
     </a>
     <a class="mdl-navigation__link" href="/request-history/request-history.html">
         <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">history</i>Request History
@@ -127,16 +133,15 @@ export function navigationBarsss(role: string, element: string) {
      </a>
    
     <a class="mdl-navigation__link" href="/device_role/role.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">perm_device_information</i>Roles
+        <i class="mdl-color-text--blue-grey-400 material-icons "
+            >assignment_ind</i>Roles
     </a></nav>
     `;
-        document.getElementById(element).innerHTML = navigation + nav;
+        document.getElementById(element).innerHTML = navigation + nav; 
     }
     else if (role == "User") {
         document.getElementById(element).innerHTML = navigation;
-    }
-
+    }  
 }
 
 export function paging(metadata) {

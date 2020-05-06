@@ -25,7 +25,7 @@ export function validate() {
     phonevalidation("edit","phones3");
 }
 export function remove() {
-    document.querySelectorAll('form span').forEach((spanElement: HTMLSelectElement) => {
+    document.querySelectorAll('form span.validationSpan').forEach((spanElement: HTMLSelectElement) => {
 		spanElement.textContent = "";
 		
 	})
@@ -212,16 +212,16 @@ function emailvalidation() {
         }
     }
 
-function currAddType(containerId: string){   
-    var addressType1 = (document.querySelector("#" + containerId + ' .addressType') as HTMLInputElement).value;
-    if (addressType1 == "") {
-        document.querySelector("#" + containerId + ' .addressTypeSpan').innerHTML = "Select Type";
-        return 0;
-    } else {
-        document.querySelector("#" + containerId + ' .addressTypeSpan').innerHTML = "";
-        return 1;
-    }
-}
+// function currAddType(containerId: string){   
+//     var addressType1 = (document.querySelector("#" + containerId + ' .addressType') as HTMLInputElement).value;
+//     if (addressType1 == "") {
+//         document.querySelector("#" + containerId + ' .addressTypeSpan').innerHTML = "Select Type";
+//         return 0;
+//     } else {
+//         document.querySelector("#" + containerId + ' .addressTypeSpan').innerHTML = "";
+//         return 1;
+//     }
+// }
 function addressvalidation(formmode:string ,containerId: string) {
     var container=document.querySelector("#" +containerId)
     var addresses1 = (document.querySelector("#" + containerId + ' .addressLine1') as HTMLInputElement).value;
@@ -243,7 +243,7 @@ function addressvalidation(formmode:string ,containerId: string) {
     else if(addresses1!="")
     {
         document.querySelector("#" + containerId + ' .addressLine1span').innerHTML = "";
-        return currAddType(containerId)*addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
+        return addressvalidation1(containerId)*countryvalidation(containerId)*statevalidation(containerId)*
         cityvalidation(containerId)*pinvalidation(containerId);
     }
     else {
@@ -348,11 +348,7 @@ function phonevalidation(formmode:string,containerId: string) {
     if (container.getAttribute("aria-required")!="true" &&(phone=="")) {
         return 1;
     }
-    else if(phone=="")
-    {
-        document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter the Number";
-        return 0;
-    }
+   
     else if (!phone.match(/^\d{10}$/)) {
         document.querySelector("#" + containerId + ' .numberspan').innerHTML = "Enter the 10 valid digits";
         return 0;
@@ -361,7 +357,7 @@ function phonevalidation(formmode:string,containerId: string) {
         else if(phone.length==10)
         {
              document.querySelector("#" + containerId + ' .numberspan').innerHTML = "";
-            return phones1c(containerId)*countrycodevalidation(containerId)*areacodevalidation(containerId);
+            return countrycodevalidation(containerId)*areacodevalidation(containerId);
 
         }
      else {
@@ -386,15 +382,15 @@ function countrycodevalidation(containerId: string) {
         return 1;}
 }
 
-function phones1c(containerId: string) {
-    var Contact1 = (document.querySelector("#" + containerId + ' .contactNumberType') as HTMLInputElement).value;
-    if (Contact1 == "") {
-        document.querySelector("#" + containerId + ' .typespan').innerHTML = "Select Type";
-        return 0; }
-       else {document.querySelector("#" + containerId + ' .typespan').innerHTML = "";
-        return 1;
-      }
-}
+// function phones1c(containerId: string) {
+//     var Contact1 = (document.querySelector("#" + containerId + ' .contactNumberType') as HTMLInputElement).value;
+//     if (Contact1 == "") {
+//         document.querySelector("#" + containerId + ' .typespan').innerHTML = "Select Type";
+//         return 0; }
+//        else {document.querySelector("#" + containerId + ' .typespan').innerHTML = "";
+//         return 1;
+//       }
+// }
 export function connectivityvalidation()
 {
     var connectivitys=(document.getElementById('Connectivity') as HTMLInputElement).value;

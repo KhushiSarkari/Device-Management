@@ -32,7 +32,12 @@ table td[colspan="2"] {
 nav.mdl-navigation {
 	height: unset;
 	box-shadow: none;
+	background-color: none;
+	background: none;
 }
+nav.mdl-navigation a:hover {
+	text-decoration: none;
+  }
 nav.mdl-navigation i {
 	font-size: 24px;
 	line-height: 1;
@@ -42,9 +47,7 @@ nav.mdl-navigation i {
 .mdl-layout__drawer-button i.material-icons {
 	line-height: 2;
 }
-.mdl-layout__drawer-button i.material-icons {
-	line-height: 2;
-}
+
 .mdl-spinner {
 	position: absolute;
 	top: 0;
@@ -81,7 +84,9 @@ nav.mdl-navigation i {
 	padding-top: 0px;
     padding-bottom: 0px;
 }
-
+nav.mdl-navigation{
+	background-color: unset;
+}
 .faultform {
 	position: absolute;
 	height: 100%;
