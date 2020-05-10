@@ -94,24 +94,41 @@ namespace dm_backend.Controllers
 
         }
 
-   // [HttpPost("loginUsingGoogle")]
-  //  public async Task<IActionResult> loginUsingGoogle(googleLogin userto){
-        // var UserId = _context.User.FirstOrDefault(w => {w.Email=userto.Email;});
-        //   var entryPoint = (from us in _context.User
-        //                       join rl in _context.UserToRole on us.UserId equals rl.UserId
-        //                       join r in _context.Role on rl.RoleId equals r.RoleId
-        //                       where us.UserId == userto.UserId
-        //                       select new
-        //                       {
-        //                           Role = r.RoleName
-        //                       }).ToList();
-    // var obj=new Token(_config).createToken(userto,User);
-   
-    // var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token="+ obj + "&id=" + userto.UserId.ToString());
-    //         return result;
+   [HttpPost("loginUsingGoogle")]
+   public async Task<IActionResult> loginUsingGoogle(googleLogin userto){
+         userto.Email = userto.Email.ToLower();
+         if(! await _repo.UserExists(userto.Email))
+         {
+          var userTocreate = new User
+            {
+                Email = userto.Email,
+                FirstName =userto.FirstName,
+                LastName=userto.LastName,
+            };
+            var createdUser = await _repo.Register(userTocreate,userto.ClientId);
+        }
+       var userthis = (from us in _context.User
+                   where us.Email == userto.Email
+                   select us).FirstOrDefault();
+    
+            var entryPoint = (from us in _context.User
+                              join rl in _context.UserToRole on us.UserId equals rl.UserId
+                              join r in _context.Role on rl.RoleId equals r.RoleId
+                              where us.UserId == userthis.UserId
+                              select new
+                              {
+                                  Role = r.RoleName
+                              }).ToList();
+           
+        
+        var TokenReq =new TokenRequirements{UserId=userthis.UserId , Email=userthis.Email , Role =entryPoint[0].Role};
+        var GetToken = new Token(_config).createToken(TokenReq);
+        
+    var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token="+ GetToken + "&id=" + userthis.UserId.ToString());
+            return result;
 
         
-   // }
+   }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto Userforlog,int number)
@@ -130,8 +147,9 @@ namespace dm_backend.Controllers
                               {
                                   Role = r.RoleName
                               }).ToList();
+           var TokenRequ = new TokenRequirements {UserId=usertorepo.UserId , Email = usertorepo.Email ,Role=entryPoint[0].Role.ToString()};
 
-         var token = new Token(_config).createToken(usertorepo,entryPoint[0].Role.ToString());
+         var token = new Token(_config).createToken(TokenRequ);
 
             var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token="+ token + "&id=" + usertorepo.UserId.ToString());
             return result;

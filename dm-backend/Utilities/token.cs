@@ -17,12 +17,12 @@ namespace dm_backend.Utilities
         {
             _config=config;
         }
-        public string createToken(User usertorepo,string role){
+        public string createToken(TokenRequirements usertorepo){
                var claims = new List<Claim>();
 
             claims.Add(new Claim(ClaimTypes.NameIdentifier, usertorepo.UserId.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, usertorepo.Email, usertorepo.Email));
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim(ClaimTypes.Role, usertorepo.Role));
            
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Appsetting:Token").Value));
