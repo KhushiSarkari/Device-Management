@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using dm_backend.Data;
 using dm_backend.EFModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,9 +47,40 @@ namespace dm_backend
                 };
 
             });
+            services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    
+                //    options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                //    options.ClaimActions.MapJsonKey("urn:google:locale", "locale", "string");
+                   
+                //     // options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                   
+                //     options.SaveTokens = true;
+
+                //     options.Events.OnCreatingTicket = ctx =>
+                //     {
+                //         List<AuthenticationToken> tokens = ctx.Properties.GetTokens().ToList(); 
+
+                //         tokens.Add(new AuthenticationToken()
+                //         {
+                //             Name = "TicketCreated", 
+                //             Value = DateTime.UtcNow.ToString()
+                //         });
+
+                //         ctx.Properties.StoreTokens(tokens);
+
+                //         return Task.CompletedTask;
+                //     };
+                           });
+            
             services.AddControllers();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

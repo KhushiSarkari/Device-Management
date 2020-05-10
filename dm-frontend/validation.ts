@@ -1,6 +1,6 @@
 export function validateForm(formMode:string) {
     
-    var result= salutationvalidation()*firstNamevalidation()*lastNamevalidation()*emailvalidation()*
+    var result= salutationvalidation()*firstNamevalidation()*lastNamevalidation()*//emailvalidation()*
     passwordvalidation(formMode)*
     confirmpasswordvalidation(formMode)*roleName()*
     departmentvalidation()*
@@ -173,26 +173,26 @@ function designationvalidation() {
         return 1;
     }
 }
-function emailvalidation() {
-    var emails = (document.getElementById('email') as HTMLInputElement).value;
-    if (emails == "") {
-        (document.getElementById('emails') as HTMLInputElement).innerHTML = "Fill Email";
-        return 0;
-    }else if (emails.indexOf('@') <= 0) {
-        document.getElementById('useremails').innerHTML = "@ Is At Invalid position";
-        return 0;
-     } else {
-            let str = emails;
-        str=str.toLowerCase();
-        let st =str.split("@");
-        if(st[1]!="ex2india.com"){
-            document.getElementById('emails').innerHTML = "Not A Valid Domain";
-            return 0;
-        }
-            document.getElementById('emails').innerHTML = "";
-                return 1; 
-        }
-    }
+// function emailvalidation() {
+//     var emails = (document.getElementById('email') as HTMLInputElement).value;
+//     if (emails == "") {
+//         (document.getElementById('emails') as HTMLInputElement).innerHTML = "Fill Email";
+//         return 0;
+//     }else if (emails.indexOf('@') <= 0) {
+//         document.getElementById('useremails').innerHTML = "@ Is At Invalid position";
+//         return 0;
+//      } else {
+//             let str = emails;
+//         str=str.toLowerCase();
+//         let st =str.split("@");
+//         if(st[1]!="ex2india.com"){
+//             document.getElementById('emails').innerHTML = "Not A Valid Domain";
+//             return 0;
+//         }
+//             document.getElementById('emails').innerHTML = "";
+//                 return 1; 
+//         }
+//     }
 
     function areacodevalidation(containerId: string) {
         var areacode1 = (document.querySelector("#" + containerId + ' .areaCode') as HTMLInputElement).value;

@@ -94,17 +94,34 @@ namespace dm_backend.Controllers
 
         }
 
-      
+   // [HttpPost("loginUsingGoogle")]
+  //  public async Task<IActionResult> loginUsingGoogle(googleLogin userto){
+        // var UserId = _context.User.FirstOrDefault(w => {w.Email=userto.Email;});
+        //   var entryPoint = (from us in _context.User
+        //                       join rl in _context.UserToRole on us.UserId equals rl.UserId
+        //                       join r in _context.Role on rl.RoleId equals r.RoleId
+        //                       where us.UserId == userto.UserId
+        //                       select new
+        //                       {
+        //                           Role = r.RoleName
+        //                       }).ToList();
+    // var obj=new Token(_config).createToken(userto,User);
+   
+    // var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token="+ obj + "&id=" + userto.UserId.ToString());
+    //         return result;
+
+        
+   // }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto Userforlog)
+        public async Task<IActionResult> Login(LoginDto Userforlog,int number)
         {
             var usertorepo = await _repo.Login(Userforlog.Email, Userforlog.Password);
             if (usertorepo == null)
                 return Unauthorized();
 
 
-            //linq qwery
+            //link query
             var entryPoint = (from us in _context.User
                               join rl in _context.UserToRole on us.UserId equals rl.UserId
                               join r in _context.Role on rl.RoleId equals r.RoleId
@@ -114,30 +131,9 @@ namespace dm_backend.Controllers
                                   Role = r.RoleName
                               }).ToList();
 
-            var claims = new List<Claim>();
+         var token = new Token(_config).createToken(usertorepo,entryPoint[0].Role.ToString());
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, usertorepo.UserId.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, usertorepo.Email, usertorepo.Email));
-            foreach (var role in entryPoint)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role.Role));
-            }
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Appsetting:Token").Value));
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = cred
-            };
-
-            var tokenhandler = new JwtSecurityTokenHandler();
-            var token = tokenhandler.CreateToken(tokenDescriptor);
-            Console.WriteLine(token);
-
-            var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token=" + tokenhandler.WriteToken(token) + "&id=" + usertorepo.UserId.ToString());
+            var result = new RedirectResult("http://127.0.0.1:1234/dashboard.html?token="+ token + "&id=" + usertorepo.UserId.ToString());
             return result;
         }
     }
