@@ -10,29 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styling.css">
     <link rel="stylesheet" href="/device_role/role_styles.css" />
-    <style>
-        .form1 {
-            border:2px solid grey;  background-color: #f2f2f2;
-            justify-content: center;
-                align-content: center;
-                border-radius: 5px;
-                position: relative;
-                display:inline-block;
-                margin: 0 auto;
-            }
-
-	.form1 label{
-	
-		text-align: right;
-		float: left;
-	}
-
-	.form1 input{
-	
-		text-align: left;
-		float: right;
-    }
-      </style>
+  
    </head>
 
 <body>
@@ -69,7 +47,7 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row" id="name">
                 <!-- Title -->
-                <span class="mdl-layout-title"> Device</span>
+                <span class="mdl-layout-title">Add Device</span>
                 <div class="mdl-layout-spacer"></div>
 
 					<div class="mdl-layout-spacer"></div>
@@ -86,7 +64,7 @@
         <main class="mdl-layout__content">
             <div class="page-content" >
         
-                <form class= "form1">
+                <form class= "request-form mdl-card mdl-shadow--2dp">
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--4-col">
                             <label for="type"> Device Type:</label>
@@ -136,25 +114,29 @@
                             <input type="date" id="entry_date" name="entry date" required>
                         </div>
                     </div>
-                    <div class="mdl-grid">
-                        <div class="mdl-cell mdl-cell--12-col">
+               <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--8-col">
                         <label for="specification"> Device Specification:</label>
                         <select id="specification" required>
                         </select>
                         </div>
-                        <div class="mdl-cell mdl-cell--3-col mdl-cell--2-offset">
+                        <div class="mdl-cell mdl-cell--4-col mdl-cell--bottom">
                             <input type="button" value="Add Specifications" onclick="openForm('.login-popup')" />
                         </div>
-                        <div class="mdl-cell mdl-cell--3-col">
+                    </div>
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col">
                             <label for="Status"> Status:</label>
                             <select id="status" required>
                             </select>
                         </div>
                     </div>
                     <div class="mdl-grid">
-                        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-offset">
-                            <input type="submit" value="ADD" name="submit" id="submit">
-                            <input type="button" value="BACK" id="back" style="margin-left: 100px;">
+                        <div class="mdl-cell mdl-cell--6-col">
+                            <input type="submit" value="ADD" name="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                        </div>
+                        <div class="mdl-cell mdl-cell--6-col">
+                            <input type="button" value="BACK" id="back" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">                           
                         </div>
                     </div>
                 </form>
