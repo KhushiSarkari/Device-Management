@@ -32,9 +32,8 @@ export function headersRows(role: string, element: string) {
     var row1 = `
            <div class="mdl-js" >
                     <nav class="mdl-navigation">
-                     <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
-                     <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification">markunread</span>
-       
+                     <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>               
+                     <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification"></span>
                      <button id="profile" class="mdl-button mdl-js-button mdl-button--icon">
                      <i class="material-icons">person_pin</i>
                  </button>
@@ -45,12 +44,40 @@ export function headersRows(role: string, element: string) {
                      <li class="mdl-menu__item" id="logout">Logout</li>
                  </ul>
                  </nav>
-                 </div>`;
+                 </div>
+                 `;
     document.getElementById(element).innerHTML = row1;
 
     if (role == "Admin") {
         (document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "markunread";
+   
     }
+
+
+    
+//     if (role == "Admin" ) {
+        
+//         let r2= ` 
+//         <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification"></span>
+        
+//     `;
+
+//     this.row1+=` </nav>
+//     </div>
+   
+// `;
+
+
+// document.getElementById(element).innerHTML = row1+r2;
+// (document.getElementById("submissionNotification") as HTMLSpanElement).innerText = "markunread";
+// }
+
+
+// else if(role == "User")
+// {
+//  document.getElementById(element).innerHTML = row1;
+// }
+
 
     document.addEventListener("click", function (e) {
         if ((e.target as HTMLButtonElement).id == "notifications") {
