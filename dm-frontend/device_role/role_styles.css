@@ -130,10 +130,7 @@ textarea {
 	height: 60px;
 	width: 300px;
 }
-label {
-	text-align: center;
-	height: 60px;
-}
+
 th.activate {
 	background-color: #eee;
 }

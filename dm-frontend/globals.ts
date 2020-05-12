@@ -33,7 +33,7 @@ export function headersRows(role: string, element: string) {
            <div class="mdl-js" >
                     <nav class="mdl-navigation">
                      <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
-                     <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification">markunread</span>
+                     <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification"></span>
        
                      <button id="profile" class="mdl-button mdl-js-button mdl-button--icon">
                      <i class="material-icons">person_pin</i>
