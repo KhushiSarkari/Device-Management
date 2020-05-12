@@ -15,7 +15,7 @@ import { HitApi } from './Device-Request/HitRequestApi';
     let role = await amIUser(token) == true ? "User" : "Admin";
 
     function createCard(cardData, action) {
-        let cardCreationCode = "<button class='mdl-color--blue-grey-200' id='card' data-card=" + action + ">" + cardData + "</button>";
+        let cardCreationCode = "<button class='mdl-color--grey-50 mdl-shadow--4dp' id='card' data-card=" + action + ">" + cardData + "</button>";
         document.getElementById("content").innerHTML += cardCreationCode;
     }
 

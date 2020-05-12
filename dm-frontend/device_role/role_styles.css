@@ -10,7 +10,9 @@ div.page-content {
 div.main {
 	padding: 10px;
 }
-
+.mdl-layout__content {
+	overflow-x: auto;
+}
 /* Tables */
 
 table.mdl-data-table {
@@ -150,4 +152,7 @@ span.txt-danger {
 th.td-underlines{
 	border-top: 1px solid rgba(0,0,0,.12);
 	border-bottom: 1px solid rgba(0,0,0,.12);
+}
+body{
+	background-color: #eeeeee;
 }

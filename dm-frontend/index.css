@@ -80,7 +80,9 @@
     background-color: #555555;
     color: white;
   }
-
+  .mdl-layout__content {
+    overflow-x: auto;
+  }
   .user_data_table
   {
     width: fit-content;
@@ -121,3 +123,6 @@ align-content : center;
 100% { transform: rotate(360deg); }
 }
 
+body{
+  background-color: #eeeeee;
+}
