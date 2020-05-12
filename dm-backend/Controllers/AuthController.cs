@@ -96,7 +96,9 @@ namespace dm_backend.Controllers
 
    [HttpPost("loginUsingGoogle")]
    public async Task<IActionResult> loginUsingGoogle(googleLogin userto){
-         userto.Email = userto.Email.ToLower();
+       Console.WriteLine("---------------");
+       //  userto.Email = userto.Email.ToLower();
+         Console.WriteLine(userto.Email+userto.ClientId+userto.FirstName+userto.LastName);
          if(! await _repo.UserExists(userto.Email))
          {
           var userTocreate = new User

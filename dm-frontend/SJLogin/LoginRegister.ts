@@ -44,76 +44,31 @@ function RegisterUser() {
 function onSignIn(googleUser) {
 	
 	var profile = googleUser.getBasicProfile();
-	console.log('ID: ' + profile.getId()); // pass
-	// console.log('Name: ' + profile.getName());
-	// console.log('Name: ' + profile.getName());
-	// console.log('Image URL: ' + profile.getImageUrl());
-	console.log('Email: ' + profile.getEmail());//email
-	console.log('Last name: ' + profile.getFamilyName());//ln
 	let ln =  profile.getFamilyName();
 	let email =  profile.getEmail();
 	let pass =  profile.getId();
-	let fn = profile.getGivenName().split(" ")[0];//fn
-	let flag  = false;
-	fetch(BASEURL + "/api/auth/register", {
+	let fn = profile.getGivenName().split(" ")[0];
+	fetch(BASEURL + "/api/auth/loginUsingGoogle", {
 		method: "POST",
 		body: JSON.stringify({
 			
 				FirstName:fn,
 				LastName:ln,
 				Email: email,
-			    Password: pass 
+			    ClientId: pass 
 		}),
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		}
 	})
-		.then(response => response.json())
-		.then(data=>{
-			if(data.result==="AlreadyExists")
-			{
-				flag=true;
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
-		
-		fetch(BASEURL + "/api/auth/login", {
-		
-			method: "POST",
-			body: JSON.stringify({
-				email: email,
-				password: pass
-			}),
-			headers: {
-				"Content-type": "application/json; charset=UTF-8"
-			}
-		})
-			.then(response => {
-				console.log(response);
-				window.location.href = response.url;
-			})
-			.catch(err => {
-				console.log(err);
-			});}
-		
-	//	}
-    // window.location.href="/dashboard.tc.access_token";
-//	function RegisterUser() {
-	// fetch(BASEURL + "/api/extAuth", {
-	// 	headers:{
-	// 		'Authorization': 'Bearer '+  googleUser.tc.access_token,
-	// 		'Content-Type': 'application/json'
-	// 	},
-	// 	method: 'POST'
-	// }).then(response => response.json())
-	// .then(userData => {
-	// 	console.log(userData.isNewUser);
-	// 	console.log(userData.userId);
-	// });
-
- 
+	.then(response => {
+		console.log(response);
+		window.location.href = response.url;
+	})
+	.catch(err => {
+		console.log(err);
+	});
+}
 window["onSignIn"] = onSignIn;
 function registerFetchApi(details){
 	fetch(BASEURL + "/api/auth/register", {
