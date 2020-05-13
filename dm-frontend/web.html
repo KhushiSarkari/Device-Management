@@ -9,9 +9,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="/device_role/role_styles.css">
+    <link rel="stylesheet" href="styling.css">
 </head>
 
 <body>
+    <div class="login-popup" >
+        <div class="form-popup" id="popupForm2" style="width: 25%;margin-left: 600px;">
+            <form class="form-container" id="assign_popup">
+                
+                <input id="upload"  type="file" accept=".csv">
+                <button id="add" class="upload-button">Upload</button> 
+                <button id="close" class="cancel-button">Close</button>
+            
+                
+               </form>
+        </div>
+    </div>
+    
+       
     <div class="collapsible-container" id="accordion1">
         <form class="form-popup" id="myForm">
             <h3 id="headingText" class="text-success text-center">User Registration</h3>
@@ -456,7 +471,9 @@
                         </div>
                         <div style="margin-top: 20px;">
                             <button id="popup">Add New User</button>
+                            <button id="multipleUser">Add Multiple Users</button>
                         </div>
+                        
         
         
                     </div>

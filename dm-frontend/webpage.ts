@@ -13,6 +13,7 @@ import {dropDownListen } from "./user-profile/dropDownListener";
 import { formatPhone } from "./utilities";
 
 (async function(){
+	var photo;
 	const token:string=JSON.parse(sessionStorage.getItem("user_info"))["token"];
 	const role = (await amIUser(token)) == true ? "User" : "Admin";
 	let form_mode: "create" | "edit";
@@ -289,7 +290,64 @@ import { formatPhone } from "./utilities";
 		setData();
 		
     });
-
+	function openForm1(popup) {
+		document.querySelector(popup).classList.add("active");
+	}
+	function closeForm1(popup) {
+		document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+			element.value = '';
+		});
+		document.querySelector(popup).classList.remove("active");
+	}
+	interface HTMLInputEvent extends Event {
+		target: HTMLInputElement & EventTarget;
+	}
+	document.getElementById("upload").addEventListener("change",async function (e:HTMLInputEvent) {
+		console.log("frf");
+			console.log(e.target.files);
+	    photo =e.target.files[0];
+	     
+	});	
+	document.addEventListener("click", async function(e) {
+		
+		if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
+			openForm1('.login-popup');
+					}
+		if ((e.target as HTMLButtonElement).className == "cancel-button") {
+			closeForm1('.login-popup');
+		}
+		if((e.target as HTMLButtonElement).className == "upload-button") {
+			e.preventDefault();
+			let formData = new FormData();
+	   
+			formData.append("photo", photo);
+			
+			 await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
+			 .then(response =>response.json()).then(data=>{data.response;
+				let successDataa = data.usersAlreadyExists.length;
+				console.log(successDataa);
+				if(successDataa===0)
+				{
+					window["tata"].text('Registration successfull!',{duration:6000});
+					
+				}
+				else 
+				{		
+					var users="";
+					for(let i=0;i<successDataa;i++)
+					 users += data.usersAlreadyExists[i]+" " ;
+					console.log(users);
+					window["tata"].text('Users already, Exists!'+users ,{duration:6000});
+										
+				}
+			});
+			closeForm1('.login-popup');
+		}
+	 });
+		
+	
+	
+	
 	navigationBarsss(role,"navigation");
 	headersRows(role,"row1");
 	setData();

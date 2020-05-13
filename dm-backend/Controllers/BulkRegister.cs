@@ -82,10 +82,6 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
      }
     
 
-
-    // process uploaded files
-    // Don't rely on or trust the FileName property without validation.
-
     return Ok(new { count = photo.Count,size,filePath,UsersAlreadyExists =AlreadyExists});
 }
         
