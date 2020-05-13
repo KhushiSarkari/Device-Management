@@ -28,8 +28,9 @@ module.exports = {
         'userRequestMain': './Device-Request/UserRequestMain.ts',
         'devicedetail': './devicedetail.ts',
         'user_role': './device_role/user_role.ts',
-        'forgotpassword':'./SJLogin/forgotpassword.ts'
-
+        'forgotpassword':'./SJLogin/forgotpassword.ts',
+        'BulkRegistering':'./SJLogin/BulkRegistering.ts'
+        
     },
     resolve: {
         extensions: [".js", ".ts"]
