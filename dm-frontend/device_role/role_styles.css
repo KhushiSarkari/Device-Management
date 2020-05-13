@@ -16,7 +16,7 @@ div.main {
 /* Tables */
 
 table.mdl-data-table {
-	display: inline-block;
+	width:100%;
 	overflow-x: scroll;
 }
 table.mdl-data-table tr:last-child td {
@@ -58,9 +58,6 @@ nav.mdl-navigation i {
 	bottom: 0;
 	margin: auto;
 }
-#fixed-tab-1 .mdl-data-table .mdl-data-table__cell {
-	text-align: center;
-}
 
 .mdl-checkbox {
 	width: unset;
@@ -81,6 +78,9 @@ nav.mdl-navigation i {
 }
 
 /* User defined */
+.collapsible-body{
+	background-color: #fff;
+}
 .collapsible-body .mdl-grid
 {
 	padding-top: 0px;
@@ -119,7 +119,7 @@ nav.mdl-navigation{
 	display: block;
 }
 .page-content .content {
-	width: fit-content;
+	width: 100%;
 	display: inline-flex;
 	flex-direction: column;
 	text-align: left;

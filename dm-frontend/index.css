@@ -83,13 +83,13 @@
   .mdl-layout__content {
     overflow-x: auto;
   }
-  .user_data_table
+  /* .user_data_table
   {
     width: fit-content;
     display: inline-flex;
     flex-direction: column;
     text-align: left;
-  }
+  } */
   .page-content{
     text-align: center;
   }
