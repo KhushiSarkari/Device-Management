@@ -8,6 +8,9 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using dm_backend.Data;
+using dm_backend.EFModels;
+using System.Threading.Tasks;
 
 namespace dm_backend.Controllers
 {
@@ -16,10 +19,15 @@ namespace dm_backend.Controllers
  
  public class BulkRegister : ControllerBase
     {
-    
+        private IAuthRepository _repo;
+
+        public BulkRegister(IAuthRepository repo)
+    {
+        _repo=repo;
+    }
 
         [HttpPost("UploadFiles")]
-public IActionResult Post(List<IFormFile> photo)
+public async Task<IActionResult> PostAsync(List<IFormFile> photo)
 {
 
  List<string> uploadedFiles = new List<string>();
@@ -30,8 +38,7 @@ public IActionResult Post(List<IFormFile> photo)
             {
                 postedFile.CopyTo(stream);
                 uploadedFiles.Add(fileName);
-                Console.WriteLine(fileName);
-
+                Console.WriteLine("this is :"+fileName+"path is "+stream);
 
             }
         }
@@ -46,19 +53,40 @@ public IActionResult Post(List<IFormFile> photo)
         {
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                 formFile.CopyToAsync(stream);
+               await  formFile.CopyToAsync(stream);
             }
         }
     }
 
     Console.WriteLine(filePath);
     var json1 = ReadCSVFile(filePath);
-   // Console.WriteLine(json1);
+    dynamic json  = JsonConvert.DeserializeObject(json1);
+    List<string> AlreadyExists =new List<string>();
+    for(int i=0;i<json.Count;i++)
+    {
+        string UserEmail =Convert.ToString(json[i].email);
+        string UserLastName =Convert.ToString(json[i].LastName);
+        string UserFirstName =Convert.ToString(json[i].FirstName);
+        string UserPassword = Convert.ToString(json[i].password);
+        
+         if(! await _repo.UserExists(UserEmail))
+         { 
+                     var userTocreate = new User
+            {
+                Email = UserEmail,
+                FirstName = UserFirstName,
+                LastName=  UserLastName,
+            };
+             var createdUser =await _repo.Register(userTocreate, UserPassword);
+         }else{AlreadyExists.Add(UserEmail);}
+     }
+    
+
 
     // process uploaded files
     // Don't rely on or trust the FileName property without validation.
 
-    return Ok(new { count = photo.Count,size,filePath});
+    return Ok(new { count = photo.Count,size,filePath,UsersAlreadyExists =AlreadyExists});
 }
         
 public  string ReadCSVFile(string csv_file_path)
@@ -102,10 +130,8 @@ public  string ReadCSVFile(string csv_file_path)
             }
                        //if everything goes well, serialize csv to json 
             jsonString = JsonConvert.SerializeObject(csvData);
-            Console.WriteLine(jsonString);
-            var jsonDeserialize= Newtonsoft.Json.JsonConvert.DeserializeObject(jsonString);
-            Console.WriteLine(jsonDeserialize);
-
+            
+           
             return jsonString;
         }
 

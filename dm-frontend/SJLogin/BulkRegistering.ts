@@ -11,5 +11,5 @@ let photo =e.target.files[0];
 let formData = new FormData();
 
 formData.append("photo", photo);
-fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData});
+fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData}).then(Response=>Response.json()).then(data=>console.log(data));
 });
