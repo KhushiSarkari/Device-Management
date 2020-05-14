@@ -51,7 +51,10 @@ export class FalultyDevice
         <td>${data.status}</td>
         <td>${data.complaint}</td>
         <td>${data.complaitDate}</td>
+        ${data.image?` <td><a href="#" onclick="debugBase64('${data.image}');">View Image</a></td>`:""}
+       
         `;
+        
         var buttons
           // if(data.status=="Unresolved" )
           {         
