@@ -38,12 +38,12 @@ import { BASEURL, navigationBarsss, amIUser ,headersRows,Token} from '../globals
             return (await new UserModel(data));
         }
     }
-    const userId = JSON.parse(localStorage.getItem("user_info"))["id"];
+    const userId = _.userID
     var user = new UserData(token);
     var userObject: UserModel;
     const form = document.querySelector('form') as HTMLFormElement;
     dropDownListen(form, token);
-    user.getOneUser(userId).then(function (data) {
+    user.getOneUser(userId.toString()).then(function (data) {
         userObject = data;
         // @ts-ignore
         populateFormFromObject(userObject, form, token);
@@ -58,8 +58,8 @@ import { BASEURL, navigationBarsss, amIUser ,headersRows,Token} from '../globals
                
                 return;
             }          
-            user.updateData(createObjectFromForm(this), userId).then(function () { 
-                user.getOneUser(userId).then(function (data) {
+            user.updateData(createObjectFromForm(this), userId.toString()).then(function () { 
+                user.getOneUser(userId.toString()).then(function (data) {
                    const  userObject = data;
                     // @ts-ignore
                     populateFormFromObject(userObject, form, token);
