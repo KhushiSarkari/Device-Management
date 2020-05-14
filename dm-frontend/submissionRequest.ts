@@ -4,13 +4,14 @@ import { RequestSubmitModel } from "./SubmissionRequestModel";
 import { populateData } from "./genrateSubmissionRequest";
 import { Sort } from "./user-profile/SortingUser";
 
-import { BASEURL, navigationBarsss, PageNo, current_page, changePage,headersRows , paging } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, changePage,headersRows , paging,Token } from "./globals";
 
 
 (async function(){
     let address = BASEURL;
-    let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
-    let adminId = JSON.parse(sessionStorage.getItem("user_info"))["id"];
+    const _ = Token.getInstance();
+    const adminId = _.userID;
+    const token = _.tokenKey;
     let currentPage:number=current_page;
 
 

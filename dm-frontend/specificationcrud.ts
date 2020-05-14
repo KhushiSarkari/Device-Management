@@ -1,9 +1,10 @@
 import { SpecificationList } from "./specificationlist";
-import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser,headersRows} from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page,paging, changePage, amIUser,headersRows,Token} from "./globals";
 
 let mode:string = "create";
 (async function(){
-    let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    const token = _.tokenKey;
     const role = (await amIUser(token)) == true ? "User" :"Admin";
     let currentPage:number=current_page;
     class GetSpecification {
