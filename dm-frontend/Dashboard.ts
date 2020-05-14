@@ -4,15 +4,13 @@ import { HitApi } from './Device-Request/HitRequestApi';
 (async function () {
 
     const url = new URL(window.location.href);
-    const _ = Token.getInstance();
-   
     let token, id;
     if (url.searchParams.has("token") && url.searchParams.has("id")) {
         token = url.searchParams.get("token");
         id = url.searchParams.get("id");
         localStorage.setItem("user_info", JSON.stringify({ token, id }));
     }
-    
+    const _ = Token.getInstance();
     id = _.userID
     token = _.tokenKey
     let role = await amIUser(token) == true ? "User" : "Admin";
