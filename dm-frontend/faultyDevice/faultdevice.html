@@ -46,39 +46,25 @@
         <main class="mdl-layout__content">
             <div class="page-content">
                 <div class="content">
-                <div class="requestdata">
-                    <!-- <button class="getAll Requestbutton" id="getdata">Get Data</button> -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                mdl-textfield--floating-label" style="margin-right:700px;">
-                        <label class="mdl-button mdl-js-button mdl-button--icon" for="waterfall-exp">
-                            <i class="material-icons">search</i>
-                        </label>
-                        <div class="mdl-textfield__expandable-holder">
-                            <input class="mdl-textfield__input" type="text" name="sample" user="" data-find=""
-                                id="waterfall-exp" value="">
-                        </div>
-
-
-
-                        <div class="mdl-layout-spacer"></div>
-                        <!-- <span>                  
-                          <input type="text" class="serial-number" id="device_serial_number"  name="search"  serialNumber="" placeholder="enter device serial number...">
-                    </span> -->
-
-                    </div>
-                    <span  style="float: left; margin: 1%;">
-                        <i class="material-icons">search</i>
-                        <input type='text' id="serial-number" data-find="" placeholder=" Enter Serial Number">
-                    </span>
-                    <!-- <div>
-                          <select id="request-status">
-                            <option class="status" id="All">All</option>
-                            <option class="status"  id ="ret">Returned</option>
-                            <option class="status" id="rej">Rejected</option>
-                          </select>  style="display: flex; justify-content: center;"
-                    </div> -->
-                    <div class="user_data_table" >
-                        <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+                    <div class="serial-number">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <div>
+                                <input class="mdl-textfield__input" type="text" name="sample" user="" data-find=""
+                                    id="waterfall-exp" placeholder="Serial Number">
+                            </div>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <div>
+                                        <input class="mdl-textfield__input" type="text" name="sample" user="" data-find=""
+                                            id="serial-number" placeholder="Search">
+                                    </div>
+                                    </div>
+                                    </div>
+    
+    
+    
+    
+    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
                             <thead id="tableHead" sort="" sortby="">
                                 <tr>
                                     <th class="mdl-data-table__header--sorted-ascending" id="user">

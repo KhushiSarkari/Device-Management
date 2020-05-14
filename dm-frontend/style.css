@@ -141,9 +141,12 @@ nav.mdl-navigation a:hover {
   }
 
 .mdl-layout__drawer-button i.material-icons {
-    line-height: 2;
+	line-height: 2;
 }
-
+.iconCard i.material-icons{
+	vertical-align: middle;
+	font-size: 35px;
+}
 nav.mdl-navigation {
     height: unset;
     box-shadow: none;

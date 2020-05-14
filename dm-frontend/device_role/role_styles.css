@@ -4,7 +4,7 @@
 	flex-basis: 0;
 }
 div.page-content {
-	padding: 20px;
+	padding: 20px 0px;
 	text-align: center;
 }
 div.main {
@@ -30,6 +30,9 @@ table td[colspan="2"] {
 /* Overrides */
 .mdl-cell--0_5-offset {
 	margin-left: calc(4.1666666% + 4px);
+}
+.search-serial-number .mdl-textfield ,.serial-number .mdl-textfield {
+	width: 150px;
 }
 nav.mdl-navigation {
 	height: unset;
@@ -120,9 +123,13 @@ nav.mdl-navigation{
 }
 .page-content .content {
 	width: 100%;
+	min-width: fit-content;
 	display: inline-flex;
 	flex-direction: column;
 	text-align: left;
+	padding-left: 20px;
+	padding-right: 20px;
+	box-sizing: border-box;
 }
 p {
 	text-align: center;
@@ -156,3 +163,5 @@ th.td-underlines{
 body{
 	background-color: #eeeeee;
 }
+table td  { border-left:2px solid #EEEEEE; }
+table th { border-left:2px solid #EEEEEE; }

@@ -69,22 +69,31 @@
         <main class="mdl-layout__content">
             <div class="page-content">
                 <br>
-                <div class="search-serial-number" style="text-align:left ;">
-                    <i class="material-icons">search</i>
-                    <input class="search" type="text" name="search_serial_number" id="search_serial_number"
-                        placeholder=" Search Serial number">
-                    <i class="material-icons">search</i>
-                    <input class="search" type="text" name="search"
-                        id="fixed-header-drawer-exp"  placeholder=" Search Device">
-                        <b>Device Status</b> <select id="status">
+            <div class="content">
+                <div class="search-serial-number">
+                    <b>Device Status</b> <select id="status">
                         <option value="all">All</option>
                         <option value="allocated">Allocated</option>
                         <option value="free">Free</option>
                         <option value="faulty">Faulty</option>
                     </select>
+                    <div class="mdl-textfield mdl-js-textfield
+                                    mdl-textfield--floating-label">
+                        <div class="">
+                            <input class="mdl-textfield__input" type="text" name="search_serial_number"
+                                id="search_serial_number" placeholder="Serial Number">
+                        </div>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield
+                        mdl-textfield--floating-label">
+                        <div class="">
+                            <input class="mdl-textfield__input" type="text" name="search" id="fixed-header-drawer-exp"
+                                placeholder="Search Device">
+                        </div>
+                    </div>
                     <div id="buttons" style="float:right;"></div>
-                </div> <br><br>
-                <div>
+                </div>
+               
                     <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp" id="Request_data1"
                         >
                         <thead id="tablecol">
