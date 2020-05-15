@@ -161,10 +161,12 @@ export function paging(metadata) {
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value="<<" >`;
     if (total_pages > 1)
         for (let loop = 1; loop <= total_pages; loop++)
-            (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="${loop}" value="${loop}" >`;
+        {
+             (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page ${loop == current_page ? 'activePage' : ''}" id="${loop}" value="${loop}" >`;
+         }
     if (has_next)
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value=">>" >`;
-}
+   }
 
 export function PageNo(page_no, pageSize = page_size) {
     let uri = "page=" + page_no + "&page-size=" + pageSize;
