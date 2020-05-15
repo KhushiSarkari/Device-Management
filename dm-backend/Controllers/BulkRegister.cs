@@ -68,6 +68,8 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
     Console.WriteLine(filePath);
     var json1 = ReadCSVFile(filePath);
     dynamic json  = JsonConvert.DeserializeObject(json1);
+    var totalRecords = json.Count;
+    Console.WriteLine(totalRecords+"fvgbr");
     List<string> AlreadyExists =new List<string>();
     for(int i=1;i<=json.Count;i++)
     {
@@ -95,7 +97,7 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
      }
     
 
-    return Ok(new { count = photo.Count,size,filePath,UsersAlreadyExists =AlreadyExists});
+    return Ok(new { count = photo.Count,size,totalRecords ,filePath,UsersAlreadyExists =AlreadyExists});
 }
 
         private void SendProgress(string progressMessage, int progressCount, int totalItems)

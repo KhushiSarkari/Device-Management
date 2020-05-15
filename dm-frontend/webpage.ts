@@ -333,9 +333,10 @@ import * as signalR from "@aspnet/signalr";
 			
 			 await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
 			 .then(response =>response.json()).then(data=>{data.response;
-				let successDataa = data.usersAlreadyExists.length;
-				console.log(successDataa);
-				if(successDataa===0)
+				let totalRecords = data.totalRecords;
+				let failedData = data.usersAlreadyExists.length;
+				let successData = totalRecords - failedData;
+				if(failedData===0)
 				{
 					window["tata"].text('Registration successfull!',{duration:6000});
 					
@@ -343,10 +344,12 @@ import * as signalR from "@aspnet/signalr";
 				else 
 				{		
 					var users="";
-					for(let i=0;i<successDataa;i++)
-					 users += data.usersAlreadyExists[i]+" " ;
+					for(let i=0;i<failedData;i++)
+					users += data.usersAlreadyExists[i]+" <br>";
 					console.log(users);
-					window["tata"].text('Users already, Exists!'+users ,{duration:6000});
+					(document.querySelector("#Already-users")as HTMLDivElement).innerHTML = "Successfully Registered Users:"+ successData+" <br>"+
+					"Already Exists Users: "+failedData +" <br>"+users;
+					
 										
 				}
 			});
@@ -356,7 +359,7 @@ import * as signalR from "@aspnet/signalr";
 	 function progress()
 	 {
 	 
-	 const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:5000/messages", {
+	 const connection = new signalR.HubConnectionBuilder().withUrl(BASEURL+"/messages", {
 		skipNegotiation: true,
 	   transport: signalR.HttpTransportType.WebSockets
 	   })
