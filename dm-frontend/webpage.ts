@@ -11,7 +11,7 @@ import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
 import { formatPhone } from "./utilities";
-
+import * as signalR from "@aspnet/signalr";
 (async function(){
 	var photo;
 	const _ = Token.getInstance();
@@ -319,6 +319,14 @@ import { formatPhone } from "./utilities";
 		}
 		if((e.target as HTMLButtonElement).className == "upload-button") {
 			e.preventDefault();
+			progress();
+			var progress_modal = document.getElementById("progress-bar");
+			console.log(progress_modal);
+  			if (progress_modal.style.display === "none") {
+    		progress_modal.style.display = "block";
+ 			 } else {
+  				  progress_modal.style.display = "none";
+  			}
 			let formData = new FormData();
 	   
 			formData.append("photo", photo);
@@ -342,10 +350,32 @@ import { formatPhone } from "./utilities";
 										
 				}
 			});
-			closeForm1('.login-popup');
+			//closeForm1('.login-popup');
 		}
 	 });
-		
+	 function progress()
+	 {
+	 
+	 const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:5000/messages", {
+		skipNegotiation: true,
+	   transport: signalR.HttpTransportType.WebSockets
+	   })
+	  .configureLogging(signalR.LogLevel.Information)
+	  .build();
+    
+	console.log(connection);
+	connection.start().then((e) => {
+				console.log("connection started");
+			  }).catch(err => console.log(err));
+		connection.on('Process',function(i){
+			console.log(i);
+			
+			(document.querySelector("#file")as HTMLProgressElement).value = i;
+			(document.querySelector("#percentage")as HTMLLabelElement).innerHTML = i+" %";
+		})
+
+	
+	} 
 	
 	
 	

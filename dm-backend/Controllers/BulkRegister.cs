@@ -69,18 +69,18 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
     var json1 = ReadCSVFile(filePath);
     dynamic json  = JsonConvert.DeserializeObject(json1);
     List<string> AlreadyExists =new List<string>();
-    for(int i=0;i<json.Count;i++)
+    for(int i=1;i<=json.Count;i++)
     {
 
      Thread.Sleep(500);
      int countn = Convert.ToInt32(json.Count);
      //CALLING A FUNCTION THAT CALCULATES PERCENTAGE AND SENDS THE DATA TO THE CLIENT
-     SendProgress("Process in progress...", i , countn);
+     SendProgress("Process", i , countn);
  
-        string UserEmail =Convert.ToString(json[i].email);
-        string UserLastName =Convert.ToString(json[i].LastName);
-        string UserFirstName =Convert.ToString(json[i].FirstName);
-        string UserPassword = Convert.ToString(json[i].password);
+        string UserEmail =Convert.ToString(json[i-1].email);
+        string UserLastName =Convert.ToString(json[i-1].LastName);
+        string UserFirstName =Convert.ToString(json[i-1].FirstName);
+        string UserPassword = Convert.ToString(json[i-1].password);
         
          if(! await _repo.UserExists(UserEmail))
          { 
@@ -101,7 +101,7 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
         private void SendProgress(string progressMessage, int progressCount, int totalItems)
         {
             var percentage = (progressCount * 100) / totalItems;
-            _hubContext.Clients.All.SendAsync(progressMessage, percentage + "%");
+            _hubContext.Clients.All.SendAsync(progressMessage, percentage);
         }
 
         public  string ReadCSVFile(string csv_file_path)
