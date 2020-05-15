@@ -322,16 +322,10 @@ import * as signalR from "@aspnet/signalr";
 			progress();
 			var progress_modal = document.getElementById("progress-bar");
 			console.log(progress_modal);
-  			if (progress_modal.style.display === "none") {
-    		progress_modal.style.display = "block";
- 			 } else {
-  				  progress_modal.style.display = "none";
-  			}
+  			progress_modal.style.display = "block";
 			let formData = new FormData();
-	   
-			formData.append("photo", photo);
-			
-			 await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
+	   		formData.append("photo", photo);
+		    await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
 			 .then(response =>response.json()).then(data=>{data.response;
 				let totalRecords = data.totalRecords;
 				let failedData = data.usersAlreadyExists.length;
