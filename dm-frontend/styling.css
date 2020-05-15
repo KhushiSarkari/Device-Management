@@ -17,6 +17,7 @@ div.mdl-layout__drawer {
 
 body {
 	font-family: Roboto, Helvetica, sans-serif;
+	background-color: #eeeeee;
 }
 
 /* Fix the button on the left side of the page */
@@ -43,7 +44,7 @@ body {
 
 .login-popup {
 	position: absolute;
-	text-align: center;
+	/* text-align: center; */
 	height: 100%;
 	width: 100%;
 	z-index: 100;
@@ -59,7 +60,6 @@ a, a:link, a:visited {
 
 .form-popup {
 	max-width: 350;
-	padding: 20px;
 	background-color: #fff;
 	height: fit-content;
 	position: absolute;
@@ -72,7 +72,9 @@ a, a:link, a:visited {
 	z-index: 101;
 	margin: auto;
 }
-
+.form-popup h5{
+	text-align: center;
+}
 .login-popup.active, .login-popup.active .form-popup {
 	display: block;
 }
@@ -81,7 +83,7 @@ a, a:link, a:visited {
 
 .form-container {
 	max-width: 300px;
-	padding: 20px;
+	padding: 10px;
 	background-color: #fff;
 }
 
@@ -127,10 +129,9 @@ form label {
 .form-container .btn {
 	background-color: #8EBF42;
 	color: #fff;
-	padding: 12px 20px;
 	border: none;
 	cursor: pointer;
-	width: 100%;
+	width:49%;
 	margin-bottom: 10px;
 	opacity: 0.8;
 }
