@@ -82,67 +82,73 @@ export function headersRows(role: string, element: string) {
     window["componentHandler"].upgradeDom();
 }
 export function navigationBarsss(role: string, element: string) {
-    var navigation = `   <header class="demo-drawer-header">
-    <div class="demo-avatar-dropdown">
-    </div>
-</header>
-
-   
-    <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800" >
+    const parser = new DOMParser();
+    var navigation = `   
+    <nav class="demo-navigation mdl-navigation " >
     <a class="mdl-navigation__link" href="/dashboard.html">
-   <i class="mdl-color-text--blue-grey-400 material-icons"
-       role="presentation">dashboard</i>Dashboard
+   <i class=" material-icons mdl-color-text--red-A100"
+       role="presentation">dashboard</i> <span>Dashboard</span>
     </a>
-     <a class="mdl-navigation__link" href="/deviceListForadmin.html">
-         <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">devices</i>All
-             Devices
+     <a class="mdl-navigation__link " href="/deviceListForadmin.html">
+         <i class=" material-icons mdl-color-text--red-A100" role="presentation">devices</i> <span>Devices</span>
     </a>
     
     <a class="mdl-navigation__link" href="/Device-Request/device_request.html">
-    <i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">import_export</i>Request Device
+    <i class=" material-icons mdl-color-text--red-A100"
+            role="presentation">import_export</i><span>Request Device</span>
     </a>
-    <a class="mdl-navigation__link" href="/userRequestHistory.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons" >laptop_chromebook
-        </i>My
-        Devices
+    <a class="mdl-navigation__link" href="/userRequestHistory.html" id="mydevices">
+        <i class=" material-icons mdl-color-text--red-A100" >laptop_chromebook
+        </i><span>My Devices</span>
     </a>`;
-    if (role == "Admin") {
+     
+    
         let nav = ` 
         <a class="mdl-navigation__link" href="/specification.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons ">
+        <i class=" material-icons mdl-color-text--red-A100 ">
         build
-        </i>
-        All Specifications
+        </i><span>Specifications</span>
     </a>
     
    
     <a class="mdl-navigation__link" href="/web.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>Users
+        <i class=" material-icons mdl-color-text--red-A100" role="presentation">group</i><span>Users</span>
     </a>
     <a class="mdl-navigation__link" href="/adminRequestPage.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons"
-            >menu_book</i>All Requests
+        <i class=" material-icons mdl-color-text--red-A100"
+            >menu_book</i><span>All Requests</span>
     </a>
-    <a class="mdl-navigation__link" href="/request-history/request-history.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">history</i>Request History
+    <a class="mdl-navigation__link active " href="/request-history/request-history.html">
+        <i class=" material-icons mdl-color-text--red-A100" role="presentation">history</i><span>Request History</span>
     </a>
-    <a class="mdl-navigation__link" href="/faultyDevice/faultdevice.html">
-    <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report_problem</i>
-    Complaints
+    <a class="mdl-navigation__link" href="/faultyDevice/faultdevice.html" >
+    <i class=" material-icons mdl-color-text--red-A100" role="presentation">report_problem</i>
+    <span>Complaints</span>
      </a>
    
     <a class="mdl-navigation__link" href="/device_role/role.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons "
-            >assignment_ind</i>Roles
+        <i class=" material-icons mdl-color-text--red-A100"
+            >assignment_ind</i><span>Roles & Permissions</span>
     </a></nav>
     `;
-        document.getElementById(element).innerHTML = navigation + nav; 
+    let HTMLString : string;
+    if (role == "Admin"){
+        HTMLString = navigation + nav;
     }
+         
+    
     else if (role == "User") {
-        document.getElementById(element).innerHTML = navigation;
-    }  
-}
+        HTMLString = navigation;
+    }
+    let HTML = parser.parseFromString(HTMLString,'text/html');
+    let title = document.querySelector('span.mdl-layout-title').textContent;
+    HTML.querySelectorAll("a.mdl-navigation__link span").forEach(function(span){
+        if(span.textContent === title){
+            span.parentElement.classList.add("mdl-navigation__link--current");
+        }
+    });
+    document.getElementById(element).appendChild(HTML.body.firstChild);
+    }
 
 export function paging(metadata) {
     let total_pages = metadata.TotalPages;

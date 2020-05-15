@@ -67,16 +67,16 @@ export class RolePermission{
         const rowIndex = checkbox.closest('tr').rowIndex - 1;
         const colIndex = checkbox.closest('td').cellIndex - 1;
         if(checkbox.checked){
-            const PermissionToAdd = Object.assign({}, this.permissions[colIndex]);
-            if(this.mapping[rowIndex].hasOwnProperty("Permissions"))
-                this.mapping[rowIndex]["Permissions"].push(PermissionToAdd);
+            const PermissionToAdd = Object.assign({}, this.permissions[rowIndex]);
+            if(this.mapping[colIndex].hasOwnProperty("Permissions"))
+                this.mapping[colIndex]["Permissions"].push(PermissionToAdd);
             else
-                this.mapping[rowIndex]["Permissions"] = new Array(PermissionToAdd);
+                this.mapping[colIndex]["Permissions"] = new Array(PermissionToAdd);
         }
         else{
-            const PermissionToRemove = this.permissions[colIndex];
-            const idxToDelete = this.mapping[rowIndex]["Permissions"].findIndex(obj => obj["PermissionName"] == PermissionToRemove["PermissionName"]);
-            this.mapping[rowIndex]["Permissions"].splice(idxToDelete, 1);
+            const PermissionToRemove = this.permissions[rowIndex];
+            const idxToDelete = this.mapping[colIndex]["Permissions"].findIndex(obj => obj["PermissionName"] == PermissionToRemove["PermissionName"]);
+            this.mapping[colIndex]["Permissions"].splice(idxToDelete, 1);
         }
     }
     setup(){

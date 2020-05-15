@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devicelist</title>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/static/material.css">
 
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -25,38 +26,47 @@
 
 <body>
 
+
+    <div class="mdl-grid" id="form-group">
     <!-- specification popup -->
-    <div class="login-popup">
+    <div class="login-popup mdl-cell">
         <!-- <div class="form-popup" id="popupForm"> -->
             <form class="form-container form-popup" id="popup_specification">
-                <h5><b><u>Add New Specifications</b></u></h5>
-                <label for="RAM">
-                    <strong>RAM</strong>
-                </label>
-                <input type="text" id="RAM" placeholder="Enter RAM" name="RAM">
-                <label for="Storage">
-                    <strong>Storage</strong>
-                </label>
-                <input type="text" id="Storage" placeholder="Enter Storage" name="Storage">
-                <label for="Screen-Size">
-                    <strong>Screen-Size</strong>
-                </label>
-                <input type="text" id="Screen_size" placeholder="Enter Screen-Size" name="Screen-Size">
-                <label for="Connectivity">
-                    <strong>Connectivity</strong>
-                </label>
-                <input type="text" id="Connectivity" placeholder="Enter Connectivity" name="Connectivity">
-                <button type="submit" class="btn">ADD</button>
-                <button type="button" class="btn cancel" onclick="closeForm('.login-popup')">Close</button>
+                <h5>Add Specifications</h5>
+                <div class="mdl-cell mdl-cell--12-col">
+                <label for="RAM">RAM</label>
+                <input type="text" class="form-control" id="RAM"  name="RAM">
+            </div>
+            <div class="mdl-cell mdl-cell--12-col">
+                <label for="Storage">Storage</label>
+                <input type="text" id="Storage"  name="Storage">
+            </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                <label for="Screen-Size">Screen-Size</label>
+                <input type="text" id="Screen_size"  name="Screen-Size">
+            </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                <label for="Connectivity">Connectivity</label>
+                <input type="text" id="Connectivity"  name="Connectivity">
+            </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                <button type="submit" class="mdl-color--teal btn btn-success">ADD</button>
+                <button type="button" class="mdl-color--red btn btn-danger cancel" onclick="closeForm('.login-popup')">Close</button>
+                </div>
             </form>
         <!-- </div> -->
     </div>
+</div>
+
+
+
+
     <!-- Always shows a header, even in smaller screens. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title">Specification List</span>
+                <span class="mdl-layout-title">Specifications</span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
 
@@ -72,15 +82,16 @@
         </header>
 
 
-        <div class="mdl-layout__drawer mdl-color--blue-grey-800" id="navigation">
+        <div class="mdl-layout__drawer" id="navigation">
            
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
+                <div class="content">
                      <!-- <div style="float:right "> <br> -->
-                        <div style="float: right;">                     
-                               <button class="mdl-button mdl-js-button mdl-button--raised" 
-                        value="Add Specifications" id="add-specification" onclick="openForm('.login-popup')">Add Specification</button>
+                        <div >                     
+                               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                        value="Add Specifications" style="float: right;" id="add-specification" onclick="openForm('.login-popup')">Add Specification</button>
                                  
                                 </div>
                                 <br><br>
@@ -116,6 +127,7 @@
 
 
                 <!-- Your content goes here -->
+            </div>
             </div>
             <br><br>
             <center>

@@ -81,7 +81,7 @@ token :string="";
                 if(token==1){
 
                 
-                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised" id="add-button" ><span class="material-icons">add</span>
+                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="add-button" ><span class="material-icons">add</span>
                    Add Device  </button>`;
                         (document.getElementById("buttons") as HTMLStyleElement).innerHTML = buttons;    
                     const editbutton = `<td><span class="material-icons" id="edit-${this.device_id}" value=${this.device_id}>create
