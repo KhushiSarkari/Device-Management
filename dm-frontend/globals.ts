@@ -9,8 +9,8 @@ export class Token    /// call static method that return an object
     userID: number
     tokenKey: string
     private constructor() {
-        this.tokenKey = JSON.parse(sessionStorage.getItem("user_info"))["token"];
-        this.userID = parseInt(JSON.parse(sessionStorage.getItem("user_info"))["id"]);
+        this.tokenKey = JSON.parse(localStorage.getItem("user_info"))["token"];
+        this.userID = parseInt(JSON.parse(localStorage.getItem("user_info"))["id"]);
     }
     static getInstance(): Token {
         return new Token();
@@ -64,7 +64,7 @@ export function headersRows(role: string, element: string) {
             }
         }
         else if ((e.target as HTMLButtonElement).id == "logout") {
-            sessionStorage.clear();
+            localStorage.clear();
             window.location.href = "/SJLogin/LoginRegister.html";
         }
 

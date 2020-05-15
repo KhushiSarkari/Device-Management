@@ -3,7 +3,7 @@ import { BASEURL, navigationBarsss, amIUser,headersRows } from "./globals";
 (async function(){
     const Select = mdc.select.MDCSelect;
     const TextField = mdc.textField.MDCTextField;
-    let { id, token }=JSON.parse(sessionStorage.getItem("user_info"));
+    let { id, token }=JSON.parse(localStorage.getItem("user_info"));
      let role = await amIUser(token) == true ? "User" : "Admin";
   
     class RequestDevice

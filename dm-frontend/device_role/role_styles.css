@@ -26,6 +26,14 @@ table th[colspan="2"],
 table td[colspan="2"] {
 	text-align: center;
 }
+/* Materialize Overrides */
+nav ul a 
+{
+	padding: 0;
+}
+nav ul li{
+	float:none;
+}
 
 /* Overrides */
 .mdl-cell--0_5-offset {

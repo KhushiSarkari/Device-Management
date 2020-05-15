@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage,headersRows } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage,headersRows,Token } from "./globals";
 import { DeviceListForAdmin } from "./deviceListForAdmin";
 import { Sort } from "./user-profile/SortingUser";
 import { amIUser } from "./globals";
@@ -10,8 +10,9 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 
 (async function() {
-	const id= JSON.parse(sessionStorage.getItem("user_info"))["id"];
-	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+	const _ = Token.getInstance();
+    const id = _.userID;
+    const token = _.tokenKey;
 	const role = (await amIUser(token)) == true ? 0 : 1;
 	class Assign_device {
 		device_id: number = 0;

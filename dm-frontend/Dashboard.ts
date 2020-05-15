@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss ,headersRows} from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss ,headersRows,Token} from './globals';
 import { HitApi } from './Device-Request/HitRequestApi';
 
 (async function () {
@@ -8,10 +8,11 @@ import { HitApi } from './Device-Request/HitRequestApi';
     if (url.searchParams.has("token") && url.searchParams.has("id")) {
         token = url.searchParams.get("token");
         id = url.searchParams.get("id");
-        sessionStorage.setItem("user_info", JSON.stringify({ token, id }));
+        localStorage.setItem("user_info", JSON.stringify({ token, id }));
     }
-    id = JSON.parse(sessionStorage.getItem("user_info"))["id"];
-    token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    id = _.userID
+    token = _.tokenKey
     let role = await amIUser(token) == true ? "User" : "Admin";
 
     function createCard(icon,cardData, action) {

@@ -4,14 +4,15 @@ import { Sorting } from "./Sorting";
 import { HtmlElementsData } from "./HtmlElementsId";
 // import { page } from "./paging";
 import { UserRequestStatus } from "./RequestStatus";
-import {navigationBarsss, BASEURL, paging,headersRows} from "../globals";
+import {navigationBarsss, BASEURL, paging,headersRows,Token} from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 
 
 
 (function(){
 
-let token=JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    const token = _.tokenKey;
 let url = BASEURL +"/sorting";
 var domElement =  new HtmlElementsData();
 (function(){
