@@ -126,8 +126,7 @@ form label {
 
 /* Style submit/login button */
 
-.form-container .btn {
-	background-color: #8EBF42;
+.form-container .mdl-button {
 	color: #fff;
 	border: none;
 	cursor: pointer;
@@ -136,11 +135,6 @@ form label {
 	opacity: 0.8;
 }
 
-/* Style cancel button */
-
-.form-container .cancel {
-	background-color: #CC0000;
-}
 
 /* Hover effects for buttons */
 
