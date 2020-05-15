@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
 using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
@@ -11,19 +10,27 @@ using System.Linq;
 using dm_backend.Data;
 using dm_backend.EFModels;
 using System.Threading.Tasks;
+using System.Threading;
+using dm_backend.MyData;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
 
 namespace dm_backend.Controllers
 {
     [Route("api/[controller]")]
     
  
- public class BulkRegister : ControllerBase
+ public class BulkRegister : Controller
     {
+         private readonly IHubContext<FirstTry> _hubContext;
         private IAuthRepository _repo;
 
-        public BulkRegister(IAuthRepository repo)
+     
+         
+        public BulkRegister(IAuthRepository repo,IHubContext<FirstTry> hubContext)
     {
         _repo=repo;
+        _hubContext=hubContext;
     }
 
         [HttpPost("UploadFiles")]
@@ -64,6 +71,12 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
     List<string> AlreadyExists =new List<string>();
     for(int i=0;i<json.Count;i++)
     {
+
+     Thread.Sleep(500);
+     int countn = Convert.ToInt32(json.Count);
+     //CALLING A FUNCTION THAT CALCULATES PERCENTAGE AND SENDS THE DATA TO THE CLIENT
+     SendProgress("Process in progress...", i , countn);
+ 
         string UserEmail =Convert.ToString(json[i].email);
         string UserLastName =Convert.ToString(json[i].LastName);
         string UserFirstName =Convert.ToString(json[i].FirstName);
@@ -84,8 +97,14 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
 
     return Ok(new { count = photo.Count,size,filePath,UsersAlreadyExists =AlreadyExists});
 }
-        
-public  string ReadCSVFile(string csv_file_path)
+
+        private void SendProgress(string progressMessage, int progressCount, int totalItems)
+        {
+            var percentage = (progressCount * 100) / totalItems;
+            _hubContext.Clients.All.SendAsync(progressMessage, percentage + "%");
+        }
+
+        public  string ReadCSVFile(string csv_file_path)
         {
             DataTable csvData = new DataTable();
             string jsonString = string.Empty;
