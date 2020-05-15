@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devicelist</title>
+    <title>Devices List</title>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css" />
-
+    <link rel="stylesheet" href="/static/material.css">
 
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./styling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/device_role/role_styles.css">
 
     <style>
         .mdl-layout__content {
@@ -47,7 +47,7 @@
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <div class="devices">
-                    <span class="mdl-layout-title">Device List</span>
+                    <span class="mdl-layout-title">Devices</span>
                 </div>
 
                 <!-- Add spacer, to align navigation to the right -->
@@ -64,27 +64,36 @@
         </header>
 
 
-        <div class="mdl-layout__drawer mdl-color--blue-grey-800" id="navigations">
+        <div class="mdl-layout__drawer" id="navigations">
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
                 <br>
+            <div class="content">
                 <div class="search-serial-number">
-                    <i class="material-icons">search</i>
-                    <input class="search" type="text" name="search_serial_number" id="search_serial_number"
-                        placeholder=" Search Serial number">
-                    <i class="material-icons">search</i>
-                    <input class="search" type="text" name="search"
-                        id="fixed-header-drawer-exp"  placeholder=" Search Device">
-                        <b>Device Status</b> <select id="status">
+                    <b>Device Status</b> <select id="status">
                         <option value="all">All</option>
                         <option value="allocated">Allocated</option>
                         <option value="free">Free</option>
                         <option value="faulty">Faulty</option>
                     </select>
+                    <div class="mdl-textfield mdl-js-textfield
+                                    mdl-textfield--floating-label">
+                        <div class="">
+                            <input class="mdl-textfield__input" type="text" name="search_serial_number"
+                                id="search_serial_number" placeholder="Serial Number">
+                        </div>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield
+                        mdl-textfield--floating-label">
+                        <div class="">
+                            <input class="mdl-textfield__input" type="text" name="search" id="fixed-header-drawer-exp"
+                                placeholder="Search Device">
+                        </div>
+                    </div>
                     <div id="buttons" style="float:right;"></div>
-                </div> <br><br>
-                <div>
+                </div>
+               
                     <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp" id="Request_data1"
                         >
                         <thead id="tablecol">

@@ -183,7 +183,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				
 			} 
 		}
-		if((e.target as HTMLTableCellElement).className=="cards")
+		if((e.target as HTMLTableCellElement).className=="cards tooltip")
         {
 			
 			const device_id: any = (e.target as HTMLButtonElement).dataset.deviceid;
