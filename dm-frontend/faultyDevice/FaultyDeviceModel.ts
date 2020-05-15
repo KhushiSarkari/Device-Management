@@ -10,6 +10,7 @@ export class FaultyDeviceModel
     public status : string
     public complaitDate  : string 
     public complaint : string
+    public image:string
 
 
     constructor(data : any )
@@ -24,5 +25,6 @@ export class FaultyDeviceModel
         this.status = data.status;
         this.complaint = data.issue;
         this.complaitDate = data.complaintDate;
+        this.image=data.image;
     }
 }

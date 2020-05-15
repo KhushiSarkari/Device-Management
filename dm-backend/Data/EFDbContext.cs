@@ -46,12 +46,14 @@ namespace dm_backend.Data
         public virtual DbSet<UserToEducation> UserToEducation { get; set; }
         public virtual DbSet<UserToRole> UserToRole { get; set; }
 
+        public virtual DbSet<DeviceModel> DeviceModel {get ;set ;}
+
         public EFDbContext(DbContextOptions<EFDbContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            //    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseMySql("server=127.0.0.1;user id=root;password=root@1234;port=3306;database=device_management_final;");
             }
         }
@@ -137,6 +139,9 @@ namespace dm_backend.Data
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e=>e.AssignedDate).HasColumnName("assign_date");
+                entity.Property(e=>e.ReturnDate).HasColumnName("return_date");
+                
 
                 entity.HasOne(d => d.Device)
                     .WithMany(p => p.AssignDevice)
@@ -215,6 +220,19 @@ namespace dm_backend.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("bank_details_to_user");
             });
+            
+              modelBuilder.Entity<DeviceModel>(entity =>
+            {
+                entity.ToTable("device_model");
+
+                entity.Property(e => e.DeviceModelId).HasColumnName("device_model_id");
+
+                entity.Property(e => e.Model)
+                    .IsRequired()
+                    .HasColumnName("model")
+                    .HasMaxLength(45);
+            });
+
 
             modelBuilder.Entity<City>(entity =>
             {
@@ -243,11 +261,14 @@ namespace dm_backend.Data
                     .HasConstraintName("city_to_state");
             });
 
-            modelBuilder.Entity<Complaints>(entity =>
+           modelBuilder.Entity<Complaints>(entity =>
             {
                 entity.HasKey(e => e.ComplaintId);
 
                 entity.ToTable("complaints");
+
+                entity.HasIndex(e => e.ComplaintStatusId)
+                    .HasName("complaint_status_id_to_status_idx");
 
                 entity.HasIndex(e => e.DeviceId)
                     .HasName("device_id_complaints_idx");
@@ -262,14 +283,26 @@ namespace dm_backend.Data
                     .HasColumnName("comments")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.ComplaintStatusId)
+                    .HasColumnName("complaint_status_id")
+                    .HasDefaultValueSql("'11'");
+
                 entity.Property(e => e.DeviceId).HasColumnName("device_id");
 
                 entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
 
                 entity.Property(e => e.Image)
-                    .IsRequired()
                     .HasColumnName("image")
                     .HasColumnType("blob");
+
+                entity.Property(e => e.ImagePath)
+                    .HasColumnName("image_path")
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.ComplaintStatus)
+                    .WithMany(p => p.Complaints)
+                    .HasForeignKey(d => d.ComplaintStatusId)
+                    .HasConstraintName("complaint_status_id");
 
                 entity.HasOne(d => d.Device)
                     .WithMany(p => p.Complaints)
@@ -283,6 +316,9 @@ namespace dm_backend.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employee_id_complaints");
             });
+
+
+
 
             modelBuilder.Entity<ContactNumber>(entity =>
             {
@@ -517,12 +553,15 @@ namespace dm_backend.Data
                     .HasMaxLength(30);
             });
 
-            modelBuilder.Entity<Device>(entity =>
+          modelBuilder.Entity<Device>(entity =>
             {
                 entity.ToTable("device");
 
                 entity.HasIndex(e => e.DeviceBrandId)
                     .HasName("device_brand_idx");
+
+                entity.HasIndex(e => e.DeviceModelId)
+                    .HasName("device_model_id_to_model_idx");
 
                 entity.HasIndex(e => e.DeviceTypeId)
                     .HasName("device_type_idx");
@@ -546,15 +585,13 @@ namespace dm_backend.Data
 
                 entity.Property(e => e.DeviceBrandId).HasColumnName("device_brand_id");
 
+                entity.Property(e => e.DeviceModelId).HasColumnName("device_model_id");
+
                 entity.Property(e => e.DeviceTypeId).HasColumnName("device_type_id");
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnName("entry_date")
                     .HasColumnType("datetime");
-
-                entity.Property(e => e.Model)
-                    .HasColumnName("model")
-                    .HasMaxLength(50);
 
                 entity.Property(e => e.Price)
                     .IsRequired()
@@ -577,6 +614,12 @@ namespace dm_backend.Data
                     .HasForeignKey(d => d.DeviceBrandId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("device_brand");
+
+                entity.HasOne(d => d.DeviceModel)
+                    .WithMany(p => p.Device)
+                    .HasForeignKey(d => d.DeviceModelId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("device_model_id_to_model");
 
                 entity.HasOne(d => d.DeviceType)
                     .WithMany(p => p.Device)
@@ -999,17 +1042,18 @@ namespace dm_backend.Data
                     .HasConstraintName("state_to_country");
             });
 
-            modelBuilder.Entity<Status>(entity =>
+           modelBuilder.Entity<Status>(entity =>
             {
                 entity.ToTable("status");
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
-                entity.Property(e => e.Status1)
+                entity.Property(e => e.StatusName)
                     .IsRequired()
-                    .HasColumnName("status")
+                    .HasColumnName("status_name")
                     .HasMaxLength(45);
             });
+
 
             modelBuilder.Entity<User>(entity =>
             {

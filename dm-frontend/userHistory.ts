@@ -1,15 +1,14 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token,headersRows } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token, headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
-import {descriptionboxvalidation} from "./validation";
+import { descriptionboxvalidation } from "./validation";
 let currentPage: number = current_page;
 (async function () {
-    if(document.title!="My Devices")
-    {
+    if (document.title != "My Devices") {
         return;
     }
-    const _=Token.getInstance();
-    const userId =_.userID;
+    const _ = Token.getInstance();
+    const userId = _.userID;
     const token = _.tokenKey;
     const role = await amIUser(token) == true ? "User" : "Admin";
 
@@ -27,7 +26,7 @@ let currentPage: number = current_page;
         if ((ev.target as HTMLButtonElement).classList.contains("cancel")) {
             const requestId = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.requestId;
             mydevices.deleteRequestHistory(parseInt(requestId)).then(function () { mydevices.getRequestHistory(userId); });
-            window["tata"].text('Request ','cancelled!',{duration:3000});
+            window["tata"].text('Request ', 'cancelled!', { duration: 3000 });
         }
     });
 
@@ -36,13 +35,13 @@ let currentPage: number = current_page;
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             console.log(deviceid);
             mydevices.returnDevice(userId, parseInt(deviceid)).then(function () { mydevices.getCurrentDevice(userId); });
-            window["tata"].text('Device ','Returned!',{duration:3000});
+            window["tata"].text('Device ', 'Returned!', { duration: 3000 });
         }
         else if ((ev.target as HTMLButtonElement).classList.contains("fault")) {
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
-          
+
         }
     });
 
@@ -50,12 +49,19 @@ let currentPage: number = current_page;
         ev.preventDefault();
         var comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
         var deviceid = parseInt(document.getElementById("faultpopup").dataset.deviceId);
-        if (descriptionboxvalidation() == false) {
-            return;
+        var files = (document.getElementById("uploadBtn") as HTMLInputElement).files[0];
+        let file: string;
+        var r = new FileReader();
+        r.readAsDataURL(files);
+        r.onloadend = function (e) {
+            file=r.result as string
+            if (descriptionboxvalidation() == false) {
+                return;
+            }
+            mydevices.reportFaultyDevice(userId, deviceid, comment, file);
+            closeForm();
+            window["tata"].text('Device Fault ', 'Reported!', { duration: 3000 });
         }
-        mydevices.reportFaultyDevice(userId, deviceid, comment);
-        closeForm();
-        window["tata"].text('Device Fault ','Reported!',{duration:3000});
     });
 
     document.querySelector('.closed').addEventListener('click', function (e) {
@@ -109,8 +115,12 @@ let currentPage: number = current_page;
         (document.getElementById('description') as HTMLInputElement).innerHTML = "";
     }
 
+    document.getElementById("uploadBtn").onchange = function () {
+        (document.getElementById("uploadFile") as HTMLInputElement).value = (this as HTMLInputElement).files[0].name;
+    };
+
     navigationBarsss(role, "navigation");
-    headersRows(role,"row1");
+    headersRows(role, "row1");
     var mydevices = new MyDevices(token);
     mydevices.getCurrentDevice(userId);
 })();
@@ -144,8 +154,8 @@ export class MyDevices {
         return this.api.HitPostApi(BASEURL + "/api/ReturnRequest", { userId, deviceId });
     }
 
-    reportFaultyDevice(userId: number, deviceId: number, comment: string) {
-        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", { userId, deviceId, comment });
+    reportFaultyDevice(userId: number, deviceId: number, comment: string, file: string) {
+        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", { userId, deviceId, comment, file });
     }
 
     deleteRequestHistory(requestID: number) {
@@ -163,7 +173,7 @@ export class MyDevices {
         return (data);
     }
 
-   
+
 
 
     dynamicGenerateCurrentDevice(table: any) {

@@ -1,4 +1,4 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss ,headersRows} from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss ,headersRows,Token} from './globals';
 import { HitApi } from './Device-Request/HitRequestApi';
 
 (async function () {
@@ -8,15 +8,18 @@ import { HitApi } from './Device-Request/HitRequestApi';
     if (url.searchParams.has("token") && url.searchParams.has("id")) {
         token = url.searchParams.get("token");
         id = url.searchParams.get("id");
-        sessionStorage.setItem("user_info", JSON.stringify({ token, id }));
+        localStorage.setItem("user_info", JSON.stringify({ token, id }));
     }
-    id = JSON.parse(sessionStorage.getItem("user_info"))["id"];
-    token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    id = _.userID
+    token = _.tokenKey
     let role = await amIUser(token) == true ? "User" : "Admin";
 
-    function createCard(cardData, action) {
-        let cardCreationCode = "<button class='mdl-color--blue-grey-200' id='card' data-card=" + action + ">" + cardData + "</button>";
-        document.getElementById("content").innerHTML += cardCreationCode;
+    function createCard(icon,cardData, action) {
+        let cardCreationCode = "<button class='mdl-color--grey-50 mdl-shadow--4dp' id='card' data-card="
+         + action + ">" + icon + cardData + "</button>";
+        document.getElementById("content").innerHTML +=cardCreationCode;
+        
     }
 
     // function createTable(tableTitle: string, tableHeading: string, tableBody: string) {
@@ -38,13 +41,17 @@ import { HitApi } from './Device-Request/HitRequestApi';
 
     function getStatistics(url: string) {
         new HitApi(token).HitGetApi(url).then(data => {
-            createCard("Total Devices:" + data.totalDevices, "total");
-            createCard("Free Devices:" + data.freeDevices, "free");
+            createCard(`<i class=" material-icons mdl-color-text--red-A100" role="presentation">devices</i>      `,"Total Devices:" + data.Result.totalDevices, "total");
+            createCard(`<i class=" material-icons mdl-color-text--red-A100"
+            >add_circle_outline</i>   `,"Free Devices:" + data.Result.freeDevices, "free");
             if (role == "Admin") {
-                createCard("Assigned Devices:" + data.assignedDevices, "allocated");
-                createCard("Requests Rejected:" + data.rejectedRequests, "history");
-                createCard("Total Requests:" + data.deviceRequests, "requests");
-                 createCard("Total Complaints:"+ data.faults,"faults");
+                createCard(`<i class=" material-icons mdl-color-text--red-A100"
+                >assignment</i>    `,""+"Assigned Devices:" +data.Result.assignedDevices, "allocated");
+                createCard(`<i class=" material-icons mdl-color-text--red-A100"
+                >history</i>    `,"Requests Rejected:" + data.Result.rejectedRequests, "history");
+                createCard(`<i class=" material-icons mdl-color-text--red-A100"
+                >menu_book</i>    `,"Total Requests:" + data.Result.deviceRequests, "requests");
+                 createCard(`<i class=" material-icons mdl-color-text--red-A100" role="presentation">report_problem</i>    `,"Total Complaints:"+data.Result.faults,"faults");
             }
             // if (role == "User") {
             //     //createCard("Total Requests:" + data.deviceRequests, "");

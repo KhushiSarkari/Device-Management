@@ -25,6 +25,7 @@ namespace dm_backend.Models
         public string returnDate { get; set; }
         public string comment {get; set;}
         public int complaintId {get; set;}
+         public string file { get; set; }
         
         internal AppDb Db { get; set; }
 
@@ -159,6 +160,7 @@ namespace dm_backend.Models
             cmd.Parameters.Add(new MySqlParameter("var_user_id", userId));
             cmd.Parameters.Add(new MySqlParameter("var_device_id", deviceId));
             cmd.Parameters.Add(new MySqlParameter("comment", comment));
+            cmd.Parameters.AddWithValue("image_url",file).DbType = DbType.Binary;
 
         }
 
