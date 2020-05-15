@@ -6,7 +6,7 @@ import { populateFormFromObject, createObjectFromForm } from "./user-profile/dat
 import { UserModel } from "./UserModel";
 import { remove, validateForm } from "./validation";
 import { Sort } from "./user-profile/SortingUser";
-import { BASEURL,amIUser,navigationBarsss, current_page,changePage,headersRows  } from './globals';
+import { BASEURL,amIUser,navigationBarsss, current_page,changePage,headersRows,Token  } from './globals';
 import { UserData }  from "./dropdown";
 import {MyDevices } from "./userHistory";
 import {dropDownListen } from "./user-profile/dropDownListener";
@@ -14,7 +14,8 @@ import { formatPhone } from "./utilities";
 
 (async function(){
 	var photo;
-	const token:string=JSON.parse(sessionStorage.getItem("user_info"))["token"];
+	const _ = Token.getInstance();
+    const token = _.tokenKey;
 	const role = (await amIUser(token)) == true ? "User" : "Admin";
 	let form_mode: "create" | "edit";
 	let currentPage:number=current_page;
