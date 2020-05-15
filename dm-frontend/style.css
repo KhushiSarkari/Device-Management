@@ -238,3 +238,7 @@ select{
 button.mdl-button.text-danger,input.mdl-button.text-danger,.text-danger{
 	color: rgb(244, 67, 54);
 }
+.mdl-textfield .mdl-textfield__input[type=text]{
+	height:1.5rem;
+	margin:0px;
+}
