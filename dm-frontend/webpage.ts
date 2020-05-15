@@ -314,10 +314,10 @@ import * as signalR from "@aspnet/signalr";
 		if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
 			openForm1('.login-popup');
 					}
-		if ((e.target as HTMLButtonElement).className == "cancel-button") {
+		if ((e.target as HTMLButtonElement).id == "cancel-button") {
 			closeForm1('.login-popup');
 		}
-		if((e.target as HTMLButtonElement).className == "upload-button") {
+		if((e.target as HTMLButtonElement).id == "upload-button") {
 			e.preventDefault();
 			progress();
 			var progress_modal = document.getElementById("progress-bar");
