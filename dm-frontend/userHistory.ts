@@ -1,7 +1,7 @@
 import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token, headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
-import { descriptionboxvalidation, fileValidation } from "./validation";
+import { descriptionboxvalidation, fileValidation, remove } from "./validation";
 let currentPage: number = current_page;
 (async function () {
     if (document.title != "My Devices") {
@@ -68,7 +68,7 @@ let currentPage: number = current_page;
         }
 
 
-        if (descriptionboxvalidation() && fileValidation() == false) {
+        if(!(descriptionboxvalidation() && fileValidation())) {
             return;
         }
         mydevices.reportFaultyDevice(userId, deviceid, comment, file);
@@ -120,12 +120,13 @@ let currentPage: number = current_page;
     });
     function openForm() {
         document.querySelector('#faultpopup').classList.add("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+       remove();
     }
 
     function closeForm() {
         document.querySelector('#faultpopup').classList.remove("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+        remove();
+        document.querySelector("form").reset();
     }
 
     document.getElementById("uploadBtn").onchange = function () {
