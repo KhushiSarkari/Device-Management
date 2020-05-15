@@ -2,10 +2,11 @@ import { DeviceListForAdmin } from './deviceListForAdmin';
 import { BASEURL, navigationBarsss, Token, amIUser ,headersRows} from "./globals";
 
 (async function() {
-	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    const token = _.tokenKey;
 	const role = (await amIUser(token)) == true ? "User" : "Admin";
 // var data1 = new DeviceListForAdmin(data,token);
-// const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+// const token = JSON.parse(localStorage.getItem("user_info"))["token"];
 function getDeviceDetailById(device_id : any) {
     return fetch(BASEURL + "/api/device/" + device_id,
     {

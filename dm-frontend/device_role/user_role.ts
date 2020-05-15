@@ -1,9 +1,10 @@
 import { role, permission } from "./role";
 import { RolePermission } from "./rolePermCheckbox";
-import { navigationBarsss, amIUser,headersRows } from "../globals";
+import { navigationBarsss, amIUser,headersRows,Token } from "../globals";
 
 (async function(){
-	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+	const _ = Token.getInstance();
+    const token = _.tokenKey;
 	let Role = await amIUser(token) == true ? "User" : "Admin";
 	// action listeners
 	
