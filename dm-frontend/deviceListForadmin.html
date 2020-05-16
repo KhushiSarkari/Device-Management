@@ -70,28 +70,26 @@
             <div class="page-content">
              
             <div class="content">
-                <div class="search-serial-number">
-                    <b>Device Status</b> <select id="status">
-                        <option value="all">All</option>
-                        <option value="allocated">Allocated</option>
-                        <option value="free">Free</option>
-                        <option value="faulty">Faulty</option>
-                    </select>
-                    <div class="mdl-textfield mdl-js-textfield
-                                    mdl-textfield--floating-label">
-                        <div class="serial-number-search">
-                            <input class="mdl-textfield__input" style="margin-left:2rem; margin-right: 1em;" type="text" name="search_serial_number"
-                                id="search_serial_number" placeholder="Serial Number">
+                <div class="search-serial-number table-top-div">
+                    <div class="table-top-left">
+                        <b>Device Status</b>
+                        <select id="status">
+                            <option value="all">All</option>
+                            <option value="allocated">Allocated</option>
+                            <option value="free">Free</option>
+                            <option value="faulty">Faulty</option>
+                        </select>
+                        <div class="mdl-textfield mdl-js-textfield serial-number-search">
+                            <input class="mdl-textfield__input" type="text" name="search_serial_number" id="search_serial_number">
+                            <label class="mdl-textfield__label" for="search_serial_number">Serial Number</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" name="search" id="fixed-header-drawer-exp">
+                            <label class="mdl-textfield__label" for="fixed-header-drawer-exp">Search Device</label>
                         </div>
                     </div>
-                    <div class="mdl-textfield mdl-js-textfield
-                        mdl-textfield--floating-label">
-                        <div class="">
-                            <input class="mdl-textfield__input" style="margin-left:4rem;"type="text" name="search" id="fixed-header-drawer-exp"
-                                placeholder="Search Device">
-                        </div>
+                    <div class="table-top-right" id="buttons">
                     </div>
-                    <div id="buttons" style="float:right;"></div>
                 </div>
                
                     <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp" id="Request_data1"

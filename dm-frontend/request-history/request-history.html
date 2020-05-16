@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/device_role/role_styles.css" />
     <!-- <script src="https://kit.fontawesome.com/7208822aa4.js" crossorigin="anonymous"></script> -->
 
-    <title>Document</title>
+    <title>Request History</title>
 </head>
 
 <body>
@@ -27,29 +27,12 @@
                 <span class="mdl-layout-title" id="getdata" style="cursor:pointer">Request History</span>
                 <div class="mdl-layout-spacer"></div>
                 <div class="mdl-layout-spacer"></div>
-                
-	  
-					<div id="row1">
-					  
-					  
-					</div> 
-                
-
+                <div id="row1"></div> 
             </div>
             <!-- Bottom row, not visible on scroll -->
 
         </header>
         <div class="mdl-layout__drawer" id="navigation">
-          
-            <!-- <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="dashboard.html">
-                    <i class="mdl-color-text--blue-grey-400 material-icons"
-                        role="presentation">dashboard</i>Dashboard
-                </a>
-                <a class="mdl-navigation__link" href="">Dash-Board</a>
-                <a class="mdl-navigation__link" href="">Create New User</a>
-                <a class="mdl-navigation__link" href="">All Devices</a>
-            </nav> -->
         
         </div>
         <main class="mdl-layout__content">
@@ -57,22 +40,24 @@
                 <div class="content">
             
              
-                <div class="serial-number">
-                    <select id="request-status">
-                        <option class="status" id="All">All</option>
-                        <option class="status" id="ret">Returned</option>
-                        <option class="status" id="rej">Rejected</option>
-                    </select>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <div>
-                            <input class="mdl-textfield__input" style="margin-left: 1em; margin-right:1em;" type="text" name="sample" value=""
-                                id="device_serial_number" placeholder="Serial Number">
+                <div class="serial-number table-top-div">
+                    <div class="table-top-left">
+                        <select id="request-status">
+                            <option class="status" id="All">All</option>
+                            <option class="status" id="ret">Returned</option>
+                            <option class="status" id="rej">Rejected</option>
+                        </select>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" name="sample"
+                                id="device_serial_number">
+                            <label class="mdl-textfield__label" for="device_serial_number">Serial Number</label>
                         </div>
-                    </div>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">                          
-                        <div>
-                            <input class="mdl-textfield__input" style="margin-left: 2em;" type="text" name="sample" value=""
-                                id="waterfall-exp" placeholder="Search">
+                        <div class="mdl-textfield mdl-js-textfield">                          
+                            <div>
+                                <input class="mdl-textfield__input" type="text"
+                                    id="waterfall-exp">
+                                <label class="mdl-textfield__label" for="waterfall-exp">Search</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,15 +91,8 @@
                         </tbody>
                     </table>
                
+                    <div class="paging mdl-typography--text-center" id="pagination" pageNum = "1" result-count="0"></div>  
                     </div>
-                    <br />
-                    <div class="paging" id="pagination" pageNum = "1" result-count="0" style="margin-left: 500px;">
-                    
-                        <!-- <input type="submit" class="page" id="1" value="1" >
-                        <input type="submit" class="page" id="2" value="2" >
-                        <input type="submit" class="page" id="3" value="3" > -->
-    
-                    </div>  
             
                 </div>
                

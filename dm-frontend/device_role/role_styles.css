@@ -1,5 +1,20 @@
-/* Containers */
+/* Universal (generic) */
+p {
+	text-align: center;
+	margin-top: 8px;
+}
+textarea {
+	height: 60px;
+	width: 300px;
+}
+body{
+	background-color: #eeeeee;
+}
+table td, table th {
+	border-left:2px solid #EEEEEE;
+}
 
+/* Containers */
 .mdl-layout--fixed-tabs .mdl-layout__tab {
 	flex-basis: 0;
 }
@@ -28,6 +43,7 @@ table td[colspan="2"] {
 	text-align: center;
 }
 /* Materialize Overrides */
+
 nav ul a 
 {
 	padding: 0;
@@ -37,21 +53,13 @@ nav ul li{
 }
 
 /* Overrides */
+
 .mdl-cell--0_5-offset {
 	margin-left: calc(4.1666666% + 4px);
 }
 .search-serial-number .mdl-textfield ,.serial-number .mdl-textfield {
 	width: 150px;
 }
-input[type="text"]
-{
-    color:black;
-}
-input[type="text"]::placeholder
-{
-    color: #777;
-}
-
 nav.mdl-navigation {
 	height: unset;
 	box-shadow: none;
@@ -99,6 +107,7 @@ nav.mdl-navigation i {
 }
 
 /* User defined */
+
 .collapsible-body{
 	background-color: #fff;
 }
@@ -119,29 +128,24 @@ nav.mdl-navigation{
 	display: none;
 }
 .fault-form-popup {
-	padding: 10px;
-	width: 350px;
-	height: fit-content;
-	border-radius: 5px;
-	border: 1px solid blue;
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	right: 0;
+	padding: 10px 25px;
 	background-color: white;
 	display: none;
 	z-index: 101;
 	text-align: center;
-	margin: auto;
 }
-.faultform.active,
+.faultform.active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .faultform.active .fault-form-popup {
 	display: block;
 }
 .page-content .content {
 	width: 100%;
 	min-width: fit-content;
+	min-width: -moz-fit-content;
 	display: inline-flex;
 	flex-direction: column;
 	text-align: left;
@@ -149,15 +153,6 @@ nav.mdl-navigation{
 	padding-right: 20px;
 	box-sizing: border-box;
 }
-p {
-	text-align: center;
-	margin-top: 8px;
-}
-textarea {
-	height: 60px;
-	width: 300px;
-}
-
 th.activate {
 	background-color: #eee;
 }
@@ -178,12 +173,15 @@ th.td-underlines{
 	border-top: 1px solid rgba(0,0,0,.12);
 	border-bottom: 1px solid rgba(0,0,0,.12);
 }
-body{
-	background-color: #eeeeee;
+.table-top-div{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
-table td  { border-left:2px solid #EEEEEE; }
-table th { border-left:2px solid #EEEEEE; }
-
+.table-top-left .mdl-textfield:not(:first-child){
+	margin-left: 1rem;
+}
 /*pagination*/
 .activePage {
 	background-color: lightslategrey;
