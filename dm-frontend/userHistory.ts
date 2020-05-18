@@ -210,7 +210,7 @@ export class MyDevices {
             cell4.innerHTML = this.data[loop]["return_date"]
             if (table == this.table1) {
                 var cell5 = row.insertCell(5);
-                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored return">
+                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent return">
             RETURN
         </button>`
                 var cell6 = row.insertCell(6);
