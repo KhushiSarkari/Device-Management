@@ -1,7 +1,7 @@
 import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token, headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
-import { descriptionboxvalidation } from "./validation";
+import { descriptionboxvalidation, fileValidation, remove } from "./validation";
 let currentPage: number = current_page;
 (async function () {
     if (document.title != "My Devices") {
@@ -44,24 +44,37 @@ let currentPage: number = current_page;
 
         }
     });
+   async function uploadAndReadFile(file:Blob)
+    {
+        const reader=new FileReader();
+       return new Promise((resolve,reject)=>{
+           reader.onloadend=() => {
+               resolve(reader.result)
+           }
+           reader.readAsDataURL(file)
+       })
 
-    document.querySelector('#faultpopup .submit').addEventListener('click', function (ev) {
+    }
+
+    document.querySelector('#faultpopup .submit').addEventListener('click', async function (ev) {
         ev.preventDefault();
         var comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
         var deviceid = parseInt(document.getElementById("faultpopup").dataset.deviceId);
         var files = (document.getElementById("uploadBtn") as HTMLInputElement).files[0];
         let file: string;
-        var r = new FileReader();
-        r.readAsDataURL(files);
-        r.onloadend = function (e) {
-            file=r.result as string
-            if (descriptionboxvalidation() == false) {
-                return;
-            }
-            mydevices.reportFaultyDevice(userId, deviceid, comment, file);
-            closeForm();
-            window["tata"].text('Device Fault ', 'Reported!', { duration: 3000 });
+      
+        if (files) {
+           file= await uploadAndReadFile(files) as string;
         }
+
+
+        if(!(descriptionboxvalidation() && fileValidation())) {
+            return;
+        }
+        mydevices.reportFaultyDevice(userId, deviceid, comment, file);
+        closeForm();
+        window["tata"].text('Device Fault ', 'Reported!', { duration: 3000 });
+
     });
 
     document.querySelector('.closed').addEventListener('click', function (e) {
@@ -107,12 +120,13 @@ let currentPage: number = current_page;
     });
     function openForm() {
         document.querySelector('#faultpopup').classList.add("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+       
     }
 
     function closeForm() {
         document.querySelector('#faultpopup').classList.remove("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+        remove();
+        document.querySelector("form").reset();
     }
 
     document.getElementById("uploadBtn").onchange = function () {
@@ -155,7 +169,9 @@ export class MyDevices {
     }
 
     reportFaultyDevice(userId: number, deviceId: number, comment: string, file: string) {
-        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", { userId, deviceId, comment, file });
+        let requestobject = { deviceId, userId, comment }
+        Object.assign(requestobject, file && { file });
+        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", requestobject);
     }
 
     deleteRequestHistory(requestID: number) {
@@ -194,7 +210,7 @@ export class MyDevices {
             cell4.innerHTML = this.data[loop]["return_date"]
             if (table == this.table1) {
                 var cell5 = row.insertCell(5);
-                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored return">
+                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent return">
             RETURN
         </button>`
                 var cell6 = row.insertCell(6);

@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using dm_backend.Utilities;
 
 namespace dm_backend.Logics
 {
@@ -133,7 +134,7 @@ and if(@serialNumber is null ,d.serial_number like '%'  OR d.serial_number is nu
                         deviceModel = reader.GetString("model"),
                         complaintDate = (reader.GetDateTime("complaint_date").ToString("dd-MM-yyyy")),
                         Issue = reader.GetString("comments"),
-                        image = System.Text.ASCIIEncoding.ASCII.GetString((byte[])reader["image"])
+                        image = System.Text.ASCIIEncoding.ASCII.GetString(Readers.GetSafe<byte[]>(reader,"image") ??new byte[0])
 
                     }
 
