@@ -120,7 +120,7 @@ let currentPage: number = current_page;
     });
     function openForm() {
         document.querySelector('#faultpopup').classList.add("active");
-       remove();
+       
     }
 
     function closeForm() {
