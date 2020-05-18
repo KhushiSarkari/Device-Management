@@ -57,7 +57,7 @@ nav ul li{
 .mdl-cell--0_5-offset {
 	margin-left: calc(4.1666666% + 4px);
 }
-.search-serial-number .mdl-textfield ,.serial-number .mdl-textfield {
+.search-serial-number .mdl-textfield ,.serial-number .mdl-textfield ,.table-top-div .mdl-textfield {
 	width: 150px;
 }
 nav.mdl-navigation {
