@@ -441,25 +441,18 @@
 
 
                     <div class="content">
-                        <div
-                        style="display: flex;flex-direction: row;width: 100%;position: relative;justify-content: space-between;">
-        
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label"
-                            style="width: 30%;">
-                            <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                                <i class="material-icons">search</i>
-                            </label>
-                            <div class="mdl-textfield__expandable-holder">
-                                <input class="mdl-textfield__input" type="text" name="sample" value=""
-                                    id="fixed-header-drawer-exp">
+                        <div class="table-top-div">
+                            <div class="table-top-left">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input browser-default" type="text" id="fixed-header-drawer-exp">
+                                    <label class="mdl-textfield__label" for="fixed-header-drawer-exp">Search in Users</label>
+                                </div>
                             </div>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <button class="mdl-button mdl-js-button mdl-button--raised  mdl-button--colored" id="popup">Add New User</button>
-                        </div>
+                            <div class="table-top-right">
+                                <button class="mdl-button mdl-js-button mdl-button--raised  mdl-button--colored" id="popup">Add New User</button>
+                            </div>
         
-        
-                    </div>
+                        </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="Request_data" >
 
                             <thead>
@@ -479,13 +472,9 @@
 
                             </tbody>
                         </table>
+                        <div class="pagination mdl-typography--text-center" id="pagination" pageNum="1" result-count="0"></div>
                     </div>
-                </div>  
-                <center>
-                    <div class="pagination" id="pagination" pageNum="1" result-count="0" style="left: 50%;">
-
-                    </div>
-                </center>
+                </div>
             </main>
         </div>
 

@@ -41,26 +41,26 @@
 
         </header>
         <div class="mdl-layout__drawer" id="navigate">
-            <span class="mdl-layout-title">Faulty Device</span>
+           
 
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
                 <div class="content">
-                    <div class="serial-number">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <div>
-                                <input class="mdl-textfield__input" type="text" name="sample" user="" data-find=""
-                                    id="waterfall-exp" placeholder="Serial Number">
+                    <div class="serial-number table-top-div">
+                        <div class="table-top-left">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text"
+                                    id="waterfall-exp">
+                                <label class="mdl-textfield__label" for="waterfall-exp">Serial Number</label>
                             </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text"
+                                    id="serial-number">
+                                <label class="mdl-textfield__label" for="serial-number">Search</label>
                             </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <div>
-                                        <input class="mdl-textfield__input" type="text" name="sample" user="" data-find=""
-                                            id="serial-number" placeholder="Search">
-                                    </div>
-                                    </div>
-                                    </div>
+                        </div>
+                    </div>
     
     
     
@@ -96,15 +96,10 @@
 
                             </tbody>
                         </table>
+                        <div class="paging" id="pagination" pageNum="1" result-count="0"></div>
                     </div>
 
                 </div>
-                <br />
-                <center>
-                    <div class="paging" id="pagination" pageNum="1" result-count="0">
-
-                    </div>
-                </center>
             </div>
             </div>
         </main>
