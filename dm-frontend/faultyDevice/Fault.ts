@@ -59,8 +59,8 @@ export class FalultyDevice
           // if(data.status=="Unresolved" )
           {         
              buttons= ` <td>
-           <button  class="faulty-device" data-complaint = ${data.complaintId}>Faulty </button>
-            <button class="fault-resolved" data-complaint = ${data.complaintId}>Resolve </button>
+           <button  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored faulty-device" data-complaint = ${data.complaintId}>Faulty </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent fault-resolved" data-complaint = ${data.complaintId}>Resolve </button>
         </td>
     </tr> `;
      
