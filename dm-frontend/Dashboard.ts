@@ -108,7 +108,7 @@ import { HitApi } from './Device-Request/HitRequestApi';
 
     navigationBarsss(role, "navigation");
     headersRows(role,"row1");
-    document.getElementById('role').innerHTML = role;
+   
 
     document.addEventListener("click", function (e) {
         let action = (e.target as HTMLButtonElement).dataset.card;

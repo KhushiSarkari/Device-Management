@@ -1,97 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+	<head>
+		<link rel="stylesheet" href="index.css" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Submission request</title>
+		<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="/static/material.css" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		/>
+		<link rel="stylesheet" href="./styling.css" />
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="/device_role/role_styles.css" />
+	</head>
+	<body>
+		<!-- Always shows a header, even in smaller screens. -->
+		<div
+			class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded"
+		>
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+					<!-- Title -->
+					<div class="devices">
+						<span
+							id="getData"
+							class="mdl-layout-title submission-title"
+							>Submission Request</span
+						>
+					</div>
+					<div class="mdl-layout-spacer"></div>
+					<div class="mdl-layout-spacer"></div>
+					<div id="row1"></div>
+				</div>
+			</header>
 
-    <link rel="stylesheet" href="index.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devicelist</title>
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="/static/material.css">
-    <!-- Material Design icon font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="./styling.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/device_role/role_styles.css" />
-    </head>
-<body>
-    <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-layout--fixed-header has-drawer is-upgraded">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <!-- Title -->
-                <div class="devices">
-                    <span id="getData" class="mdl-layout-title submission-title">Submission Request</span>
-					 
-                </div>
-                <div class="mdl-layout-spacer"></div>
-                <div class="mdl-layout-spacer"></div>
-                <div id="row1">
- 
-                </div>
-            </div>
-        </header>
-        
-        <div class="mdl-layout__drawer" id="navigation">
-        </div>
-        <!-- </span> -->
-    
-        <main class="mdl-layout__content">
-            <div class="page-content" data-table>
-               <div class="content">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                mdl-textfield--floating-label">
-                             <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                                 <i class="material-icons">search</i>
-                             </label>
-                             <div class="mdl-textfield__expandable-holder">
-                                 <input class="mdl-textfield__input" type="text"  data-device-name="" name="search"
-                                     id="fixed-header-drawer-exp">
-                             </div>
-                         </div>
-                <table  id= "submissionTable"class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp" data-id="submission"
-                    style="overflow: auto;">
-                    <thead id="tableHead" data-sort="" data-sortby="">
-                        <tr>
-                            <th class="mdl-data-table__header--sorted-descending" name="device_name" data-id="name">
-                                    User Name </th>
-                            <th class="mdl-data-table__header--sorted-descending" name="device_name" data-id="type">
-                                Device Type </th>
-                            <th class="mdl-data-table__header--sorted-descending" name="device_name" data-id="device">
-                                Device Name </th>
-                            <th class="" name="specification"
-                                data-id="specification">
-                                Specifications </th>
-                                <th class="" name="return_date"
-                                data-id="return_date">
-                                Return Date </th>
-                                <th class="" name="status" colspan="2"
-                                data-id="status">
-                                Action </th>
-                        </tr>
-                    </thead>
-                  
-                    <tbody id="submission_request">
-                        
-                    </tbody>
-                </table>
-                </div>
-                
-            </div>
-            <br><br>
-            <center>
-                <div class="pagination" id="pagination" pageNum="1" result-count="0">
+			<div class="mdl-layout__drawer" id="navigation"></div>
+			<!-- </span> -->
 
-                </div>
-            </center>
-        </main>
-    </div>
-    <div class="load" id="loading">
-        <div class= "loader"></div>
-    </div>
+			<main class="mdl-layout__content">
+				<div class="page-content" data-table>
+					<div class="content">
+                        <div class="table-top-div">
+                            <div class="table-top-left">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input
+                                        class="mdl-textfield__input"
+                                        type="text"
+                                        data-device-name=""
+                                        name="search"
+                                        id="fixed-header-drawer-exp"
+                                    />
+                                    <label
+                                        class="mdl-textfield__label"
+                                        for="fixed-header-drawer-exp"
+                                        >Search</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+						<table
+							id="submissionTable"
+							class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp"
+							data-id="submission"
+						>
+							<thead id="tableHead" data-sort="" data-sortby="">
+								<tr>
+									<th
+										class="mdl-data-table__header--sorted-descending"
+										name="device_name"
+										data-id="name"
+									>
+										User Name
+									</th>
+									<th
+										class="mdl-data-table__header--sorted-descending"
+										name="device_name"
+										data-id="type"
+									>
+										Device Type
+									</th>
+									<th
+										class="mdl-data-table__header--sorted-descending"
+										name="device_name"
+										data-id="device"
+									>
+										Device Name
+									</th>
+									<th
+										class=""
+										name="specification"
+										data-id="specification"
+									>
+										Specifications
+									</th>
+									<th
+										class=""
+										name="return_date"
+										data-id="return_date"
+									>
+										Return Date
+									</th>
+									<th
+										class=""
+										name="status"
+										colspan="2"
+										data-id="status"
+									>
+										Action
+									</th>
+								</tr>
+							</thead>
 
-</body>
-<script src="/assets/js/submissionRequest.js"></script>
-<script src="/static/tata.js"></script>
-
+							<tbody id="submission_request"></tbody>
+                        </table>
+                        <div class="pagination mdl-typography--text-center" id="pagination" pageNum="1" result-count="0"></div>
+					</div>
+				</div>
+			</main>
+		</div>
+		<div class="load" id="loading">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<script src="/assets/js/submissionRequest.js"></script>
+	<script src="/static/tata.js"></script>
 </html>
