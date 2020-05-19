@@ -17,7 +17,7 @@ namespace dm_backend.Models
         public string deviceModel { get; set; }
         public string deviceBrand { get; set; }
         public string deviceType { get; set; }
-        public Specification specs { get; set; }    
+        public Specifications specs { get; set; }    
         public string notificationDate { get; set; }
         public string status { get; set; }
         public string message { get; set; }

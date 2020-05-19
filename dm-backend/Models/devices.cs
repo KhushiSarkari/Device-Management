@@ -6,11 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using dm_backend;
 using System.Data.Common;
+using dm_backend.Data;
 
 namespace dm_backend.Models
 {
 public class PartialDeviceModel
 {
+            private readonly EFDbContext _context;
+
         public int device_id { get; set; }
         public int status_id { get; set; }
         public int specification_id { get; set; }
@@ -29,10 +32,18 @@ public class PartialDeviceModel
         {
         }
 
-        internal PartialDeviceModel(AppDb db)
+        internal PartialDeviceModel(AppDb db,EFDbContext context)
         {
             Db = db;
+            _context =context;
         }
+         public static string GetSafeStrings(string colName)
+        {
+
+            return colName != null? colName.ToString() : "";
+        }
+         
+
        public static string GetSafeString(MySqlDataReader reader, string colName)
         {
 
@@ -94,45 +105,45 @@ public class PartialDeviceModel
         {
             cmd.Parameters.Add(new MySqlParameter("device_id", v.device_id));
         }
-         public List<DeviceInsertUpdate> getdevicebyid(int device_id)
-        {
+        //  public List<DeviceInsertUpdate> getdevicebyid(int device_id)
+        // {
 
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "getdevicebyid";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@id",
-                DbType = DbType.Int32,
-                Value = device_id,
-            });
-            return Read(cmd.ExecuteReader());
-        }
-        private List<DeviceInsertUpdate> Read(MySqlDataReader reader)
-        {
-            var posts = new List<DeviceInsertUpdate>();
-            using (reader)
-            {
-                while (reader.Read())
-                {
-                    var post = new DeviceInsertUpdate();
-                    post.device_id = GetInt(reader, "device_id");
-                    post.type = GetSafeString(reader, "type");
-                    post.brand = GetSafeString(reader, "brand");
-                    post.model = GetSafeString(reader, "model");
-                    post.color = GetSafeString(reader, "color");
-                    post.price = GetSafeString(reader, "price");
-                    post.serial_number = GetSafeString(reader, "serial_number");
-                    post.warranty_year = GetSafeString(reader, "warranty_year");
-                    post.status_id = GetInt(reader, "status_id");
-                    post.specification_id = GetInt(reader, "specification_id");
-                    post.purchase_date = Convert.ToDateTime(reader["purchase_date"]).ToString("dd/MM/yyyy");
-                    post.entry_date = Convert.ToDateTime(reader["entry_date"]).ToString("dd/MM/yyyy");
-                    posts.Add(post);
-                }
-            }
-            return posts;
-        }
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "getdevicebyid";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     cmd.Parameters.Add(new MySqlParameter
+        //     {
+        //         ParameterName = "@id",
+        //         DbType = DbType.Int32,
+        //         Value = device_id,
+        //     });
+        //     return Read(cmd.ExecuteReader());
+        // }
+        // private List<DeviceInsertUpdate> Read(MySqlDataReader reader)
+        // {
+        //     var posts = new List<DeviceInsertUpdate>();
+        //     using (reader)
+        //     {
+        //         while (reader.Read())
+        //         {
+        //             var post = new DeviceInsertUpdate();
+        //             post.device_id = GetInt(reader, "device_id");
+        //             post.type = GetSafeString(reader, "type");
+        //             post.brand = GetSafeString(reader, "brand");
+        //             post.model = GetSafeString(reader, "model");
+        //             post.color = GetSafeString(reader, "color");
+        //             post.price = GetSafeString(reader, "price");
+        //             post.serial_number = GetSafeString(reader, "serial_number");
+        //             post.warranty_year = GetSafeString(reader, "warranty_year");
+        //             post.status_id = GetInt(reader, "status_id");
+        //             post.specification_id = GetInt(reader, "specification_id");
+        //             post.purchase_date = Convert.ToDateTime(reader["purchase_date"]).ToString("dd/MM/yyyy");
+        //             post.entry_date = Convert.ToDateTime(reader["entry_date"]).ToString("dd/MM/yyyy");
+        //             posts.Add(post);
+        //         }
+        //     }
+        //     return posts;
+        // }
 
     }
     public class Assign:devices
@@ -174,7 +185,7 @@ public class PartialDeviceModel
     {
         public string status { get; set; }
         public string comments { get; set; }
-        public Specification specifications { get; set; }
+        public Specifications specifications { get; set; }
         public string assign_date { get; set; }
         public string entry_date{get; set;}
         public string return_date { get; set; }
@@ -185,7 +196,7 @@ public class PartialDeviceModel
 
         public devices()
         {
-            specifications = new Specification();
+            specifications = new Specifications();
             assign_to = new name();
             assign_by = new name();
         }
@@ -194,9 +205,9 @@ public class PartialDeviceModel
         {
             Db = db;
         }
-        public Specification ReadSpecification(MySqlDataReader reader)
+        public Specifications ReadSpecification(MySqlDataReader reader)
         {
-            var spec1 = new Specification();
+            var spec1 = new Specifications();
             spec1.RAM = GetSafeString(reader, "RAM");
             spec1.Storage = GetSafeString(reader, "Storage");
             spec1.ScreenSize = GetSafeString(reader, "Screen_size");
@@ -238,13 +249,13 @@ public class PartialDeviceModel
         }
 
 
-        public List<devices> GetAllDevices()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "call getAllDevice";
-            return ReadAll(cmd.ExecuteReader());
+        // public List<devices> GetAllDevices()
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "call getAllDevice";
+        //     return ReadAll(cmd.ExecuteReader());
 
-        }
+        // }
         public List<devices> getDeviceBySearch(string device_name, string serial_number, string status_name)
         {
             using (var cmd = Db.Connection.CreateCommand())
@@ -260,14 +271,14 @@ public class PartialDeviceModel
             }
         }
         // device description separate page
-        public devices getDeviceDescriptionbyid(int device_id)
-        {
-            using var cmd = Db.Connection.CreateCommand();;
-            cmd.CommandText = @"call device_description_byid(@id)";
-            //cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id",device_id);
-            return ReadAllDeets(cmd.ExecuteReader())[0];
-        }
+        // public devices getDeviceDescriptionbyid(int device_id)
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();;
+        //     cmd.CommandText = @"call device_description_byid(@id)";
+        //     //cmd.CommandType = CommandType.StoredProcedure;
+        //     cmd.Parameters.AddWithValue("@id",device_id);
+        //     return ReadAllDeets(cmd.ExecuteReader())[0];
+        // }
 
         //delete device
         public int Delete()
@@ -321,32 +332,32 @@ public class PartialDeviceModel
             }
             return posts;
         }
-        private List<devices> ReadAllDeets(MySqlDataReader reader)
-        {
-            var posts = new List<devices>();
-            using (reader)
-            {
-                while (reader.Read())
-                {
-                    var post = new devices();
-                    post.device_id = GetInt(reader, "device_id");
-                    post.type = GetSafeString(reader, "type");
-                    post.brand = GetSafeString(reader, "brand");
-                    post.model = GetSafeString(reader, "model");
-                    post.color = GetSafeString(reader, "color");
-                    post.price = GetSafeString(reader, "price");
-                    post.serial_number = GetSafeString(reader, "serial_number");
-                    post.warranty_year = GetSafeString(reader, "warranty_year");
-                    post.status = GetSafeString(reader, "status_name");
-                    post.purchase_date = Convert.ToDateTime(reader["purchase_date"]).ToString("dd/MM/yyyy");
-                    post.entry_date = Convert.ToDateTime(reader["entry_date"]).ToString("dd/MM/yyyy");
-                    post.specifications = ReadSpecification(reader);
-                    post.comments = GetSafeString(reader, "comments");
-                    posts.Add(post);
-                    }
-            }
-            return posts;
-        }
+        // private List<devices> ReadAllDeets(MySqlDataReader reader)
+        // {
+        //     var posts = new List<devices>();
+        //     using (reader)
+        //     {
+        //         while (reader.Read())
+        //         {
+        //             var post = new devices();
+        //             post.device_id = GetInt(reader, "device_id");
+        //             post.type = GetSafeString(reader, "type");
+        //             post.brand = GetSafeString(reader, "brand");
+        //             post.model = GetSafeString(reader, "model");
+        //             post.color = GetSafeString(reader, "color");
+        //             post.price = GetSafeString(reader, "price");
+        //             post.serial_number = GetSafeString(reader, "serial_number");
+        //             post.warranty_year = GetSafeString(reader, "warranty_year");
+        //             post.status = GetSafeString(reader, "status_name");
+        //             post.purchase_date = Convert.ToDateTime(reader["purchase_date"]).ToString("dd/MM/yyyy");
+        //             post.entry_date = Convert.ToDateTime(reader["entry_date"]).ToString("dd/MM/yyyy");
+        //             post.specifications = ReadSpecification(reader);
+        //             post.comments = GetSafeString(reader, "comments");
+        //             posts.Add(post);
+        //             }
+        //     }
+        //     return posts;
+        // }
 
        
         public List<devices> getCurrentDevice(int id, string search, string sort = "", string direction = "")

@@ -35,49 +35,31 @@ namespace dm_backend.Controllers
         [Route("page")]
         public IActionResult GetAllDevices()
         {
-            //  int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
-            // int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            // var deviceObject = _repo.GetAllDevices();
-            // var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
-            //             new JsonSerializerSettings()
-            //             { 
-            //                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //             });
-            //   var pager = PagedList<devices>.ToPagedList(deviceObject,pageNumber, pageSize);
-            // Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            // Console.WriteLine(pager);
-            //  return Ok(pager); 
-            
-            //return Ok(_repo.GetAllDevices());
-            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
+             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-           Db.Connection.Open();
-            var query = new devices(Db);
-            var pager = PagedList<devices>.ToPagedList(query.GetAllDevices(),pageNumber, pageSize);
+            var deviceObject = _repo.GetAllDevices();
+            var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
+                        new JsonSerializerSettings()
+                        { 
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+              var pager = PagedList<devices>.ToPagedList(deviceObject,pageNumber, pageSize);
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            Db.Connection.Close();
-            return Ok(pager);
+            Console.WriteLine(pager);
+             return Ok(pager); 
         }
         [HttpGet]
         [Route("device_id/{device_id}")]
         public IActionResult GetOneDevice(string device_id)
         {
-            Db.Connection.Open();
-            var query = new DeviceInsertUpdate(Db);
-            var result = query.getdevicebyid(Int32.Parse(device_id));
-            Db.Connection.Close();
-            return Ok(result);
+            return Ok(_repo.GetDeviceById(Int32.Parse(device_id)));
         }
 
         [HttpGet]
         [Route("{device_id}")]
         public IActionResult GetDeviceFullDetails(string device_id)
         {
-            Db.Connection.Open();
-            var query = new devices(Db);
-            var result = query.getDeviceDescriptionbyid(Int32.Parse(device_id));
-            Db.Connection.Close();
-            return Ok(result);
+            return Ok(_repo.getDeviceDescriptionbyid(Int32.Parse(device_id)));
         }
 
 
@@ -188,28 +170,27 @@ namespace dm_backend.Controllers
             return Ok();
         }
 
-        // [HttpGet("specification")]
-        // public async Task<IActionResult> GetAllSpecification()
-        // {
-        //     int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
-        //     int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-        //     await Db.Connection.OpenAsync();
-        //     var query = new Specification(Db);
-        //     var pager = PagedList<Specification>.ToPagedList(query.getAllSpecifications(), pageNumber, pageSize);
-        //     Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-        //     return new OkObjectResult(pager);
-        // }
+        [HttpGet("specification")]
+        public IActionResult GetAllSpecification()
+        {
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
+            var specObject = _repo.getAllSpecifications();
+            var pager = PagedList<Specifications>.ToPagedList(specObject, pageNumber, pageSize);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+            return new OkObjectResult(pager);
+        }
 
-        // [HttpGet]
-        // [Route("spec/{specification_id}")]
-        // public IActionResult GetSpec(int specification_id)
-        // {
-        //     Db.Connection.Open();
-        //     var query = new Specification(Db);
-        //     var result = query.getspecbyid(specification_id);
-        //     Db.Connection.Close();
-        //     return Ok(result);
-        // }
+        [HttpGet]
+        [Route("spec/{specification_id}")]
+        public IActionResult GetSpec(int specification_id)
+        {
+            // Db.Connection.Open();
+            // var query = new Specification(Db);
+            // var result = query.getspecbyid(specification_id);
+            // Db.Connection.Close();
+            return Ok(_repo.getSpecificationById(specification_id));
+        }
 
 
 

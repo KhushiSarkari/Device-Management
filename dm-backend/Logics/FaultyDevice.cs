@@ -123,7 +123,7 @@ and if(@serialNumber is null ,d.serial_number like '%'  OR d.serial_number is nu
                         userName = new name()
                         {
                             first_name = reader.GetString("first_name"),
-                            middle_name = new Specification().GetSafeString(reader, "middle_name"),
+                            middle_name = new Specifications().GetSafeString(reader, "middle_name"),
                             last_name = reader.GetString("last_name"),
                         },
                         serialNumber = reader.GetString("serial_number"),

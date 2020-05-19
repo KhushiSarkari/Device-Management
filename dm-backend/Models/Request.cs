@@ -16,7 +16,7 @@ namespace dm_backend.Models
         public string deviceModel { get; set; }
         public string deviceBrand { get; set; }
         public string deviceType { get; set; }
-        public Specification specs { get; set; }
+        public Specifications specs { get; set; }
         public PartialUserModel requestedBy { get; set; }        
         public string requestDate { get; set; }
         public int noOfDays { get; set; }

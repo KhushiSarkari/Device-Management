@@ -10,7 +10,7 @@ using dm_backend.EFModels;
 
 namespace dm_backend.Models
 {
-    public class Specification
+    public class Specifications
     {
         public int specification_id { get; set; }
 
@@ -22,11 +22,11 @@ namespace dm_backend.Models
 
         internal AppDb Db { get; set; }
 
-        public Specification()
+        public Specifications()
         {
         }
 
-        internal Specification(AppDb db)
+        internal Specifications(AppDb db)
         {
             Db = db;
         }
@@ -36,23 +36,23 @@ namespace dm_backend.Models
             return reader[colName] != DBNull.Value ? (string)reader[colName] : "";
         }
 
-        public List<Specification> getAllSpecifications()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"select * from specification;";
+        // public List<Specification> getAllSpecifications()
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = @"select * from specification;";
 
-            return ReadSpecifications(cmd.ExecuteReader());
-        }
-        public List<Specification> getspecbyid(int specification_id)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"select * from specification where specification.specification_id=@specification_id;";
+        //     return ReadSpecifications(cmd.ExecuteReader());
+        // }
+//         public List<Specification> getspecbyid(int specification_id)
+//         {
+//             using var cmd = Db.Connection.CreateCommand();
+//             cmd.CommandText = @"select * from specification where specification.specification_id=@specification_id;";
 
-            cmd.Parameters.AddWithValue("@specification_id", specification_id);
-            return ReadSpecifications(cmd.ExecuteReader());
-        }
+//             cmd.Parameters.AddWithValue("@specification_id", specification_id);
+//            // return ReadSpecifications(cmd.ExecuteReader());
+//         }
 
-        public List<Specification> getSpecificSpecification(string typeId, string brand, string model)
+        public List<Specifications> getSpecificSpecification(string typeId, string brand, string model)
         {
 
             using var cmd = Db.Connection.CreateCommand();
@@ -69,14 +69,14 @@ where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.spe
         }
 
 
-        public List<Specification> ReadSpecifications(DbDataReader reader)
+        public List<Specifications> ReadSpecifications(DbDataReader reader)
         {
-            var specifications = new List<Specification>();
+            var specifications = new List<Specifications>();
             using (reader)
             {
                 while (reader.Read())
                 {
-                    var spec1 = new Specification()
+                    var spec1 = new Specifications()
                     {
                         specification_id = reader.GetInt32(0),
                         RAM = GetSafeString(reader, "RAM"),
@@ -93,62 +93,62 @@ where db.brand = @brand  and dt.type = @type  and dm.model=@model group by s.spe
         }
 
       
-        async public Task addspecification(Specification s)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "addSpecification";
-            cmd.CommandType = CommandType.StoredProcedure;
-            Bindspec(cmd, s);
-            await cmd.ExecuteNonQueryAsync();
-        }
-        private void Bindspec(MySqlCommand cmd, Specification s)
-        {
-            cmd.Parameters.Add(new MySqlParameter("RAM", s.RAM));
-            cmd.Parameters.Add(new MySqlParameter("storage", s.Storage));
-            cmd.Parameters.Add(new MySqlParameter("screen_size", s.ScreenSize));
-            cmd.Parameters.Add(new MySqlParameter("connectivity", s.Connectivity));
-        }
-        async public Task updatespecification(Specification s1)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "updatespecification";
-            cmd.CommandType = CommandType.StoredProcedure;
-            Bindspec(cmd, s1);
-            BindSpecificationId(cmd,s1);
-            await cmd.ExecuteNonQueryAsync();
-        }
-        private void BindSpecificationId(MySqlCommand cmd, Specification s1)
-        {
-            cmd.Parameters.Add(new MySqlParameter("specification_id", s1.specification_id));
-        }
-        public int Deletespec()
-        {
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"delete from specification where not  
-            exists(SELECT specification_id  from device WHERE  device.specification_id = @specification_id)
-             and specification.specification_id=@specification_id;";
-           BindspecId(cmd);
-           int numberOfRecords=  cmd.ExecuteNonQuery();
-           Db.Connection.Close();
-           Console.WriteLine(numberOfRecords);
-           if(numberOfRecords>0)
-           {
-               Console.WriteLine("SPEC deleted");
-               return 1;
-           }
-           else {
-               Console.WriteLine("SPEC not deleted");
-               return 0;
-               }
-        }
-         private void BindspecId(MySqlCommand cmd)
-        {
-            cmd.Parameters.Add(new MySqlParameter("specification_id", specification_id));
-        }
+//         async public Task addspecification(Specification s)
+//         {
+//             using var cmd = Db.Connection.CreateCommand();
+//             cmd.CommandText = "addSpecification";
+//             cmd.CommandType = CommandType.StoredProcedure;
+//             Bindspec(cmd, s);
+//             await cmd.ExecuteNonQueryAsync();
+//         }
+//         private void Bindspec(MySqlCommand cmd, Specifications s)
+//         {
+//             cmd.Parameters.Add(new MySqlParameter("RAM", s.RAM));
+//             cmd.Parameters.Add(new MySqlParameter("storage", s.Storage));
+//             cmd.Parameters.Add(new MySqlParameter("screen_size", s.ScreenSize));
+//             cmd.Parameters.Add(new MySqlParameter("connectivity", s.Connectivity));
+//         }
+//         async public Task updatespecification(Specifications s1)
+//         {
+//             using var cmd = Db.Connection.CreateCommand();
+//             cmd.CommandText = "updatespecification";
+//             cmd.CommandType = CommandType.StoredProcedure;
+//             Bindspec(cmd, s1);
+//             BindSpecificationId(cmd,s1);
+//             await cmd.ExecuteNonQueryAsync();
+//         }
+//         private void BindSpecificationId(MySqlCommand cmd, Specifications s1)
+//         {
+//             cmd.Parameters.Add(new MySqlParameter("specification_id", s1.specification_id));
+//         }
+//         public int Deletespec()
+//         {
+//             Db.Connection.Open();
+//             using var cmd = Db.Connection.CreateCommand();
+//             cmd.CommandText = @"delete from specification where not  
+//             exists(SELECT specification_id  from device WHERE  device.specification_id = @specification_id)
+//              and specification.specification_id=@specification_id;";
+//            BindspecId(cmd);
+//            int numberOfRecords=  cmd.ExecuteNonQuery();
+//            Db.Connection.Close();
+//            Console.WriteLine(numberOfRecords);
+//            if(numberOfRecords>0)
+//            {
+//                Console.WriteLine("SPEC deleted");
+//                return 1;
+//            }
+//            else {
+//                Console.WriteLine("SPEC not deleted");
+//                return 0;
+//                }
+//         }
+//          private void BindspecId(MySqlCommand cmd)
+//         {
+//             cmd.Parameters.Add(new MySqlParameter("specification_id", specification_id));
+//         }
 
-        // Returns Specification ID from given specifications
-        // Otherwise throws a NullReferenceException
+//         // Returns Specification ID from given specifications
+//         // Otherwise throws a NullReferenceException
         public int GetSpecificationID(AppDb db)
         {
             using var cmd = db.Connection.CreateCommand();

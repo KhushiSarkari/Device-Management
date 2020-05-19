@@ -165,7 +165,7 @@ namespace dm_backend.Controllers
 
             Db.Connection.Open();
 
-            var specs = new Specification(Db);
+            var specs = new Specifications(Db);
 
             var result = specs.getSpecificSpecification( type, brand, model);
 

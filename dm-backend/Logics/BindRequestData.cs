@@ -52,9 +52,9 @@ namespace dm_backend.Models{
             return posts;
         }
 
-        public Specification FillDeviceSpecifications(DbDataReader reader)
+        public Specifications FillDeviceSpecifications(DbDataReader reader)
         {
-            return new Specification()
+            return new Specifications()
             {
                 specification_id = reader.IsDBNull("specification_id") ? -1 : (int)reader["specification_id"],
                 RAM = reader.IsDBNull("RAM") ? "" : reader.GetString("RAM"),

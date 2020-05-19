@@ -8,5 +8,9 @@ namespace dm_backend.Data
     {
           Task<Statistics> GetStatus();
             List<devices> GetAllDevices();
+            List<DeviceInsertUpdate> GetDeviceById( int device_id);
+            List<devices> getDeviceDescriptionbyid(int device_id);
+            List<Specifications> getAllSpecifications();
+            List<Specifications> getSpecificationById(int specification_id);
     }
 }

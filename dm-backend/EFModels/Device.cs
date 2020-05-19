@@ -24,7 +24,7 @@ namespace dm_backend.EFModels
         public int StatusId { get; set; }
         public int SpecificationId { get; set; }
         public DateTime EntryDate { get; set; }
-
+         //public DateTime PurchaseDate { get; set; }
         public DeviceBrand DeviceBrand { get; set; }
         public DeviceModel DeviceModel { get; set; }
         public DeviceType DeviceType { get; set; }

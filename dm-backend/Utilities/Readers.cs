@@ -37,9 +37,9 @@ namespace dm_backend.Utilities
             user.DOJ = GetSafeDate(reader,"date_of_joining").ToString("yyyy-MM-dd");
             return user;
         }
-        public static Specification ReadSpecifications(MySqlDataReader reader)
+        public static Specifications ReadSpecifications(MySqlDataReader reader)
         {
-            var specfication = new Specification();
+            var specfication = new Specifications();
             specfication.RAM = (string)reader["RAM"];
             specfication.Storage = (string)reader["storage"];
             specfication.ScreenSize = (string)reader["screen_size"];
