@@ -35,28 +35,28 @@ namespace dm_backend.Controllers
         [Route("page")]
         public IActionResult GetAllDevices()
         {
-             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
-            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            var deviceObject = _repo.GetAllDevices();
-            var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
-                        new JsonSerializerSettings()
-                        { 
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                        });
-             //  var pager = PagedList<devices>.ToPagedList(deviceObject,pageNumber, pageSize);
-            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-
-             return Ok(result1); 
+            //  int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
+            // int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
+            // var deviceObject = _repo.GetAllDevices();
+            // var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
+            //             new JsonSerializerSettings()
+            //             { 
+            //                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //             });
+            //   var pager = PagedList<devices>.ToPagedList(deviceObject,pageNumber, pageSize);
+            // Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+            // Console.WriteLine(pager);
+            //  return Ok(pager); 
             
             //return Ok(_repo.GetAllDevices());
-        //     int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
-        //     int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-        //   //  Db.Connection.Open();
-        //     var query = new devices(Db);
-        //     var pager = PagedList<devices>.ToPagedList(query.GetAllDevices(),pageNumber, pageSize);
-        //     Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-        //     Db.Connection.Close();
-        //     return Ok(pager);
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
+            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
+           Db.Connection.Open();
+            var query = new devices(Db);
+            var pager = PagedList<devices>.ToPagedList(query.GetAllDevices(),pageNumber, pageSize);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+            Db.Connection.Close();
+            return Ok(pager);
         }
         [HttpGet]
         [Route("device_id/{device_id}")]

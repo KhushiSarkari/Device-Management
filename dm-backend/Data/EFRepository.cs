@@ -39,11 +39,10 @@ namespace dm_backend.Data
                                          join db in _context.DeviceBrand on d.DeviceBrandId equals db.DeviceBrandId
                                          join st in _context.Status on d.StatusId equals st.StatusId
                                          join s in _context.Specification on d.SpecificationId equals s.SpecificationId
-                                         from ad in _context.AssignDevice 
-                                         join dev in _context.Device on ad.DeviceId equals dev.DeviceId
-                                         join u in _context.User on ad.UserId equals u.UserId
-                                        
-                                        
+                                         join ad in _context.AssignDevice on  d.DeviceId equals ad.DeviceId into grouping
+                                         from ad in grouping.DefaultIfEmpty()
+                                         join u in _context.User on ad.UserId equals u.UserId into groupings
+                                         from u in groupings.DefaultIfEmpty()
                                          select new devices
                                          {
                                              device_id = d.DeviceId,
@@ -59,6 +58,7 @@ namespace dm_backend.Data
                                              return_date = ad.ReturnDate.ToString(),
                                              specifications = new Models.Specification
                                              {
+                                                 specification_id = s.SpecificationId,
                                                  RAM = s.Ram,
                                                  Connectivity = s.Connectivity,
                                                  ScreenSize = s.ScreenSize,

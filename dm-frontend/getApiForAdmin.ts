@@ -41,12 +41,14 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				})
 				
 				.then(data => {
-					console.log();
+					console.log(data);
 					(document.getElementById(
 						"Request_data"
 					) as HTMLTableElement).innerHTML = "";
+					
 					for (let element in data) {
 						let res = new DeviceListForAdmin(data[element],token);
+						console.log(res);
 						res.getDeviceList(role);
 						
 					}
