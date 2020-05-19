@@ -319,7 +319,6 @@ import * as signalR from "@aspnet/signalr";
 			e.preventDefault();
 			progress();
 			var progress_modal = document.getElementById("progress-bar");
-			console.log(progress_modal);
   			progress_modal.style.display = "block";
 			let formData = new FormData();
 	   		formData.append("photo", photo);
