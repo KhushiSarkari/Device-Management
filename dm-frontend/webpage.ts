@@ -304,15 +304,12 @@ import * as signalR from "@aspnet/signalr";
 		target: HTMLInputElement & EventTarget;
 	}
 	document.getElementById("upload").addEventListener("change",async function (e:HTMLInputEvent) {
-		console.log("frf");
-			console.log(e.target.files);
 	    photo =e.target.files[0];
 	     
 	});	
 	document.addEventListener("click", async function(e) {
 		
 		if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
-			console.log("vf");
 			openForm1('.login-popup');
 					}
 		if ((e.target as HTMLButtonElement).id == "cancel-button") {
@@ -341,7 +338,6 @@ import * as signalR from "@aspnet/signalr";
 					var users="";
 					for(let i=0;i<failedData;i++)
 					users += data.usersAlreadyExists[i]+" <br>";
-					console.log(users);
 					(document.querySelector("#Already-users")as HTMLDivElement).innerHTML = "Successfully Registered Users:"+ successData+" <br>"+
 					"Already Exists Users: "+failedData +" <br>"+users;
 					
@@ -360,8 +356,6 @@ import * as signalR from "@aspnet/signalr";
 	   })
 	  .configureLogging(signalR.LogLevel.Information)
 	  .build();
-    
-	console.log(connection);
 	connection.start().then((e) => {
 				console.log("connection started");
 			  }).catch(err => console.log(err));
