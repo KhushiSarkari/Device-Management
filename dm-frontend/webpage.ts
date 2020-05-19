@@ -312,6 +312,7 @@ import * as signalR from "@aspnet/signalr";
 	document.addEventListener("click", async function(e) {
 		
 		if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
+			console.log("vf");
 			openForm1('.login-popup');
 					}
 		if ((e.target as HTMLButtonElement).id == "cancel-button") {

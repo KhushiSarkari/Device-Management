@@ -58,7 +58,7 @@ a, a:link, a:visited {
 
 /* Hide the Popup form */
 
-.form-popup {
+.popups {
 	max-width: 350;
 	background-color: #fff;
 	height: fit-content;
@@ -72,10 +72,10 @@ a, a:link, a:visited {
 	z-index: 101;
 	margin: auto;
 }
-.form-popup h5{
+.popups h5{
 	text-align: center;
 }
-.login-popup.active, .login-popup.active .form-popup {
+.login-popup.active, .login-popup.active .popups {
 	display: block;
 }
 
