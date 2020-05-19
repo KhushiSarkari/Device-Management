@@ -11,7 +11,7 @@ namespace dm_backend.EFModels
         }
 
         public int DesignationId { get; set; }
-        public string Designation1 { get; set; }
+        public string DesignationName { get; set; }
 
         public ICollection<DepartmentDesignation> DepartmentDesignation { get; set; }
     }

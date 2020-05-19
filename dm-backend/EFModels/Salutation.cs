@@ -12,7 +12,7 @@ namespace dm_backend.EFModels
         }
 
         public int SalutationId { get; set; }
-        public string Salutation1 { get; set; }
+        public string SalutationName { get; set; }
 
         public ICollection<Dependent> Dependent { get; set; }
         public ICollection<User> User { get; set; }

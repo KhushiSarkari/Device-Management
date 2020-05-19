@@ -7,31 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using dm_backend.Data;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace dm_backend.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class DropdownController : ControllerBase
     {
-        public DropdownController(AppDb db)
+        public IDropdownRepository _repo;
+        public DropdownController( IDropdownRepository repo)
         {
-            Db = db;
+            _repo = repo;
         }
-
 
         [AllowAnonymous]
         [HttpGet]
         [Route("country")]
         public IActionResult Countries()
         {
-
-            List<DropdownModel> countries = GetListFromQueryWithId("select country_id, country_name from country");
-            if (countries.Count > 0)
-            {
+            var countries = _repo.GetAllCountries();
+            if (countries.Count() > 0)
                 return Ok(countries);
-            }
             else
                 return NoContent();
         }
@@ -42,57 +42,25 @@ namespace dm_backend.Controllers
         public IActionResult States()
         {
             String fields = HttpContext.Request.Query["id"];
-            List<DropdownModel> states;
-            string queryString = "select state_id, state_name from state";
-            if(!string.IsNullOrEmpty(fields))
-                queryString += " inner join country using(country_id) where country_id="+ fields;
-            queryString +=" order by state_name asc";
-           
-            states = GetListFromQueryWithId(queryString);
-            if (states.Count > 0)
+            var states = _repo.GetAllStates(fields);
+            if (states.Count() > 0)
             {
                 return Ok(states);
             }
             else
                 return NoContent();
         }
-         [AllowAnonymous]
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("city")]
         public IActionResult Cities()
         {
             String fields = HttpContext.Request.Query["id"];
-            List<DropdownModel> cities;
-            string queryString = "select city_id, city_name from city";
-            if(!string.IsNullOrEmpty(fields))
-                queryString +=" inner join state using(state_id) where state_id=" + fields;
-            queryString +=" order by city_name asc";
-            
-            cities = GetListFromQueryWithId(queryString);
-            if (cities.Count > 0)
+            var cities = _repo.GetAllCities(fields);
+            if (cities.Count() > 0)
             {
                 return Ok(cities);
-            }
-            else
-                return NoContent();
-        }
-
-
-
-
-        [HttpGet]
-        [Route("designation")]
-        public IActionResult designationTypes()
-        {
-            String fields = HttpContext.Request.Query["id"];
-            List<DropdownModel> desgTypes;
-            string queryString = "select designation.designation_id,designation.designation_name from department,designation,department_designation where department.department_id=department_designation.department_id and designation.designation_id=department_designation.designation_id and department.department_name='" + fields + "'";
-
-            desgTypes = GetListFromQueryWithId(queryString);
-            if (desgTypes.Count > 0)
-            {
-                return Ok(desgTypes);
             }
             else
                 return NoContent();
@@ -102,12 +70,26 @@ namespace dm_backend.Controllers
         [Route("department")]
         public IActionResult departmentTypes()
         {
-          
-            List<DropdownModel> deptTypes = GetListFromQueryWithId("select * from department");
-
-            if (deptTypes.Count > 0)
+            var departments = _repo.GetAllDepartments();
+            if (departments.Count() > 0)
             {
-                return Ok(deptTypes);
+                return Ok(departments);
+            }
+            else
+                return NoContent();
+        }
+
+
+
+        [HttpGet]
+        [Route("designation")]
+        public IActionResult designationTypes()
+        {
+            String fields = HttpContext.Request.Query["id"];
+            var designations = _repo.GetAllDesignations(fields);
+            if (designations.Count() > 0)
+            {
+                return Ok(designations);
             }
             else
                 return NoContent();
@@ -116,90 +98,62 @@ namespace dm_backend.Controllers
         [Route("salutation")]
         public IActionResult Salutations()
         {
-            var result = GetListFromQueryWithId("select * from salutation;");
-            if (result.Count < 1)
+            var result = _repo.GetAllSalutations();
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
-
         }
+
         [HttpGet]
         [Route("country_code")]
         public IActionResult CountryCodes()
         {
-
-            List<DropdownModel> countries = GetListFromQueryWithId("select country_code, country_name from country");
-            if (countries.Count > 0)
+            var result = _repo.GetAllCountrycodes();
+            if (result.Count() > 0)
             {
-                return Ok(countries);
+                return Ok(result);
             }
             else
                 return NoContent();
         }
+
         [HttpGet]
         [Route("addressType")]
         public IActionResult addressTypes()
         {
-            var result = GetListFromQuery("select * from address_type;");
-            if (result.Count < 1)
+            var result = _repo.GetAllAddressType();
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
-            
         }
+
         [HttpGet]
         [Route("contactType")]
         public IActionResult contactTypes()
         {
-             var result = GetListFromQueryWithId("select * from contact_type;");
-            if (result.Count < 1)
+            var result = _repo.GetAllContactType();
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
-
-
-            
         }
 
         [HttpGet]
         [Route("{type}/{brand}/{model}/specification")]
-        public  IActionResult GetAllDeviceBrands(String type ,String brand ,  String model )
+        public IActionResult GetAllSpecification(string type, string model, string brand)
         {
-
-            Db.Connection.Open();
-
-            var specs = new Specification(Db);
-
-            var result = specs.getSpecificSpecification( type, brand, model);
-
-            Db.Connection.Close();
-
-           //  if (result.Count < 1)
-           //    return NoContent();
-            //var json = config.Formatters.JsonFormatter;
-           // json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
-
-            return new OkObjectResult(result);
-        }
-
-
-        [HttpGet]   
-        [Route("brands")]
-        public IActionResult GetAllDeviceBrands()
-        {
-            var result = GetListFromQuery("select brand from device_brand");
-            if (result.Count < 1)
+            var result = _repo.GetAllSpecifications(type, brand, model);
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
         }
 
-
-
         [HttpGet]
-        [Route("brands/{type}")]
-        public IActionResult BrandsOfType(string type)
+        [Route("brands")]
+        public IActionResult GetAllDeviceBrands()
         {
-            var querry = @"select distinct( db.brand )from device_brand as  db inner join device   using (device_brand_id) inner join device_type as dt
-using (device_type_id) where  dt.type = '" + type + "' ;";
-            var result = GetListFromQuery(querry);
-            if (result.Count < 1)
+            String fields = HttpContext.Request.Query["type"];
+            var result = _repo.GetAllDeviceBrands(fields);
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
         }
@@ -208,174 +162,41 @@ using (device_type_id) where  dt.type = '" + type + "' ;";
         [Route("models")]
         public IActionResult GetAllDeviceModels()
         {
-            var result = GetListFromQuery("select model from device_model");
-            if (result.Count < 1)
+            String fields = HttpContext.Request.Query["brand"];
+            var result = _repo.GetAllDeviceModels(fields);
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
         }
 
-
-        [HttpGet]
-        [Route("models/{brand}")]
-        public IActionResult ModelByBrand( string brand)
-        {
-            var querry = @"select distinct( dm.model )from device_model as  dm inner join device   using (device_model_id) inner join device_brand as db
-using (device_brand_id) where  db.brand = '" + brand + "' ;";
-            var result = GetListFromQuery(querry);
-            if (result.Count < 1)
-                return NoContent();
-            return Ok(result);
-        }
-
-        
-        
         [HttpGet]
         [Route("types")]
         public IActionResult GetAllDeviceTypes()
         {
-            var result = GetListFromQuery("select type from device_type");
-            if (result.Count < 1)
+            var result = _repo.GetAllDeviceTypes();
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("rams")]
-        public IActionResult GetAllSpecificationRAM()
-        {
-            var result = GetListFromQuery("select distinct RAM from specification");
-            if (result.Count < 1)
-                return NoContent();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("storages")]
-        public IActionResult GetAllSpecificationStorage()
-        {
-            var result = GetListFromQuery("select distinct storage from specification");
-            if (result.Count < 1)
-                return NoContent();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("screensizes")]
-        public IActionResult GetAllSpecificationScreenSize()
-        {
-            var result = GetListFromQuery("select distinct screen_size from specification");
-            if (result.Count < 1)
-                return NoContent();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("connectivities")]
-        public IActionResult GetAllSpecificationConnectivity()
-        {
-            var result = GetListFromQuery("select distinct connectivity from specification");
-            if (result.Count < 1)
-                return NoContent();
-            return Ok(result);
-        }
-          [HttpGet("status")]
+        [HttpGet("status")]
         public IActionResult GetAllstatus()
         {
-            var result = GetListFromQueryWithId("select * from status where status.status_name='Allocated' or status.status_name='Free' or status.status_name='Faulty';");
-            if (result.Count < 1)
+            var result = _repo.GetAllStatus();
+            if (result.Count() < 1)
                 return NoContent();
             return Ok(result);
-
         }
-         [HttpGet]
-         [Route("userlist")]
+
+        [HttpGet]
+        [Route("userlist")]
         public IActionResult GetUserDetails()
         {
-            List<DropdownModel> userDetails = new List<DropdownModel>();
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "select user.user_id,user.first_name,department.department_name from user,department,"+
-            "department_designation,status where"+
-            " user.department_designation_id=department_designation.department_designation_id and"+
-            " department_designation.department_id=department.department_id and user.status=status.status_id"+
-            " and status.status_name= 'Active'";
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                userDetails.Add(new DropdownModel()
-                {
-                    id = reader.GetInt32(0),
-                    name = reader.GetString(1),
-                    department = reader.GetString(2)
-                });
-            }
-            Db.Connection.Close();
-            if (userDetails.Count > 0)
-            {
-                return Ok(userDetails);
-            }
+            var result = _repo.GetAllUserList();
+            if (result.Count > 0)
+                return Ok(result);
             else
                 return NoContent();
         }
-
-
-
-        private List<DropdownModel> GetListFromQueryWithId(string queryString)
-        {
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = queryString;
-            var reader = cmd.ExecuteReader();
-            var result = new DropdownModel().ReadAllDropdownswithId(reader);
-            Db.Connection.Close();
-            return result;
-        }
-       
-        private List<DropdownModel> GetListFromQuery(string queryString)
-        {
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = queryString;
-            var reader = cmd.ExecuteReader();
-            var result = new DropdownModel().ReadAllDropdowns(reader);
-            Db.Connection.Close();
-            return result;
-        }
-        
-        public AppDb Db { get; }
-    }
-
-    class DropdownModel
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string department {get;set;}
-
-        public List<DropdownModel> ReadAllDropdowns(MySqlDataReader reader)
-        {
-            var list = new List<DropdownModel>();
-            while (reader.Read())
-            {
-                list.Add(new DropdownModel()
-                {
-                //    id = reader.GetInt32(0),
-                    name = reader.GetString(0)
-                });
-            }
-            return list;
-        }
-        public List<DropdownModel> ReadAllDropdownswithId(MySqlDataReader reader)
-        {
-            var list = new List<DropdownModel>();
-            while (reader.Read())
-            {
-                list.Add(new DropdownModel()
-                {
-                   id = reader.GetInt32(0),
-                    name = reader.GetString(1)
-                });
-            }
-            return list;
-        }
-    }
+    } 
 }

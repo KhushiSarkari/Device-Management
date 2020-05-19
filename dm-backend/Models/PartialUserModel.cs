@@ -10,6 +10,7 @@ namespace dm_backend
 {
     public class PartialUserModel : BaseEntity
     {
+        public int UserId {get; set;}
         public string? Salutation { get; set; }
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }

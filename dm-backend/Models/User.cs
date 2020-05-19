@@ -11,7 +11,6 @@ namespace dm_backend.Models
     public class User : PartialUserModel
     {
         public string? RoleName { get; set; }
-        public int? UserId { get; set; }
         public string? Password { get; set; }
         public string? Status { get; set; }
         public List<ContactNumberModel> phones { get; set; }

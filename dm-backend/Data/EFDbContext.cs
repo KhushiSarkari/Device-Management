@@ -105,13 +105,13 @@ namespace dm_backend.Data
             {
                 entity.ToTable("address_type");
 
-                entity.HasIndex(e => e.AddressType1)
+                entity.HasIndex(e => e.AddressTypes)
                     .HasName("address_type_UNIQUE")
                     .IsUnique();
 
                 entity.Property(e => e.AddressTypeId).HasColumnName("address_type_id");
 
-                entity.Property(e => e.AddressType1)
+                entity.Property(e => e.AddressTypes)
                     .IsRequired()
                     .HasColumnName("address_type")
                     .HasMaxLength(45);
@@ -377,7 +377,7 @@ namespace dm_backend.Data
             {
                 entity.ToTable("contact_type");
 
-                entity.HasIndex(e => e.ContactType1)
+                entity.HasIndex(e => e.ContactTypes)
                     .HasName("contact_type_UNIQUE")
                     .IsUnique();
 
@@ -387,7 +387,7 @@ namespace dm_backend.Data
 
                 entity.Property(e => e.ContactTypeId).HasColumnName("contact_type_id");
 
-                entity.Property(e => e.ContactType1)
+                entity.Property(e => e.ContactTypes)
                     .IsRequired()
                     .HasColumnName("contact_type")
                     .HasMaxLength(45);
@@ -541,15 +541,15 @@ namespace dm_backend.Data
             {
                 entity.ToTable("designation");
 
-                entity.HasIndex(e => e.Designation1)
+                entity.HasIndex(e => e.DesignationName)
                     .HasName("designation_UNIQUE")
                     .IsUnique();
 
                 entity.Property(e => e.DesignationId).HasColumnName("designation_id");
 
-                entity.Property(e => e.Designation1)
+                entity.Property(e => e.DesignationName)
                     .IsRequired()
-                    .HasColumnName("designation")
+                    .HasColumnName("designation_name")
                     .HasMaxLength(30);
             });
 
@@ -980,13 +980,13 @@ namespace dm_backend.Data
             {
                 entity.ToTable("salutation");
 
-                entity.HasIndex(e => e.Salutation1)
+                entity.HasIndex(e => e.SalutationName)
                     .HasName("salutation_UNIQUE")
                     .IsUnique();
 
                 entity.Property(e => e.SalutationId).HasColumnName("salutation_id");
 
-                entity.Property(e => e.Salutation1)
+                entity.Property(e => e.SalutationName)
                     .IsRequired()
                     .HasColumnName("salutation")
                     .HasMaxLength(45);

@@ -13,7 +13,7 @@ namespace dm_backend.EFModels
 
         public int CountryId { get; set; }
         public string CountryName { get; set; }
-        public string CountryCode { get; set; }
+        public int CountryCode { get; set; }
 
         public ICollection<ContactNumber> ContactNumber { get; set; }
         public ICollection<State> State { get; set; }

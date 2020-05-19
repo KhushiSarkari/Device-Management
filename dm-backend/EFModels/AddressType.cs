@@ -6,6 +6,6 @@ namespace dm_backend.EFModels
     public partial class AddressType
     {
         public int AddressTypeId { get; set; }
-        public string AddressType1 { get; set; }
+        public string AddressTypes { get; set; }
     }
 }
