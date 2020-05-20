@@ -19,6 +19,7 @@ namespace dm_backend.Models
         public string complaintDate { get; set; }
         public string Issue { get; set; }
         public string status { get; set; }
-
+        public string? image { get; set;}
+       
     }
 }

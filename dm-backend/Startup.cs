@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using dm_backend.Data;
 using dm_backend.EFModels;
+
+using dm_backend.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,7 @@ namespace dm_backend
             services.AddCors();
 
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IEFRepository,EFRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
             {
@@ -44,6 +47,7 @@ namespace dm_backend
                 };
 
             });
+             services.AddSignalR();
             services.AddControllers();
         }
 
@@ -62,7 +66,9 @@ namespace dm_backend
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSignalR(Con =>{
+                Con.MapHub<FirstTry>("/messages");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

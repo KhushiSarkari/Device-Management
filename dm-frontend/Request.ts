@@ -29,14 +29,14 @@ function getPendingRequests(url: string) {
                 + "<td>" + util.concatName(requestedBy) + "</td>"
                 + "<td>" + data[i]['requestDate'] + "</td>";
             if (data[i]['availability'] == true)
-                tableData += "<td>" + "<button class=\"accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" data-requestname=\"" + util.concatName(requestedBy) + "\" data-requestmail = \"" + data[i]["requestedBy"]['email'] + "\"  >Accept</button>" + "</td>";
+                tableData += "<td>" + "<button class=\"mdl-button mdl-js-button mdl-button--raised mdl-button--accent accept-button\" data-requestid=\"" + data[i]['requestId'] + "\" data-requestname=\"" + util.concatName(requestedBy) + "\" data-requestmail = \"" + data[i]["requestedBy"]['email'] + "\"  >Accept</button>" + "</td>";
             else
-                tableData += "<td>" + "<button class=\"show-users\" data-devicemodel=\""
+                tableData += "<td>" + "<button class=\"mdl-button mdl-js-button mdl-button--raised mdl-button--accent show-users\" data-devicemodel=\""
                     + data[i]['deviceModel'] + "\"data-devicetype=\"" + data[i]['deviceType'] + "\" data-devicebrand=\""
                     + data[i]['deviceBrand'] + "\"data-ram=\"" + specs.ram + "\"data-connectivity=\"" + specs.connectivity
                     + "\"data-screensize=\"" + specs.screenSize + "\"data-storage=\"" + specs.storage + "\" >Notify</button>" + "</td>";
 
-            tableData += "<td>" + "<button class=\"reject-button\" data-requestid=" + data[i]['requestId'] + "\"  data-requestname=\"" + util.concatName(requestedBy) + "\" data-requestmail = \"" + data[i]["requestedBy"]['email'] + "\" >Reject</button>" + "</td></tr>";
+            tableData += "<td>" + "<button class=\"mdl-button mdl-js-button mdl-button--raised mdl-button--colored reject-button\" data-requestid=" + data[i]['requestId'] + "\"  data-requestname=\"" + util.concatName(requestedBy) + "\" data-requestmail = \"" + data[i]["requestedBy"]['email'] + "\" >Reject</button>" + "</td></tr>";
 
         }
         document.getElementById("content").innerHTML = tableData;

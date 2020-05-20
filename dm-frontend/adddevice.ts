@@ -1,8 +1,9 @@
 
 import { AddDevice } from './device_crud';
-import { navigationBarsss,headersRows } from './globals';
+import { navigationBarsss,headersRows,Token } from './globals';
 import { specificationDropdown } from './Device-Request/UserRequestMain';
-let token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+const _ = Token.getInstance();
+const token = _.tokenKey;
 let brand = (document.getElementById("inputbrand") as HTMLInputElement);
 let type = (document.getElementById("inputtype") as HTMLInputElement);
 let model = (document.getElementById("inputmodel") as HTMLInputElement);

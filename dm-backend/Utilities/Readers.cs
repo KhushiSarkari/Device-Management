@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using dm_backend.Models;
+using System.Data.Common;
 
 namespace dm_backend.Utilities
 {
@@ -19,6 +20,10 @@ namespace dm_backend.Utilities
             return reader[colName] != DBNull.Value ? Convert.ToDateTime(reader[colName]) : DateTime.MinValue;
         }
         public static T GetSafeInt<T>(MySqlDataReader reader, string colName)
+        {
+            return reader[colName] != DBNull.Value ? (T)reader[colName] : default(T);
+        }
+         public static T GetSafe<T>(DbDataReader reader, string colName)
         {
             return reader[colName] != DBNull.Value ? (T)reader[colName] : default(T);
         }

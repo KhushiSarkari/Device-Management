@@ -1,15 +1,14 @@
-import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token,headersRows } from './globals';
+import { BASEURL, amIAdmin, amIUser, navigationBarsss, PageNo, current_page, paging, changePage, Token, headersRows } from './globals';
 import { Sort } from './user-profile/SortingUser';
 import { HitApi } from './Device-Request/HitRequestApi';
-import {descriptionboxvalidation} from "./validation";
+import { descriptionboxvalidation, fileValidation, remove } from "./validation";
 let currentPage: number = current_page;
 (async function () {
-    if(document.title!="My Devices")
-    {
+    if (document.title != "My Devices") {
         return;
     }
-    const _=Token.getInstance();
-    const userId =_.userID;
+    const _ = Token.getInstance();
+    const userId = _.userID;
     const token = _.tokenKey;
     const role = await amIUser(token) == true ? "User" : "Admin";
 
@@ -27,7 +26,7 @@ let currentPage: number = current_page;
         if ((ev.target as HTMLButtonElement).classList.contains("cancel")) {
             const requestId = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.requestId;
             mydevices.deleteRequestHistory(parseInt(requestId)).then(function () { mydevices.getRequestHistory(userId); });
-            window["tata"].text('Request ','cancelled!',{duration:3000});
+            window["tata"].text('Request ', 'cancelled!', { duration: 3000 });
         }
     });
 
@@ -36,26 +35,46 @@ let currentPage: number = current_page;
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             console.log(deviceid);
             mydevices.returnDevice(userId, parseInt(deviceid)).then(function () { mydevices.getCurrentDevice(userId); });
-            window["tata"].text('Device ','Returned!',{duration:3000});
+            window["tata"].text('Device ', 'Returned!', { duration: 3000 });
         }
         else if ((ev.target as HTMLButtonElement).classList.contains("fault")) {
             openForm();
             const deviceid = (ev.target as HTMLButtonElement).parentElement.parentElement.dataset.deviceId;
             document.getElementById("faultpopup").setAttribute("data-device-id", deviceid)
-          
+
         }
     });
+   async function uploadAndReadFile(file:Blob)
+    {
+        const reader=new FileReader();
+       return new Promise((resolve,reject)=>{
+           reader.onloadend=() => {
+               resolve(reader.result)
+           }
+           reader.readAsDataURL(file)
+       })
 
-    document.querySelector('#faultpopup .submit').addEventListener('click', function (ev) {
+    }
+
+    document.querySelector('#faultpopup .submit').addEventListener('click', async function (ev) {
         ev.preventDefault();
         var comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
         var deviceid = parseInt(document.getElementById("faultpopup").dataset.deviceId);
-        if (descriptionboxvalidation() == false) {
+        var files = (document.getElementById("uploadBtn") as HTMLInputElement).files[0];
+        let file: string;
+      
+        if (files) {
+           file= await uploadAndReadFile(files) as string;
+        }
+
+
+        if(!(descriptionboxvalidation() && fileValidation())) {
             return;
         }
-        mydevices.reportFaultyDevice(userId, deviceid, comment);
+        mydevices.reportFaultyDevice(userId, deviceid, comment, file);
         closeForm();
-        window["tata"].text('Device Fault ','Reported!',{duration:3000});
+        window["tata"].text('Device Fault ', 'Reported!', { duration: 3000 });
+
     });
 
     document.querySelector('.closed').addEventListener('click', function (e) {
@@ -101,16 +120,21 @@ let currentPage: number = current_page;
     });
     function openForm() {
         document.querySelector('#faultpopup').classList.add("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+       
     }
 
     function closeForm() {
         document.querySelector('#faultpopup').classList.remove("active");
-        (document.getElementById('description') as HTMLInputElement).innerHTML = "";
+        remove();
+        document.querySelector("form").reset();
     }
 
+    document.getElementById("uploadBtn").onchange = function () {
+        (document.getElementById("uploadFile") as HTMLInputElement).value = (this as HTMLInputElement).files[0].name;
+    };
+
     navigationBarsss(role, "navigation");
-    headersRows(role,"row1");
+    headersRows(role, "row1");
     var mydevices = new MyDevices(token);
     mydevices.getCurrentDevice(userId);
 })();
@@ -144,8 +168,10 @@ export class MyDevices {
         return this.api.HitPostApi(BASEURL + "/api/ReturnRequest", { userId, deviceId });
     }
 
-    reportFaultyDevice(userId: number, deviceId: number, comment: string) {
-        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", { userId, deviceId, comment });
+    reportFaultyDevice(userId: number, deviceId: number, comment: string, file: string) {
+        let requestobject = { deviceId, userId, comment }
+        Object.assign(requestobject, file && { file });
+        return this.api.HitPostApi(BASEURL + "/api/ReturnRequest/fault", requestobject);
     }
 
     deleteRequestHistory(requestID: number) {
@@ -163,7 +189,7 @@ export class MyDevices {
         return (data);
     }
 
-   
+
 
 
     dynamicGenerateCurrentDevice(table: any) {
@@ -184,7 +210,7 @@ export class MyDevices {
             cell4.innerHTML = this.data[loop]["return_date"]
             if (table == this.table1) {
                 var cell5 = row.insertCell(5);
-                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored return">
+                cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent return">
             RETURN
         </button>`
                 var cell6 = row.insertCell(6);

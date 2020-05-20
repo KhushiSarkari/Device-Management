@@ -53,8 +53,8 @@ token :string="";
             const value = `
             
             <tr>
-                <td class = "cards" data-deviceid="${this.device_id}">${this.type} ${this.brand} ${this.model}
-                    <div class="mdl-card">
+                <td class = "cards tooltip" data-deviceid="${this.device_id}">${this.type} ${this.brand} ${this.model}
+                    <div class="mdl-card tooltiptext">
                         <div class="mdl-card__title">
                             <h2 class="mdl-card__title-text">Device Details</h2>
                         </div>
@@ -81,36 +81,37 @@ token :string="";
                 if(token==1){
 
                 
-                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised" id="add-button" ><span class="material-icons">add</span>
+                const buttons =  `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="add-button" ><span class="material-icons">add</span>
                    Add Device  </button>`;
                         (document.getElementById("buttons") as HTMLStyleElement).innerHTML = buttons;    
-                    const editbutton = `<td><div class="tooltip"><span class="material-icons" id="edit" value=${this.device_id}>create
-                    </span><span class="tooltiptext">Edit Device</span></div>`;
+                    const editbutton = `<td><span class="material-icons" id="edit-${this.device_id}" value=${this.device_id}>create
+                    </span><span class="mdl-tooltip" data-mdl-for="edit-${this.device_id}">Edit Device</span>`;
                         if(this.status=="Allocated")
-                        var val = `<div class="tooltip"><span class="material-icons" id="notify" data-deviceid=${this.device_id}>
-                        notifications</span><span class="tooltiptext">Notify User</span></div></td> </tr>`;
+                        var val = `<span class="material-icons" id="notify-${this.device_id}" data-deviceid=${this.device_id}>
+                        notifications</span><span class="mdl-tooltip" data-mdl-for="notify-${this.device_id}">Notify User</span></td> </tr>`;
                         else if(this.status == "Free")
                         {
-                            val = `<div class="tooltip"><span class="material-icons" id="delete" value=${this.device_id}">delete</span>
-                            <span class="tooltiptext">Delete Device</span></div>
-                            <div class="tooltip"><span class="material-icons" id="assign" data-id=${this.device_id}>assignment</span>
-                           <span class="tooltiptext">Assign Device</span>
-                           </div> </td> </tr> `;
+                            val = `<span class="material-icons" id="delete-${this.device_id}" value=${this.device_id}">delete</span>
+                            <span class="mdl-tooltip" data-mdl-for="delete-${this.device_id}">Delete Device</span>
+                            <span class="material-icons" id="assign-${this.device_id}" data-id=${this.device_id}>assignment</span>
+                           <span class="mdl-tooltip" data-mdl-for="assign-${this.device_id}">Assign Device</span>
+                          </td> </tr> `;
                         }
                         else
                         {
-                            val=`<div class="tooltip"><span class="material-icons" id="delete" value=${this.device_id}">delete</span>
-                            <span class="tooltiptext">Delete Device</span></div>
-                            <div class="tooltip">
-                            <span class="material-icons" style="color: red;">report_problem</span>
-                             <span class="tooltiptext">Faulty Device</span></div></td></tr>`;
+                            val=`<span class="material-icons" id="delete-${this.device_id}" value=${this.device_id}">delete</span>
+                            <span class="mdl-tooltip" data-mdl-for="delete-${this.device_id}">Delete Device</span>
+                            <span class="material-icons" style="color: red;" id="report_problem-${this.device_id}">report_problem</span>
+                             <span class="mdl-tooltip" data-mdl-for="report_problem-${this.device_id}">Faulty Device</span></td></tr>`;
                         }
                             (document.getElementById("Request_data") as HTMLStyleElement).innerHTML += value +editbutton+ val;
+                          
                     }
             else
             {
                     (document.getElementById("Request_data") as HTMLStyleElement).innerHTML += value;
             }
+          
 
         }
         

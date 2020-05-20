@@ -77,13 +77,13 @@ export class UserModel
 					<td>${this.status} </td>
 					<td>${formatPhone(this.phones[0].countryCode,this.phones[0].number)} </td>
 					<td>
-						<label class="mdl-switch mdl-js-switch" for="check-${this.userId}">
-							<input type="checkbox" id="check-${this.userId}" class="mdl-switch__input userCheckStatus"  data-toggle="modal"  data-target="#aiModal"  ${status}>
+						<label class="mdl-switch mdl-js-switch mdl-switch--accent" for="check-${this.userId}">
+							<input type="checkbox" id="check-${this.userId}" class="mdl-switch__input userCheckStatus mdl-color--teal"  data-toggle="modal"  data-target="#aiModal"  ${status}>
 							<label class="mdl-switch__label"></label>
 						</label>
 					</td>
-					<td><input  type="button" id="${this.userId}" class="userEditData mdl-button mdl-js-button mdl-button--primary mdl-button--colored" value="Edit" /></td>
-					<td><input  type="button" id="${this.userId}" class="userDeleteData mdl-button mdl-js-button mdl-button--primary text-danger " data-toggle="modal" value="Delete" data-target="#deleteModal" /></td>
+					<td><input  type="button" id="${this.userId}" class="userEditData mdl-button mdl-js-button mdl-button--raised  mdl-button--accent" value="Edit" /></td>
+					<td><input  type="button" id="${this.userId}" class="userDeleteData mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-toggle="modal" value="Delete" data-target="#deleteModal" /></td>
 		        </tr>`;//class="userDeleteData" value="Delete"
 
 	 }

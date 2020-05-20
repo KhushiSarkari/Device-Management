@@ -1,4 +1,4 @@
-import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage,headersRows } from "./globals";
+import { BASEURL, navigationBarsss, PageNo, current_page, paging, changePage,headersRows,Token } from "./globals";
 import { DeviceListForAdmin } from "./deviceListForAdmin";
 import { Sort } from "./user-profile/SortingUser";
 import { amIUser } from "./globals";
@@ -10,8 +10,9 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 
 (async function() {
-	const id= JSON.parse(sessionStorage.getItem("user_info"))["id"];
-	const token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+	const _ = Token.getInstance();
+    const id = _.userID;
+    const token = _.tokenKey;
 	const role = (await amIUser(token)) == true ? 0 : 1;
 	class Assign_device {
 		device_id: number = 0;
@@ -47,7 +48,9 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 					for (let element in data) {
 						let res = new DeviceListForAdmin(data[element],token);
 						res.getDeviceList(role);
+						
 					}
+					window["componentHandler"].upgradeDom();
 				})
 				.catch(err => console.log(err));
 		}
@@ -155,7 +158,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 		if((e.target as HTMLButtonElement).id=="add-button"){
 			window.location.href="./AddDevice.html";
 		}
-		if ((e.target as HTMLButtonElement).id == "edit") {
+		if ((e.target as HTMLButtonElement).id.startsWith("edit-")) {
 			window["tata"].text('Edit This ','Device',{duration:3000});
 			const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 				"value"
@@ -165,7 +168,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 
 			window.location.href = "AddDevice.html?device_id=" + device_id;
 		}
-		if ((e.target as HTMLSpanElement).id == "delete") {
+		if ((e.target as HTMLSpanElement).id.startsWith("delete-")) {
 			if (confirm("Are you sure you want to delete this device?")) {
 				window["tata"].text('Device ','Deleted!',{duration:3000});
 				const temp = new GetApiForAdmin(token);
@@ -177,21 +180,22 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				
 	           window.location.reload();
 				temp.getData("");
+				
 			} 
 		}
-		if((e.target as HTMLTableCellElement).className=="cards")
+		if((e.target as HTMLTableCellElement).className=="cards tooltip")
         {
 			
 			const device_id: any = (e.target as HTMLButtonElement).dataset.deviceid;
 			window.location.href = "./devicedetail.html?device_id=" + device_id;
         }
-		if ((e.target as HTMLButtonElement).id == "notify") {
+		if ((e.target as HTMLButtonElement).id.startsWith("notify-")) {
 			console.log("notify");
 			let deviceId: number = parseInt((e.target as HTMLButtonElement).dataset.deviceid, 10);
 			console.log(deviceId);
 			temp.postNotification(JSON.stringify({ "notify": [{ deviceId }] }));
 		}
-		if ((e.target as HTMLButtonElement).id == "assign") {
+		if ((e.target as HTMLButtonElement).id.startsWith("assign")) {
 			temp.openForm1('.login-popup');
 			(document.getElementById(
 				"device_id"
