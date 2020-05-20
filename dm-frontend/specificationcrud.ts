@@ -60,6 +60,7 @@ let mode:string = "create";
         {
             
             let data1 = this.addDataToSpecification();
+            console.log(data1);
            let res= await fetch(BASEURL +"/api/Device/updatespecification/"+ specification_id, {
                 method: "PUT",
                 headers: {
@@ -138,15 +139,17 @@ let mode:string = "create";
             
            response = await specs.updateSpecification(specification.specification_id);
             mode = "create";
+            if(response == 200)
             window["tata"].text('Specification ','Updated!',{duration:3000});
         }
         else{
          
              response =await specs.addNewSpecification();
+             if(response == 200)
              window["tata"].success('New Specification ','Added!',{duration:3000});
         }
         specs.closeForm('.login-popup');
-        if(response ==200){
+        if(response == 200){
         specs.getSpecificationData();
         }
     });

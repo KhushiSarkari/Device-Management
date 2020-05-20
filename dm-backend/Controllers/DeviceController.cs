@@ -19,12 +19,8 @@ namespace dm_backend.Controllers
     [Route("api/[controller]")]
     public class DeviceController : ControllerBase
     {
-        public IEFRepository  _repo;
-        // public DeviceController(AppDb db)
-        // {
-        //     Db = db;
-        // }
-        public DeviceController(IEFRepository repo)
+        public IDeviceRepository  _repo;
+        public DeviceController(IDeviceRepository repo)
         {
         
             _repo = repo;
@@ -35,9 +31,37 @@ namespace dm_backend.Controllers
         [Route("page")]
         public IActionResult GetAllDevices()
         {
-             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
+            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);    
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            var deviceObject = _repo.GetAllDevices();
+            string device_name = (string)(HttpContext.Request.Query["device_name"])??"";
+            string serial_number = (string)(HttpContext.Request.Query["serial_number"])??"";
+            string status_name = (string)(HttpContext.Request.Query["status_name"])??"";
+            if(status_name =="all")
+            {
+                status_name="";
+            }
+             string SortColumn = (HttpContext.Request.Query["SortColumn"]);
+            string SortDirection = (HttpContext.Request.Query["SortDirection"]);
+            SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
+            switch (SortColumn.ToLower())
+            {
+                case "device_name":
+                    SortColumn = "concat(type ,'', brand , '' ,  model)";
+                    break;
+                case "specification":
+                    SortColumn = "concat(RAM , ' ',storage ,' ',screen_size , ' ',connectivity)";
+                    break;
+
+                case "serial_number":
+                    SortColumn = "serial_number*1";
+                    break;
+
+                default:
+                    SortColumn = "concat(type ,'', brand , '' ,  model)";
+
+                    break;
+            }
+            var deviceObject = _repo.GetAllDevices(device_name,serial_number,status_name,SortColumn,SortDirection);
             var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
                         new JsonSerializerSettings()
                         { 
@@ -63,62 +87,62 @@ namespace dm_backend.Controllers
         }
 
 
-        [HttpGet]
-        [Route("search")]
-        public IActionResult getDeviceswithSearch()
-        {
-            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
-            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            string device_name = (string)(HttpContext.Request.Query["device_name"])??"";
-            string serial_number = (HttpContext.Request.Query["serial_number"]);
-            string status_name = (HttpContext.Request.Query["status_name"]);
-            if(status_name=="all")
-            {
-                status_name=null;
-            }
-            Db.Connection.Open();
-            var query = new devices(Db);
-            var pager = PagedList<devices>.ToPagedList(query.getDeviceBySearch(device_name, serial_number, status_name), pageNumber, pageSize);
-           Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            Db.Connection.Close();
-            return Ok(pager);
+        // [HttpGet]
+        // [Route("search")]
+        // public IActionResult getDeviceswithSearch()
+        // {
+        //     int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+        //     int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
+        //     string device_name = (string)(HttpContext.Request.Query["device_name"])??"";
+        //     string serial_number = (HttpContext.Request.Query["serial_number"]);
+        //     string status_name = (HttpContext.Request.Query["status_name"]);
+        //     if(status_name=="all")
+        //     {
+        //         status_name=null;
+        //     }
+        //     Db.Connection.Open();
+        //     var query = new devices(Db);
+        //     var pager = PagedList<devices>.ToPagedList(query.getDeviceBySearch(device_name, serial_number, status_name), pageNumber, pageSize);
+        //    Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+        //     Db.Connection.Close();
+        //     return Ok(pager);
 
-        }
-        [HttpGet]
-        [Route("sort")]
-        public IActionResult getDeviceswithSorting()
-        {
-            int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
-            int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            string SortColumn = (HttpContext.Request.Query["SortColumn"]);
-            string SortDirection = (HttpContext.Request.Query["SortDirection"]);
-            SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
-            switch (SortColumn.ToLower())
-            {
-                case "device_name":
-                    SortColumn = "concat(type ,'', brand , '' ,  model)";
-                    break;
-                case "specification":
-                    SortColumn = "concat(RAM , ' ',storage ,' ',screen_size , ' ',connectivity)";
-                    break;
+        // }
+        // [HttpGet]
+        // [Route("sort")]
+        // public IActionResult getDeviceswithSorting()
+        // {
+        //     int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
+        //     int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
+        //     string SortColumn = (HttpContext.Request.Query["SortColumn"]);
+        //     string SortDirection = (HttpContext.Request.Query["SortDirection"]);
+        //     SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
+        //     switch (SortColumn.ToLower())
+        //     {
+        //         case "device_name":
+        //             SortColumn = "concat(type ,'', brand , '' ,  model)";
+        //             break;
+        //         case "specification":
+        //             SortColumn = "concat(RAM , ' ',storage ,' ',screen_size , ' ',connectivity)";
+        //             break;
 
-                case "serial_number":
-                    SortColumn = "serial_number*1";
-                    break;
+        //         case "serial_number":
+        //             SortColumn = "serial_number*1";
+        //             break;
 
-                default:
-                    SortColumn = "concat(type ,'', brand , '' ,  model)";
+        //         default:
+        //             SortColumn = "concat(type ,'', brand , '' ,  model)";
 
-                    break;
-            }
-            Db.Connection.Open();
-            var query = new devices(Db);
-            var pager = PagedList<devices>.ToPagedList(query.SortAlldevices(SortColumn, SortDirection), pageNumber, pageSize);
-           Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            Db.Connection.Close();
-            return Ok(pager);
+        //             break;
+        //     }
+        //     Db.Connection.Open();
+        //     var query = new devices(Db);
+        //     var pager = PagedList<devices>.ToPagedList(query.SortAlldevices(SortColumn, SortDirection), pageNumber, pageSize);
+        //    Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+        //     Db.Connection.Close();
+        //     return Ok(pager);
 
-        }
+        // }
 
         [Authorize(Roles = "admin")]
         [HttpDelete]
@@ -185,54 +209,41 @@ namespace dm_backend.Controllers
         [Route("spec/{specification_id}")]
         public IActionResult GetSpec(int specification_id)
         {
-            // Db.Connection.Open();
-            // var query = new Specification(Db);
-            // var result = query.getspecbyid(specification_id);
-            // Db.Connection.Close();
             return Ok(_repo.getSpecificationById(specification_id));
         }
 
 
 
-        // [Authorize(Roles = "admin")]
-        // [HttpPost]
-        // [Route("addspecification")]
-        // async public Task<IActionResult> Postspec([FromBody]Specification body)
-        // {
-        //     Db.Connection.Open();
-        //     var que = new Specification(Db);
-        //     await que.addspecification(body);
-        //     Db.Connection.Close();
-        //     return Ok();
-        // }
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        [Route("addspecification")]
+         public IActionResult Postspec([FromBody]Specification body)
+        {
+           var result = _repo.addSpecification(body);
+            return Ok(result);
+        }
 
-        // [Authorize(Roles = "admin")]
-        // [HttpPut]
-        // [Route("updatespecification/{specification_id}")]
-        // async public Task<IActionResult> Putspec(int specification_id, [FromBody]Specification body)
-        // {
-        //     Db.Connection.Open();
-        //     var query = new Specification(Db);
-        //     body.specification_id = specification_id;
-        //     await query.updatespecification(body);
-        //     Db.Connection.Close();
-        //     return Ok();
-        // }
-        // [Authorize(Roles = "admin")]
-        // [HttpDelete]
-        // [Route("specification/{specification_id}/delete")]
-        // public IActionResult Deletespecification(int specification_id)
-        // {
-        //     Specification query = new Specification(Db);
-        //     query.specification_id = specification_id;
-        //     if(query.Deletespec()==1)
-        //     {
-        //          return Ok();
-        //     }
-        //     else{
-        //         return BadRequest();
-        //     }
-        // }
+        [Authorize(Roles = "admin")]
+        [HttpPut]
+        [Route("updatespecification/{specification_id}")]
+         public IActionResult Putspec(int specification_id, [FromBody]Specification body)
+        {
+            var result = _repo.updateSpecification(specification_id,body);
+            return Ok(result);
+        }
+        [Authorize(Roles = "admin")]
+        [HttpDelete]
+        [Route("specification/{specification_id}/delete")]
+        public IActionResult Deletespecification(int specification_id)
+        {
+            if(_repo.deleteSpecification(specification_id)!=null)
+            {
+                 return Ok();
+            }
+            else{
+                return BadRequest();
+            }
+        }
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("type")]

@@ -56,35 +56,54 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				})
 				.catch(err => console.log(err));
 		}
-		getData(uri:string) {
-			const URL = BASEURL + "/api/Device/page?"+PageNo(this.currentPage);
-			console.log(URL);
-			this.getApi(URL);
-		}
-		searchByName(status:string) {
-			var serial_number = (document.getElementById(
-				"search_serial_number"
-			) as HTMLInputElement).value;
+		getData(status_name:string) {
 			var device_name = (document.getElementById(
 				"fixed-header-drawer-exp"
 			) as HTMLInputElement).value;
-			const URL1 = BASEURL + "/api/Device/search?"+PageNo(this.currentPage)+"&device_name=" + device_name;
+			var serial_number = (document.getElementById(
+				"search_serial_number"
+			) as HTMLInputElement).value;
+			//var status_name = (document.getElementById("status") as HTMLInputElement).value;
+			
+			const URL = BASEURL + "/api/Device/page?"+PageNo(this.currentPage) +"&status_name=" + status_name;
 			if (serial_number) {
-				const URL = URL1 + "&serial_number=" + serial_number;
-				this.getApi(URL);
-			} else if (status) {
-				const URL = URL1 + "&status_name=" + status;
-				this.getApi(URL);
-			} else if (serial_number && status) {
-				const URL =
-					URL1 + "&serial_number=" + serial_number + "&status_name=" + status;
-				this.getApi(URL);
-			} else {
-				this.getApi(URL1);
+				const URI = URL+ "&serial_number=" + serial_number;
+				this.getApi(URI);
+			} 
+			else if (device_name)
+			{
+				const URI = URL+ "&device_name=" + device_name;
+				this.getApi(URI);
 			}
-			//(document.getElementById("fixed-header-drawer-exp") as HTMLInputElement).value="";
-			//(document.getElementById("search_serial_number") as HTMLInputElement).value="";
-		}
+				else{
+					this.getApi(URL);
+				}
+		
+	}
+		// searchByName(status:string) {
+		// 	var serial_number = (document.getElementById(
+		// 		"search_serial_number"
+		// 	) as HTMLInputElement).value;
+		// 	var device_name = (document.getElementById(
+		// 		"fixed-header-drawer-exp"
+		// 	) as HTMLInputElement).value;
+		// 	const URL1 = BASEURL + "/api/Device/search?"+PageNo(this.currentPage)+"&device_name=" + device_name;
+		// 	if (serial_number) {
+		// 		const URL = URL1 + "&serial_number=" + serial_number;
+		// 		this.getApi(URL);
+		// 	} else if (status) {
+		// 		const URL = URL1 + "&status_name=" + status;
+		// 		this.getApi(URL);
+		// 	} else if (serial_number && status) {
+		// 		const URL =
+		// 			URL1 + "&serial_number=" + serial_number + "&status_name=" + status;
+		// 		this.getApi(URL);
+		// 	} else {
+		// 		this.getApi(URL1);
+		// 	}
+		// 	//(document.getElementById("fixed-header-drawer-exp") as HTMLInputElement).value="";
+		// 	//(document.getElementById("search_serial_number") as HTMLInputElement).value="";
+		// }
 		sort(SortColumn: string, SortDirection: any,uri:string) {
 			const URL =
 				BASEURL +
@@ -123,8 +142,8 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			});
 			if(res.status==200)
 			{
-				//window["tata"].text('Device assigned',{duration:20000});
-				alert("Device assigned");
+				window["tata"].text('Device assigned',{duration:20000});
+				//alert("Device assigned");
 				console.log("assign");
 				temp.closeForm1('.login-popup');
 				window.location.reload();
@@ -269,25 +288,26 @@ console.log(status);
 		"#fixed-header-drawer-exp"
 	) as HTMLInputElement).addEventListener("change", function(e) {
 		let status=(document.getElementById("status") as HTMLInputElement).value;
-		console.log("acdvfvf"+status);
-		temp.searchByName(status);
+		
+		temp.getData(status);
 	});
 	(document.querySelector(
 		"#search_serial_number"
 	) as HTMLInputElement).addEventListener("change", function(e) {
-		temp.searchByName(status);
+		let status=(document.getElementById("status") as HTMLInputElement).value;
+		temp.getData(status);
 	});
 	(document.querySelector("#status") as HTMLInputElement).addEventListener(
 		"click",
 		function(e) {
-			if (
-				(document.getElementById("status") as HTMLInputElement).value == "all"
-			) {
-				temp.getData("");
-			} else {
-				const status=(document.getElementById("status") as HTMLInputElement).value;
-				temp.searchByName(status);
-			}
+			// if (
+			// 	(document.getElementById("status") as HTMLInputElement).value == "all"
+			// ) {
+			// 	temp.getData("");
+			// } else {
+			const status=(document.getElementById("status") as HTMLInputElement).value;
+				temp.getData(status);
+			// }
 		}
 	);
 
@@ -314,7 +334,8 @@ console.log(status);
 	const urlParams = new URLSearchParams(window.location.search);
 	const myParam = urlParams.get("status");
 	if (myParam != null) {
-		temp.searchByName(myParam);
+		//temp.searchByName(myParam);
+		temp.getData(myParam);
 		(document.getElementById("status")as HTMLSelectElement).value=myParam;
 		
 	}
