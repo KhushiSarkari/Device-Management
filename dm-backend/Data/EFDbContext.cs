@@ -880,7 +880,7 @@ namespace dm_backend.Data
             {
                 entity.ToTable("request_history");
 
-                entity.HasIndex(e => e.EmployeeId)
+                entity.HasIndex(e => e.UserId)
                     .HasName("employee_id_request_idx");
 
                 entity.HasIndex(e => e.SpecificationId)
@@ -905,7 +905,7 @@ namespace dm_backend.Data
                     .HasColumnName("device_type")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.Model)
                     .IsRequired()
@@ -920,7 +920,7 @@ namespace dm_backend.Data
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.RequestHistory)
-                    .HasForeignKey(d => d.EmployeeId)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employee_id_request");
 

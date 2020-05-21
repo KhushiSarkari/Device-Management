@@ -9,8 +9,10 @@ namespace dm_backend.Data
     {
     
             List<devices> GetAllDevices(string device_name,string serial_number,string status_name);
+           
             List<DeviceInsertUpdate> GetDeviceById( int device_id);
            string addDevice(DeviceInsertUpdate d);
+           string updateDevice(int device_id,DeviceInsertUpdate d);
             int deleteDevice(int device_id);
             string assignDevice(Assign a);
             List<devices> getDeviceDescriptionbyid(int device_id);
@@ -22,5 +24,6 @@ namespace dm_backend.Data
             string addType(DeviceType t);
             string addBrand(DeviceBrand b);
             string addModel(DeviceModel m);
+           List<devices> getPreviousDevice(int id,string ToSearch, string ToSort,string Todirection);
     }
 }

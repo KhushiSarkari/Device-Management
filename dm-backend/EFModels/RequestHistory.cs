@@ -12,8 +12,9 @@ namespace dm_backend.EFModels
         public string Model { get; set; }
         public int StatusId { get; set; }
         public sbyte? AssignDays { get; set; }
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
         public int? DeviceId { get; set; }
+        
         public int? ReturnTo { get; set; }
 
         public User Employee { get; set; }

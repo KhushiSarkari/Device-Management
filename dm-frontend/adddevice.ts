@@ -117,17 +117,9 @@ window.addEventListener('submit', function (e) {
   if (myParam) {
    
     temp.update_device(myParam);
-    window["tata"].text('Device ','Updated!',{duration:3000});
-    
-    // window.location.href = "./deviceListForadmin.html";
   }
   else {
-    
-    
-    temp.Create_device();
-   // window["tata"].text('New Device ','Added!',{duration:3000});
-   
-    
+     temp.Create_device();    
   }
    
 

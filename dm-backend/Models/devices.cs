@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using dm_backend;
 using System.Data.Common;
 using dm_backend.Data;
+using dm_backend.EFModels;
 
 namespace dm_backend.Models
 {
@@ -14,17 +15,17 @@ public class PartialDeviceModel
 {
             private readonly EFDbContext _context;
 
-        public int device_id { get; set; }
-        public int status_id { get; set; }
-        public int specification_id { get; set; }
-        public string type {get;set;}
-        public string brand {get;set;}
-        public string model { get; set; }
-        public string color { get; set; }
-        public string price { get; set; }
-        public string serial_number { get; set; }
-        public string warranty_year { get; set; }
-        public string purchase_date { get; set; }
+        public int DeviceId { get; set; }
+        public int StatusId { get; set; }
+        public int SpecificationId { get; set; }
+        public string Type {get;set;}
+        public string Brand {get;set;}
+        public string Model { get; set; }
+        public string Color { get; set; }
+        public string Price { get; set; }
+        public string SerialNumber { get; set; }
+        public string WarrantyYear { get; set; }
+        public string PurchaseDate { get; set; }
        
          internal AppDb Db { get; set; }
 
@@ -59,7 +60,7 @@ public class PartialDeviceModel
 
     public class DeviceInsertUpdate:PartialDeviceModel
     {
-        public string entry_date { get; set; }
+        public string EntryDate { get; set; }
        //  public AppDb Db { get; }
         public DeviceInsertUpdate(AppDb db)
         {
@@ -80,17 +81,17 @@ public class PartialDeviceModel
         // }
         private void BindDevice(MySqlCommand cmd, DeviceInsertUpdate v)
         {
-            cmd.Parameters.Add(new MySqlParameter("device_type", v.type));
-            cmd.Parameters.Add(new MySqlParameter("device_brand", v.brand));
-            cmd.Parameters.Add(new MySqlParameter("device_model", v.model));
-            cmd.Parameters.Add(new MySqlParameter("color", v.color));
-            cmd.Parameters.Add(new MySqlParameter("price", v.price));
-            cmd.Parameters.Add(new MySqlParameter("serial_number", v.serial_number));
-            cmd.Parameters.Add(new MySqlParameter("warranty_year", v.warranty_year));
-            cmd.Parameters.Add(new MySqlParameter("purchase_date", v.purchase_date));
-            cmd.Parameters.Add(new MySqlParameter("status_id", v.status_id));
-            cmd.Parameters.Add(new MySqlParameter("specification_id", v.specification_id));
-            cmd.Parameters.Add(new MySqlParameter("entry_date", v.entry_date));
+            cmd.Parameters.Add(new MySqlParameter("device_type", v.Type));
+            cmd.Parameters.Add(new MySqlParameter("device_brand", v.Brand));
+            cmd.Parameters.Add(new MySqlParameter("device_model", v.Model));
+            cmd.Parameters.Add(new MySqlParameter("color", v.Color));
+            cmd.Parameters.Add(new MySqlParameter("price", v.Price));
+            cmd.Parameters.Add(new MySqlParameter("serial_number", v.SerialNumber));
+            cmd.Parameters.Add(new MySqlParameter("warranty_year", v.WarrantyYear));
+            cmd.Parameters.Add(new MySqlParameter("purchase_date", v.WarrantyYear));
+            cmd.Parameters.Add(new MySqlParameter("status_id", v.StatusId));
+            cmd.Parameters.Add(new MySqlParameter("specification_id", v.SpecificationId));
+            cmd.Parameters.Add(new MySqlParameter("entry_date", v.EntryDate));
         }
         async public Task updateDevice(DeviceInsertUpdate v)
         {
@@ -103,7 +104,7 @@ public class PartialDeviceModel
         }
         private void BindDeviceId(MySqlCommand cmd, DeviceInsertUpdate v)
         {
-            cmd.Parameters.Add(new MySqlParameter("device_id", v.device_id));
+            cmd.Parameters.Add(new MySqlParameter("device_id", v.DeviceId));
         }
         //  public List<DeviceInsertUpdate> getdevicebyid(int device_id)
         // {
@@ -148,8 +149,8 @@ public class PartialDeviceModel
     }
     public class Assign:devices
     {
-        public int user_id { get; set; }
-        public int admin_id{get;set;}
+        public int UserId { get; set; }
+        public int AdminId{get;set;}
        
         public Assign()
         {
@@ -183,22 +184,22 @@ public class PartialDeviceModel
 
     public class devices:PartialDeviceModel
     {
-        public string status { get; set; }
-        public string comments { get; set; }
-        public Specifications specifications { get; set; }
-        public string assign_date { get; set; }
-        public string entry_date{get; set;}
-        public string return_date { get; set; }
-        public name assign_to { get; set; }
-        public name assign_by { get; set; }
+        public string Status { get; set; }
+        public string Comments { get; set; }
+        public Specification Specifications { get; set; }
+        public string AssignDate { get; set; }
+        public string EntryDate{get; set;}
+        public string ReturnDate { get; set; }
+        public name AssignTo { get; set; }
+        public name AssignBy { get; set; }
 
        
 
         public devices()
         {
-            specifications = new Specifications();
-            assign_to = new name();
-            assign_by = new name();
+            Specifications = new Specification();
+            AssignTo = new name();
+            AssignBy = new name();
         }
 
         internal devices(AppDb db)
@@ -444,12 +445,12 @@ and request_history.device_model=device_model.device_model_id and request_histor
 					Console.WriteLine("Found a row");
 					var post = new devices()
 					{
-						type = reader.GetString(0),
-						brand = reader.GetString(1),
-						model = reader.GetString(2),
-						assign_date = GetSafeString(reader,"assign_date"),
-						return_date = GetSafeString(reader,"return_date"),
-                        device_id = GetInt(reader,"device_id"),
+						Type = reader.GetString(0),
+						Brand = reader.GetString(1),
+						Model = reader.GetString(2),
+						AssignDate = GetSafeString(reader,"assign_date"),
+						ReturnDate = GetSafeString(reader,"return_date"),
+                        DeviceId = GetInt(reader,"device_id"),
                        // user_id =GetInt(reader,"user_id")
 					};
 					posts.Add(post);

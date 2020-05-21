@@ -86,28 +86,6 @@ namespace dm_backend.Controllers
             return Ok(_repo.getDeviceDescriptionbyid(Int32.Parse(device_id)));
         }
 
-
-        // [HttpGet]
-        // [Route("search")]
-        // public IActionResult getDeviceswithSearch()
-        // {
-        //     int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
-        //     int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-        //     string device_name = (string)(HttpContext.Request.Query["device_name"])??"";
-        //     string serial_number = (HttpContext.Request.Query["serial_number"]);
-        //     string status_name = (HttpContext.Request.Query["status_name"]);
-        //     if(status_name=="all")
-        //     {
-        //         status_name=null;
-        //     }
-        //     Db.Connection.Open();
-        //     var query = new devices(Db);
-        //     var pager = PagedList<devices>.ToPagedList(query.getDeviceBySearch(device_name, serial_number, status_name), pageNumber, pageSize);
-        //    Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-        //     Db.Connection.Close();
-        //     return Ok(pager);
-
-        // }
         // [HttpGet]
         // [Route("sort")]
         // public IActionResult getDeviceswithSorting()
@@ -135,9 +113,9 @@ namespace dm_backend.Controllers
 
         //             break;
         //     }
-        //     Db.Connection.Open();
-        //     var query = new devices(Db);
-        //     var pager = PagedList<devices>.ToPagedList(query.SortAlldevices(SortColumn, SortDirection), pageNumber, pageSize);
+        //     // Db.Connection.Open();
+        //     // var query = new devices(Db);
+        //     var pager = PagedList<devices>.ToPagedList(_repo.sortAllDevices(SortColumn, SortDirection), pageNumber, pageSize);
         //    Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
         //     Db.Connection.Close();
         //     return Ok(pager);
@@ -172,14 +150,9 @@ namespace dm_backend.Controllers
         [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("update/{device_id}")]
-        async public Task<IActionResult> Put(int device_id, [FromBody]DeviceInsertUpdate body)
+         public IActionResult Put(int device_id, [FromBody]DeviceInsertUpdate body)
         {
-            Db.Connection.Open();
-            var query = new DeviceInsertUpdate(Db);
-            body.device_id = device_id;
-            await query.updateDevice(body);
-            Db.Connection.Close();
-            return Ok();
+            return Ok( _repo.updateDevice(device_id,body));
         }
 
         [HttpGet("specification")]

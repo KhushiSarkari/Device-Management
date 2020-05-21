@@ -9,10 +9,7 @@ export class AddDevice {
     Brand:string
     Model:string
     Type:string
-    DeviceType: string;
-    DeviceBrand: string;
     StatusId: number;
-    DeviceModel: string;
     Color: string;
     Price: string;
     SerialNumber: string;
@@ -96,7 +93,6 @@ export class AddDevice {
         });
         
         if (res.status == 200) {
-            console.log("added Successfully");
             window["tata"].text('Device ','Added!',{duration:3000});
             window.location.href = "./deviceListForadmin.html";
         }
@@ -129,15 +125,15 @@ export class AddDevice {
 
         (document.getElementById("inputbrand") as HTMLInputElement).value = data[0].brand;
         (document.getElementById("inputtype") as HTMLInputElement).value = data[0].type;
-        (document.getElementById("status") as HTMLInputElement).value = data[0].status_id;
+        (document.getElementById("status") as HTMLInputElement).value = data[0].statusId;
         (document.getElementById("inputmodel") as HTMLInputElement).value = data[0].model;
-        (document.getElementById("serial_number") as HTMLInputElement).value = data[0].serial_number;
+        (document.getElementById("serial_number") as HTMLInputElement).value = data[0].serialNumber;
         (document.getElementById("color") as HTMLInputElement).value = data[0].color;
         (document.getElementById("price") as HTMLInputElement).value = data[0].price;
-        (document.getElementById("warranty_year") as HTMLInputElement).value = data[0].warranty_year;
-        (document.getElementById("purchase_date") as HTMLInputElement).value = formatDate1(data[0].purchase_date);
-        (document.getElementById("specification") as HTMLInputElement).value = data[0].specification_id;
-        (document.getElementById("entry_date") as HTMLInputElement).value = formatDate1(data[0].entry_date);
+        (document.getElementById("warranty_year") as HTMLInputElement).value = data[0].warrantyYear;
+        (document.getElementById("purchase_date") as HTMLInputElement).value = formatDate1(data[0].purchaseDate);
+        (document.getElementById("specification") as HTMLInputElement).value = data[0].specificationId;
+        (document.getElementById("entry_date") as HTMLInputElement).value = formatDate1(data[0].entryDate);
 
     }
 
@@ -150,17 +146,16 @@ export class AddDevice {
             body: data,
         });
         if (res.status == 200) {
-            console.log("updated Successfully");
-            alert("Device Updated");
+            window["tata"].text('Device ','Updated!',{duration:3000});
             window.location.href = "./deviceListForadmin.html";
         }
 
     }
     addDataFromForm() {
-        this.DeviceType = ((document.getElementById("inputtype") as HTMLSelectElement).value);
-        this.DeviceBrand = ((document.getElementById("inputbrand") as HTMLInputElement).value);
+        this.Type = ((document.getElementById("inputtype") as HTMLSelectElement).value);
+        this.Brand = ((document.getElementById("inputbrand") as HTMLInputElement).value);
         this.StatusId = +((document.getElementById("status") as HTMLInputElement).value);
-        this.DeviceModel = (document.getElementById("inputmodel") as HTMLInputElement).value;
+        this.Model = (document.getElementById("inputmodel") as HTMLInputElement).value;
         this.Color = (document.getElementById("color") as HTMLInputElement).value;
         this.Price = (document.getElementById("price") as HTMLInputElement).value;
         this.SerialNumber = (document.getElementById("serial_number") as HTMLInputElement).value;

@@ -34,35 +34,35 @@ namespace dm_backend.Data
                                          from u in groupings.DefaultIfEmpty()
                                          select new devices
                                          {
-                                             device_id = d.DeviceId,
-                                             type = devices.GetSafeStrings(dt.Type),
-                                             brand = devices.GetSafeStrings(db.Brand),
-                                             model = devices.GetSafeStrings(dm.Model),
-                                             color = devices.GetSafeStrings(d.Color),
-                                             price = devices.GetSafeStrings(d.Price),
-                                             serial_number = devices.GetSafeStrings(d.SerialNumber),
-                                             entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
-                                             warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                                             purchase_date = d.PurchaseDate.ToString(),
-                                             status = devices.GetSafeStrings(st.StatusName),
-                                             assign_date = devices.GetSafeStrings(ad.AssignedDate.ToString()),
-                                             return_date = devices.GetSafeStrings(ad.ReturnDate.ToString()),
-                                             specifications = new Specifications
+                                             DeviceId = d.DeviceId,
+                                             Type = devices.GetSafeStrings(dt.Type),
+                                             Brand = devices.GetSafeStrings(db.Brand),
+                                             Model = devices.GetSafeStrings(dm.Model),
+                                             Color = devices.GetSafeStrings(d.Color),
+                                             Price = devices.GetSafeStrings(d.Price),
+                                             SerialNumber = devices.GetSafeStrings(d.SerialNumber),
+                                             EntryDate = devices.GetSafeStrings(d.EntryDate.ToString()),
+                                             WarrantyYear = devices.GetSafeStrings(d.WarrantyYear.ToString()),
+                                             PurchaseDate = d.PurchaseDate.ToString(),
+                                             Status = devices.GetSafeStrings(st.StatusName),
+                                             AssignDate = devices.GetSafeStrings(ad.AssignedDate.ToString()),
+                                             ReturnDate = devices.GetSafeStrings(ad.ReturnDate.ToString()),
+                                             Specifications = new Specification
                                              {
-                                                 specification_id = s.SpecificationId,
-                                                 RAM = devices.GetSafeStrings(s.Ram),
+                                                 SpecificationId = s.SpecificationId,
+                                                 Ram = devices.GetSafeStrings(s.Ram),
                                                  Connectivity = devices.GetSafeStrings(s.Connectivity),
                                                  ScreenSize = devices.GetSafeStrings(s.ScreenSize),
                                                  Storage = devices.GetSafeStrings(s.Storage)
                                              },
 
-                                             assign_by = new name
+                                             AssignBy = new name
                                              {
                                                  first_name = devices.GetSafeStrings(u.FirstName),
                                                  middle_name = devices.GetSafeStrings(u.MiddleName),
                                                  last_name = devices.GetSafeStrings(u.LastName)
                                              },
-                                             assign_to = new name
+                                             AssignTo = new name
                                              {
                                                  first_name = devices.GetSafeStrings(u.FirstName),
                                                  middle_name = devices.GetSafeStrings(u.MiddleName),
@@ -70,12 +70,12 @@ namespace dm_backend.Data
                                              }
 
                                          });
-
-            data = (List<devices>)data.Where(d => (serial_number == "") ? true : d.serial_number == serial_number)
-            .Where(d => (status_name == "") ? true : EF.Functions.Like(d.status, status_name))
-            .Where(d => (device_name == "") ? true : EF.Functions.Like(string.Join(d.type, " ", d.brand, " ", d.model), device_name))
+            
+            data = (List<devices>)data.Where(d => (serial_number == "") ? true : d.SerialNumber == serial_number)
+            .Where(d => (status_name == "") ? true : EF.Functions.Like(d.Status, status_name))
+            .Where(d => (device_name == "") ? true : (string.Concat(d.Type," ",d.Brand," ",d.Model).Contains(device_name)))
             .ToList();
-
+            
 
             return data;
         }
@@ -91,18 +91,18 @@ namespace dm_backend.Data
                 where d.DeviceId == device_id
                 select new DeviceInsertUpdate
                 {
-                    device_id = d.DeviceId,
-                    type = devices.GetSafeStrings(dt.Type),
-                    brand = devices.GetSafeStrings(db.Brand),
-                    model = devices.GetSafeStrings(dm.Model),
-                    color = devices.GetSafeStrings(d.Color),
-                    price = devices.GetSafeStrings(d.Price),
-                    serial_number = devices.GetSafeStrings(d.SerialNumber),
-                    entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
-                    warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                    purchase_date = devices.GetSafeStrings(d.PurchaseDate.ToString()),
-                    status_id = d.StatusId,
-                    specification_id = d.SpecificationId
+                    DeviceId = d.DeviceId,
+                    Type = devices.GetSafeStrings(dt.Type),
+                    Brand = devices.GetSafeStrings(db.Brand),
+                    Model = devices.GetSafeStrings(dm.Model),
+                    Color = devices.GetSafeStrings(d.Color),
+                    Price = devices.GetSafeStrings(d.Price),
+                    SerialNumber = devices.GetSafeStrings(d.SerialNumber),
+                    EntryDate = devices.GetSafeStrings(d.EntryDate.ToString()),
+                    WarrantyYear = devices.GetSafeStrings(d.WarrantyYear.ToString()),
+                    PurchaseDate = devices.GetSafeStrings(d.PurchaseDate.ToString()),
+                    StatusId = d.StatusId,
+                    SpecificationId = d.SpecificationId
 
 
                 }).ToList();
@@ -126,26 +126,26 @@ namespace dm_backend.Data
                                          where d.DeviceId == device_id
                                          select new devices
                                          {
-                                             device_id = d.DeviceId,
-                                             type = devices.GetSafeStrings(dt.Type),
-                                             brand = devices.GetSafeStrings(db.Brand),
-                                             model = devices.GetSafeStrings(dm.Model),
-                                             color = devices.GetSafeStrings(d.Color),
-                                             price = devices.GetSafeStrings(d.Price),
-                                             serial_number = devices.GetSafeStrings(d.SerialNumber),
-                                             entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
-                                             warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                                             purchase_date = d.PurchaseDate.ToString(),
-                                             status = devices.GetSafeStrings(st.StatusName),
-                                             specifications = new Specifications
+                                             DeviceId = d.DeviceId,
+                                             Type = devices.GetSafeStrings(dt.Type),
+                                             Brand = devices.GetSafeStrings(db.Brand),
+                                             Model = devices.GetSafeStrings(dm.Model),
+                                             Color = devices.GetSafeStrings(d.Color),
+                                             Price = devices.GetSafeStrings(d.Price),
+                                             SerialNumber = devices.GetSafeStrings(d.SerialNumber),
+                                             EntryDate = devices.GetSafeStrings(d.EntryDate.ToString()),
+                                             WarrantyYear = devices.GetSafeStrings(d.WarrantyYear.ToString()),
+                                             PurchaseDate = d.PurchaseDate.ToString(),
+                                             Status = devices.GetSafeStrings(st.StatusName),
+                                             Specifications = new Specification
                                              {
-                                                 specification_id = s.SpecificationId,
-                                                 RAM = devices.GetSafeStrings(s.Ram),
+                                                 SpecificationId = s.SpecificationId,
+                                                 Ram = devices.GetSafeStrings(s.Ram),
                                                  Connectivity = devices.GetSafeStrings(s.Connectivity),
                                                  ScreenSize = devices.GetSafeStrings(s.ScreenSize),
                                                  Storage = devices.GetSafeStrings(s.Storage)
                                              },
-                                             comments = c.Comments
+                                             Comments = c.Comments
 
                                          }).ToList();
 
@@ -154,32 +154,32 @@ namespace dm_backend.Data
          public string addDevice(DeviceInsertUpdate d)
             {
                  var device_type_id = (from t in _context.DeviceType
-             where t.Type == d.type
+             where t.Type == d.Type
              select t.DeviceTypeId)
              .SingleOrDefault();
              var device_brand_id = (from b in _context.DeviceBrand
-             where b.Brand == d.brand
+             where b.Brand == d.Brand
              select b.DeviceBrandId)
              .SingleOrDefault();
              var device_model_id = (from m in _context.DeviceModel
-             where m.Model == d.model
+             where m.Model == d.Model
              select m.DeviceModelId)
              .SingleOrDefault();
-           Console.WriteLine(d.serial_number);
+           Console.WriteLine(d.SerialNumber);
                  var data = _context.Device.Add(new Device
                    {
 
                        DeviceTypeId = device_type_id,
                        DeviceBrandId = device_brand_id,
                        DeviceModelId = device_model_id,
-                       Color = d.color,
-                       Price = d.price,
-                       SerialNumber = d.serial_number,
-                       WarrantyYear = Convert.ToSByte(d.warranty_year),
-                       PurchaseDate = Convert.ToDateTime(d.purchase_date),
-                        StatusId = d.status_id,
-                       SpecificationId = d.specification_id,
-                       EntryDate = Convert.ToDateTime(d.entry_date) 
+                       Color = d.Color,
+                       Price = d.Price,
+                       SerialNumber = d.SerialNumber,
+                       WarrantyYear = Convert.ToSByte(d.WarrantyYear),
+                       PurchaseDate = Convert.ToDateTime(d.PurchaseDate),
+                        StatusId = d.StatusId,
+                       SpecificationId = d.SpecificationId,
+                       EntryDate = Convert.ToDateTime(d.EntryDate) 
                    });
                    Console.WriteLine(data);
                 try
@@ -194,6 +194,48 @@ namespace dm_backend.Data
                     return "Not inserted" + e;
                 }
             }
+        public string updateDevice(int device_id, DeviceInsertUpdate d)
+        {
+            var entity = _context.Device.FirstOrDefault(device => device.DeviceId == device_id);
+            var device_type_id = (from t in _context.DeviceType
+                                  where t.Type == d.Type
+                                  select t.DeviceTypeId)
+                                  .SingleOrDefault();
+            var device_brand_id = (from b in _context.DeviceBrand
+                                   where b.Brand == d.Brand
+                                   select b.DeviceBrandId)
+                                  .SingleOrDefault();
+            var device_model_id = (from m in _context.DeviceModel
+                                   where m.Model == d.Model
+                                   select m.DeviceModelId)
+                                  .SingleOrDefault();
+
+            if (entity != null)
+            {
+                entity.DeviceTypeId = device_type_id;
+                entity.DeviceTypeId = device_type_id;
+                entity.DeviceBrandId = device_brand_id;
+                entity.DeviceModelId = device_model_id;
+                entity.Color = d.Color;
+                entity.Price = d.Price;
+                entity.SerialNumber = d.SerialNumber;
+                entity.WarrantyYear = Convert.ToSByte(d.WarrantyYear);
+                entity.PurchaseDate = Convert.ToDateTime(d.PurchaseDate);
+                entity.StatusId = d.StatusId;
+                entity.SpecificationId = d.SpecificationId;
+                entity.EntryDate = Convert.ToDateTime(d.EntryDate);
+
+            }
+            try
+            {
+                _context.SaveChanges();
+                return "Updation successfull";
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                return "Not updated" + e;
+            }
+        }
         public int deleteDevice(int device_id)
         {
             var transaction = _context.Database.BeginTransaction();
@@ -224,15 +266,15 @@ namespace dm_backend.Data
              var data =
               _context.AssignDevice.Add(new AssignDevice
               {
-                  DeviceId = a.device_id,
-                  ReturnDate = DateTime.Parse(a.return_date),
+                  DeviceId = a.DeviceId,
+                  ReturnDate = DateTime.Parse(a.ReturnDate),
                   AssignedDate = DateTime.Now,
-                  UserId = a.user_id,
-                  AssignedBy = a.admin_id,
-                  ReturnTo = a.admin_id,
+                  UserId = a.UserId,
+                  AssignedBy = a.AdminId,
+                  ReturnTo = a.AdminId,
                   StatusId = status_id
               });
-             var entity = _context.Device.FirstOrDefault(device => device.DeviceId == a.device_id);
+             var entity = _context.Device.FirstOrDefault(device => device.DeviceId == a.DeviceId);
              if (entity != null)
             {
                entity.StatusId = status_id;
@@ -287,13 +329,8 @@ namespace dm_backend.Data
         public string addSpecification(Specification s)
         {
             var data =
-               _context.Specification.Add(new Specification
-               {
-                   Ram = s.Ram,
-                   Connectivity = s.Connectivity,
-                   ScreenSize = s.ScreenSize,
-                   Storage = s.Storage
-               });
+               _context.Specification.Add(s);
+            
             try
             {
                 _context.SaveChanges();
@@ -417,6 +454,54 @@ namespace dm_backend.Data
             }
         }
 
+        public List<devices> getPreviousDevice(int id, string ToSearch, string ToSort, string Todirection)
+        {
+             var data = new List<devices>(from d in _context.Device
+                                         join dt in _context.DeviceType on d.DeviceTypeId equals dt.DeviceTypeId
+                                         join dm in _context.DeviceModel on d.DeviceModelId equals dm.DeviceModelId
+                                         join db in _context.DeviceBrand on d.DeviceBrandId equals db.DeviceBrandId
+                                         join r in _context.RequestHistory on d.DeviceId equals r.DeviceId
+                                         join u in _context.User on r.UserId equals u.UserId
+                                        where r.UserId == id
+                                         select new devices
+                                         {
+                                             DeviceId = d.DeviceId,
+                                             Type = devices.GetSafeStrings(dt.Type),
+                                             Brand = devices.GetSafeStrings(db.Brand),
+                                             Model = devices.GetSafeStrings(dm.Model),
+                                             Color = devices.GetSafeStrings(d.Color),
+                                             Price = devices.GetSafeStrings(d.Price),
+                                             SerialNumber = devices.GetSafeStrings(d.SerialNumber),
+                                             EntryDate = devices.GetSafeStrings(d.EntryDate.ToString()),
+                                             WarrantyYear = devices.GetSafeStrings(d.WarrantyYear.ToString()),
+                                             PurchaseDate = d.PurchaseDate.ToString(),
+                                             //Status = devices.GetSafeStrings(st.StatusName),
+                                            // AssignDate = devices.GetSafeStrings(ad.AssignedDate.ToString()),
+                                            // ReturnDate = devices.GetSafeStrings(ad.ReturnDate.ToString()),
+                                            //  Specifications = new Specification
+                                            //  {
+                                            //      SpecificationId = s.SpecificationId,
+                                            //      Ram = devices.GetSafeStrings(s.Ram),
+                                            //      Connectivity = devices.GetSafeStrings(s.Connectivity),
+                                            //      ScreenSize = devices.GetSafeStrings(s.ScreenSize),
+                                            //      Storage = devices.GetSafeStrings(s.Storage)
+                                            //  },
 
+                                             AssignBy = new name
+                                             {
+                                                 first_name = devices.GetSafeStrings(u.FirstName),
+                                                 middle_name = devices.GetSafeStrings(u.MiddleName),
+                                                 last_name = devices.GetSafeStrings(u.LastName)
+                                             },
+                                             AssignTo = new name
+                                             {
+                                                 first_name = devices.GetSafeStrings(u.FirstName),
+                                                 middle_name = devices.GetSafeStrings(u.MiddleName),
+                                                 last_name = devices.GetSafeStrings(u.LastName)
+                                             }
+
+                                         });
+                                         return data;
+                   }
     }
 }

@@ -27,26 +27,26 @@ token :string="";
         assign_by_last_name: string;
         constructor(data: any,token:string) {
             this.token =token;
-            this.device_id = data.device_id;
+            this.device_id = data.deviceId;
             this.type = data.type;
             this.brand = data.brand;
             this.model = data.model;
             this.color = data.color;
             this.price = data.price;
-            this.serial_number = data.serial_number;
-            this.warranty_year = data.warranty_year;
-            this.purchase_date = data.purchase_date;
+            this.serial_number = data.serialNumber;
+            this.warranty_year = data.warrantyYear;
+            this.purchase_date = data.purchaseDate;
             this.status = data.status;
             this.comments = data.comments;
             this.specs=new SpecificationList(data.specifications,token);
-            this.assign_date = data.assign_date;
-            this.return_date = data.return_date;
-            this.assign_to_first_name = data.assign_to.first_name;
-            this.assign_to_middle_name = data.assign_to.middle_name;
-            this.assign_to_last_name = data.assign_to.last_name;
-            this.assign_by_first_name = data.assign_by.first_name;
-            this.assign_by_middle_name = data.assign_by.middle_name;
-            this.assign_by_last_name = data.assign_by.last_name;
+            this.assign_date = data.assignDate;
+            this.return_date = data.returnDate;
+            this.assign_to_first_name = data.assignTo.first_name;
+            this.assign_to_middle_name = data.assignTo.middle_name;
+            this.assign_to_last_name = data.assignTo.last_name;
+            this.assign_by_first_name = data.assignBy.first_name;
+            this.assign_by_middle_name = data.assignBy.middle_name;
+            this.assign_by_last_name = data.assignBy.last_name;
 
         }
         getDeviceList(token: number) {
