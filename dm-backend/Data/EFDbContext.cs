@@ -597,6 +597,9 @@ namespace dm_backend.Data
                     .IsRequired()
                     .HasColumnName("price")
                     .HasMaxLength(50);
+                entity.Property(e => e.PurchaseDate)
+                    .HasColumnName("purchase_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.SerialNumber)
                     .IsRequired()

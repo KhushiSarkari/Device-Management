@@ -20,7 +20,7 @@ namespace dm_backend.Data
             _context = context;
         }
 
-        public List<devices> GetAllDevices(string device_name, string serial_number, string status_name,string SortColumn,string SortDirection)
+        public List<devices> GetAllDevices(string device_name, string serial_number, string status_name)
         {
             var data = new List<devices>(from d in _context.Device
                                          join dt in _context.DeviceType on d.DeviceTypeId equals dt.DeviceTypeId
@@ -43,7 +43,7 @@ namespace dm_backend.Data
                                              serial_number = devices.GetSafeStrings(d.SerialNumber),
                                              entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
                                              warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                                             // purchase_date = d.PurchaseDate.ToString(),
+                                             purchase_date = d.PurchaseDate.ToString(),
                                              status = devices.GetSafeStrings(st.StatusName),
                                              assign_date = devices.GetSafeStrings(ad.AssignedDate.ToString()),
                                              return_date = devices.GetSafeStrings(ad.ReturnDate.ToString()),
@@ -70,12 +70,12 @@ namespace dm_backend.Data
                                              }
 
                                          });
-        
+
             data = (List<devices>)data.Where(d => (serial_number == "") ? true : d.serial_number == serial_number)
             .Where(d => (status_name == "") ? true : EF.Functions.Like(d.status, status_name))
-            .Where(d => (device_name == "") ? true : EF.Functions.Like(string.Join(d.type," ",d.brand," ",d.model), "dell"))
+            .Where(d => (device_name == "") ? true : EF.Functions.Like(string.Join(d.type, " ", d.brand, " ", d.model), device_name))
             .ToList();
-        
+
 
             return data;
         }
@@ -100,7 +100,7 @@ namespace dm_backend.Data
                     serial_number = devices.GetSafeStrings(d.SerialNumber),
                     entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
                     warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                    // purchase_date = devices.GetSafeStrings(d.PurchaseDate.ToString()),
+                    purchase_date = devices.GetSafeStrings(d.PurchaseDate.ToString()),
                     status_id = d.StatusId,
                     specification_id = d.SpecificationId
 
@@ -135,7 +135,7 @@ namespace dm_backend.Data
                                              serial_number = devices.GetSafeStrings(d.SerialNumber),
                                              entry_date = devices.GetSafeStrings(d.EntryDate.ToString()),
                                              warranty_year = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                                             // purchase_date = d.PurchaseDate.ToString(),
+                                             purchase_date = d.PurchaseDate.ToString(),
                                              status = devices.GetSafeStrings(st.StatusName),
                                              specifications = new Specifications
                                              {
@@ -151,7 +151,105 @@ namespace dm_backend.Data
 
             return data;
         }
+         public string addDevice(DeviceInsertUpdate d)
+            {
+                 var device_type_id = (from t in _context.DeviceType
+             where t.Type == d.type
+             select t.DeviceTypeId)
+             .SingleOrDefault();
+             var device_brand_id = (from b in _context.DeviceBrand
+             where b.Brand == d.brand
+             select b.DeviceBrandId)
+             .SingleOrDefault();
+             var device_model_id = (from m in _context.DeviceModel
+             where m.Model == d.model
+             select m.DeviceModelId)
+             .SingleOrDefault();
+           Console.WriteLine(d.serial_number);
+                 var data = _context.Device.Add(new Device
+                   {
 
+                       DeviceTypeId = device_type_id,
+                       DeviceBrandId = device_brand_id,
+                       DeviceModelId = device_model_id,
+                       Color = d.color,
+                       Price = d.price,
+                       SerialNumber = d.serial_number,
+                       WarrantyYear = Convert.ToSByte(d.warranty_year),
+                       PurchaseDate = Convert.ToDateTime(d.purchase_date),
+                        StatusId = d.status_id,
+                       SpecificationId = d.specification_id,
+                       EntryDate = Convert.ToDateTime(d.entry_date) 
+                   });
+                   Console.WriteLine(data);
+                try
+                {
+                    _context.SaveChanges();
+                    Console.WriteLine(data);
+
+                    return "Insertion successfull";
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    return "Not inserted" + e;
+                }
+            }
+        public int deleteDevice(int device_id)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var device = _context.Device.Find(device_id);
+                _context.Device.Remove(device);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                Console.WriteLine(ex);
+            }
+            return 1;
+
+        }
+        public string assignDevice(Assign a)
+        {
+             var status_id = (from s in _context.Status
+             where s.StatusName == "Allocated"
+             select s.StatusId)
+             .SingleOrDefault();
+               
+            
+             Console.WriteLine("status_id" +status_id);
+             var data =
+              _context.AssignDevice.Add(new AssignDevice
+              {
+                  DeviceId = a.device_id,
+                  ReturnDate = DateTime.Parse(a.return_date),
+                  AssignedDate = DateTime.Now,
+                  UserId = a.user_id,
+                  AssignedBy = a.admin_id,
+                  ReturnTo = a.admin_id,
+                  StatusId = status_id
+              });
+             var entity = _context.Device.FirstOrDefault(device => device.DeviceId == a.device_id);
+             if (entity != null)
+            {
+               entity.StatusId = status_id;
+                }    
+
+            try
+            {
+                _context.SaveChanges();
+                Console.WriteLine(data);
+
+                return "Device assigned";
+            }
+            catch (Exception e)
+            {
+                return "Device assign failed" + e ;
+            }
+        }
         public List<Specifications> getAllSpecifications()
         {
             var data = new List<Specifications>(
@@ -184,6 +282,7 @@ namespace dm_backend.Data
             ).ToList();
             return data;
         }
+
 
         public string addSpecification(Specification s)
         {
@@ -254,5 +353,70 @@ namespace dm_backend.Data
             }
             return null;
         }
+
+        public string addType(DeviceType t)
+        {
+            var data =
+               _context.DeviceType.Add(new DeviceType
+               {
+                   Type = t.Type
+
+               });
+            try
+            {
+                _context.SaveChanges();
+                Console.WriteLine(data);
+
+                return "Insertion successfull";
+            }
+            catch (Exception e)
+            {
+                return "Insertion failed" + e;
+            }
+        }
+
+        public string addBrand(DeviceBrand b)
+        {
+            var data =
+              _context.DeviceBrand.Add(new DeviceBrand
+              {
+                  Brand = b.Brand
+
+              });
+            try
+            {
+                _context.SaveChanges();
+                Console.WriteLine(data);
+
+                return "Insertion successfull";
+            }
+            catch (Exception e)
+            {
+                return "Insertion failed" + e;
+            }
+        }
+
+        public string addModel(DeviceModel m)
+        {
+            var data =
+               _context.DeviceModel.Add(new DeviceModel
+               {
+                   Model = m.Model
+
+               });
+            try
+            {
+                _context.SaveChanges();
+                Console.WriteLine(data);
+
+                return "Insertion successfull";
+            }
+            catch (Exception e)
+            {
+                return "Insertion failed" + e;
+            }
+        }
+
+
     }
 }

@@ -27,7 +27,7 @@ function checkDropDown(elements: string,compareElement) {
     if (confirm("do you want to add new type")) {
       window["tata"].text('New Type ','Added!',{duration:3000});
       const temp = new AddDevice(token);
-      let status=await temp.addNewTypeBrandModel("/api/Device/type", "inputtype");
+      let status=await temp.addNewType();
       if(status==200)
       {
         temp.typeDropdown();
@@ -51,7 +51,7 @@ function checkDropDown(elements: string,compareElement) {
     if (confirm("do you want to add new brand")) {
       window["tata"].text('New Brand ','Added!',{duration:3000});
       const temp = new AddDevice(token);
-      let status = await temp.addNewTypeBrandModel("/api/Device/brand", "inputbrand");
+      let status = await temp.addNewBrand();
       if(status==200){
 
         temp.brandDropdown();
@@ -75,7 +75,7 @@ function checkDropDown(elements: string,compareElement) {
     if (confirm("do you want to add new model")) {
       window["tata"].text('New Model ','Added!',{duration:3000});
       const temp = new AddDevice(token);
-      let status = await temp.addNewTypeBrandModel("/api/Device/model", "inputmodel");
+      let status = await temp.addNewModel();
       if(status==200){
          temp.modelDropdown();
        }

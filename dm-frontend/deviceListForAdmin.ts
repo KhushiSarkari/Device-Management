@@ -91,7 +91,7 @@ token :string="";
                         notifications</span><span class="mdl-tooltip" data-mdl-for="notify-${this.device_id}">Notify User</span></td> </tr>`;
                         else if(this.status == "Free")
                         {
-                            val = `<span class="material-icons" id="delete-${this.device_id}" value=${this.device_id}">delete</span>
+                            val = `<span class="material-icons" id="delete-${this.device_id}" value="${this.device_id}">delete</span>
                             <span class="mdl-tooltip" data-mdl-for="delete-${this.device_id}">Delete Device</span>
                             <span class="material-icons" id="assign-${this.device_id}" data-id=${this.device_id}>assignment</span>
                            <span class="mdl-tooltip" data-mdl-for="assign-${this.device_id}">Assign Device</span>

@@ -70,14 +70,14 @@ public class PartialDeviceModel
         {
         }
 
-        async public Task addDevice(DeviceInsertUpdate v)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "insertdevice";
-            cmd.CommandType = CommandType.StoredProcedure;
-            BindDevice(cmd, v);
-            await cmd.ExecuteNonQueryAsync();
-        }
+        // async public Task addDevice(DeviceInsertUpdate v)
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "insertdevice";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     BindDevice(cmd, v);
+        //     await cmd.ExecuteNonQueryAsync();
+        // }
         private void BindDevice(MySqlCommand cmd, DeviceInsertUpdate v)
         {
             cmd.Parameters.Add(new MySqlParameter("device_type", v.type));
@@ -163,22 +163,22 @@ public class PartialDeviceModel
 
 
 
-        async public Task assignDevice(Assign d)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "admin_assign_device";
-            cmd.CommandType = CommandType.StoredProcedure;
-            BindAssignDevice(cmd, d);
-            await cmd.ExecuteNonQueryAsync();
-        }
-        private void BindAssignDevice(MySqlCommand cmd, Assign d)
-        {
-            cmd.Parameters.Add(new MySqlParameter("device_id", d.device_id));
-            cmd.Parameters.Add(new MySqlParameter("return_date", d.return_date));
-            cmd.Parameters.Add(new MySqlParameter("user_id", d.user_id));
-            cmd.Parameters.Add(new MySqlParameter("admin_id",d.admin_id));
+        // async public Task assignDevice(Assign d)
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "admin_assign_device";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     BindAssignDevice(cmd, d);
+        //     await cmd.ExecuteNonQueryAsync();
+        // }
+        // private void BindAssignDevice(MySqlCommand cmd, Assign d)
+        // {
+        //     cmd.Parameters.Add(new MySqlParameter("device_id", d.device_id));
+        //     cmd.Parameters.Add(new MySqlParameter("return_date", d.return_date));
+        //     cmd.Parameters.Add(new MySqlParameter("user_id", d.user_id));
+        //     cmd.Parameters.Add(new MySqlParameter("admin_id",d.admin_id));
 
-        }
+        // }
     }
 
     public class devices:PartialDeviceModel
@@ -281,27 +281,27 @@ public class PartialDeviceModel
         // }
 
         //delete device
-        public int Delete()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "delbyid";
-            cmd.CommandType = CommandType.StoredProcedure;
-            Bindid(cmd);
-            cmd.ExecuteNonQuery();
-            return 1;
-        }
-        private void Bindid(MySqlCommand cmd)
-        {
-            var device_idParam = new MySqlParameter("device_id", device_id);
-            if (cmd.Parameters.Contains("device_id"))
-            {
-                cmd.Parameters["device_id"].Value = device_id;
-            }
-            else
-            {
-                cmd.Parameters.Add(device_idParam);
-            }
-        }
+        // public int Delete()
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "delbyid";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     Bindid(cmd);
+        //     cmd.ExecuteNonQuery();
+        //     return 1;
+        // }
+        // private void Bindid(MySqlCommand cmd)
+        // {
+        //     var device_idParam = new MySqlParameter("device_id", device_id);
+        //     if (cmd.Parameters.Contains("device_id"))
+        //     {
+        //         cmd.Parameters["device_id"].Value = device_id;
+        //     }
+        //     else
+        //     {
+        //         cmd.Parameters.Add(device_idParam);
+        //     }
+        // }
 
         // private List<devices> ReadAll(MySqlDataReader reader)
         // {

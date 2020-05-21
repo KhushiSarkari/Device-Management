@@ -40,28 +40,28 @@ namespace dm_backend.Controllers
             {
                 status_name="";
             }
-             string SortColumn = (HttpContext.Request.Query["SortColumn"]);
-            string SortDirection = (HttpContext.Request.Query["SortDirection"]);
-            SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
-            switch (SortColumn.ToLower())
-            {
-                case "device_name":
-                    SortColumn = "concat(type ,'', brand , '' ,  model)";
-                    break;
-                case "specification":
-                    SortColumn = "concat(RAM , ' ',storage ,' ',screen_size , ' ',connectivity)";
-                    break;
+            //  string SortColumn = (HttpContext.Request.Query["SortColumn"]);
+            // string SortDirection = (HttpContext.Request.Query["SortDirection"]);
+            // SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
+            // switch (SortColumn.ToLower())
+            // {
+            //     case "device_name":
+            //         SortColumn = "concat(type ,'', brand , '' ,  model)";
+            //         break;
+            //     case "specification":
+            //         SortColumn = "concat(RAM , ' ',storage ,' ',screen_size , ' ',connectivity)";
+            //         break;
 
-                case "serial_number":
-                    SortColumn = "serial_number*1";
-                    break;
+            //     case "serial_number":
+            //         SortColumn = "serial_number*1";
+            //         break;
 
-                default:
-                    SortColumn = "concat(type ,'', brand , '' ,  model)";
+            //     default:
+            //         SortColumn = "concat(type ,'', brand , '' ,  model)";
 
-                    break;
-            }
-            var deviceObject = _repo.GetAllDevices(device_name,serial_number,status_name,SortColumn,SortDirection);
+            //         break;
+            // }
+            var deviceObject = _repo.GetAllDevices(device_name,serial_number,status_name);
             var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
                         new JsonSerializerSettings()
                         { 
@@ -149,36 +149,24 @@ namespace dm_backend.Controllers
         [Route("del/{device_id}")]
         public IActionResult DeleteOne(int device_id)
         {
-            Db.Connection.Open();
-            devices query = new devices(Db);
-            query.device_id = device_id;
-            query.Delete();
-            Db.Connection.Close();
-            return Ok();
+            return Ok(_repo.deleteDevice(device_id));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("add")]
-        async public Task<IActionResult> Post([FromBody]DeviceInsertUpdate body)
+        public IActionResult PostDevice([FromBody]DeviceInsertUpdate body)
         {
-            Db.Connection.Open();
-            var que = new DeviceInsertUpdate(Db);
-            await que.addDevice(body);
-            Db.Connection.Close();
-            return Ok();
+            return Ok( _repo.addDevice(body));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("assign")]
-        async public Task<IActionResult> AssignDevice([FromBody]Assign body)
+        public IActionResult AssignDevice([FromBody]Assign body)
         {
-            Db.Connection.Open();
-            var que = new Assign(Db);
-            await que.assignDevice(body);
-            Db.Connection.Close();
-            return Ok();
+         
+            return Ok(_repo.assignDevice(body));
         }
 
         [Authorize(Roles = "admin")]
@@ -247,37 +235,25 @@ namespace dm_backend.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("type")]
-        async public Task<IActionResult> PostTYPE([FromBody]TypeBrandModel body)
+         public IActionResult PostTYPE([FromBody]DeviceType body)
         {
-            Db.Connection.Open();
-            var que = new TypeBrandModel(Db);
-            await que.addType(body);
-            Db.Connection.Close();
-            return Ok();
+            return Ok(_repo.addType(body));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("brand")]
-        async public Task<IActionResult> PostBrand([FromBody]TypeBrandModel body)
+       public IActionResult PostBrand([FromBody]DeviceBrand body)
         {
-            Db.Connection.Open();
-            var que = new TypeBrandModel(Db);
-            await que.addbrand(body);
-            Db.Connection.Close();
-            return Ok();
+            return Ok(_repo.addBrand(body));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("model")]
-        async public Task<IActionResult> Postmodel([FromBody]TypeBrandModel body)
+         public IActionResult Postmodel([FromBody]DeviceModel body)
         {
-            Db.Connection.Open();
-            var que = new TypeBrandModel(Db);
-            await que.addmodel(body);
-            Db.Connection.Close();
-            return Ok();
+            return Ok(_repo.addModel(body));
         }
 
 

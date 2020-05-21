@@ -56,14 +56,14 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				})
 				.catch(err => console.log(err));
 		}
-		getData(status_name:string) {
+		getData(uri:string) {
 			var device_name = (document.getElementById(
 				"fixed-header-drawer-exp"
 			) as HTMLInputElement).value;
 			var serial_number = (document.getElementById(
 				"search_serial_number"
 			) as HTMLInputElement).value;
-			//var status_name = (document.getElementById("status") as HTMLInputElement).value;
+			var status_name = (document.getElementById("status") as HTMLInputElement).value;
 			
 			const URL = BASEURL + "/api/Device/page?"+PageNo(this.currentPage) +"&status_name=" + status_name;
 			if (serial_number) {
@@ -115,11 +115,17 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			this.getApi(URL);
 		}
 
-		deleteDevice(device_id: number) {
-			fetch(BASEURL + "/api/Device/del/" + device_id, {
+		async deleteDevice(device_id: number) {
+			let res = await fetch(BASEURL + "/api/Device/del/" + device_id, {
                 method: "DELETE",
                 headers: new Headers({"Authorization": `Bearer ${token}`})
 			});
+			if(res.status==200)
+			{
+				window["tata"].text('Device ','Deleted!',{duration:3000});
+				temp.getData("");
+				
+			}
 		}
 
 		postNotification(data) {
@@ -143,10 +149,9 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			if(res.status==200)
 			{
 				window["tata"].text('Device assigned',{duration:20000});
-				//alert("Device assigned");
 				console.log("assign");
 				temp.closeForm1('.login-popup');
-				window.location.reload();
+				temp.getData("");
 			}
 		}
 		async getUserDetails()
@@ -175,32 +180,26 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 	
 	}
 
-	document.addEventListener("click", function(e) {
+	document.addEventListener("click", async function(e) {
 		if((e.target as HTMLButtonElement).id=="add-button"){
 			window.location.href="./AddDevice.html";
 		}
 		if ((e.target as HTMLButtonElement).id.startsWith("edit-")) {
-			window["tata"].text('Edit This ','Device',{duration:3000});
+			
 			const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 				"value"
 			);
 			console.log(device_id);
 			console.log("edit button");
-
+			window["tata"].text('Edit This ','Device',{duration:3000});
 			window.location.href = "AddDevice.html?device_id=" + device_id;
 		}
 		if ((e.target as HTMLSpanElement).id.startsWith("delete-")) {
 			if (confirm("Are you sure you want to delete this device?")) {
-				window["tata"].text('Device ','Deleted!',{duration:3000});
+				
 				const temp = new GetApiForAdmin(token);
-				const device_id: any = (e.target as HTMLButtonElement).getAttribute(
-					"value"
-				);
-				
-				temp.deleteDevice(device_id);
-				
-	           window.location.reload();
-				temp.getData("");
+				const device_id: any = (e.target as HTMLButtonElement).getAttribute("value");
+				await temp.deleteDevice(device_id);
 				
 			} 
 		}
@@ -249,7 +248,6 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				}
 			}
 			assign.user_id = +(optionElement.getAttribute("data-id"));
-			console.log(assign.user_id);
 			assign.admin_id = +id;
 			temp.assign_device(assign);
 			
@@ -289,13 +287,12 @@ console.log(status);
 	) as HTMLInputElement).addEventListener("change", function(e) {
 		let status=(document.getElementById("status") as HTMLInputElement).value;
 		
-		temp.getData(status);
+		temp.getData("");
 	});
 	(document.querySelector(
 		"#search_serial_number"
 	) as HTMLInputElement).addEventListener("change", function(e) {
-		let status=(document.getElementById("status") as HTMLInputElement).value;
-		temp.getData(status);
+		temp.getData("");
 	});
 	(document.querySelector("#status") as HTMLInputElement).addEventListener(
 		"click",
@@ -305,8 +302,8 @@ console.log(status);
 			// ) {
 			// 	temp.getData("");
 			// } else {
-			const status=(document.getElementById("status") as HTMLInputElement).value;
-				temp.getData(status);
+			// 	const status=(document.getElementById("status") as HTMLInputElement).value;
+				temp.getData("");
 			// }
 		}
 	);
