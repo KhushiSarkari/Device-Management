@@ -242,7 +242,7 @@ namespace dm_backend.Controllers
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
             await Db.Connection.OpenAsync();
             var query = new devices(Db);
-            var pager = PagedList<devices>.ToPagedList(query.getPreviousDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
+            var pager = PagedList<devices>.ToPagedList(_repo.getPreviousDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
             await Db.Connection.CloseAsync();
             if (pager is null)
@@ -250,18 +250,18 @@ namespace dm_backend.Controllers
             return new OkObjectResult(pager);
         }
         [HttpGet("current_device/{id}")]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
             string ToSearch = (string)HttpContext.Request.Query["search"] ?? "";
             string ToSort = (string)HttpContext.Request.Query["sortby"] ?? "";
             string Todirection = (string)HttpContext.Request.Query["direction"] ?? "asc";
             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            await Db.Connection.OpenAsync();
-            var query = new devices(Db);
-            var pager = PagedList<devices>.ToPagedList(query.getCurrentDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
+            // await Db.Connection.OpenAsync();
+            // var query = new devices(Db);
+            var pager = PagedList<devices>.ToPagedList(_repo.getCurrentDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            await Db.Connection.CloseAsync();
+            // await Db.Connection.CloseAsync();
             if (pager is null)
                 return new NotFoundResult();
             return new OkObjectResult(pager);

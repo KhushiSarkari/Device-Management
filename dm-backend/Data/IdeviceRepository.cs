@@ -25,5 +25,6 @@ namespace dm_backend.Data
             string addBrand(DeviceBrand b);
             string addModel(DeviceModel m);
            List<devices> getPreviousDevice(int id,string ToSearch, string ToSort,string Todirection);
+           List<devices> getCurrentDevice(int id,string  ToSearch, string ToSort,string Todirection);
     }
 }

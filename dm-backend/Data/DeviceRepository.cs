@@ -73,7 +73,7 @@ namespace dm_backend.Data
             
             data = (List<devices>)data.Where(d => (serial_number == "") ? true : d.SerialNumber == serial_number)
             .Where(d => (status_name == "") ? true : EF.Functions.Like(d.Status, status_name))
-            .Where(d => (device_name == "") ? true : (string.Concat(d.Type," ",d.Brand," ",d.Model).Contains(device_name)))
+            .Where(d => (device_name == "") ? true : EF.Functions.Like(string.Concat(d.Type," ",d.Brand," ",d.Model),$"%{device_name}%"))
             .ToList();
             
 
@@ -373,13 +373,13 @@ namespace dm_backend.Data
             try
             {
                 var specification = await _context.Specification.FindAsync(specification_id);
-                var device = await _context.Device.FindAsync(specification_id);
-                var RequestDevice = await _context.RequestDevice.FindAsync(specification_id);
-                var RequestHistory = await _context.RequestHistory.FindAsync(specification_id);
+                // var device = await _context.Device.FindAsync(specification_id);
+                // var RequestDevice = await _context.RequestDevice.FindAsync(specification_id);
+                // var RequestHistory = await _context.RequestHistory.FindAsync(specification_id);
                 _context.Specification.Remove(specification);
-                _context.Device.Remove(device);
-                _context.RequestDevice.Remove(RequestDevice);
-                _context.RequestHistory.Remove(RequestHistory);
+                // _context.Device.Remove(device);
+                // _context.RequestDevice.Remove(RequestDevice);
+                // _context.RequestHistory.Remove(RequestHistory);
                 _context.SaveChanges();
                 transaction.Commit();
             }
@@ -465,43 +465,51 @@ namespace dm_backend.Data
                                         where r.UserId == id
                                          select new devices
                                          {
-                                             DeviceId = d.DeviceId,
+                
+                                            DeviceId = (int)r.DeviceId,
                                              Type = devices.GetSafeStrings(dt.Type),
                                              Brand = devices.GetSafeStrings(db.Brand),
                                              Model = devices.GetSafeStrings(dm.Model),
-                                             Color = devices.GetSafeStrings(d.Color),
-                                             Price = devices.GetSafeStrings(d.Price),
-                                             SerialNumber = devices.GetSafeStrings(d.SerialNumber),
-                                             EntryDate = devices.GetSafeStrings(d.EntryDate.ToString()),
-                                             WarrantyYear = devices.GetSafeStrings(d.WarrantyYear.ToString()),
-                                             PurchaseDate = d.PurchaseDate.ToString(),
-                                             //Status = devices.GetSafeStrings(st.StatusName),
-                                            // AssignDate = devices.GetSafeStrings(ad.AssignedDate.ToString()),
-                                            // ReturnDate = devices.GetSafeStrings(ad.ReturnDate.ToString()),
-                                            //  Specifications = new Specification
-                                            //  {
-                                            //      SpecificationId = s.SpecificationId,
-                                            //      Ram = devices.GetSafeStrings(s.Ram),
-                                            //      Connectivity = devices.GetSafeStrings(s.Connectivity),
-                                            //      ScreenSize = devices.GetSafeStrings(s.ScreenSize),
-                                            //      Storage = devices.GetSafeStrings(s.Storage)
-                                            //  },
-
-                                             AssignBy = new name
-                                             {
-                                                 first_name = devices.GetSafeStrings(u.FirstName),
-                                                 middle_name = devices.GetSafeStrings(u.MiddleName),
-                                                 last_name = devices.GetSafeStrings(u.LastName)
-                                             },
-                                             AssignTo = new name
-                                             {
-                                                 first_name = devices.GetSafeStrings(u.FirstName),
-                                                 middle_name = devices.GetSafeStrings(u.MiddleName),
-                                                 last_name = devices.GetSafeStrings(u.LastName)
-                                             }
-
+                                             AssignDate = devices.GetSafeStrings(r.AssignedDate.ToString()),
+                                             ReturnDate = devices.GetSafeStrings(r.ReturnDate.ToString()),
+                                           
                                          });
+              data = (List<devices>)data
+             .Where(d => (ToSearch == "") ? true : EF.Functions.Like(string.Concat(d.Type," ",d.Brand," ",d.Model),$"%{ToSearch}%"))
+             .ToList();
+        
                                          return data;
                    }
+
+        public List<devices> getCurrentDevice(int id, string ToSearch, string ToSort, string Todirection)
+        {
+             var data = new List<devices>(from d in _context.Device
+                                         join dt in _context.DeviceType on d.DeviceTypeId equals dt.DeviceTypeId
+                                         join dm in _context.DeviceModel on d.DeviceModelId equals dm.DeviceModelId
+                                         join db in _context.DeviceBrand on d.DeviceBrandId equals db.DeviceBrandId
+                                         join st in _context.Status on d.StatusId equals st.StatusId
+                                         join ad in _context.AssignDevice on d.DeviceId equals ad.DeviceId
+                                         join u in _context.User on ad.UserId equals u.UserId 
+                                         where ad.UserId == id && st.StatusName == "Allocated"
+                                         select new devices
+                                         {
+                                             DeviceId = ad.DeviceId,
+                                             Type = devices.GetSafeStrings(dt.Type),
+                                             Brand = devices.GetSafeStrings(db.Brand),
+                                             Model = devices.GetSafeStrings(dm.Model),
+                                             Status = devices.GetSafeStrings(st.StatusName),
+                                             AssignDate = devices.GetSafeStrings(ad.AssignedDate.ToString()),
+                                             ReturnDate = devices.GetSafeStrings(ad.ReturnDate.ToString()),
+                                           
+                                         });
+            
+            data = (List<devices>)data
+             .Where(d => (ToSearch == "") ? true : EF.Functions.Like(string.Concat(d.Type," ",d.Brand," ",d.Model),$"%{ToSearch}%"))
+             .ToList();
+            
+
+            return data;
+           
+        }
     }
 }

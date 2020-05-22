@@ -190,8 +190,8 @@ export class MyDevices {
             cell.innerHTML = this.data[loop]["type"]
             cell1.innerHTML = this.data[loop]["brand"]
             cell2.innerHTML = this.data[loop]["model"]
-            cell3.innerHTML = this.data[loop]["assign_date"]
-            cell4.innerHTML = this.data[loop]["return_date"]
+            cell3.innerHTML = this.data[loop]["assignDate"]
+            cell4.innerHTML = this.data[loop]["returnDate"]
             if (table == this.table1) {
                 var cell5 = row.insertCell(5);
                 cell5.innerHTML = `<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored return">

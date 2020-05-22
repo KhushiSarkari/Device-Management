@@ -911,7 +911,9 @@ namespace dm_backend.Data
                     .IsRequired()
                     .HasColumnName("model")
                     .HasMaxLength(50);
-
+                entity.Property(e=>e.AssignedDate).HasColumnName("assign_date");
+                entity.Property(e=>e.ReturnDate).HasColumnName("return_date");
+               
                 entity.Property(e => e.ReturnTo).HasColumnName("return_to");
 
                 entity.Property(e => e.SpecificationId).HasColumnName("specification_id");

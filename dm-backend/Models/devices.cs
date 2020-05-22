@@ -45,15 +45,15 @@ public class PartialDeviceModel
         }
          
 
-       public static string GetSafeString(MySqlDataReader reader, string colName)
-        {
+    //    public static string GetSafeString(MySqlDataReader reader, string colName)
+    //     {
 
-            return reader[colName] != DBNull.Value ? reader[colName].ToString() : "";
-        }
-        public static int GetInt(MySqlDataReader reader, string colName)
-        {
-            return reader[colName] != DBNull.Value ? (int)reader[colName] : default;
-        }
+    //         return reader[colName] != DBNull.Value ? reader[colName].ToString() : "";
+    //     }
+    //     public static int GetInt(MySqlDataReader reader, string colName)
+    //     {
+    //         return reader[colName] != DBNull.Value ? (int)reader[colName] : default;
+    //     }
 
        
 }
@@ -79,33 +79,33 @@ public class PartialDeviceModel
         //     BindDevice(cmd, v);
         //     await cmd.ExecuteNonQueryAsync();
         // }
-        private void BindDevice(MySqlCommand cmd, DeviceInsertUpdate v)
-        {
-            cmd.Parameters.Add(new MySqlParameter("device_type", v.Type));
-            cmd.Parameters.Add(new MySqlParameter("device_brand", v.Brand));
-            cmd.Parameters.Add(new MySqlParameter("device_model", v.Model));
-            cmd.Parameters.Add(new MySqlParameter("color", v.Color));
-            cmd.Parameters.Add(new MySqlParameter("price", v.Price));
-            cmd.Parameters.Add(new MySqlParameter("serial_number", v.SerialNumber));
-            cmd.Parameters.Add(new MySqlParameter("warranty_year", v.WarrantyYear));
-            cmd.Parameters.Add(new MySqlParameter("purchase_date", v.WarrantyYear));
-            cmd.Parameters.Add(new MySqlParameter("status_id", v.StatusId));
-            cmd.Parameters.Add(new MySqlParameter("specification_id", v.SpecificationId));
-            cmd.Parameters.Add(new MySqlParameter("entry_date", v.EntryDate));
-        }
-        async public Task updateDevice(DeviceInsertUpdate v)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "updatedevice";
-            cmd.CommandType = CommandType.StoredProcedure;
-            BindDeviceId(cmd, v);
-            BindDevice(cmd, v);
-            await cmd.ExecuteNonQueryAsync();
-        }
-        private void BindDeviceId(MySqlCommand cmd, DeviceInsertUpdate v)
-        {
-            cmd.Parameters.Add(new MySqlParameter("device_id", v.DeviceId));
-        }
+        // private void BindDevice(MySqlCommand cmd, DeviceInsertUpdate v)
+        // {
+        //     cmd.Parameters.Add(new MySqlParameter("device_type", v.Type));
+        //     cmd.Parameters.Add(new MySqlParameter("device_brand", v.Brand));
+        //     cmd.Parameters.Add(new MySqlParameter("device_model", v.Model));
+        //     cmd.Parameters.Add(new MySqlParameter("color", v.Color));
+        //     cmd.Parameters.Add(new MySqlParameter("price", v.Price));
+        //     cmd.Parameters.Add(new MySqlParameter("serial_number", v.SerialNumber));
+        //     cmd.Parameters.Add(new MySqlParameter("warranty_year", v.WarrantyYear));
+        //     cmd.Parameters.Add(new MySqlParameter("purchase_date", v.WarrantyYear));
+        //     cmd.Parameters.Add(new MySqlParameter("status_id", v.StatusId));
+        //     cmd.Parameters.Add(new MySqlParameter("specification_id", v.SpecificationId));
+        //     cmd.Parameters.Add(new MySqlParameter("entry_date", v.EntryDate));
+        // }
+        // async public Task updateDevice(DeviceInsertUpdate v)
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "updatedevice";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     BindDeviceId(cmd, v);
+        //     BindDevice(cmd, v);
+        //     await cmd.ExecuteNonQueryAsync();
+        // }
+        // private void BindDeviceId(MySqlCommand cmd, DeviceInsertUpdate v)
+        // {
+        //     cmd.Parameters.Add(new MySqlParameter("device_id", v.DeviceId));
+        // }
         //  public List<DeviceInsertUpdate> getdevicebyid(int device_id)
         // {
 
@@ -206,24 +206,24 @@ public class PartialDeviceModel
         {
             Db = db;
         }
-        public Specifications ReadSpecification(MySqlDataReader reader)
-        {
-            var spec1 = new Specifications();
-            spec1.RAM = GetSafeString(reader, "RAM");
-            spec1.Storage = GetSafeString(reader, "Storage");
-            spec1.ScreenSize = GetSafeString(reader, "Screen_size");
-            spec1.Connectivity = GetSafeString(reader, "Connectivity");
+        // public Specifications ReadSpecification(MySqlDataReader reader)
+        // {
+        //     var spec1 = new Specifications();
+        //     spec1.RAM = GetSafeString(reader, "RAM");
+        //     spec1.Storage = GetSafeString(reader, "Storage");
+        //     spec1.ScreenSize = GetSafeString(reader, "Screen_size");
+        //     spec1.Connectivity = GetSafeString(reader, "Connectivity");
 
-            return spec1;
-        }
-        private name ReadName(MySqlDataReader reader, name name1, string prefix)
-        {
-            name1 = new name();
-            name1.first_name = GetSafeString(reader, prefix + "_first_name");
-            name1.middle_name = GetSafeString(reader, prefix + "_middle_name");
-            name1.last_name = GetSafeString(reader, prefix + "_last_name");
-            return name1;
-        }
+        //     return spec1;
+        // }
+        // private name ReadName(MySqlDataReader reader, name name1, string prefix)
+        // {
+        //     name1 = new name();
+        //     name1.first_name = GetSafeString(reader, prefix + "_first_name");
+        //     name1.middle_name = GetSafeString(reader, prefix + "_middle_name");
+        //     name1.last_name = GetSafeString(reader, prefix + "_last_name");
+        //     return name1;
+        // }
 
         // public List<devices> SortAlldevices(String SortColumn, String SortDirection)
         // {
@@ -361,103 +361,103 @@ public class PartialDeviceModel
         // }
 
        
-        public List<devices> getCurrentDevice(int id, string search, string sort = "", string direction = "")
-        {
-            using var cmd = Db.Connection.CreateCommand();
+//         public List<devices> getCurrentDevice(int id, string search, string sort = "", string direction = "")
+//         {
+//             using var cmd = Db.Connection.CreateCommand();
 
-            cmd.CommandText = @"select * from(select device_type.type,device_brand.brand,device_model.model,assign_device.assign_date,assign_device.return_date,assign_device.device_id from user,device_type,device_model,device_brand,assign_device,device,status
-where  user.user_id=assign_device.user_id and assign_device.device_id=device.device_id and device.device_type_id=device_type.device_type_id and device.device_brand_id=device_brand.device_brand_id
-and device.device_model_id=device_model.device_model_id  and assign_device.status_id=status.status_id and status.status_name='Allocated' and assign_device.user_id=" + @id + ") as demo WHERE demo.type LIKE '%" + @search + "%' or demo.brand LIKE '%" + @search + "%' or demo.model LIKE '%" + @search + "%' ";
+//             cmd.CommandText = @"select * from(select device_type.type,device_brand.brand,device_model.model,assign_device.assign_date,assign_device.return_date,assign_device.device_id from user,device_type,device_model,device_brand,assign_device,device,status
+// where  user.user_id=assign_device.user_id and assign_device.device_id=device.device_id and device.device_type_id=device_type.device_type_id and device.device_brand_id=device_brand.device_brand_id
+// and device.device_model_id=device_model.device_model_id  and assign_device.status_id=status.status_id and status.status_name='Allocated' and assign_device.user_id=" + @id + ") as demo WHERE demo.type LIKE '%" + @search + "%' or demo.brand LIKE '%" + @search + "%' or demo.model LIKE '%" + @search + "%' ";
 
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@id",
-                DbType = DbType.Int32,
-                Value = id,
-            });
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@search",
-                DbType = DbType.String,
-                Value = search,
-            });
-            if (!string.IsNullOrEmpty(sort) && !string.IsNullOrEmpty(direction))
-            {
-
-
-                cmd.CommandText += "order by " + sort + " " + direction + "";
-
-            }
-            Console.WriteLine(cmd.CommandText);
-            Console.WriteLine("id = " + cmd.Parameters["@id"].Value);
-            Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
-            // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
-
-            return  ReadAllDevice(cmd.ExecuteReader());
-
-        }
-        public List<devices> getPreviousDevice(int id, string search = "", string sort = "", string direction = "")
-        {
-            using var cmd = Db.Connection.CreateCommand();
-
-            cmd.CommandText = @"select * from(select device_type.type,device_brand.brand,device_model.model,assign_date,return_date,request_history.device_id from user,device_type,device_brand,device_model,request_history 
-where user.user_id=request_history.user_id and request_history.device_type=device_type.device_type_id and request_history.device_brand=device_brand.device_brand_id 
-and request_history.device_model=device_model.device_model_id and request_history.user_id=" + @id + ") as demo WHERE demo.type LIKE '%" + @search + "%' or demo.brand LIKE '%" + @search + "%' or demo.model LIKE '%" + @search + "%' ";
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@id",
-                DbType = DbType.Int32,
-                Value = id,
-            });
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@search",
-                DbType = DbType.String,
-                Value = search,
-            });
-            if (!string.IsNullOrEmpty(sort) && !string.IsNullOrEmpty(direction))
-            {
+//             cmd.Parameters.Add(new MySqlParameter
+//             {
+//                 ParameterName = "@id",
+//                 DbType = DbType.Int32,
+//                 Value = id,
+//             });
+//             cmd.Parameters.Add(new MySqlParameter
+//             {
+//                 ParameterName = "@search",
+//                 DbType = DbType.String,
+//                 Value = search,
+//             });
+//             if (!string.IsNullOrEmpty(sort) && !string.IsNullOrEmpty(direction))
+//             {
 
 
-                cmd.CommandText += "order by " + sort + " " + direction + "";
+//                 cmd.CommandText += "order by " + sort + " " + direction + "";
 
-            }
-            Console.WriteLine(cmd.CommandText);
-            Console.WriteLine("id = " + cmd.Parameters["@id"].Value);
-            Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
-            // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
-            return  ReadAllDevice(cmd.ExecuteReader());
+//             }
+//             Console.WriteLine(cmd.CommandText);
+//             Console.WriteLine("id = " + cmd.Parameters["@id"].Value);
+//             Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
+//             // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
+
+//             return  ReadAllDevice(cmd.ExecuteReader());
+
+//         }
+//         public List<devices> getPreviousDevice(int id, string search = "", string sort = "", string direction = "")
+//         {
+//             using var cmd = Db.Connection.CreateCommand();
+
+//             cmd.CommandText = @"select * from(select device_type.type,device_brand.brand,device_model.model,assign_date,return_date,request_history.device_id from user,device_type,device_brand,device_model,request_history 
+// where user.user_id=request_history.user_id and request_history.device_type=device_type.device_type_id and request_history.device_brand=device_brand.device_brand_id 
+// and request_history.device_model=device_model.device_model_id and request_history.user_id=" + @id + ") as demo WHERE demo.type LIKE '%" + @search + "%' or demo.brand LIKE '%" + @search + "%' or demo.model LIKE '%" + @search + "%' ";
+//             cmd.Parameters.Add(new MySqlParameter
+//             {
+//                 ParameterName = "@id",
+//                 DbType = DbType.Int32,
+//                 Value = id,
+//             });
+//             cmd.Parameters.Add(new MySqlParameter
+//             {
+//                 ParameterName = "@search",
+//                 DbType = DbType.String,
+//                 Value = search,
+//             });
+//             if (!string.IsNullOrEmpty(sort) && !string.IsNullOrEmpty(direction))
+//             {
+
+
+//                 cmd.CommandText += "order by " + sort + " " + direction + "";
+
+//             }
+//             Console.WriteLine(cmd.CommandText);
+//             Console.WriteLine("id = " + cmd.Parameters["@id"].Value);
+//             Console.WriteLine("Search = " + cmd.Parameters["@search"].Value);
+//             // Console.WriteLine("Search = " + cmd.Parameters["@sort"].Value);
+//             return  ReadAllDevice(cmd.ExecuteReader());
 
 
 
 
-        }
+//         }
         
 	
-		public List<devices> ReadAllDevice(MySqlDataReader reader)
-		{
-			Console.WriteLine("Rows" + reader.HasRows);
-			var posts = new List<devices>();
-			using (reader)
-			{
-				while (reader.Read())
-				{
-					Console.WriteLine("Found a row");
-					var post = new devices()
-					{
-						Type = reader.GetString(0),
-						Brand = reader.GetString(1),
-						Model = reader.GetString(2),
-						AssignDate = GetSafeString(reader,"assign_date"),
-						ReturnDate = GetSafeString(reader,"return_date"),
-                        DeviceId = GetInt(reader,"device_id"),
-                       // user_id =GetInt(reader,"user_id")
-					};
-					posts.Add(post);
-				}
-			}
-			return posts;
-		}
+// 		public List<devices> ReadAllDevice(MySqlDataReader reader)
+// 		{
+// 			Console.WriteLine("Rows" + reader.HasRows);
+// 			var posts = new List<devices>();
+// 			using (reader)
+// 			{
+// 				while (reader.Read())
+// 				{
+// 					Console.WriteLine("Found a row");
+// 					var post = new devices()
+// 					{
+// 						Type = reader.GetString(0),
+// 						Brand = reader.GetString(1),
+// 						Model = reader.GetString(2),
+// 						AssignDate = GetSafeString(reader,"assign_date"),
+// 						ReturnDate = GetSafeString(reader,"return_date"),
+//                         DeviceId = GetInt(reader,"device_id"),
+//                        // user_id =GetInt(reader,"user_id")
+// 					};
+// 					posts.Add(post);
+// 				}
+// 			}
+// 			return posts;
+// 		}
 
     }
 

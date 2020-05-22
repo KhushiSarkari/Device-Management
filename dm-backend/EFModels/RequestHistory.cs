@@ -10,6 +10,8 @@ namespace dm_backend.EFModels
         public string DeviceType { get; set; }
         public string DeviceBrand { get; set; }
         public string Model { get; set; }
+        public DateTime AssignedDate {get; set;}
+        public DateTime ReturnDate {get;set;}
         public int StatusId { get; set; }
         public sbyte? AssignDays { get; set; }
         public int UserId { get; set; }
