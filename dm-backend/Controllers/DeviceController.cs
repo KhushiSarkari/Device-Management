@@ -197,11 +197,16 @@ namespace dm_backend.Controllers
         [Route("specification/{specification_id}/delete")]
         public IActionResult Deletespecification(int specification_id)
         {
-            if(_repo.deleteSpecification(specification_id)!=null)
+            var result = _repo.deleteSpecification(specification_id);
+            if(result==1)
             {
-                 return Ok();
+                 return Ok("SpecificationId : "+specification_id + " is deleted");
             }
-            else{
+            else if(result == 0){
+                return NoContent();
+            }
+            else
+            {
                 return BadRequest();
             }
         }
@@ -233,18 +238,15 @@ namespace dm_backend.Controllers
 
         [HttpGet]
         [Route("previous_device/{id}")]
-        public async Task<IActionResult> GetOne(int id)
+        public IActionResult GetOne(int id)
         {
             string ToSearch = (string)HttpContext.Request.Query["search"] ?? "";
             string ToSort = (string)HttpContext.Request.Query["sortby"] ?? "";
             string Todirection = (string)HttpContext.Request.Query["direction"] ?? "asc";
             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            await Db.Connection.OpenAsync();
-            var query = new devices(Db);
             var pager = PagedList<devices>.ToPagedList(_repo.getPreviousDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            await Db.Connection.CloseAsync();
             if (pager is null)
                 return new NotFoundResult();
             return new OkObjectResult(pager);
@@ -257,11 +259,8 @@ namespace dm_backend.Controllers
             string Todirection = (string)HttpContext.Request.Query["direction"] ?? "asc";
             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            // await Db.Connection.OpenAsync();
-            // var query = new devices(Db);
             var pager = PagedList<devices>.ToPagedList(_repo.getCurrentDevice(id, ToSearch, ToSort, Todirection), pageNumber, pageSize);
            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            // await Db.Connection.CloseAsync();
             if (pager is null)
                 return new NotFoundResult();
             return new OkObjectResult(pager);

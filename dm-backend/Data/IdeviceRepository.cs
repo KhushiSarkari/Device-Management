@@ -20,7 +20,7 @@ namespace dm_backend.Data
             List<Specifications> getSpecificationById(int specification_id);
             string addSpecification(Specification s);
             string updateSpecification(int specification_id,Specification s);
-            Task<Specification> deleteSpecification(int specification_id);
+            int deleteSpecification(int specification_id);
             string addType(DeviceType t);
             string addBrand(DeviceBrand b);
             string addModel(DeviceModel m);

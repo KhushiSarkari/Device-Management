@@ -367,28 +367,29 @@ namespace dm_backend.Data
             }
         }
 
-        public async Task<Specification> deleteSpecification(int specification_id)
+        public  int deleteSpecification(int specification_id)
         {
-            var transaction = _context.Database.BeginTransaction();
             try
             {
-                var specification = await _context.Specification.FindAsync(specification_id);
-                // var device = await _context.Device.FindAsync(specification_id);
-                // var RequestDevice = await _context.RequestDevice.FindAsync(specification_id);
-                // var RequestHistory = await _context.RequestHistory.FindAsync(specification_id);
-                _context.Specification.Remove(specification);
-                // _context.Device.Remove(device);
-                // _context.RequestDevice.Remove(RequestDevice);
-                // _context.RequestHistory.Remove(RequestHistory);
+                var specification =  _context.Specification.Find(specification_id);
+                if(_context.Device.Any(device =>device.SpecificationId == specification_id))
+                {
+                    Console.WriteLine("Can't be deleted");
+                    return 0;
+                    
+                }
+                else{
+               _context.Specification.Remove(specification);
+               Console.WriteLine("Specification deleted" + specification_id);
+                }
                 _context.SaveChanges();
-                transaction.Commit();
             }
             catch (Exception ex)
             {
-                transaction.Rollback();
                 Console.WriteLine(ex);
+                return -1;
             }
-            return null;
+            return 1;
         }
 
         public string addType(DeviceType t)

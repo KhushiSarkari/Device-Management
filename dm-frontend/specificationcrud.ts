@@ -115,16 +115,16 @@ let mode:string = "create";
                 headers: new Headers({"Authorization": `Bearer ${token}`})
 			})
             .then(response => {
-                if(!response.ok){
-                    throw new Error(response.statusText);
+                if(response.status == 204){
+                    window["tata"].text('Specification cannot ','be deleted!',{duration:3000}); 
                 }
-        
+                else if(response.status == 200)
                 window["tata"].text('Specification ','Deleted!',{duration:3000});
                 this.getSpecificationData();
             })
             .catch(ex => {
     
-                window["tata"].error('An error occured '+ex.message,{duration:3000});
+                window["tata"].error('An error occured ',' '+ex.message,{duration:3000});
             });
 
 
