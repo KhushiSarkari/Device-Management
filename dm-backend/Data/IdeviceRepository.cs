@@ -8,11 +8,11 @@ namespace dm_backend.Data
     public interface IDeviceRepository
     {
     
-            List<devices> GetAllDevices(string device_name,string serial_number,string status_name);
+            List<devices> GetAllDevices(string device_name,string serial_number,string status_name,string SortColumn,string SortDirection);
            
-            List<DeviceInsertUpdate> GetDeviceById( int device_id);
-           string addDevice(DeviceInsertUpdate d);
-           string updateDevice(int device_id,DeviceInsertUpdate d);
+            List<devices> GetDeviceById( int device_id);
+           string addDevice(devices d);
+           string updateDevice(int device_id,devices d);
             int deleteDevice(int device_id);
             string assignDevice(Assign a);
             List<devices> getDeviceDescriptionbyid(int device_id);

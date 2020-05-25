@@ -7,6 +7,7 @@ using dm_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+
 namespace dm_backend.Data
 {
 
@@ -20,7 +21,7 @@ namespace dm_backend.Data
             _context = context;
         }
 
-        public List<devices> GetAllDevices(string device_name, string serial_number, string status_name)
+        public List<devices> GetAllDevices(string device_name, string serial_number, string status_name,string SortColumn,string SortDirection)
         {
             var data = new List<devices>(from d in _context.Device
                                          join dt in _context.DeviceType on d.DeviceTypeId equals dt.DeviceTypeId
@@ -70,7 +71,49 @@ namespace dm_backend.Data
                                              }
 
                                          });
-            
+          if(SortDirection == "asc"){
+                switch (SortColumn.ToLower())
+                 {
+                     
+                case "device_name":
+
+                    data = (List<devices>)data.OrderBy(d => string.Concat(d.Type," ",d.Brand," ",d.Model)).ToList();
+                    break;
+                case "specification":
+                 data = (List<devices>)data.OrderBy(d => string.Concat(d.Specifications.Ram," ",d.Specifications.Storage," ",d.Specifications.ScreenSize," ",d.Specifications.Connectivity)).ToList();
+                    break;
+
+                case "serial_number":
+                 data = (List<devices>)data.OrderBy(d =>d.SerialNumber).ToList();
+                    break;
+
+                default:
+
+                    break;
+            }
+
+          }
+          else{
+                   switch (SortColumn.ToLower())
+                 {
+                     
+                case "device_name":
+
+                    data = (List<devices>)data.OrderByDescending(d => string.Concat(d.Type," ",d.Brand," ",d.Model)).ToList();
+                    break;
+                case "specification":
+                 data = (List<devices>)data.OrderByDescending(d => string.Concat(d.Specifications.Ram," ",d.Specifications.Storage," ",d.Specifications.ScreenSize," ",d.Specifications.Connectivity)).ToList();
+                    break;
+
+                case "serial_number":
+                 data = (List<devices>)data.OrderByDescending(d =>d.SerialNumber).ToList();
+                    break;
+
+                default:
+                    break;
+            }
+
+          }
             data = (List<devices>)data.Where(d => (serial_number == "") ? true : d.SerialNumber == serial_number)
             .Where(d => (status_name == "") ? true : EF.Functions.Like(d.Status, status_name))
             .Where(d => (device_name == "") ? true : EF.Functions.Like(string.Concat(d.Type," ",d.Brand," ",d.Model),$"%{device_name}%"))
@@ -80,16 +123,16 @@ namespace dm_backend.Data
             return data;
         }
 
-        public List<DeviceInsertUpdate> GetDeviceById(int device_id)
+        public List<devices> GetDeviceById(int device_id)
         {
             Console.WriteLine(device_id);
-            var data = new List<DeviceInsertUpdate>(
+            var data = new List<devices>(
                 from d in _context.Device
                 join dt in _context.DeviceType on d.DeviceTypeId equals dt.DeviceTypeId
                 join dm in _context.DeviceModel on d.DeviceModelId equals dm.DeviceModelId
                 join db in _context.DeviceBrand on d.DeviceBrandId equals db.DeviceBrandId
                 where d.DeviceId == device_id
-                select new DeviceInsertUpdate
+                select new devices
                 {
                     DeviceId = d.DeviceId,
                     Type = devices.GetSafeStrings(dt.Type),
@@ -151,7 +194,7 @@ namespace dm_backend.Data
 
             return data;
         }
-         public string addDevice(DeviceInsertUpdate d)
+         public string addDevice(devices d)
             {
                  var device_type_id = (from t in _context.DeviceType
              where t.Type == d.Type
@@ -194,7 +237,7 @@ namespace dm_backend.Data
                     return "Not inserted" + e;
                 }
             }
-        public string updateDevice(int device_id, DeviceInsertUpdate d)
+        public string updateDevice(int device_id, devices d)
         {
             var entity = _context.Device.FirstOrDefault(device => device.DeviceId == device_id);
             var device_type_id = (from t in _context.DeviceType
@@ -261,13 +304,11 @@ namespace dm_backend.Data
              select s.StatusId)
              .SingleOrDefault();
                
-            
-             Console.WriteLine("status_id" +status_id);
              var data =
               _context.AssignDevice.Add(new AssignDevice
               {
                   DeviceId = a.DeviceId,
-                  ReturnDate = DateTime.Parse(a.ReturnDate),
+                  ReturnDate = Convert.ToDateTime(a.ReturnDate),
                   AssignedDate = DateTime.Now,
                   UserId = a.UserId,
                   AssignedBy = a.AdminId,

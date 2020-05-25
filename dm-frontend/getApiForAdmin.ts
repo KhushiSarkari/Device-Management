@@ -15,10 +15,10 @@ import { HitApi } from "./Device-Request/HitRequestApi";
     const token = _.tokenKey;
 	const role = (await amIUser(token)) == true ? 0 : 1;
 	class Assign_device {
-		device_id: number = 0;
-		return_date: string = "";
-		user_id: number = 0;
-		admin_id:number=0;
+		deviceId: number = 0;
+		returnDate: string = "";
+		userId: number = 0;
+		adminId:number=0;
 	}
 
 	class GetApiForAdmin {
@@ -56,7 +56,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 				})
 				.catch(err => console.log(err));
 		}
-		getData(uri:string) {
+		getData(uri:string,SortColumn: string="", SortDirection: any="") {
 			var device_name = (document.getElementById(
 				"fixed-header-drawer-exp"
 			) as HTMLInputElement).value;
@@ -65,7 +65,11 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			) as HTMLInputElement).value;
 			var status_name = (document.getElementById("status") as HTMLInputElement).value;
 			
-			const URL = BASEURL + "/api/Device/page?"+PageNo(this.currentPage) +"&status_name=" + status_name;
+			const URL = BASEURL + "/api/Device/page?"+PageNo(this.currentPage) +"&status_name=" + status_name
+			+"&SortColumn=" +
+			SortColumn +
+			"&SortDirection=" +
+			SortDirection ;
 			if (serial_number) {
 				const URI = URL+ "&serial_number=" + serial_number;
 				this.getApi(URI);
@@ -124,7 +128,10 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			{
 				window["tata"].text('Device ','Deleted!',{duration:3000});
 				temp.getData("");
-				
+			}
+			else 
+			{
+				window["tata"].text('Device not','Deleted!',{duration:3000});
 			}
 		}
 
@@ -135,7 +142,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 					headers: [["Content-Type", "application/json"], ["Authorization", `Bearer ${token}`]],
 					body: data,
 				}).catch(Error => console.log(Error));
-				alert("Notification sent");
+				window["tata"].text('Notification','Sent!',{duration:3000});
 			}
 		}
 		async assign_device(data: Assign_device) {
@@ -148,10 +155,13 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			});
 			if(res.status==200)
 			{
-				window["tata"].text('Device assigned',{duration:20000});
-				console.log("assign");
+				window["tata"].text('Device', 'assigned',{duration:20000});
 				temp.closeForm1('.login-popup');
 				temp.getData("");
+			}
+			else
+			{
+				window["tata"].text('Device not', 'assigned',{duration:20000});
 			}
 		}
 		async getUserDetails()
@@ -189,8 +199,6 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			const device_id: any = (e.target as HTMLButtonElement).getAttribute(
 				"value"
 			);
-			console.log(device_id);
-			console.log("edit button");
 			window["tata"].text('Edit This ','Device',{duration:3000});
 			window.location.href = "AddDevice.html?device_id=" + device_id;
 		}
@@ -212,7 +220,6 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 		if ((e.target as HTMLButtonElement).id.startsWith("notify-")) {
 			console.log("notify");
 			let deviceId: number = parseInt((e.target as HTMLButtonElement).dataset.deviceid, 10);
-			console.log(deviceId);
 			temp.postNotification(JSON.stringify({ "notify": [{ deviceId }] }));
 		}
 		if ((e.target as HTMLButtonElement).id.startsWith("assign")) {
@@ -231,10 +238,10 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			e.preventDefault();
 			console.log("test");
 			let assign = new Assign_device();
-			assign.device_id = +(document.getElementById(
+			assign.deviceId = +(document.getElementById(
 				"device_id"
 			) as HTMLInputElement).value;
-			assign.return_date = (document.getElementById(
+			assign.returnDate = (document.getElementById(
 				"return_date"
 			) as HTMLInputElement).value;
 			let option =(document.getElementById("user") as HTMLSelectElement).options;
@@ -247,11 +254,9 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 					var optionElement = option[element];
 				}
 			}
-			assign.user_id = +(optionElement.getAttribute("data-id"));
-			assign.admin_id = +id;
+			assign.userId = +(optionElement.getAttribute("data-id"));
+			assign.adminId = +id;
 			temp.assign_device(assign);
-			
-			// window.location.reload();
 		}
 	});
 	(document.querySelector("#device_id") as HTMLTableElement).addEventListener(
@@ -274,14 +279,10 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			let id = e.target as HTMLTableHeaderCellElement;
 			let sorts = new Sort(token);
 			let direction = sorts.checkSortType(id);
-			temp.sort(col, direction,"?");
+			//temp.sort(col, direction,"?");
+			temp.getData("",col,direction);
 		}
 	);
-	
-
-	
-
-console.log(status);
 	(document.querySelector(
 		"#fixed-header-drawer-exp"
 	) as HTMLInputElement).addEventListener("change", function(e) {
@@ -297,14 +298,7 @@ console.log(status);
 	(document.querySelector("#status") as HTMLInputElement).addEventListener(
 		"click",
 		function(e) {
-			// if (
-			// 	(document.getElementById("status") as HTMLInputElement).value == "all"
-			// ) {
-			// 	temp.getData("");
-			// } else {
-			// 	const status=(document.getElementById("status") as HTMLInputElement).value;
 				temp.getData("");
-			// }
 		}
 	);
 

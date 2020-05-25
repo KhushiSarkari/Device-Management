@@ -40,8 +40,8 @@ namespace dm_backend.Controllers
             {
                 status_name="";
             }
-            //  string SortColumn = (HttpContext.Request.Query["SortColumn"]);
-            // string SortDirection = (HttpContext.Request.Query["SortDirection"]);
+             string SortColumn = (string)(HttpContext.Request.Query["SortColumn"])??"";
+            string SortDirection = (string)(HttpContext.Request.Query["SortDirection"])??"";
             // SortDirection = (SortDirection.ToLower()) == "desc" ? "DESC" : "ASC";
             // switch (SortColumn.ToLower())
             // {
@@ -61,7 +61,7 @@ namespace dm_backend.Controllers
 
             //         break;
             // }
-            var deviceObject = _repo.GetAllDevices(device_name,serial_number,status_name);
+            var deviceObject = _repo.GetAllDevices(device_name,serial_number,status_name,SortColumn,SortDirection);
             var result1=  JsonConvert.SerializeObject(deviceObject, Formatting.None,
                         new JsonSerializerSettings()
                         { 
@@ -133,7 +133,7 @@ namespace dm_backend.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("add")]
-        public IActionResult PostDevice([FromBody]DeviceInsertUpdate body)
+        public IActionResult PostDevice([FromBody]devices body)
         {
             return Ok( _repo.addDevice(body));
         }
@@ -150,7 +150,7 @@ namespace dm_backend.Controllers
         [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("update/{device_id}")]
-         public IActionResult Put(int device_id, [FromBody]DeviceInsertUpdate body)
+         public IActionResult Put(int device_id, [FromBody]devices body)
         {
             return Ok( _repo.updateDevice(device_id,body));
         }

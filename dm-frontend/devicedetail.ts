@@ -1,4 +1,4 @@
-import { DeviceListForAdmin } from './deviceListForAdmin';
+
 import { BASEURL, navigationBarsss, Token, amIUser ,headersRows} from "./globals";
 
 (async function() {
@@ -13,9 +13,8 @@ function getDeviceDetailById(device_id : any) {
         headers: new Headers({"Authorization": `Bearer ${token}`})})
         .then(res => res.json())
         .then(data => {
-            //console.log(data);
-            let data1 =  new DeviceListForAdmin(data,token);
-            devicedetails(data1);
+
+            devicedetails(data[0]);
         })
         .catch(err => console.error(err));
 }
@@ -23,15 +22,15 @@ function devicedetails(data : any){
     document.getElementById("device-main").innerHTML = data.brand +" "+ data.model ;
     document.getElementById("color").innerHTML = data.color ;
     document.getElementById("price").innerHTML = data.price ;
-    document.getElementById("serial_number").innerHTML = data.serial_number ;
-    document.getElementById("warranty_year").innerHTML = data.warranty_year + " years" ;
-    document.getElementById("purchase_date").innerHTML = data.purchase_date ;
+    document.getElementById("serial_number").innerHTML = data.serialNumber ;
+    document.getElementById("warranty_year").innerHTML = data.warrantyYear + " years" ;
+    document.getElementById("purchase_date").innerHTML = data.purchaseDate ;
     document.getElementById("status").innerHTML = data.status ;
     document.getElementById("comments").innerHTML = data.comments ;
-    document.getElementById("ram").innerHTML = data.specs.RAM ;
-    document.getElementById("storage").innerHTML = data.specs.storage;
-    document.getElementById("screen_size").innerHTML = data.specs.screenSize + " inches";
-    document.getElementById("connectivity").innerHTML = data.specs.connectivity;
+    document.getElementById("ram").innerHTML = data.specifications.ram ;
+    document.getElementById("storage").innerHTML = data.specifications.storage;
+    document.getElementById("screen_size").innerHTML = data.specifications.screenSize + " inches";
+    document.getElementById("connectivity").innerHTML = data.specifications.connectivity;
 }
 
 const urlParams = new URLSearchParams(window.location.search);

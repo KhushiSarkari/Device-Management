@@ -11,7 +11,7 @@ export class SpecificationList
     token:string ="";
     constructor(data:any,token:string)
     {
-        this.specification_id = data.specification_id;
+       this.specification_id = data.specification_id;
         this.RAM = data.ram;
         this.storage = data.storage;
         this.screenSize = data.screenSize;
