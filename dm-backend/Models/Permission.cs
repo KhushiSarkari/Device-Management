@@ -11,7 +11,8 @@ namespace dm_backend.Models
         public int? PermissionId { get; set; }
         public string PermissionName { get; set; }
 
-        internal AppDb Db { get; set; }
+        //  public AppDb Db { get; set; }
+        internal AppDb Db { get; set ;}
         public Permission(){
 
         }

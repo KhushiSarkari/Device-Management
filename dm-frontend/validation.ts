@@ -417,3 +417,24 @@ export function descriptionboxvalidation() {
         return true;
     }
 }
+
+export function fileValidation(){
+    var images= document.getElementById('uploadFile');
+    var imagePath = (images as HTMLInputElement).value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if(imagePath=="")
+    {
+        (document.getElementById('images') as HTMLInputElement).innerHTML = "";
+        return true;
+
+    }
+   else if(!allowedExtensions.exec(imagePath)){
+        (document.getElementById('images') as HTMLInputElement).innerHTML = "Please upload image having extensions .jpeg/.jpg/.png only.";
+        return false;
+    }
+    
+    else{
+        (document.getElementById('images') as HTMLInputElement).innerHTML = "";
+        return true;
+    }
+}

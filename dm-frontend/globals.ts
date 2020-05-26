@@ -9,8 +9,8 @@ export class Token    /// call static method that return an object
     userID: number
     tokenKey: string
     private constructor() {
-        this.tokenKey = JSON.parse(sessionStorage.getItem("user_info"))["token"];
-        this.userID = parseInt(JSON.parse(sessionStorage.getItem("user_info"))["id"]);
+        this.tokenKey = JSON.parse(localStorage.getItem("user_info"))["token"];
+        this.userID = parseInt(JSON.parse(localStorage.getItem("user_info"))["id"]);
     }
     static getInstance(): Token {
         return new Token();
@@ -32,8 +32,9 @@ export function headersRows(role: string, element: string) {
     var row1 = `
            <div class="mdl-js" >
                     <nav class="mdl-navigation">
-                     <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>               
+                     <div class="material-icons mdl-badge mdl-badge--overlap" id="notifications" data-badge="" style="cursor:pointer">notifications</div>
                      <span class="mdl-color-text--white-grey-400 material-icons" id="submissionNotification"></span>
+       
                      <button id="profile" class="mdl-button mdl-js-button mdl-button--icon">
                      <i class="material-icons">person_pin</i>
                  </button>
@@ -91,7 +92,7 @@ export function headersRows(role: string, element: string) {
             }
         }
         else if ((e.target as HTMLButtonElement).id == "logout") {
-            sessionStorage.clear();
+            localStorage.clear();
             window.location.href = "/SJLogin/LoginRegister.html";
         }
 
@@ -109,67 +110,73 @@ export function headersRows(role: string, element: string) {
     window["componentHandler"].upgradeDom();
 }
 export function navigationBarsss(role: string, element: string) {
-    var navigation = `   <header class="demo-drawer-header">
-    <div class="demo-avatar-dropdown">
-    </div>
-</header>
-
-   
-    <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800" >
+    const parser = new DOMParser();
+    var navigation = `   
+    <nav class="demo-navigation mdl-navigation " >
     <a class="mdl-navigation__link" href="/dashboard.html">
-   <i class="mdl-color-text--blue-grey-400 material-icons"
-       role="presentation">dashboard</i>Dashboard
+   <i class=" material-icons mdl-color-text--red-A100"
+       role="presentation">dashboard</i> <span>Dashboard</span>
     </a>
-     <a class="mdl-navigation__link" href="/deviceListForadmin.html">
-         <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">devices</i>All
-             Devices
+     <a class="mdl-navigation__link " href="/deviceListForadmin.html">
+         <i class=" material-icons mdl-color-text--red-A100" role="presentation">devices</i> <span>Devices</span>
     </a>
     
     <a class="mdl-navigation__link" href="/Device-Request/device_request.html">
-    <i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">import_export</i>Request Device
+    <i class=" material-icons mdl-color-text--red-A100"
+            role="presentation">import_export</i><span>Request Device</span>
     </a>
-    <a class="mdl-navigation__link" href="/userRequestHistory.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons" >laptop_chromebook
-        </i>My
-        Devices
+    <a class="mdl-navigation__link" href="/userRequestHistory.html" id="mydevices">
+        <i class=" material-icons mdl-color-text--red-A100" >laptop_chromebook
+        </i><span>My Devices</span>
     </a>`;
-    if (role == "Admin") {
+     
+    
         let nav = ` 
         <a class="mdl-navigation__link" href="/specification.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons ">
+        <i class=" material-icons mdl-color-text--red-A100 ">
         build
-        </i>
-        All Specifications
+        </i><span>Specifications</span>
     </a>
     
    
     <a class="mdl-navigation__link" href="/web.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>Users
+        <i class=" material-icons mdl-color-text--red-A100" role="presentation">group</i><span>Users</span>
     </a>
     <a class="mdl-navigation__link" href="/adminRequestPage.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons material-icons"
-            >menu_book</i>All Requests
+        <i class=" material-icons mdl-color-text--red-A100"
+            >menu_book</i><span>All Requests</span>
     </a>
-    <a class="mdl-navigation__link" href="/request-history/request-history.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">history</i>Request History
+    <a class="mdl-navigation__link active " href="/request-history/request-history.html">
+        <i class=" material-icons mdl-color-text--red-A100" role="presentation">history</i><span>Request History</span>
     </a>
-    <a class="mdl-navigation__link" href="/faultyDevice/faultdevice.html">
-    <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report_problem</i>
-    Complaints
+    <a class="mdl-navigation__link" href="/faultyDevice/faultdevice.html" >
+    <i class=" material-icons mdl-color-text--red-A100" role="presentation">report_problem</i>
+    <span>Complaints</span>
      </a>
    
     <a class="mdl-navigation__link" href="/device_role/role.html">
-        <i class="mdl-color-text--blue-grey-400 material-icons "
-            >assignment_ind</i>Roles
+        <i class=" material-icons mdl-color-text--red-A100"
+            >assignment_ind</i><span>Roles & Permissions</span>
     </a></nav>
     `;
-        document.getElementById(element).innerHTML = navigation + nav; 
+    let HTMLString : string;
+    if (role == "Admin"){
+        HTMLString = navigation + nav;
     }
+         
+    
     else if (role == "User") {
-        document.getElementById(element).innerHTML = navigation;
-    }  
-}
+        HTMLString = navigation;
+    }
+    let HTML = parser.parseFromString(HTMLString,'text/html');
+    let title = document.querySelector('span.mdl-layout-title').textContent;
+    HTML.querySelectorAll("a.mdl-navigation__link span").forEach(function(span){
+        if(span.textContent === title){
+            span.parentElement.classList.add("mdl-navigation__link--current");
+        }
+    });
+    document.getElementById(element).appendChild(HTML.body.firstChild);
+    }
 
 export function paging(metadata) {
     let total_pages = metadata.TotalPages;
@@ -182,10 +189,12 @@ export function paging(metadata) {
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value="<<" >`;
     if (total_pages > 1)
         for (let loop = 1; loop <= total_pages; loop++)
-            (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="${loop}" value="${loop}" >`;
+        {
+             (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page ${loop == current_page ? 'activePage' : ''}" id="${loop}" value="${loop}" >`;
+         }
     if (has_next)
         (document.getElementById("pagination") as HTMLDivElement).innerHTML += `<input type="submit" class="page" id="" value=">>" >`;
-}
+   }
 
 export function PageNo(page_no, pageSize = page_size) {
     let uri = "page=" + page_no + "&page-size=" + pageSize;

@@ -16,7 +16,7 @@ namespace dm_backend.Models
         internal AppDb Db { get; set; }
         public Role()
         {
-
+               Permissions=new List<Permission>();
         }
         internal Role(AppDb db)
         {

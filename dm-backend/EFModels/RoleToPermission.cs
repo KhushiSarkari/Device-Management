@@ -10,5 +10,6 @@ namespace dm_backend.EFModels
 
         public Permission Permission { get; set; }
         public Role Role { get; set; }
+         
     }
 }

@@ -27,7 +27,7 @@ export class RolePermission{
                     <td></td>
                     ${
                         this.roles.reduce((acc, roleObject) => 
-                            acc + `<th scope="col">${roleObject["RoleName"]}</th>`
+                            acc + `<th scope="col">${roleObject["roleName"]}</th>`
                         , '')
                     }
                 </tr>
@@ -37,14 +37,14 @@ export class RolePermission{
                             return acc + `
                             <tr>
                                 <th scope="row" class="td-underlines">
-                                    ${permissionObject["PermissionName"]}
+                                    ${permissionObject["permissionName"]}
                                 </th>
                                 ${
                                     this.mapping.reduce((acc, roleObject, colIdx) => 
                                         acc + `
                                             <td class="mdl-data-table__cell">
                                                 <label class="mdl-checkbox mdl-js-checkbox" for="checkbox-${rowIdx}-${colIdx}">
-                                                    <input type="checkbox" id="checkbox-${rowIdx}-${colIdx}" class="mdl-checkbox__input" ${roleObject["Permissions"] && roleObject["Permissions"].find(perm => perm["PermissionName"] == permissionObject["PermissionName"]) ? 'checked': ''}>
+                                                    <input type="checkbox" id="checkbox-${rowIdx}-${colIdx}" class="mdl-checkbox__input" ${roleObject["permissions"] && roleObject["permissions"].find(perm => perm["permissionName"] == permissionObject["permissionName"]) ? 'checked': ''}>
                                                     <span class="mdl-checkbox__label"></span>
                                                 </label>
                                             </td>`
@@ -67,23 +67,23 @@ export class RolePermission{
         const rowIndex = checkbox.closest('tr').rowIndex - 1;
         const colIndex = checkbox.closest('td').cellIndex - 1;
         if(checkbox.checked){
-            const PermissionToAdd = Object.assign({}, this.permissions[colIndex]);
-            if(this.mapping[rowIndex].hasOwnProperty("Permissions"))
-                this.mapping[rowIndex]["Permissions"].push(PermissionToAdd);
+            const PermissionToAdd = Object.assign({}, this.permissions[rowIndex]);
+            if(this.mapping[colIndex].hasOwnProperty("Permissions"))
+                this.mapping[colIndex]["Permissions"].push(PermissionToAdd);
             else
-                this.mapping[rowIndex]["Permissions"] = new Array(PermissionToAdd);
+                this.mapping[colIndex]["Permissions"] = new Array(PermissionToAdd);
         }
         else{
-            const PermissionToRemove = this.permissions[colIndex];
-            const idxToDelete = this.mapping[rowIndex]["Permissions"].findIndex(obj => obj["PermissionName"] == PermissionToRemove["PermissionName"]);
-            this.mapping[rowIndex]["Permissions"].splice(idxToDelete, 1);
+            const PermissionToRemove = this.permissions[rowIndex];
+            const idxToDelete = this.mapping[colIndex]["Permissions"].findIndex(obj => obj["PermissionName"] == PermissionToRemove["PermissionName"]);
+            this.mapping[colIndex]["Permissions"].splice(idxToDelete, 1);
         }
     }
     setup(){
         this.getRolesAndPermissions().then(mappingArray => {
-            this.mapping = Array.from(mappingArray["Roles"]);
-            this.roles = this.mapping.map(({RoleId, RoleName}) => {return {RoleId, RoleName}});
-            this.permissions = mappingArray.Permissions;
+            this.mapping = Array.from(mappingArray["roles"]);
+            this.roles = this.mapping.map(({roleId, roleName}) => {return {roleId, roleName}});
+            this.permissions = mappingArray.permissions;
             console.dir(this);
             this.renderTable();
         });

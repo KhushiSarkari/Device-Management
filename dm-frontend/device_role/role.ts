@@ -24,8 +24,8 @@ export class role {
 	async getroles() {
 		const url = BASEURL + "/api/rolepermission";
 		let data = await this.API.HitGetApi(url);
-		this.data = data["Roles"].map(roleObj => {
-			return { RoleId: roleObj["RoleId"], RoleName: roleObj["RoleName"] };
+		this.data = data["roles"].map(roleObj => {
+			return { RoleId: roleObj["roleId"], RoleName: roleObj["roleName"] };
 		});
 		this.dynamicGenerateRole(this.table);
 		return data;
@@ -151,10 +151,10 @@ export class permission{
 	async getpermissions() {
 		const url = BASEURL + "/api/rolepermission";
 		let data = await this.API.HitGetApi(url);
-		this.data = data["Permissions"].map(permObj => {
+		this.data = data["permissions"].map(permObj => {
 			return {
-				PermissionId: permObj["PermissionId"],
-				PermissionName: permObj["PermissionName"]
+				PermissionId: permObj["permissionId"],
+				PermissionName: permObj["permissionName"]
 			};
 		});
 		this.dynamicGeneratePermission(this.table);

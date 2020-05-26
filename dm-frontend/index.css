@@ -80,14 +80,16 @@
     background-color: #555555;
     color: white;
   }
-
-  .user_data_table
+  .mdl-layout__content {
+    overflow-x: auto;
+  }
+  /* .user_data_table
   {
     width: fit-content;
     display: inline-flex;
     flex-direction: column;
     text-align: left;
-  }
+  } */
   .page-content{
     text-align: center;
   }
@@ -120,6 +122,7 @@ align-content : center;
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
 }
-.mdl-layout__content {
-  overflow-x: auto;
+
+body{
+  background-color: #eeeeee;
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using dm_backend.Data;
 
 namespace dm_backend.Controllers
 {
@@ -15,34 +17,23 @@ namespace dm_backend.Controllers
     public class DashboardController : ControllerBase
     {
 
-        public DashboardController(AppDb db)
+          public IEFRepository _repo;
+        public DashboardController(AppDb db,IEFRepository repo)
         {
             Db = db;
+            _repo=repo;
         }
-
         [HttpGet]
         [Route("statistics")]
         public IActionResult getStatistics()
         {   
-            Statistics statisticsObject = new Statistics();
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            
-            cmd.CommandText = "select count(*) from device;";
-            statisticsObject.totalDevices = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText ="select count(*) from device inner join status using (status_id) where status_name='Free';";
-            statisticsObject.freeDevices = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText = "select count(*) from complaints inner join status on complaints.complaint_status_id=status.status_id where status_name='Unresolved';";
-            statisticsObject.faults = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText ="select count(*) from assign_device;";
-            statisticsObject.assignedDevices = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText = "select count(*) from request_device;";
-            statisticsObject.deviceRequests = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.CommandText ="select count(*) from request_history inner join status using (status_id) where status_name='Rejected';";
-            statisticsObject.rejectedRequests = Convert.ToInt32(cmd.ExecuteScalar());
-
-            Db.Connection.Close();
-            return Ok(statisticsObject);
+            var statisticsObject=_repo.GetStatus();
+             var result1=  JsonConvert.SerializeObject(statisticsObject, Formatting.None,
+                        new JsonSerializerSettings()
+                        { 
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+             return Ok(result1); 
             
         }
 
@@ -109,18 +100,7 @@ namespace dm_backend.Controllers
         }
 
         public AppDb Db { get; }
-    }  
-
-    public class Statistics
-    {
-        public int totalDevices { get; set; }
-        public int freeDevices { get; set; }
-        public int faults { get; set; }
-        public int assignedDevices { get; set; }
-        public int deviceRequests { get; set; }
-        public int rejectedRequests { get; set; }
-
-    }
+    } 
     public class Overview
     {
         // public int deviceId { get; set; }

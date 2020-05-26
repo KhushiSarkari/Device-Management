@@ -29,7 +29,8 @@ module.exports = {
         'devicedetail': './devicedetail.ts',
         'user_role': './device_role/user_role.ts',
         'forgotpassword':'./SJLogin/forgotpassword.ts'
-
+        
+        
     },
     resolve: {
         extensions: [".js", ".ts"]

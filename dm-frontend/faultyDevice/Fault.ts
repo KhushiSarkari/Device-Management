@@ -51,13 +51,16 @@ export class FalultyDevice
         <td>${data.status}</td>
         <td>${data.complaint}</td>
         <td>${data.complaitDate}</td>
+        ${data.image?` <td><a href="#" onclick="debugBase64('${data.image}');">View Image</a></td>`:`<td></td>`}
+       
         `;
+        
         var buttons
           // if(data.status=="Unresolved" )
           {         
              buttons= ` <td>
-           <button  class="faulty-device" data-complaint = ${data.complaintId}>Faulty </button>
-            <button class="fault-resolved" data-complaint = ${data.complaintId}>Resolve </button>
+           <button  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored faulty-device" data-complaint = ${data.complaintId}>Faulty </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent fault-resolved" data-complaint = ${data.complaintId}>Resolve </button>
         </td>
     </tr> `;
      

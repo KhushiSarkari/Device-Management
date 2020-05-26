@@ -1,12 +1,13 @@
-import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging,changePage,headersRows } from "./globals";
+import { BASEURL, navigationBarsss, amIUser, PageNo, current_page,paging,changePage,headersRows,Token } from "./globals";
 import { Sort } from "./user-profile/SortingUser";
 import {Notifications} from "./notification";
 (async function() {
 
 
-    let token = JSON.parse(sessionStorage.getItem("user_info"))["token"];
+    const _ = Token.getInstance();
+    const user_id = _.userID;
+    const token = _.tokenKey;
 	let role = (await amIUser(token)) == true ? "User" :"Admin";
-    let user_id = JSON.parse(sessionStorage.getItem("user_info"))["id"];
 class Notify
 {
     deviceId:number =0;
