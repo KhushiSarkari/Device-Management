@@ -1,11 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using dm_backend.Controllers;
-using dm_backend.Models;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using dm_backend.EFModels;
 
 namespace dm_backend.Data
@@ -24,8 +19,8 @@ namespace dm_backend.Data
             var countryCodes = from c in _context.Country
             select new GenericDropdownModel()
             {
-                Id =c.CountryId,
-                Value =Convert.ToString(c.CountryCode)
+                Id =c.CountryCode,
+                Name =c.CountryName
             };                           
             return countryCodes;
         
@@ -50,13 +45,14 @@ namespace dm_backend.Data
         {
             var userList = (from us in _context.User
            join dd in _context.DepartmentDesignation on us.DepartmentDesignationId equals dd.DepartmentDesignationId
-           join d in _context.Department on dd.DepartmentId equals d.DepartmentId
+           join d in _context.Department on dd.DepartmentId equals d.DepartmentId into dn
+           from dname in dn.DefaultIfEmpty()
            join s in _context.Status on us.Status equals s.StatusId
            where s.StatusName=="Active"
            select new PartialUserModel() {
                UserId = us.UserId,
                FirstName =us.FirstName,
-               DepartmentName = d.DepartmentName
+               DepartmentName = dname.DepartmentName
            }).ToList();
            return userList;
         }
@@ -67,7 +63,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =ad.AddressTypeId,
-                Value =ad.AddressTypes
+                Name =ad.AddressTypes
             };  
             return AddressTypes;
         }
@@ -79,7 +75,7 @@ namespace dm_backend.Data
              select new GenericDropdownModel()
             {
                 Id =c.CityId,
-                Value =c.CityName
+                Name =c.CityName
              });                    
             return cities.Take(5000);
         }
@@ -90,7 +86,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =ct.ContactTypeId,
-                Value =ct.ContactTypes
+                Name =ct.ContactTypes
             };    
             return ContactTypes;
         }
@@ -101,7 +97,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =c.CountryId,
-                Value =c.CountryName
+                Name =c.CountryName
             };                           
             return countries;
         }
@@ -112,7 +108,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =dd.DepartmentId,
-                Value =dd.DepartmentName
+                Name =dd.DepartmentName
             };      
             return departments;
         }
@@ -126,7 +122,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =de.DesignationId,
-                Value =de.DesignationName
+                Name =de.DesignationName
             }).Distinct();  
             return designations;   
         }
@@ -140,7 +136,7 @@ namespace dm_backend.Data
              select new GenericDropdownModel()
             {
                 Id =b.DeviceBrandId,
-                Value =b.Brand
+                Name =b.Brand
             }).Distinct();  
             return brands;
         }
@@ -154,7 +150,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =m.DeviceModelId,
-                Value =m.Model
+                Name =m.Model
             }).Distinct();  
             return models;
         }
@@ -165,7 +161,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =t.DeviceTypeId,
-                Value =t.Type
+                Name =t.Type
             };  
             return types;
         }
@@ -176,7 +172,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =s.SalutationId,
-                Value =s.SalutationName
+                Name =s.SalutationName
             };  
             return salutations;
         }
@@ -188,7 +184,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =s.StateId,
-                Value =s.StateName
+                Name =s.StateName
             };                      
             return states;
         }
@@ -200,7 +196,7 @@ namespace dm_backend.Data
             select new GenericDropdownModel()
             {
                 Id =st.StatusId,
-                Value =st.StatusName
+                Name =st.StatusName
             };      
             return status;
         }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using dm_backend.Data;
 using Newtonsoft.Json;
@@ -19,7 +13,7 @@ namespace dm_backend.Controllers
     public class DropdownController : ControllerBase
     {
         public IDropdownRepository _repo;
-        public DropdownController( IDropdownRepository repo)
+        public DropdownController(IDropdownRepository repo)
         {
             _repo = repo;
         }
@@ -142,9 +136,10 @@ namespace dm_backend.Controllers
         public IActionResult GetAllSpecification(string type, string model, string brand)
         {
             var result = _repo.GetAllSpecifications(type, brand, model);
-            if (result.Count() < 1)
-                return NoContent();
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result, new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            }));
         }
 
         [HttpGet]
@@ -193,10 +188,10 @@ namespace dm_backend.Controllers
         public IActionResult GetUserDetails()
         {
             var result = _repo.GetAllUserList();
-            if (result.Count > 0)
-                return Ok(result);
-            else
-                return NoContent();
+            return Ok(JsonConvert.SerializeObject(result, new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            }));
         }
-    } 
+    }
 }
