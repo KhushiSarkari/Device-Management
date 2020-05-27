@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using dm_backend.data;
 using dm_backend.Data;
 using dm_backend.EFModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,7 @@ namespace dm_backend
             services.AddCors();
 
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IRoleRepository,RoleRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
             {

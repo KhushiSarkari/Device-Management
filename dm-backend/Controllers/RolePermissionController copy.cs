@@ -69,7 +69,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 namespace dm_backend.Controllers
-{     [Authorize(Roles="admin")]
+{    
+    // [Authorize(Roles="admin")]
      [ApiController]
      [Route("api/")]
     public class RolepermissionController : BaseController

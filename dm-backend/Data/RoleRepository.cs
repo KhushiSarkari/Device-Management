@@ -24,7 +24,7 @@ namespace dm_backend.data
         // public AppDb Db { get; }
          public async Task<EFModels.Permission> PostPerm(Models.Permission data1)
          {
-                
+                 
                 if(data1.PermissionId.HasValue)
                 {            
                     if(await _context.Permission.AnyAsync(e=>e.PermissionId==data1.PermissionId) )
@@ -43,6 +43,7 @@ namespace dm_backend.data
                {
                    var Permobj=new EFModels.Permission { PermissionName=data1.PermissionName};
                   await _context.Permission.AddAsync(Permobj);
+                  await _context.SaveChangesAsync();
                   return Permobj;
               
                }
