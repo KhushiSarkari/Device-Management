@@ -304,8 +304,6 @@ import * as signalR from "@aspnet/signalr";
 		target: HTMLInputElement & EventTarget;
 	}
 	document.getElementById("upload").addEventListener("change",async function (e:HTMLInputEvent) {
-		console.log("frf");
-			console.log(e.target.files);
 	    photo =e.target.files[0];
 	     
 	});	
@@ -321,7 +319,6 @@ import * as signalR from "@aspnet/signalr";
 			e.preventDefault();
 			progress();
 			var progress_modal = document.getElementById("progress-bar");
-			console.log(progress_modal);
   			progress_modal.style.display = "block";
 			let formData = new FormData();
 	   		formData.append("photo", photo);
@@ -340,7 +337,6 @@ import * as signalR from "@aspnet/signalr";
 					var users="";
 					for(let i=0;i<failedData;i++)
 					users += data.usersAlreadyExists[i]+" <br>";
-					console.log(users);
 					(document.querySelector("#Already-users")as HTMLDivElement).innerHTML = "Successfully Registered Users:"+ successData+" <br>"+
 					"Already Exists Users: "+failedData +" <br>"+users;
 					
@@ -359,8 +355,6 @@ import * as signalR from "@aspnet/signalr";
 	   })
 	  .configureLogging(signalR.LogLevel.Information)
 	  .build();
-    
-	console.log(connection);
 	connection.start().then((e) => {
 				console.log("connection started");
 			  }).catch(err => console.log(err));

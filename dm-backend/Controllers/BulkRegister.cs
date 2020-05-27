@@ -11,9 +11,9 @@ using dm_backend.Data;
 using dm_backend.EFModels;
 using System.Threading.Tasks;
 using System.Threading;
-using dm_backend.MyData;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
+using dm_backend.Utilities;
 
 namespace dm_backend.Controllers
 {
@@ -73,8 +73,6 @@ public async Task<IActionResult> PostAsync(List<IFormFile> photo)
     List<string> AlreadyExists =new List<string>();
     for(int i=1;i<=json.Count;i++)
     {
-
-     Thread.Sleep(500);
      int countn = Convert.ToInt32(json.Count);
      //CALLING A FUNCTION THAT CALCULATES PERCENTAGE AND SENDS THE DATA TO THE CLIENT
      SendProgress("Process", i , countn);
