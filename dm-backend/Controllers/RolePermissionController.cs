@@ -76,15 +76,16 @@ namespace dm_backend.Controllers
     public class RolepermissionController : BaseController
     {
                  private readonly EFDbContext _context ;
-        //  public IRoleRepository _repo;
-        public RolepermissionController(AppDb db, EFDbContext ef): base(ef)
+         public IRoleRepository _repo;
+        public RolepermissionController( EFDbContext ef,IRoleRepository repo): base(ef)
         {
-            Db = db;
+         //   Db = db;
+
             _context = ef ;
-            //  _repo = repo;
+             _repo = repo;
 
         }
-        public AppDb Db { get; }
+        // public AppDb Db { get; }
 
         [HttpGet]
         [Route("rolepermission")]
@@ -277,39 +278,34 @@ namespace dm_backend.Controllers
 }
 
            [HttpPost("permission/update")]
-        public async Task<IActionResult> PostPerm(Models.Permission data1)
+        public async Task<Models.Permission> PostPerm(Models.Permission data1)
         {
             Console.WriteLine(data1.PermissionId+"iiii");
-            // var createdUser = await _repo.Postperm(Models.Permission);
-            //   var result1=  JsonConvert.SerializeObject(createdUser, Formatting.None,
-            //             new JsonSerializerSettings()
-            //             { 
-            //                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //             });
-
-            if(data1.PermissionId.HasValue)
-            {            
             
-                if(await _context.Permission.AnyAsync(e=>e.PermissionId==data1.PermissionId) )
-                {
-                    var  user =  _context.Permission.FirstOrDefault(e=>e.PermissionId==data1.PermissionId.Value);
-                    user.PermissionName=data1.PermissionName;
+ return(_repo.PostPerm(data1));
+            // if(data1.PermissionId.HasValue)
+            // {            
+            
+            //     if(await _context.Permission.AnyAsync(e=>e.PermissionId==data1.PermissionId) )
+            //     {
+            //         var  user =  _context.Permission.FirstOrDefault(e=>e.PermissionId==data1.PermissionId.Value);
+            //         user.PermissionName=data1.PermissionName;
                    
-                }
-                else{
-                    return BadRequest();
-                }
-            }
-              else
-               {
-                   var Permobj=new EFModels.Permission { PermissionName=data1.PermissionName};
-                  await _context.Permission.AddAsync(Permobj);
+            //     }
+            //     else{
+            //         return BadRequest();
+            //     }
+            // }
+            //   else
+            //    {
+            //        var Permobj=new EFModels.Permission { PermissionName=data1.PermissionName};
+            //       await _context.Permission.AddAsync(Permobj);
               
-                }
-             await _context.SaveChangesAsync();
+            //     }
+            //  await _context.SaveChangesAsync();
 
-             return Ok();
-            //  return Ok(new { Result = result1});
+            //  return Ok();
+            
 }
 
       
@@ -494,32 +490,35 @@ namespace dm_backend.Controllers
       
          [HttpDelete]
          [Route("role/{role_id}/delete")]
-         public async Task<IActionResult> Deleterole(int role_id)
+         public async Task<Models.Role> Deleterole(int role_id)
         {
            
-            var transaction =  _context.Database.BeginTransaction();
-             try
-            {
-                if(!await _context.RoleToPermission.AnyAsync(e=>e.RoleId==role_id))
-                {
-                var role1=_context.Role.FirstOrDefault(e=>e.RoleId==role_id);
+            // var transaction =  _context.Database.BeginTransaction();
+            //  try
+            // {
+            //     if(!await _context.RoleToPermission.AnyAsync(e=>e.RoleId==role_id))
+            //     {
+            //     var role1=_context.Role.FirstOrDefault(e=>e.RoleId==role_id);
                     
-               _context.Role.Remove(role1);
-                _context.SaveChanges();
-                transaction.Commit();
-                return Ok();
+            //    _context.Role.Remove(role1);
+            //     _context.SaveChanges();
+            //     transaction.Commit();
+            //     return Ok();
 
-                 }
-            }
+            //      }
+            //      else{
+            //          return BadRequest();
+            //      }
+            // }
                 
             
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                Console.WriteLine(ex);
-                return BadRequest();
-            }
-            return Ok();
+            // catch (Exception ex)
+            // {
+            //     transaction.Rollback();
+            //     Console.WriteLine(ex);
+            //     return BadRequest();
+            // }
+            // return Ok();
         }
 
   [HttpDelete]
@@ -539,6 +538,9 @@ namespace dm_backend.Controllers
                 transaction.Commit();
                 return Ok();
 
+                 }
+                  else{
+                     return BadRequest();
                  }
             }
                 
