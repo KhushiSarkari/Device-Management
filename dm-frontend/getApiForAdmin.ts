@@ -135,7 +135,7 @@ import { HitApi } from "./Device-Request/HitRequestApi";
 			console.log(user);
 			let htmlString = '';
 			for (let dataPair of user) {
-				htmlString += '<option data-id="'+dataPair.id +'" value="' + dataPair.name +"(Emp-id:"+dataPair.id+")Dept-"+dataPair.department+ '">'+'</option>';
+				htmlString += '<option data-id="'+dataPair.UserId +'" value="' + dataPair.FirstName +"(Emp-id:"+dataPair.UserId+")Dept-"+dataPair.DepartmentName+ '">'+'</option>';
 			}
 			(document.getElementById("user") as HTMLSelectElement).innerHTML = htmlString;
 		

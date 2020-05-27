@@ -27,7 +27,7 @@ document.addEventListener("change", (event) => {
     dropdownlist.clear(device[1].id);
     dropdownlist.clear(device[2].id);
     dropdownlist.clear("specification");
-    GetData( BASEURL + "/api/dropdown/" + device[1].id+"/" + device[0].value , device[1].id);
+    GetData( BASEURL + "/api/dropdown/brands?type=" + device[0].value , device[1].id);
    
   }
   if ((event.target as HTMLSelectElement).id == "brands")
@@ -35,7 +35,7 @@ document.addEventListener("change", (event) => {
 
     dropdownlist.clear(device[2].id);
     dropdownlist.clear("specification");
-    GetData( BASEURL + "/api/dropdown/" + device[2].id+"/" + device[1].value , device[2].id);
+    GetData( BASEURL + "/api/dropdown/models?brand="+ device[1].value , device[2].id);
 
   }
 
@@ -68,13 +68,13 @@ export async function specificationDropdown(
 
   (document.getElementById("specification") as HTMLSelectElement).innerHTML = "";
   for (let i = 0; i < data.length; i++) {
-    (document.getElementById("specification") as HTMLSelectElement).innerHTML += '<option value="' + data[i].specification_id +'">' +
-      (data[i].ram == "" ? "" : " RAM: " + data[i].ram) +
-      (data[i].storage == "" ? "" : " Storage: " + data[i].storage) +
-      (data[i].screenSize == "" ? "" : " Screen Size: " + data[i].screenSize) +
-      (data[i].connectivity == ""
+    (document.getElementById("specification") as HTMLSelectElement).innerHTML += '<option value="' + data[i].SpecificationId +'">' +
+      (data[i].Ram == "" ? "" : " RAM: " + data[i].Ram) +
+      (data[i].Storage == "" ? "" : " Storage: " + data[i].Storage) +
+      (data[i].ScreenSize == "" ? "" : " Screen Size: " + data[i].ScreenSize) +
+      (data[i].Connectivity == ""
         ? ""
-        : " Connectivity: " + data[i].connectivity) +
+        : " Connectivity: " + data[i].Connectivity) +
       "</option>";
   }
   return null;
