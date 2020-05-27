@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\MESSI\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\MESSI\\.nuget\\packages"
+    ]
+  }
+}
