@@ -26,7 +26,6 @@ namespace dm_backend.Models
 
         public string salutation { get; set; }
 
-        public PartialUserModel userName { get; set; }
         [DataMember(Name="name")]
         public string name{get; set;}
         [DataMember(Name="complaintDate")]
@@ -35,6 +34,8 @@ namespace dm_backend.Models
         public string Comments { get; set; }
         [DataMember]
         public string status { get; set; }
+        [DataMember]
+        public int userId { get; set; }
         [DataMember]
         public string image { get; set; }
    

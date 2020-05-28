@@ -7,6 +7,6 @@ namespace dm_backend.Data
     {
         string ResolveRequest(int complaintId);
         string MarkFaultyRequest(int complaintId);
-        List<FaultyDeviceModel> getFaultyDevice(int userId, string search, string serialNumber, string status, string sortAttribute, string direction);
+        List<FaultyDeviceModel> getFaultyDevice(string search, string serialNumber, string sortAttribute, string direction);
     }
 }

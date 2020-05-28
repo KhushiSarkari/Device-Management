@@ -20,7 +20,7 @@ namespace dm_backend.Data
      
 
 
-        public List<FaultyDeviceModel> getFaultyDevice(int userId, string search, string serialNumber, string status, string sortAttribute, string direction)
+        public List<FaultyDeviceModel> getFaultyDevice(string search, string serialNumber, string sortAttribute, string direction)
         {
             var complaintList =from c in _context.Complaints
             join u in _context.User on c.EmployeeId equals u.UserId
@@ -34,12 +34,13 @@ namespace dm_backend.Data
             where st.StatusName == "Unresolved"
             select new FaultyDeviceModel
             {
+                userId = u.UserId,
                 complaintId = c.ComplaintId,
                 salutation = bcd.SalutationName,
                 deviceId = d.DeviceId,
                      serialNumber = d.SerialNumber,
                         device = dt.Type+" "+db.Brand+" "+dm.Model,
-                        name =(!string.IsNullOrEmpty(bcd.SalutationName) ? bcd.SalutationName+"" :"")+ u.FirstName+ " " +(!string.IsNullOrEmpty(u.MiddleName) ? u.MiddleName+" " :"")+u.LastName,
+                        name =(!string.IsNullOrEmpty(bcd.SalutationName) ? bcd.SalutationName+" " :"")+ u.FirstName+ " " +(!string.IsNullOrEmpty(u.MiddleName) ? u.MiddleName+" " :"")+u.LastName,
                         complaintDate =c.ComplaintDate,
                         Comments = c.Comments,
                         image = System.Text.ASCIIEncoding.ASCII.GetString((byte[])c.Image ??new byte[0])                      
@@ -57,7 +58,6 @@ namespace dm_backend.Data
              var complaintLists = complaintList.ToList();      
              if(!string.IsNullOrEmpty(sortAttribute))
              {
-                 Console.WriteLine(direction);
                  if(direction == "asc")
                  {
                    complaintLists =complaintLists.OrderBy(c => getValue(c,sortAttribute)).ToList();
