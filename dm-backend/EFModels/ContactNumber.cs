@@ -21,5 +21,10 @@ namespace dm_backend.EFModels
         public Country Country { get; set; }
         public User User { get; set; }
         public ICollection<Dependent> Dependent { get; set; }
+
+        internal string GetSafeString(string number)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace dm_backend
 
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IEFRepository,EFRepository>();
+            services.AddScoped<IUserRepository,UserRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
             {

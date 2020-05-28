@@ -23,14 +23,14 @@ namespace dm_backend
 
         internal AppDb Db { get; set; }
 
-        public PartialUserModel()
-        {
-        }
+        // public PartialUserModel()
+        // {
+        // }
 
-        internal PartialUserModel(AppDb db)
-        {
-            Db = db;
-        }
+        // internal PartialUserModel(AppDb db)
+        // {
+        //     Db = db;
+        // }
        
         
     }

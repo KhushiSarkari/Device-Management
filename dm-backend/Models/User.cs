@@ -6,6 +6,8 @@ using MySql.Data.MySqlClient;
 using dm_backend.Models;
 using dm_backend.Utilities;
 using dm_backend.Data;
+using System.Linq;
+
 namespace dm_backend.Models
 {
     public class User : PartialUserModel
@@ -16,9 +18,10 @@ namespace dm_backend.Models
         public string? Status { get; set; }
         public List<ContactNumberModel> phones { get; set; }
         public List<AddressModel> addresses { get; set; }
+        private readonly EFDbContext _context;
+        //internal AppDb Db { get; set; }
+      //  internal IAuthRepository _repo;
 
-        internal AppDb Db { get; set; }
-        internal IAuthRepository _repo;
         public User()
         {
             phones = new List<ContactNumberModel>();
@@ -91,49 +94,61 @@ namespace dm_backend.Models
             return "0";
         }
 
-        public int Delete()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "delete_user";
-            cmd.CommandType = CommandType.StoredProcedure;
-            Binduser_id(cmd);
-            cmd.ExecuteNonQuery();
-            return 1;
-        }
+        // public int Delete()
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "delete_user";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     Binduser_id(cmd);
+        //     cmd.ExecuteNonQuery();
+        //     return 1;
+        // }
 
-        public List<User> SearchAllUsers(string names = "")
-        {
-            using (var cmd = Db.Connection.CreateCommand())
-            {
-                if (names != "" || names != null || names != String.Empty)
-                {
-                    cmd.CommandText = "call get_users_by_name(@namee)";
-                    cmd.Parameters.AddWithValue("@namee", names);
-                }
-                else
-                    cmd.CommandText = "call get_all_active_user()";
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                    return ReadAll(reader);
-            }
-        }
+        // public List<User> SearchAllUsers(string names = "")
+        // {
+        //     using (var cmd = Db.Connection.CreateCommand())
+        //     {
+        //         if (names != "" || names != null || names != String.Empty)
+        //         {
+        //             cmd.CommandText = "call get_users_by_name(@namee)";
+        //             cmd.Parameters.AddWithValue("@namee", names);
+        //         }
+        //         else
+        //             cmd.CommandText = "call get_all_active_user()";
+        //         using (MySqlDataReader reader = cmd.ExecuteReader())
+        //             return ReadAll(reader);
+        //     }
+        // }
         public List<User> SortUserbyName(string sortby, string direction, string searchby = "")
         {
-            using (var cmd = Db.Connection.CreateCommand())
-            {
+            
+            var result = (from u in _context.User join sl in _context.Salutation on u.SalutationId equals sl.SalutationId
+            select new {x=u.FirstName,y=sl.Salutation1}).ToList();
+            Console.WriteLine(result[0]);
+            var list = new List<User>(); 
+            return list;
 
-                cmd.CommandText = GetAllUsersquery;
-                if (!string.IsNullOrEmpty(searchby))
-                {
-                    cmd.CommandText += @" where get_full_name(user.user_id) like CONCAT('%', '" + @searchby + "', '%') or user.email like CONCAT('%', '" + @searchby + "', '%') or status_name like CONCAT('%', '" + @searchby + "', '%')";
+            // using (var cmd = Db.Connection.CreateCommand())
+            // {
 
-                    cmd.Parameters.AddWithValue("@searchby", searchby);
-                }
-                cmd.CommandText += " group by user_id,role_id order by " + sortby + " " + direction; //" " + direction
-                cmd.Parameters.AddWithValue("@sortby", sortby);
-                using MySqlDataReader reader = cmd.ExecuteReader();
-                return ReadAll(reader);
+            //     cmd.CommandText = GetAllUsersquery;
+            //     Console.WriteLine(GetAllUsersquery);
+            //     if (!string.IsNullOrEmpty(searchby))
+            //     {
+            //         cmd.CommandText += @" where get_full_name(user.user_id) like CONCAT('%', '" + @searchby + "', '%') or user.email like CONCAT('%', '" + @searchby + "', '%') or status_name like CONCAT('%', '" + @searchby + "', '%')";
 
-            }
+            //         cmd.Parameters.AddWithValue("@searchby", searchby);
+            //     }
+            //     cmd.CommandText += " group by user_id,role_id order by " + sortby + " " + direction; //" " + direction
+            //     cmd.Parameters.AddWithValue("@sortby", sortby);
+            //     using MySqlDataReader reader = cmd.ExecuteReader();
+            //     return ReadAll(reader);
+
+            // }
+
+
+
+
         }
         public int whatIs(String data1)
         {
@@ -170,59 +185,59 @@ namespace dm_backend.Models
 
             return address1;
         }
-        private ContactNumberModel ReadContact(MySqlDataReader reader, string prefix)
-        {
-            var contact1 = new ContactNumberModel();
-            contact1.ContactNumberType = prefix;
-            contact1.CountryCode = GetSafeString(reader, prefix + "_country_code");
-            contact1.AreaCode = GetSafeString(reader, prefix + "_area_code");
-            contact1.Number = GetSafeString(reader, prefix + "_number");
+        // private ContactNumberModel ReadContact(MySqlDataReader reader, string prefix)
+        // {
+        //     var contact1 = new ContactNumberModel();
+        //     contact1.ContactNumberType = prefix;
+        //     contact1.CountryCode = GetSafeString(reader, prefix + "_country_code");
+        //     contact1.AreaCode = GetSafeString(reader, prefix + "_area_code");
+        //     contact1.Number = GetSafeString(reader, prefix + "_number");
 
-            return contact1;
-        }
+        //     return contact1;
+        // }
 
-        public User getUserByuser_id(string user_id)
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = "get_users_by_id";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@user_id", user_id);
-            return ReadUser(cmd.ExecuteReader());
-        }
-        private List<User> ReadAll(MySqlDataReader reader)
-        {
-            var posts = new List<User>();
-            using (reader)
-            {
-                while (reader.Read())
-                {
-                    var post = (User)Readers.ReadPartialUser(reader);
-                    post.UserId = (int)reader["user_id"];
-                    post.RoleName = GetSafeString(reader, "role_name");
-                 //   post.Password = GetSafeString(reader, "password");
-                    post.Status = GetSafeString(reader, "status_name");
-                    post.addresses.Add(ReadAddress(reader, "current"));
-                    post.addresses.Add(ReadAddress(reader, "permanant"));
-                    post.phones.Add(ReadContact(reader, "mobile"));
-                    post.phones.Add(ReadContact(reader, "work"));
-                    post.phones.Add(ReadContact(reader, "home"));
+        // public User getUserByuser_id(string user_id)
+        // {
+        //     using var cmd = Db.Connection.CreateCommand();
+        //     cmd.CommandText = "get_users_by_id";
+        //     cmd.CommandType = CommandType.StoredProcedure;
+        //     cmd.Parameters.AddWithValue("@user_id", user_id);
+        //     return ReadUser(cmd.ExecuteReader());
+        // }
+        // private List<User> ReadAll(MySqlDataReader reader)
+        // {
+        //     var posts = new List<User>();
+        //     using (reader)
+        //     {
+        //         while (reader.Read())
+        //         {
+        //             var post = (User)Readers.ReadPartialUser(reader);
+        //             post.UserId = (int)reader["user_id"];
+        //             post.RoleName = GetSafeString(reader, "role_name");
+        //          //   post.Password = GetSafeString(reader, "password");
+        //             post.Status = GetSafeString(reader, "status_name");
+        //             post.addresses.Add(ReadAddress(reader, "current"));
+        //             post.addresses.Add(ReadAddress(reader, "permanant"));
+        //             post.phones.Add(ReadContact(reader, "mobile"));
+        //             post.phones.Add(ReadContact(reader, "work"));
+        //             post.phones.Add(ReadContact(reader, "home"));
 
-                    posts.Add(post);
-                }
-            }
-            return posts;
-        }
+        //             posts.Add(post);
+        //         }
+        //     }
+        //     return posts;
+        // }
 
 
-        private User ReadUser(MySqlDataReader reader)
-        {
+        // private User ReadUser(MySqlDataReader reader)
+        // {
 
-            using (reader)
-            {
-                var user_s = ReadAll(reader);
-                return user_s[0];
-            }
-        }
+        //     using (reader)
+        //     {
+        //         var user_s = ReadAll(reader);
+        //         return user_s[0];
+        //     }
+        // }
 
 
         public string UpdateUser()
@@ -319,10 +334,10 @@ namespace dm_backend.Models
                 cmd.Parameters.Add(new MySqlParameter("passwordHash", passwordHash));
             }
 
-            cmd.Parameters.Add(new MySqlParameter("dob", DateTime.Parse(DOB).ToString("yyyy-MM-dd")));
+       //     cmd.Parameters.Add(new MySqlParameter("dob", DateTime.Parse(DOB).ToString("yyyy-MM-dd")));
             cmd.Parameters.Add(new MySqlParameter("role_name", RoleName));
             cmd.Parameters.Add(new MySqlParameter("gend", Gender));
-            cmd.Parameters.Add(new MySqlParameter("doj", DateTime.Parse(DOJ).ToString("yyyy-MM-dd")));
+         //   cmd.Parameters.Add(new MySqlParameter("doj", DateTime.Parse(DOJ).ToString("yyyy-MM-dd")));
             cmd.Parameters.Add(new MySqlParameter("is_ac", "Active"));
 
         }

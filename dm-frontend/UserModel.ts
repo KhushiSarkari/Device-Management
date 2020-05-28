@@ -75,7 +75,8 @@ export class UserModel
 					<td>${this.email} </td>
 					<td>${this.roleName}</td>
 					<td>${this.status} </td>
-					<td>${formatPhone(this.phones[0].countryCode,this.phones[0].number)} </td>
+					<td>${this.phones[0]?formatPhone(this.phones[0].countryCode,this.phones[0].number):""}
+					 </td>
 					<td>
 						<label class="mdl-switch mdl-js-switch mdl-switch--accent" for="check-${this.userId}">
 							<input type="checkbox" id="check-${this.userId}" class="mdl-switch__input userCheckStatus mdl-color--teal"  data-toggle="modal"  data-target="#aiModal"  ${status}>

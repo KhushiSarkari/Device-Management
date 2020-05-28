@@ -14,7 +14,7 @@ namespace dm_backend.EFModels
             Notification = new HashSet<Notification>();
             RequestDevice = new HashSet<RequestDevice>();
             RequestHistory = new HashSet<RequestHistory>();
-            UserToAddress = new HashSet<UserToAddress>();
+       
             UserToDependent = new HashSet<UserToDependent>();
             UserToRole = new HashSet<UserToRole>();
         }
@@ -26,6 +26,8 @@ namespace dm_backend.EFModels
         public string LastName { get; set; }
         public int? DepartmentDesignationId { get; set; }
         public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfJoining { get; set; }
         public int? GenderId { get; set; }
         public int? Status { get; set; }
         public byte[] Hashpassword { get; set; }
@@ -45,7 +47,7 @@ namespace dm_backend.EFModels
         public ICollection<Notification> Notification { get; set; }
         public ICollection<RequestDevice> RequestDevice { get; set; }
         public ICollection<RequestHistory> RequestHistory { get; set; }
-        public ICollection<UserToAddress> UserToAddress { get; set; }
+      
         public ICollection<UserToDependent> UserToDependent { get; set; }
         public ICollection<UserToRole> UserToRole { get; set; }
     }

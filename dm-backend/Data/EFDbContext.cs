@@ -41,7 +41,7 @@ namespace dm_backend.Data
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserAuth> UserAuth { get; set; }
-        public virtual DbSet<UserToAddress> UserToAddress { get; set; }
+       
         public virtual DbSet<UserToDependent> UserToDependent { get; set; }
         public virtual DbSet<UserToEducation> UserToEducation { get; set; }
         public virtual DbSet<UserToRole> UserToRole { get; set; }
@@ -60,7 +60,7 @@ namespace dm_backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>(entity =>
+             modelBuilder.Entity<Address>(entity =>
             {
                 entity.ToTable("address");
 
@@ -72,10 +72,14 @@ namespace dm_backend.Data
 
                 entity.Property(e => e.AddressId).HasColumnName("address_id");
 
-                entity.Property(e => e.Address1)
+                entity.Property(e => e.AddressLine1)
                     .IsRequired()
-                    .HasColumnName("address")
-                    .HasColumnType("text");
+                    .HasColumnName("address_Line1")
+                    .HasMaxLength(70);
+
+                entity.Property(e => e.AddressLine2)
+                    .HasColumnName("address_Line2")
+                    .HasMaxLength(70);
 
                 entity.Property(e => e.AddressTypeId).HasColumnName("address_type_id");
 
@@ -100,8 +104,7 @@ namespace dm_backend.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("user_id");
             });
-
-            modelBuilder.Entity<AddressType>(entity =>
+              modelBuilder.Entity<AddressType>(entity =>
             {
                 entity.ToTable("address_type");
 
@@ -406,6 +409,7 @@ namespace dm_backend.Data
                 entity.Property(e => e.CountryCode)
                     .IsRequired()
                     .HasColumnName("country_code")
+                    .HasColumnType("INT")
                     .HasMaxLength(45);
 
                 entity.Property(e => e.CountryName)
@@ -539,17 +543,17 @@ namespace dm_backend.Data
 
             modelBuilder.Entity<Designation>(entity =>
             {
-                entity.ToTable("designation");
+                 entity.ToTable("designation");
 
-                entity.HasIndex(e => e.Designation1)
+                entity.HasIndex(e => e.DesignationName)
                     .HasName("designation_UNIQUE")
                     .IsUnique();
 
                 entity.Property(e => e.DesignationId).HasColumnName("designation_id");
 
-                entity.Property(e => e.Designation1)
+                entity.Property(e => e.DesignationName)
                     .IsRequired()
-                    .HasColumnName("designation")
+                    .HasColumnName("designation_name")
                     .HasMaxLength(30);
             });
 
@@ -1071,9 +1075,17 @@ namespace dm_backend.Data
                 entity.HasIndex(e => e.Status)
                     .HasName("status_id_user_idx");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+               entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.DepartmentDesignationId).HasColumnName("department_designation_id");
+
+                entity.Property(e=>e.DateOfBirth)
+                    .HasColumnName("date_of_birth")
+                    .HasColumnType("date");
+
+               entity.Property(e=>e.DateOfJoining)
+                    .HasColumnName("date_of_joining")
+                    .HasColumnType("date");
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
@@ -1152,32 +1164,7 @@ namespace dm_backend.Data
                     .HasMaxLength(500);
             });
 
-            modelBuilder.Entity<UserToAddress>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.AddressId });
-
-                entity.ToTable("user_to_address");
-
-                entity.HasIndex(e => e.AddressId)
-                    .HasName("address_map_address_idx");
-
-                entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.Property(e => e.AddressId).HasColumnName("address_id");
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.UserToAddress)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("address_map_address");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserToAddress)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_map_address_user");
-            });
-
+          
             modelBuilder.Entity<UserToDependent>(entity =>
             {
                 entity.ToTable("user_to_dependent");
@@ -1229,7 +1216,7 @@ namespace dm_backend.Data
 
             modelBuilder.Entity<UserToRole>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                entity.HasKey(e => new { e.UserId});
 
                 entity.ToTable("user_to_role");
 
@@ -1241,16 +1228,16 @@ namespace dm_backend.Data
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserToRole)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("role_id_to_role_id");
+                    .WithMany(p => p.UserToRole);
+                  //  .HasForeignKey(d => d.RoleId)
+                 //   .OnDelete(DeleteBehavior.ClientSetNull);
+                   // .HasConstraintName("role_id_to_role_id");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserToRole)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_to_user");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+                  //  .HasConstraintName("user_to_user");
             });
         }
     }

@@ -3,7 +3,7 @@ export function validateForm(formMode:string) {
     var result= salutationvalidation()*firstNamevalidation()*lastNamevalidation()*emailvalidation()*
     passwordvalidation(formMode)*
     confirmpasswordvalidation(formMode)*roleName()*
-    departmentvalidation()*
+    departmentvalidation()*gendervalidation()*
     designationvalidation()*
     phonevalidation(formMode,"phones1")*phonevalidation(formMode,"phones2")*phonevalidation(formMode,"phones3")*
     addressvalidation(formMode,"addresses1")*addressvalidation(formMode,"addresses2");
@@ -44,11 +44,11 @@ function salutationvalidation(){
 function gendervalidation() {
     var genders = (document.getElementById('gender') as HTMLInputElement).value;
     if (genders == "") {
-        document.getElementById('genders').innerHTML = "Please Select The Gender";
+        (document.getElementById('genders')as HTMLInputElement).innerHTML = "Please Select The Gender";
         return 0;
     }
     else {
-        document.getElementById('genders').innerHTML = "";
+        (document.getElementById('genders')as HTMLInputElement).innerHTML  = "";
         return 1;
     }
 }

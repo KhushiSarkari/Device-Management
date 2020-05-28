@@ -30,7 +30,6 @@ public class PagedList<T> : List<T>
 		pageNumber= pageNumber<1 ? 1 : pageNumber;
 		pageSize= pageSize<1 ? count : pageSize;
 		var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
 		return new PagedList<T>(items,count,pageNumber, pageSize);
 	}
 	public object getMetaData()

@@ -291,88 +291,88 @@ import * as signalR from "@aspnet/signalr";
 		setData();
 		
     });
-	function openForm1(popup) {
-		document.querySelector(popup).classList.add("active");
-	}
-	function closeForm1(popup) {
-		document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
-			element.value = '';
-		});
-		document.querySelector(popup).classList.remove("active");
-	}
-	interface HTMLInputEvent extends Event {
-		target: HTMLInputElement & EventTarget;
-	}
-	document.getElementById("upload").addEventListener("change",async function (e:HTMLInputEvent) {
-		console.log("frf");
-			console.log(e.target.files);
-	    photo =e.target.files[0];
+	// function openForm1(popup) {
+	// 	document.querySelector(popup).classList.add("active");
+	// }
+	// function closeForm1(popup) {
+	// 	document.querySelector(popup).querySelectorAll('input,select').forEach((element) => {
+	// 		element.value = '';
+	// 	});
+	// 	document.querySelector(popup).classList.remove("active");
+	// }
+	// interface HTMLInputEvent extends Event {
+	// 	target: HTMLInputElement & EventTarget;
+	// }
+	// document.getElementById("upload").addEventListener("change",async function (e:HTMLInputEvent) {
+	// 	console.log("frf");
+	// 		console.log(e.target.files);
+	//     photo =e.target.files[0];
 	     
-	});	
-	document.addEventListener("click", async function(e) {
+	// });	
+	// document.addEventListener("click", async function(e) {
 		
-		if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
-			openForm1('.login-popup');
-					}
-		if ((e.target as HTMLButtonElement).id == "cancel-button") {
-			closeForm1('.login-popup');
-		}
-		if((e.target as HTMLButtonElement).id == "upload-button") {
-			e.preventDefault();
-			progress();
-			var progress_modal = document.getElementById("progress-bar");
-			console.log(progress_modal);
-  			progress_modal.style.display = "block";
-			let formData = new FormData();
-	   		formData.append("photo", photo);
-		    await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
-			 .then(response =>response.json()).then(data=>{data.response;
-				let totalRecords = data.totalRecords;
-				let failedData = data.usersAlreadyExists.length;
-				let successData = totalRecords - failedData;
-				if(failedData===0)
-				{
-					window["tata"].text('Registration successfull!',{duration:6000});
+	// 	if ((e.target as HTMLButtonElement).id.startsWith("multipleUser")) {
+	// 		openForm1('.login-popup');
+	// 				}
+	// 	if ((e.target as HTMLButtonElement).id == "cancel-button") {
+	// 		closeForm1('.login-popup');
+	// 	}
+	// 	if((e.target as HTMLButtonElement).id == "upload-button") {
+	// 		e.preventDefault();
+	// 		progress();
+	// 		var progress_modal = document.getElementById("progress-bar");
+	// 		console.log(progress_modal);
+  	// 		progress_modal.style.display = "block";
+	// 		let formData = new FormData();
+	//    		formData.append("photo", photo);
+	// 	    await fetch(BASEURL + '/api/BulkRegister/UploadFiles', {method: "POST", body: formData})
+	// 		 .then(response =>response.json()).then(data=>{data.response;
+	// 			let totalRecords = data.totalRecords;
+	// 			let failedData = data.usersAlreadyExists.length;
+	// 			let successData = totalRecords - failedData;
+	// 			if(failedData===0)
+	// 			{
+	// 				window["tata"].text('Registration successfull!',{duration:6000});
 					
-				}
-				else 
-				{		
-					var users="";
-					for(let i=0;i<failedData;i++)
-					users += data.usersAlreadyExists[i]+" <br>";
-					console.log(users);
-					(document.querySelector("#Already-users")as HTMLDivElement).innerHTML = "Successfully Registered Users:"+ successData+" <br>"+
-					"Already Exists Users: "+failedData +" <br>"+users;
+	// 			}
+	// 			else 
+	// 			{		
+	// 				var users="";
+	// 				for(let i=0;i<failedData;i++)
+	// 				users += data.usersAlreadyExists[i]+" <br>";
+	// 				console.log(users);
+	// 				(document.querySelector("#Already-users")as HTMLDivElement).innerHTML = "Successfully Registered Users:"+ successData+" <br>"+
+	// 				"Already Exists Users: "+failedData +" <br>"+users;
 					
 										
-				}
-			});
-			//closeForm1('.login-popup');
-		}
-	 });
-	 function progress()
-	 {
+	// 			}
+	// 		});
+	// 		//closeForm1('.login-popup');
+	// 	}
+	//  });
+	//  function progress()
+	//  {
 	 
-	 const connection = new signalR.HubConnectionBuilder().withUrl(BASEURL+"/messages", {
-		skipNegotiation: true,
-	   transport: signalR.HttpTransportType.WebSockets
-	   })
-	  .configureLogging(signalR.LogLevel.Information)
-	  .build();
+	//  const connection = new signalR.HubConnectionBuilder().withUrl(BASEURL+"/messages", {
+	// 	skipNegotiation: true,
+	//    transport: signalR.HttpTransportType.WebSockets
+	//    })
+	//   .configureLogging(signalR.LogLevel.Information)
+	//   .build();
     
-	console.log(connection);
-	connection.start().then((e) => {
-				console.log("connection started");
-			  }).catch(err => console.log(err));
-		connection.on('Process',function(i){
-			console.log(i);
+	// console.log(connection);
+	// connection.start().then((e) => {
+	// 			console.log("connection started");
+	// 		  }).catch(err => console.log(err));
+	// 	connection.on('Process',function(i){
+	// 		console.log(i);
 			
-			(document.querySelector("#file")as HTMLProgressElement).value = i;
-			(document.querySelector("#percentage")as HTMLLabelElement).innerHTML = i+" %";
-		})
+	// 		(document.querySelector("#file")as HTMLProgressElement).value = i;
+	// 		(document.querySelector("#percentage")as HTMLLabelElement).innerHTML = i+" %";
+	// 	})
 
 	
-	} 
+	// } 
 	
 	
 	
