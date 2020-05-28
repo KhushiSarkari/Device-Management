@@ -1,22 +1,56 @@
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore.Internal;
+using dm_backend.Utilities;
+using dm_backend.Logics;
+
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using dm_backend.Data;
+using dm_backend.EFModels;
 using dm_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 namespace dm_backend.Controllers
-{
+{    
     [Authorize(Roles="admin")]
-    [Route("api/")]
+     [ApiController]
+     [Route("api/")]
     public class RolepermissionController : BaseController
     {
-        public RolepermissionController(AppDb db, EFDbContext ef): base(ef)
+                 private readonly EFDbContext _context ;
+         public IRoleRepository _repo;
+        public RolepermissionController( EFDbContext ef,IRoleRepository repo): base(ef)
         {
-            Db = db;
+         //   Db = db;
+
+            _context = ef ;
+             _repo = repo;
+
         }
-        public AppDb Db { get; }
-        
+
+     [HttpPost("role/update")]
+        public async Task<IActionResult> Postrole(Models.Role obj)
+        {
+             var _resonce =await _repo.Postrole(obj);
+            
+              if(_resonce!=null){
+
+            return Ok(new { Result = _resonce});
+            }
+            else{
+                return BadRequest();
+            }
+
+        }
         /*
         *   Returns an JSON object with an array of Roles along with an array of permissions
         *   {
@@ -30,106 +64,65 @@ namespace dm_backend.Controllers
         *     ]
         *   }
         */
+
         [HttpGet]
         [Route("rolepermission")]
-        public IActionResult getAllRoles(){
-            var result = new RolePermission(Db).GetAllRoles();
-            string JSON = JsonConvert.SerializeObject(result, new JsonSerializerSettings(){
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            return Ok(JSON);
+        public  async Task<IActionResult> getAllRoles(){
+
+             var _resonce =await _repo.getAllRoles();
+            
+             return Ok(_resonce);
+
+        }
+           [HttpPost("permission/update")]
+        public async Task<IActionResult> PostPerm(Models.Permission data1)
+        {
+            var _resonce =await _repo.PostPerm(data1);
+            
+              if(_resonce!=null){
+
+            return Ok(_resonce);
+            }
+            else{
+                return BadRequest();
+            }
+
         }
 
-        [HttpGet]
-        [Route("role/{role_id}")]
-        public IActionResult getRoleById(int role_id){
-            Role RoleObj = new Role(Db);
-            return Ok(RoleObj.GetRoleById(role_id));
-        }
-        
-        /*
-        *   Requires the same object as received from GET endpoint with updated values
-        */
-        [HttpPut]
+    [HttpPut]
         [Route("rolepermission/update")]
-        public IActionResult UpdateRoles([FromBody]RolePermission RolePerms){
-            RolePerms.Db = Db;
-            try{
-                RolePerms.SaveChanges();
-            }
-            catch(Exception e){
-                return StatusCode(500);
-            }
-            return Ok();
+        public  async Task<IActionResult> UpdateRoles(Models.RolePermission RolePerms)
+        {
+             var _resonce =await _repo.UpdateRoles(RolePerms);
+              return Ok(new { Result = _resonce});
         }
 
-        [HttpPost]
-        [Route("role/update")]
-        public IActionResult Postrole([FromBody]Role body)
-        {
-            try{
-                body.Db = Db;
-                if(body.RoleId.HasValue){
-                    body.UpdateRole();
-                }
-                else{
-                    body.AddRole();
-                }
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-        }
-        [HttpPost]
-        [Route("permission/update")]
-        public IActionResult Postpermission([FromBody]Permission body)
-        {
-            try{
-                body.Db = Db;
-                if(body.PermissionId.HasValue){
-                    body.UpdatePermission();
-                }
-                else{
-                    body.AddPermission();
-                }
-                return Ok();
-            }
-            catch(Exception e){
-                Console.WriteLine(e.Message);
-                return BadRequest();
-            }
-        }
         [HttpDelete]
         [Route("role/{role_id}/delete")]
-        public IActionResult Deleterole(int role_id)
+        public async Task<IActionResult> Deleterole(int role_id)
         {
-            Role query = new Role(Db);
-            query.RoleId = role_id;
-            if(query.Deleterole()==1)
-            {
-                 return Ok();
+            var _resonce=await _repo.Deleterole(role_id);
+            if(_resonce!=null){
+
+            return Ok(_resonce);
             }
             else{
                 return BadRequest();
             }
-            
         }
-        [HttpDelete]
+
+          [HttpDelete]
         [Route("permission/{permission_id}/delete")]
-        public IActionResult Deletepermission(int permission_id)
+        public async Task<IActionResult> DeletePerm(int permission_id)
         {
-            Permission query = new Permission(Db);
-            query.PermissionId = permission_id;
-            if(query.DeletePermission()==1)
-            {
-                 return Ok();
+            var _resonce=await _repo.DeletePerm(permission_id);
+             if(_resonce!=null){
+
+            return Ok(_resonce);
             }
             else{
                 return BadRequest();
             }
-            
         }
 
         [AllowAnonymous]

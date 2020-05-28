@@ -27,7 +27,7 @@ export class RolePermission{
                     <td></td>
                     ${
                         this.roles.reduce((acc, roleObject) => 
-                            acc + `<th scope="col">${roleObject["RoleName"]}</th>`
+                            acc + `<th scope="col">${roleObject["roleName"]}</th>`
                         , '')
                     }
                 </tr>
@@ -37,14 +37,14 @@ export class RolePermission{
                             return acc + `
                             <tr>
                                 <th scope="row" class="td-underlines">
-                                    ${permissionObject["PermissionName"]}
+                                    ${permissionObject["permissionName"]}
                                 </th>
                                 ${
                                     this.mapping.reduce((acc, roleObject, colIdx) => 
                                         acc + `
                                             <td class="mdl-data-table__cell">
                                                 <label class="mdl-checkbox mdl-js-checkbox" for="checkbox-${rowIdx}-${colIdx}">
-                                                    <input type="checkbox" id="checkbox-${rowIdx}-${colIdx}" class="mdl-checkbox__input" ${roleObject["Permissions"] && roleObject["Permissions"].find(perm => perm["PermissionName"] == permissionObject["PermissionName"]) ? 'checked': ''}>
+                                                    <input type="checkbox" id="checkbox-${rowIdx}-${colIdx}" class="mdl-checkbox__input" ${roleObject["permissions"] && roleObject["permissions"].find(perm => perm["permissionName"] == permissionObject["permissionName"]) ? 'checked': ''}>
                                                     <span class="mdl-checkbox__label"></span>
                                                 </label>
                                             </td>`
@@ -81,9 +81,9 @@ export class RolePermission{
     }
     setup(){
         this.getRolesAndPermissions().then(mappingArray => {
-            this.mapping = Array.from(mappingArray["Roles"]);
-            this.roles = this.mapping.map(({RoleId, RoleName}) => {return {RoleId, RoleName}});
-            this.permissions = mappingArray.Permissions;
+            this.mapping = Array.from(mappingArray["roles"]);
+            this.roles = this.mapping.map(({roleId, roleName}) => {return {roleId, roleName}});
+            this.permissions = mappingArray.permissions;
             console.dir(this);
             this.renderTable();
         });
