@@ -15,11 +15,11 @@ headersRows("Admin","row1");
 
 new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
-(document.querySelector("#waterfall-exp") as HTMLInputElement).addEventListener("keypress", function (event) {
+(document.querySelector("#search") as HTMLInputElement).addEventListener("keypress", function (event) {
   if (event.key == "Enter") {
-    var data = (document.getElementById("waterfall-exp") as HTMLInputElement).value;
-    document.getElementById("waterfall-exp").setAttribute("data-find" , data);
-    document.getElementById("waterfall-exp").setAttribute("data-find" , (document.getElementById("serial-number") as HTMLInputElement).value);
+    var data = (document.getElementById("search") as HTMLInputElement).value;
+    document.getElementById("search").setAttribute("data-find" , data);
+    document.getElementById("search").setAttribute("data-find" , (document.getElementById("serial-number") as HTMLInputElement).value);
     new FalultyDevice().getAllData( getSearch());
    
   }
@@ -29,19 +29,18 @@ new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
 document.addEventListener('click' , event =>
 {
-  var element = (event.target as HTMLButtonElement).className;
-  if(element === "faulty-device" ||  element ==="fault-resolved")
+  var element = (event.target as HTMLButtonElement).classList;
+  if(element.contains("faulty-device") ||  element.contains("fault-resolved"))
   {
   let url  = BASEURL + "/api/FaultyDevice"
   let id = parseInt((event.target as HTMLButtonElement).dataset.complaint);
-  if(element == "faulty-device")
+  if(element.contains("faulty-device"))
   {
     (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
     new HitApi(token.tokenKey).HitPutApi( url + "/markfaulty" , {complaintId  : id } );
    (document.getElementById("loading") as HTMLDivElement).style.display = "none";
    window["tata"].text('Device Status ','Faulty!',{duration:3000});}
-  }
-  if(element == "fault-resolved")
+  if(element.contains("fault-resolved"))
   {
   
     (document.getElementById("loading") as HTMLDivElement).style.display = "flex";
@@ -49,13 +48,14 @@ document.addEventListener('click' , event =>
       (document.getElementById("loading") as HTMLDivElement).style.display = "none";
       window["tata"].text('Fault ','Resolved!',{duration:3000});
   }
+}
   new FalultyDevice().getAllData();
   });
 
 
 (document.querySelector("#tableHead") as HTMLTableHeaderCellElement).addEventListener("click", function (e) {
   let id = (e.target as HTMLInputElement).id;
-  if (id === "user"|| id === "date" ||  id === "serialnumber" || id === "device") 
+  if (id === "name"|| id === "complaintDate" ||  id === "serialNumber" || id === "device") 
           {
             var element = (document.getElementById(id) as HTMLTableHeaderCellElement);
             var direction =  "&direction=" + new Sort(token.tokenKey).checkSortType(element);;
@@ -66,9 +66,9 @@ document.addEventListener('click' , event =>
 
 (document.querySelector("#getdata") as HTMLInputElement).addEventListener("click", function (event) {
 
-  (document.getElementById("waterfall-exp") as HTMLInputElement).value = "";
+  (document.getElementById("search") as HTMLInputElement).value = "";
   (document.getElementById("serial-number") as HTMLInputElement).value ="";
-  document.getElementById("waterfall-exp").setAttribute("data-find" , "");
+  document.getElementById("search").setAttribute("data-find" , "");
   document.getElementById("serial-number").setAttribute("data-find" , "");
   new FalultyDevice().getAllData("?"+PageNo(currentPage));
 
@@ -78,7 +78,7 @@ document.addEventListener('click' , event =>
   if (event.key == "Enter") {
     var data = (document.getElementById("serial-number") as HTMLInputElement).value;
     document.getElementById("serial-number").setAttribute("data-find" , data);
-    document.getElementById("serial-number").setAttribute("data-find" , (document.getElementById("waterfall-exp") as HTMLInputElement).value);
+    document.getElementById("serial-number").setAttribute("data-find" , (document.getElementById("search") as HTMLInputElement).value);
     new FalultyDevice().getAllData( getSearch());
   }
 });
@@ -91,7 +91,7 @@ document.addEventListener('click' , event =>
 function getSearch() {
   let url = "";
   var obj = new FalultyDevice();
-  url = "?"+PageNo(currentPage)+"&search=" + obj.getSearchData("waterfall-exp") + "&serial-number=" +  obj.getSearchData("serial-number");
+  url = "?"+PageNo(currentPage)+"&search=" + obj.getSearchData("search") + "&serial-number=" +  obj.getSearchData("serial-number");
   return  url;
   
 }

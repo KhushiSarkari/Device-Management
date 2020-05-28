@@ -1,4 +1,3 @@
-
 import { BASEURL, Token, PageNo } from "../globals";
 import { HitApi } from "../Device-Request/HitRequestApi";
 import { FaultyDeviceModel } from "./FaultyDeviceModel";
@@ -11,8 +10,7 @@ export class FalultyDevice
     constructor()
     {
         var obj =  Token.getInstance();
-        this.tokenkey = obj.tokenKey;
-        
+        this.tokenkey = obj.tokenKey;        
     }
     getAllData(params :string = "")
     {
@@ -44,19 +42,14 @@ export class FalultyDevice
     {
         var field =`
         <tr data-user-id=${data.userId} data-device-id =${data.deviceId} data-complaint-id=${data.complaintId}>
-        <td>${data.userName}</td>
-        <td>${data.deviceType}</td>
-        <td>${data.deviceName}</td>
+        <td>${data.name}</td>
+        <td>${data.device}</td>
         <td>${data.serialNumber}</td>
-        <td>${data.status}</td>
-        <td>${data.complaint}</td>
+        <td>${data.Comments}</td>
         <td>${data.complaitDate}</td>
         ${data.image?` <td><a href="#" onclick="debugBase64('${data.image}');">View Image</a></td>`:`<td></td>`}
-       
-        `;
-        
+        `;   
         var buttons
-          // if(data.status=="Unresolved" )
           {         
              buttons= ` <td>
            <button  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored faulty-device" data-complaint = ${data.complaintId}>Faulty </button>
@@ -67,6 +60,7 @@ export class FalultyDevice
           }
     document.getElementById("Request_data").innerHTML +=  field + ""+ buttons;
     }
+
     clear()
     {
         document.getElementById("Request_data").innerHTML = "";
