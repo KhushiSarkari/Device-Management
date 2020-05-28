@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "xLBUO24yp9i2YZpG4fcHC4vOcHjqrsM8epdmExAR565RjBGkrNOpfO+ORaSLHNwCv0z/JakixRER8GfDaq2wEw==",
+  "dgSpecHash": "S4h9dfkgCZh2QtSjUz3nfC3//iI5fuhq8PqH3UDBaoWFmTFHSYURl3kLvBrsQgf0gw/Si61oT6ZX+rOUFazt0A==",
   "success": true,
   "projectFilePath": "E:\\Device-Management\\dm-backend\\dm-backend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\MESSI\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
+    "C:\\Users\\MESSI\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\MESSI\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\MESSI\\.nuget\\packages\\libuv\\1.9.0\\libuv.1.9.0.nupkg.sha512",
     "C:\\Users\\MESSI\\.nuget\\packages\\microsoft.aspnet.cors\\5.2.7\\microsoft.aspnet.cors.5.2.7.nupkg.sha512",

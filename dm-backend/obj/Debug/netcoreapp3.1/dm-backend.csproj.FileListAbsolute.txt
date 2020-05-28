@@ -115,3 +115,5 @@ E:\Device-Management\dm-backend\obj\Debug\netcoreapp3.1\staticwebassets\dm-backe
 E:\Device-Management\dm-backend\obj\Debug\netcoreapp3.1\dm-backend.dll
 E:\Device-Management\dm-backend\obj\Debug\netcoreapp3.1\dm-backend.pdb
 E:\Device-Management\dm-backend\obj\Debug\netcoreapp3.1\dm-backend.genruntimeconfig.cache
+E:\Device-Management\dm-backend\bin\Debug\netcoreapp3.1\AutoMapper.dll
+E:\Device-Management\dm-backend\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

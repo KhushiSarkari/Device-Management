@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
 using dm_backend.data;
 using dm_backend.Data;
 using dm_backend.EFModels;
@@ -31,7 +32,8 @@ namespace dm_backend
             services.AddDbContext<EFDbContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<AppDb>(_ => new AppDb(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddCors();
-
+            services.AddAutoMapper(typeof(UserRepository).Assembly);
+            services.AddScoped<IUserRepository,UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IRoleRepository,RoleRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
