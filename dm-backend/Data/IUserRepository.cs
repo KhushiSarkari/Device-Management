@@ -1,6 +1,7 @@
 using dm_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace dm_backend.Data
 {
@@ -11,5 +12,6 @@ namespace dm_backend.Data
          void PostUser(Models.User item); 
          void UpdateUser(int user_id, [FromBody]Models.User body);
          void DeleteUser(int user_id);
+          IQueryable<Models.User> GetUserQuery();
     }
 }

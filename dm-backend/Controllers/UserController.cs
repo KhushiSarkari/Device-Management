@@ -39,7 +39,7 @@ namespace dm_backend.Controllers
         }
        
        
-        [Authorize(Roles="admin")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAllUsersInCustomFormat()
         {
@@ -49,28 +49,59 @@ namespace dm_backend.Controllers
             string direction = (string)HttpContext.Request.Query["direction"]  ?? "ASC" ;
             int pageNumber=Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize=Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
-            //Console.WriteLine(fieldsToDisplay+"\n" +namesToSearch+"\n" +ToSort+"\n" +direction+"\n" +pageNumber+"\n" +pageSize);
+            Console.WriteLine(fieldsToDisplay+"\n" +namesToSearch+"\n" +ToSort+"\n" +direction+"\n" +pageNumber+"\n" +pageSize);
        
-            var Result = _repo.GetAllUsers(namesToSearch);
-            Response.Headers.Add("X-Pagination","{\"TotalCount\":20,\"PageSize\":4,\"CurrentPage\":1,\"TotalPages\":5,\"HasNext\":true,\"HasPrevious\":false}");
-                        if (Result.Count() > 0)
-                            return  Ok(Result);
-                        else
-                            return NoContent();
-
-          //  Db.Connection.Open();
-          //  var query = new User(Db);
-           //  var pager=PagedList<User>.ToPagedList(SortUserbyName(ToSort, direction, namesToSearch),pageNumber,pageSize);
-            // Response.Headers.Add("X-Pagination",JsonConvert.SerializeObject(pager.getMetaData()));
-         //   Db.Connection.Close();
-            // foreach (var m1 in pager)
-            // {
-            //     m1.SetSerializableProperties(fieldsToDisplay);
-            // }
-            // return Json(pager);
+            var Result = _repo.GetUserQuery();
+            var pager=PagedList<Models.User>.ToPagedList(SortUserbyName(Result, ToSort, direction, namesToSearch),pageNumber,pageSize); 
+            Response.Headers.Add("X-Pagination",JsonConvert.SerializeObject(pager.getMetaData()));
+                 foreach (var m1 in pager)
+             {
+                 m1.SetSerializableProperties(fieldsToDisplay);
+             }
+             return Json(pager);
             
 
         }
+          public List<Models.User> SortUserbyName(IQueryable<Models.User> result ,string sortby, string direction, string searchby = "")
+        {
+            
+
+            if(string.IsNullOrEmpty(searchby))
+            {
+              
+            }
+            if( direction == "ASC" && sortby=="first_name")
+            {
+               result=result.OrderBy(e=>e.FirstName);
+            }
+            else{
+              result=result.OrderByDescending(e=>e.FirstName);
+            }
+
+            return result.ToList();
+            // using (var cmd = Db.Connection.CreateCommand())
+            // {
+
+            //     cmd.CommandText = GetAllUsersquery;
+            //     Console.WriteLine(GetAllUsersquery);
+            //     if (!string.IsNullOrEmpty(searchby))
+            //     {
+            //         cmd.CommandText += @" where get_full_name(user.user_id) like CONCAT('%', '" + @searchby + "', '%') or user.email like CONCAT('%', '" + @searchby + "', '%') or status_name like CONCAT('%', '" + @searchby + "', '%')";
+
+            //         cmd.Parameters.AddWithValue("@searchby", searchby);
+            //     }
+            //     cmd.CommandText += " group by user_id,role_id order by " + sortby + " " + direction; //" " + direction
+            //     cmd.Parameters.AddWithValue("@sortby", sortby);
+            //     using MySqlDataReader reader = cmd.ExecuteReader();
+            //     return ReadAll(reader);
+
+            // }
+
+
+
+
+        }
+        
 
        
         
