@@ -61,7 +61,7 @@ namespace dm_backend.Controllers
                         });
             //send email on registration 
             string body ="Congratulations !<br>"+createdUser.FirstName+" "+createdUser.LastName+"<br>  Your account has been created on Device Management portal  <br> Thanks  ";
-            var emailObj = new sendMail().sendNotification(createdUser.Email,body, "Registration Successfull");
+            var emailObj = new SendMail().sendNotification(createdUser.Email,body, "Registration Successfull");
 
             return Ok(new { Result = result1});
         }

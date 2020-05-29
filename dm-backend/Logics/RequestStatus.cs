@@ -25,11 +25,11 @@ namespace dm_backend.Logics
 
             if (status== "reject")
             {
-                await new sendMail().sendNotification(mail, rejectBody, "Request  Rejected");
+                await new SendMail().sendNotification(mail, rejectBody, "Request  Rejected");
             }
             if(status == "accept")
             {
-                await new sendMail().sendNotification(mail, acceptBody, "Request  Rejected");
+                await new SendMail().sendNotification(mail, acceptBody, "Request  Rejected");
             }
             return "";
         }

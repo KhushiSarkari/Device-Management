@@ -81,7 +81,7 @@ namespace dm_backend.Controllers
             var result = item.AddOneUser();
             Db.Connection.Close();
         string body ="Congratulations !<br>"+item.FirstName+" "+item.LastName+"<br>  Your account has been created on Device Management portal  <br> Thanks  ";
-        var sendobj = new sendMail().sendNotification(item.Email,body,"Registration Successfull") ;
+        var sendobj = new SendMail().sendNotification(item.Email,body,"Registration Successfull") ;
             }
             catch
             {

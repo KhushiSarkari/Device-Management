@@ -128,7 +128,7 @@ document.querySelector('.close').addEventListener('click',
 
     document.addEventListener("click", function (e) {
         let requestId = parseInt((e.target as HTMLButtonElement).dataset.requestid, 10);
-        if ((e.target as HTMLButtonElement).className == "reject-button") {
+        if ((e.target as HTMLButtonElement).className == "mdl-button mdl-js-button mdl-button--raised mdl-button--colored reject-button") {
            var name =  ((e.target as HTMLButtonElement).dataset.requestname);
             var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
             if (confirm("Are you sure you want to reject the request?"))
@@ -137,7 +137,7 @@ document.querySelector('.close').addEventListener('click',
                 window["tata"].text('Request ','Rejected!',{duration:3000});
             }
         }
-        if ((e.target as HTMLButtonElement).className == "accept-button") {
+        if ((e.target as HTMLButtonElement).className == "mdl-button mdl-js-button mdl-button--raised mdl-button--accent accept-button") {
             var name =  ((e.target as HTMLButtonElement).dataset.requestname);
             var mail = ((e.target as HTMLButtonElement).dataset.requestmail);
             if (confirm("Are you sure you want to accept the request?")){
@@ -145,7 +145,7 @@ document.querySelector('.close').addEventListener('click',
                 window["tata"].text('Request ','Accepted!',{duration:3000});}
 
     }
-    if ((e.target as HTMLButtonElement).className == "show-users") {
+    if ((e.target as HTMLButtonElement).className == "mdl-button mdl-js-button mdl-button--raised mdl-button--accent show-users") {
         let request = new Requests();
         request.deviceModel = (e.target as HTMLButtonElement).dataset.devicemodel;
         request.deviceBrand = (e.target as HTMLButtonElement).dataset.devicebrand;
@@ -158,6 +158,7 @@ document.querySelector('.close').addEventListener('click',
 
     }
     if ((e.target as HTMLButtonElement).className == "notify-all") {
+        console.log(obj);
         postNotification(obj);
     }
     if ((e.target as HTMLButtonElement).className == "notify") {

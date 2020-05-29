@@ -27,7 +27,7 @@ class Notify
         })
         .then(response =>{
             let metadata=JSON.parse(response.headers.get('X-Pagination'));
-            paging(metadata);
+          //  paging(metadata);
             return response.json()
         })
             .then(data => {
@@ -36,6 +36,7 @@ class Notify
             
                 for (let element in data) {
                     let res = new Notifications(data[element],token);
+                    console.log(res);
                     res.getNotificationTable();
                 }
             })

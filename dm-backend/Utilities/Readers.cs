@@ -72,7 +72,8 @@ namespace dm_backend.Utilities
             notify.deviceModel = (string)reader["model"];
             notify.deviceBrand = (string)reader["brand"];
             notify.deviceType = (string)reader["type"];
-            notify.notificationDate = Convert.ToDateTime(reader["notification_date"]).ToString("yyyy-MM-dd");
+            // notify.notificationDate = Convert.ToDateTime(reader["notification_date"]).ToString("yyyy-MM-dd");
+            notify.notificationDate = (string)reader["notification_date"];
             notify.message = GetSafeString(reader, "message");
             notify.status = (string)reader["status_name"];
             return notify;

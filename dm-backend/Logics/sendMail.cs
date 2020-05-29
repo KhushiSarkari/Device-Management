@@ -1,5 +1,6 @@
 
-﻿using dm_backend.Models;
+using dm_backend.Data;
+using dm_backend.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,10 @@ using System.Threading.Tasks;
 
 namespace dm_backend.Logics
 {
-    public class sendMail
+    public class SendMail:ISendMail
     {
-         //MultipleNotifications item
 
-        public async Task<string>  sendNotification(string  email , string  body, string subject  )
+        public Task sendNotification(string  email , string  body, string subject  )
 
         {
           
@@ -34,8 +34,8 @@ namespace dm_backend.Logics
                 string ans = Dec("SmVmZmhhcmR5QDYxOQ==");
                 SmtpServer.Credentials = new System.Net.NetworkCredential("sjangra@ex2india.com ", ans);
                 SmtpServer.EnableSsl = true;
-                await   SmtpServer.SendMailAsync(mail);
-                return null;
+                return SmtpServer.SendMailAsync(mail);
+                // return null;
                        
         }
         private string Dec(string v)

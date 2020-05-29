@@ -1,18 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace dm_backend.EFModels
 {
     public partial class Notification
     {
-        public int NotificationId { get; set; }
-        public int UserId { get; set; }
-        public string NotificationType { get; set; }
-        public int DeviceId { get; set; }
-        public int StatusId { get; set; }
-        public string Message { get; set; }
+        public Notification()
+        {
+        }
 
+        [DataMember]
+        public int NotificationId { get; set; }
+        [DataMember]
+        public int UserId { get; set; }
+        [DataMember]
+        public string NotificationType { get; set; }
+        [DataMember]
+        public int DeviceId { get; set; }
+        [DataMember]
+        public int StatusId { get; set; }
+        [DataMember]
+        public string Message { get; set; }
+        [DataMember(Name = "NotificationDate")]
+        public DateTime NotificationDate{get; set;}
+        [DataMember(Name = "DeviceName")]
+        public string DeviceName{get; set;}
+        [DataMember]
         public Device Device { get; set; }
+        [DataMember]
         public User User { get; set; }
+        [DataMember]
+        public Status Statusname{ get; set;}
+        // public Device DeviceModel{get; set;}
+        // public Device DeviceType{ get; set;}
+        // public Device DeviceBrand{ get; set;}
+
     }
 }

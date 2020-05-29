@@ -18,16 +18,16 @@ export class Notifications {
     constructor(data: any,token:string) {
         this.notification_id = data.notificationId;
         this.user_id = data.userId;
-        this.device_id = data.deviceId;
-        this.type = data.deviceType;
-        this.brand = data.deviceBrand;
-        this.model = data.deviceModel;
-        this.ram = data.specs.ram;
-        this.storage = data.specs.storage;
-        this.screen_size = data.specs.screenSize;
-        this.connectivity = data.specs.connectivity;
+        this.device_id = data.device.deviceId;
+        this.type = data.device.deviceType.type;
+        this.brand = data.device.deviceBrand.brand;
+        this.model = data.device.deviceModel.model;
+        this.ram = data.device.specification.ram;
+        this.storage = data.device.specification.storage;
+        this.screen_size = data.device.specification.screenSize;
+        this.connectivity = data.device.specification.connectivity;
         this.notificationDate = data.notificationDate;
-        this.status = data.status;
+        this.status = data.statusname.statusName;
         this.message = data.message;
         this.token =token;
     }
@@ -40,7 +40,7 @@ export class Notifications {
                  <br>
                  Screen Size:${this.screen_size} Connectivity: ${this.connectivity}
             </td>
-            <td>${this.notificationDate}</td>
+            <td>${this.notificationDate.toString()}</td>
             <td>${this.status}</td>
               <td>${this.message}</td>`;
               if(this.status=="Pending"){         

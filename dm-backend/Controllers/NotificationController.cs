@@ -17,103 +17,81 @@ using Newtonsoft.Json;
 namespace dm_backend.Controllers
 {
 
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {
         public AppDb Db { get; }
-        private readonly EFDbContext _context;
-
-        public NotificationController(AppDb db,EFDbContext context)
+        public INotificationRepository _repo;
+        public ISendMail _send;
+        public NotificationController( INotificationRepository repo,ISendMail mail)
         {
-            Db = db;
-            _context=context;
+            _repo = repo;
+            _send = mail;
         }
+        // private readonly EFRepository _context;
+
+        // public NotificationController(AppDb db,EFDbContext context)
+        // {
+        //     Db = db;
+        //     _context=context;
+        // }
         
         [HttpPost]
-        public async Task<IActionResult> PostMultipleNotifications([FromBody]MultipleNotifications item)
+        public IActionResult PostMultipleNotifications([FromBody]MultipleNotifications item)
         {
-            Db.Connection.Open();
-            item.Db = Db;
             try
             {
-                await new SendNotificationMail(Db).sendMultipleMail(item);
+                Task.WhenAll(_repo.sendMultipleMail(item));
             }
             catch
             {
                 return BadRequest();
             }
-            var result = item.AddMultipleNotifications();
+            var result = _repo.AddMultipleNotifications(item);
            
-            Db.Connection.Close();
             return new OkObjectResult(item);
         }
 
-
+        
         [HttpGet]
         public IActionResult GetNotification()
         {
-            int userId = -1;
+             int userId = -1;
             string searchField = (string)HttpContext.Request.Query["search"] ?? "";
-            string sortField = (string)HttpContext.Request.Query["sort"] ?? "notification_date";
-            string sortDirection = (string)HttpContext.Request.Query["direction"] ?? "asc";
+             string sortField = (string)HttpContext.Request.Query["sort"] ?? "notification_date";
+             string sortDirection = (string)HttpContext.Request.Query["direction"] ?? "asc";
             if (!string.IsNullOrEmpty(HttpContext.Request.Query["id"]))
                 userId = Convert.ToInt32((string)HttpContext.Request.Query["id"]);
             int pageNumber = Convert.ToInt32((string)HttpContext.Request.Query["page"]);
             int pageSize = Convert.ToInt32((string)HttpContext.Request.Query["page-size"]);
             sortDirection = (sortDirection.ToLower()) == "asc" ? "ASC" : "DESC";
-            switch (sortField.ToLower())
-            {
-                case "device_name":
-                    sortField = "concat(type ,'', brand , '' ,  model)";
-                    break;
-                case "specification":
-                    sortField = "concat(RAM,'', storage ,'' ,screen_size ,'',connectivity)";
-                    break;
-                default:
-                    sortField = "concat(type ,'', brand , '' ,  model)";
-
-                    break;
-
-            }
-            Db.Connection.Open();
-            var NotificationObject = new NotificationModel(Db);
-            var pager = PagedList<NotificationModel>.ToPagedList(NotificationObject.GetNotifications(userId, sortField, sortDirection, searchField), pageNumber, pageSize);
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
-            Db.Connection.Close();
-            return Ok(pager);
+            
+            // Db.Connection.Open();
+            // var NotificationObject = new NotificationModel(Db);
+            // var pager = PagedList<NotificationModel>.ToPagedList(NotificationObject.GetNotifications(userId, sortField, sortDirection, searchField), pageNumber, pageSize);
+            // Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pager.getMetaData()));
+            // Db.Connection.Close();
+            var result = _repo.GetAllNotifications(userId, sortField, sortDirection, searchField);
+            return Ok(result);
         }
 
 
-
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpPut]
          [Route("reject/{notificationId}")]
         public IActionResult RejectNotification(int notificationId)
         {
-            Db.Connection.Open();
-            using var cmd = Db.Connection.CreateCommand();
-            
-            cmd.CommandText = "reject_user_request";
-            cmd.CommandType = CommandType.StoredProcedure; 
-            try{
-                cmd.Parameters.AddWithValue("@var_notif_id", notificationId);
-                cmd.ExecuteNonQuery();
-            }
-            catch(Exception e){
-                return NoContent();
-            }
-            Db.Connection.Close();
-            
-            return  Ok("Request rejected");
+            var result = _repo.RejectNotification(notificationId);
+            return Ok(result);
         }
         [AllowAnonymous]
         [HttpGet]
         [Route("Count/{id}")]
-        public int GetCount(int id)
+        public IActionResult GetCount(int id)
          {
-            var values = _context.Notification.Count(w => (w.UserId == id)&& (w.StatusId==9) );
-            return values;
-
+            var result = _repo.GetNotification(id);
+            return Ok(result);
         }
 
 

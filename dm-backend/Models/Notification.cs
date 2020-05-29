@@ -15,10 +15,12 @@ namespace dm_backend.Models
         public int userId { get; set; }
         public int deviceId {get;set;}
         public string deviceModel { get; set; }
+        public string notificationtype{get; set;}
         public string deviceBrand { get; set; }
         public string deviceType { get; set; }
         public Specification specs { get; set; }    
         public string notificationDate { get; set; }
+        public int statusId{get;set;}
         public string status { get; set; }
         public string message { get; set; }
         internal AppDb Db { get; set; }
@@ -34,10 +36,10 @@ namespace dm_backend.Models
 
         public void AddOneNotification(MySqlCommand cmd)
         {
-            cmd.CommandText = @"insert into notification(`user_id`,`notification_type`,`device_id`,
-	`notification_date`,`status_id`,`message`) (select user_id,'Public',device_id,now(),status.status_id,'Submit Possible?'
-	from status, assign_device inner join device using (device_id) where assign_device.device_id=@device_id
-    and status.status_name='Pending');"; 
+            cmd.CommandText = @"insert into notification(`user_id`,`notification_type`,`device_id`,`notification_date`,`status_id`,`message`) 
+            (select user_id,'Public',device_id,now(),status.status_id,'Submit Possible?'from status, assign_device inner join device using (device_id) 
+            where assign_device.device_id=@device_id
+            and status.status_name='Pending');"; 
                 BindParams(cmd);
                 cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();

@@ -768,6 +768,7 @@ namespace dm_backend.Data
                 entity.Property(e => e.NotificationId).HasColumnName("notification_id");
 
                 entity.Property(e => e.DeviceId).HasColumnName("device_id");
+                 entity.Property(e => e.NotificationDate).HasColumnName("notification_date");
 
                 entity.Property(e => e.Message)
                     .HasColumnName("message")

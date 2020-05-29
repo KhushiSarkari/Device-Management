@@ -105,7 +105,7 @@ namespace dm_backend.Logics
                 
               body = val.name +" <br /> This mail is to inform you that user <b>"+name +"</b> Requestred for device (<b>" + req.devicetype + " " + req.brand + " " + req.model + "</b>) having specification "
                     +" (<b> "+specs +"<b>) <br> Thank You";
-                await ((new sendMail().sendNotification(val.email, body, "Device Request Raise")));
+                await ((new SendMail().sendNotification(val.email, body, "Device Request Raise")));
             }
 
          
