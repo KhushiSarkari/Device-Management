@@ -39,7 +39,7 @@ namespace dm_backend.Controllers
         }
        
        
-        [AllowAnonymous]
+        [Authorize(Roles="admin")]
         [HttpGet]
         public IActionResult GetAllUsersInCustomFormat()
         {
@@ -66,19 +66,27 @@ namespace dm_backend.Controllers
         {
             
 
-            if(string.IsNullOrEmpty(searchby))
+            
+            switch(sortby)
             {
+              case  "first_name" :
+                  result=  ( direction == "desc") ? result.OrderByDescending(e=>e.FirstName): result=result.OrderBy(e=>e.FirstName);
+                  break;
               
+              case "email" :
+                  result=( direction == "desc") ?result.OrderByDescending(e=>e.Email):result=result.OrderBy(e=>e.Email);
+                  break;
+                
+               default :
+                  result=result.OrderByDescending(e=>e.FirstName);
+                  break;
             }
-            if( direction == "ASC" && sortby=="first_name")
+            if(!string.IsNullOrEmpty(searchby))
             {
-               result=result.OrderBy(e=>e.FirstName);
+              result = result.Where(r=>r.FirstName.Contains(searchby));
+               return result.ToList();
             }
-            else{
-              result=result.OrderByDescending(e=>e.FirstName);
-            }
-
-            return result.ToList();
+          return result.ToList();
             // using (var cmd = Db.Connection.CreateCommand())
             // {
 
