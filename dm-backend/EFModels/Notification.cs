@@ -32,9 +32,5 @@ namespace dm_backend.EFModels
         public User User { get; set; }
         [DataMember]
         public Status Statusname{ get; set;}
-        // public Device DeviceModel{get; set;}
-        // public Device DeviceType{ get; set;}
-        // public Device DeviceBrand{ get; set;}
-
     }
 }

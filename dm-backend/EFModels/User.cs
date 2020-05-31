@@ -24,6 +24,11 @@ namespace dm_backend.EFModels
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string LastName { get; set; }
+        public string FullName {
+            get {
+                return FirstName + " "  + (String.IsNullOrEmpty(MiddleName) ? "" : MiddleName + " ") + LastName;
+            }
+        }
         public int? DepartmentDesignationId { get; set; }
         public string Email { get; set; }
         public int? GenderId { get; set; }
