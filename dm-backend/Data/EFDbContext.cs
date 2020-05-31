@@ -651,6 +651,17 @@ namespace dm_backend.Data
                     .HasColumnName("brand")
                     .HasMaxLength(200);
             });
+            modelBuilder.Entity<DeviceModel>(entity =>
+            {
+                entity.ToTable("device_model");
+
+                entity.Property(e => e.DeviceModelId).HasColumnName("device_model_id");
+
+                entity.Property(e => e.Model)
+                    .IsRequired()
+                    .HasColumnName("model")
+                    .HasMaxLength(200);
+            });
 
             modelBuilder.Entity<DeviceType>(entity =>
             {
@@ -764,6 +775,8 @@ namespace dm_backend.Data
 
                 entity.HasIndex(e => e.UserId)
                     .HasName("employee_id_notification_idx");
+                
+                entity.Ignore(e => e.DeviceName);
 
                 entity.Property(e => e.NotificationId).HasColumnName("notification_id");
 
@@ -783,7 +796,9 @@ namespace dm_backend.Data
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-
+                entity.HasOne(d => d.Device)
+                    .WithMany(n => n.Notification)
+                    .HasForeignKey(n => n.DeviceId);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Notification)
@@ -1097,6 +1112,8 @@ namespace dm_backend.Data
                 entity.Property(e => e.MiddleName)
                     .HasColumnName("middle_name")
                     .HasMaxLength(45);
+                
+                entity.Ignore(e => e.FullName);
 
                 entity.Property(e => e.Guid)
                     .HasColumnName("guid")
