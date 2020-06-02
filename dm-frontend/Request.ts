@@ -106,8 +106,8 @@ function showUsers(request) {
     });
 }
 
-function requestAction(requestUrl, requestId, action, name, mail) {
-    fetch(`${requestUrl}${requestId}${requestUrl}&name=${name}&email=${mail}`,
+function requestAction(url, requestId, action, name, mail) {
+    fetch(`${requestUrl}${requestId}${url}&name=${name}&email=${mail}`,
         {
             headers: new Headers({ "Authorization": `Bearer ${token}` })
         });
