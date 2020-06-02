@@ -31,6 +31,6 @@ namespace dm_backend.EFModels
         [DataMember]
         public User User { get; set; }
         [DataMember]
-        public Status Statusname{ get; set;}
+        public Status Status{ get; set;}
     }
 }

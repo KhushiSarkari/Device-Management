@@ -49,11 +49,21 @@ namespace dm_backend.Controllers
 
         [AllowAnonymous]
         [HttpPut]
-         [Route("reject/{notificationId}")]
+        [Route("reject/{notificationId}")]
         public IActionResult RejectNotification(int notificationId)
         {
-            var result = _repo.RejectNotification(notificationId);
-            return Ok(result);
+            try
+            {
+                var result = _repo.RejectNotification(notificationId);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                // Because logger wasn't configured
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                return StatusCode(500);
+            }
         }
         [AllowAnonymous]
         [HttpGet]

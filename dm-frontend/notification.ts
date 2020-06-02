@@ -27,7 +27,7 @@ export class Notifications {
         this.screen_size = data.device.specification.screenSize;
         this.connectivity = data.device.specification.connectivity;
         this.notificationDate = data.notificationDate;
-        this.status = data.statusname.statusName;
+        this.status = data.status.statusName;
         this.message = data.message;
         this.token =token;
     }

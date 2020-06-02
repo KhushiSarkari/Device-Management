@@ -20,19 +20,22 @@ namespace dm_backend.Data{
             MailObj = mail;
         }
 
-        public string RejectNotification(int notificationId)
+        public bool RejectNotification(int notificationId)
         {
-            var rejectnotif=(from c in _context.Notification
-                where c.NotificationId == notificationId
-                select c).SingleOrDefault();
+            var GetNotifFromId = _context.Notification
+                                .Where(c => c.NotificationId == notificationId);
+            if(!GetNotifFromId.Any())
+                throw new Exception("No Notification found");
+            
+            var NotifFromId = GetNotifFromId.First();
 
-                int status = (from s in _context.Status
-                where s.StatusName == "Rejected"
-                select s.StatusId).First();
-                rejectnotif.StatusId = status;
-                
-                _context.SaveChanges();
-                return "Request Sent";
+            int RejectedStatusId = _context.Status
+                            .Where(s => s.StatusName == "Rejected")
+                            .Select(s => s.StatusId).First();
+            NotifFromId.StatusId = RejectedStatusId;
+
+            _context.SaveChanges();
+            return true;
         }
         public int GetNotificationCount(int id)
         {
@@ -43,7 +46,6 @@ namespace dm_backend.Data{
         {   
             try
             {
-                
                 foreach (Notification notif in notifys)
                 {
                     this.AddNotification(notif);
@@ -64,8 +66,10 @@ namespace dm_backend.Data{
             contents.NotificationType = "Public";
             contents.NotificationDate = DateTime.Now;
             contents.Message = "Submit Possible?";
-            contents.StatusId = _context.Status.Where(st => st.StatusName == "Allocated").Select(st => st.StatusId).First();
-            contents.UserId = _context.AssignDevice.Where(assign => assign.DeviceId == contents.DeviceId && assign.StatusId == contents.StatusId).Select(u => u.UserId).First();
+            contents.Status = _context.Status.Where(st => st.StatusName == "Pending").First();
+            
+            int AllocatedStatusId = _context.Status.Where(st => st.StatusName == "Allocated").Select(st => st.StatusId).First();
+            contents.UserId = _context.AssignDevice.Where(assign => assign.DeviceId == contents.DeviceId && assign.StatusId == AllocatedStatusId).Select(u => u.UserId).First();
                
             try
             {
@@ -91,7 +95,7 @@ namespace dm_backend.Data{
                                 NotificationId = x.NotificationId,
                                 UserId= x.UserId,
                                 NotificationType= x.NotificationType,
-                                Statusname = x.Statusname,
+                                Status = x.Status,
                                 Message= x.Message,
                                 NotificationDate = x.NotificationDate,
                                 User = new User{
