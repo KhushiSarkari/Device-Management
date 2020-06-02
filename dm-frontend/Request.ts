@@ -84,8 +84,7 @@ function showUsers(request) {
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent notify" data-deviceid="${user.device_id}" >Notify</button>
                     </td>
                     </tr>`;
-                let deviceId = user.device_id;
-                obj.notify.push({ "deviceId": deviceId });
+                obj.notify.push({ "deviceId": user.device_id });
             }
 
         });
@@ -113,7 +112,7 @@ function requestAction(requestUrl, requestId, action, name, mail) {
             headers: new Headers({ "Authorization": `Bearer ${token}` })
         });
     alert(`Request ${requestId} ${action}`);
-    allRequests(requestUrl + "pending?" + PageNo(currentPage));
+    allRequests(`${requestUrl}pending?${PageNo(currentPage)}`);
 
 }
 
