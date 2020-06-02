@@ -93,7 +93,7 @@ document.addEventListener("click", function (e) {
            
         }
         
-            if ((e.target as HTMLButtonElement).className == "accept-button") {
+            if ((e.target as HTMLButtonElement).classList.contains("accept-button")) {
                if(confirm("Are you sure you want to submit the device?"))
                {
                    
@@ -105,7 +105,7 @@ document.addEventListener("click", function (e) {
                  window["tata"].text('Notification ','Accepted!',{duration:3000});
                }
             }
-        if ((e.target as HTMLButtonElement).className == "reject-button") {
+        if ((e.target as HTMLButtonElement).classList.contains("reject-button")) {
                if(confirm("Are you sure you don't want to submit the device?"))
                {
                 
