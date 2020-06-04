@@ -18,8 +18,8 @@ export class populateData
         <td>${data.specification} </td>
         <td>${data.ReturnDate}</td>
         <td>
-        <button class="accept" data-user-id=${data.userId} data-return-id=${data.returnRequestId} > Submit </button>
-        <button class="reject" data-return-id=${data.returnRequestId} > Reject </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent accept" data-user-id=${data.userId} data-return-id=${data.returnRequestId} > Submit </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored reject" data-return-id=${data.returnRequestId} > Reject </button>
  
         </td>`;
          this.addData(value , elementId)

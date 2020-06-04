@@ -90,7 +90,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage,headersRows
     }
 
     document.addEventListener("click", function (event) {
-        if ((event.target as HTMLButtonElement).className == "accept") {
+        if ((event.target as HTMLButtonElement).classList.contains("accept")) {
             
             var returnId = (event.target as HTMLButtonElement).dataset.returnId
             if(confirm("Are you sure you want to approve the return?"))
@@ -101,7 +101,7 @@ import { BASEURL, navigationBarsss, PageNo, current_page, changePage,headersRows
             }
             
     }
-    else if ((event.target as HTMLButtonElement).className == "reject") {
+    else if ((event.target as HTMLButtonElement).classList.contains("reject")) {
             
         var returnId = (event.target as HTMLButtonElement).dataset.returnId
         if(confirm("Are you sure you want to reject the return?"))
